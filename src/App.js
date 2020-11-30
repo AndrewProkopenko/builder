@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react"
+import {Box, Container, Paper} from '@material-ui/core'
+import CssBaseline from '@material-ui/core/CssBaseline';
+ 
+import Pages from './components/pages/Pages'
+
+import ModeProvider from './modeContext/ModeProvider'
 
 function App() {
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ModeProvider>
+      <div className="App">
+        <CssBaseline/>
+        
+        <Container>
+          <Box p={2} mt={1} clone={true}> 
+            <Paper>
+                <Pages/>
+            </Paper>
+          </Box>
+        </Container>
+
+      </div>
+    </ModeProvider>
   );
 }
 

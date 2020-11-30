@@ -1,0 +1,205 @@
+{
+  "textBlock": {
+    "variant": "h4",
+    "classes": {
+      "display": "block",
+      "paddingTop": 15,
+      "paddingBottom": 0,
+      "paddingLeft": 15,
+      "paddingRight": 15,
+      "marginTop": 0,
+      "marginBottom": 0,
+      "marginLeft": 0,
+      "marginRight": 0,
+      "color": "#d3d0fd",
+      "backgroundColor": "#3e1cff",
+      "textAlign": "center",
+      "fontSize": 16,
+      "fontWeight": 700,
+      "lineHeight": 1.5
+    },
+    "prop": {},
+    "children": [
+      "H3-heading",
+      "123"
+    ]
+  },
+  "library": {
+    "heading": {
+      "variant": [
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6"
+      ],
+      "classes": {
+        "display": "block",
+        "paddingTop": 15,
+        "paddingBottom": 15,
+        "paddingLeft": 15,
+        "paddingRight": 15,
+        "marginTop": 0,
+        "marginBottom": 0,
+        "marginLeft": 0,
+        "marginRight": 0,
+        "color": "#ff0080",
+        "backgroundColor": "#48999d",
+        "textAlign": "center",
+        "fontSize": 16,
+        "fontWeight": 700,
+        "lineHeight": 1.5
+      },
+      "prop": {},
+      "children": [
+        "H3-heading"
+      ]
+    }
+  },
+  "pages": {
+    "title": "Page 1 Title",
+    "children": [
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+        "id": "27ff711-b10-c22e-e00b-2d107ba81883",
+        "type": "heading",
+        "variant": "h1",
+        "classes": {
+          "display": "block",
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "marginTop": 0,
+          "marginBottom": 15,
+          "marginLeft": 0,
+          "marginRight": 0,
+          "color": "#161616",
+          "backgroundColor": "transparent",
+          "textAlign": "center",
+          "fontSize": 25,
+          "fontWeight": 300,
+          "lineHeight": 1.43
+        },
+        "text": "Main Title of Page",
+        "prop": {}
+      },
+      {
+        "id": "6742bff-a65b-eecf-ae85-8eb7fc035eca",
+        "type": "paragraph",
+        "variant": "p",
+        "classes": {
+          "display": "block",
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "marginTop": 0,
+          "marginBottom": 16,
+          "marginLeft": 0,
+          "marginRight": 0,
+          "color": "#141414",
+          "backgroundColor": "transparent",
+          "textAlign": "left",
+          "fontSize": 14,
+          "fontWeight": 400,
+          "lineHeight": 1.4,
+          "borderColor": "transperent",
+          "borderStyle": "solid",
+          "borderRadius": "0px",
+          "borderWidth": "0px"
+        },
+        "text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste veritatis in optio incidunt, nobis beatae molestiae, ea soluta facilis maxime quis officia at quaerat, ipsam architecto excepturi! Voluptas inventore explicabo quidem non blanditiis repellat laboriosam magni. Ullam deserunt dolorem labore eum corrupti quae impedit cumque?",
+        "prop": {}
+      },
+      {
+        "id": "1fb643-5b8a-4e3b-307a-30afae3144",
+        "type": "heading",
+        "variant": "h3",
+        "classes": {
+          "display": "block",
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "marginTop": 0,
+          "marginBottom": 5,
+          "marginLeft": 0,
+          "marginRight": 0,
+          "color": "inherit",
+          "backgroundColor": "transparent",
+          "textAlign": "left",
+          "fontSize": 14,
+          "fontWeight": 700,
+          "lineHeight": 1.43
+        },
+        "text": "Block Title",
+        "prop": {}
+      },
+      {
+        "id": "4e070d3-bfee-da-28cc-652a6ab50cff",
+        "type": "paragraph",
+        "variant": "p",
+        "classes": {
+          "display": "block",
+          "paddingTop": 12,
+          "paddingBottom": 12,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "marginTop": 0,
+          "marginBottom": 8,
+          "marginLeft": 0,
+          "marginRight": 0,
+          "color": "#079500",
+          "backgroundColor": "#fdfff9",
+          "textAlign": "left",
+          "fontSize": 14,
+          "fontWeight": 700,
+          "lineHeight": 1.4,
+          "borderColor": "#cdff91",
+          "borderStyle": "solid",
+          "borderRadius": 8,
+          "borderWidth": 3
+        },
+        "text": "Paragraph Block with text and green colors and border ",
+        "prop": {}
+      },
+      {
+        "id": "1e3176f-fc-e3a8-5a80-dfe0ca35dc28",
+        "type": "paragraph",
+        "variant": "p",
+        "classes": {
+          "display": "block",
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "marginTop": 0,
+          "marginBottom": 8,
+          "marginLeft": 0,
+          "marginRight": 0,
+          "color": "inherit",
+          "backgroundColor": "transparent",
+          "borderWitdh": 0,
+          "borderRadius": 0,
+          "borderColor": "inherit",
+          "borderStyle": "none",
+          "textAlign": "left",
+          "fontSize": 14,
+          "fontWeight": 400,
+          "lineHeight": 1.4
+        },
+        "text": "Paragraph",
+        "prop": {}
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+    "id": 1,
+    "type": "heading", 
+    "variant": ["h1", "h2", "h3" , "h4" ,"h5" , "h6"], 
+    "classes" : {
+        "paddingTop": 0 ,
+        "paddingBottom": 0,
+        "paddingLeft": 0,
+        "paddingRight": 0,
+        "marginTop": 0,
+        "marginBottom": 15,
+        "marginLeft": 0,
+        "marginRight": 0,
+        "color": "inherit",
+        "backgroundColor": "transparent",
+        "textAlign": "left",
+        "fontSize": 14,
+        "fontWeight": 700,
+        "lineHeight": 1.43
+    }, 
+    "text": "heading Default" , 
+    "prop": {}
+} 
