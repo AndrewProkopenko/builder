@@ -17,7 +17,7 @@ function ElementCreator(props) {
                 <StyledComponent  
                     data={props.item} 
                     reSaveChildren={props.reSaveChildren}
-                    removeItem={props.removeItem}
+                    removeItem={props.removeItem}  
                 />
             }
  
@@ -27,7 +27,7 @@ function ElementCreator(props) {
                     data={props.item} 
                     className={props.item.classes} 
                     prop={props.item.prop} 
-                    textChildren={props.item.text}
+                    textChildren={props.item.text} 
                 />
             } 
         </React.Fragment> 

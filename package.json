@@ -1,6 +1,6 @@
 {
   "name": "builder",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.0",
@@ -10,8 +10,12 @@
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.2.2",
     "axios": "^0.21.0",
+    "firebase": "^8.1.2",
     "json-server": "^0.16.3",
+    "material-ui-image": "^3.3.0",
+    "node-sass": "^5.0.0",
     "react": "^17.0.1",
+    "react-color": "^2.19.3",
     "react-dom": "^17.0.1",
     "react-draggable": "^4.4.3",
     "react-input-color": "^3.0.1",

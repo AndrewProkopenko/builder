@@ -4,11 +4,13 @@ import uuid from 'react-uuid'
 
 import HeadingCreator from '../library/heading/ElementCreator'
 import ParagraphCreator from '../library/paragraph/ElementCreator'
+import ParagraphImageCreator from '../library/paragraphImage/ElementCreator'
   
 import { MenuItem, Divider, FormGroup, Button, Box, Menu} from '@material-ui/core'
 
 import libraryHeading from '../library/heading/headingLayout.json'
 import libraryParagraph from '../library/paragraph/paragraphLayout.json'
+import libraryParagraphImage from '../library/paragraphImage/paragraphImageLayout.json'
 
 import ModeContext from '../../modeContext/ModeContext'
 
@@ -62,6 +64,11 @@ function Pages() {
                 newItem = Object.assign({}, libraryParagraph)
                 newItem.id = uuid() 
                 break;
+            case 'paragraphImage' :  
+                console.log('paragraphImage')
+                newItem = Object.assign({}, libraryParagraphImage)
+                newItem.id = uuid() 
+                break;
             default: break;
         }  
 
@@ -75,18 +82,18 @@ function Pages() {
             title: title,
             children: newChildren
         })
-    }
-
-    function reSaveChildren(id, classes, text) { 
-        console.log(id)
+    } 
+ 
+    function reSaveChildren(id, data) {   
         let slicedChild = children.slice()
         slicedChild.forEach((item) => {
             if(item.id === id) {
-                item.classes = classes
-                item.text = text
+                for( let key in item) { 
+                    item[key] = data[key]
+                } 
             }
         }) 
-         
+          
         axios.put('http://localhost:4545/pages', {
             title: title,
             children: slicedChild
@@ -152,10 +159,9 @@ function Pages() {
                         </Box>
                         <Box ml={2} clone={true} >
                             <Button
-                                // onClick={() => {addHeading('p', 'paragraph')}}
+                                onClick={() => {addHeading('p', 'paragraphImage')}}
                                 variant='outlined'
-                                color="primary"
-                                disabled={true}
+                                color="primary" 
                             >
                                 Add paragraph with Image
                             </Button>
@@ -196,7 +202,17 @@ function Pages() {
                                     key={item.id} 
                                     item={item}
                                     reSaveChildren={reSaveChildren}
-                                    removeItem={removeItem}
+                                    removeItem={removeItem} 
+                                    withImage={false}
+                                />
+                            ) 
+                        case 'paragraphImage' :  
+                            return (
+                                <ParagraphImageCreator
+                                    key={item.id} 
+                                    item={item}
+                                    reSaveChildren={reSaveChildren}
+                                    removeItem={removeItem} 
                                 />
                             ) 
                         default: break;

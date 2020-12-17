@@ -6,13 +6,16 @@ import { Typography } from '@material-ui/core';
 function DumbComponent(props) {
   
     const useStyles = makeStyles((theme) => ({
-        myClassName: props.className 
+        myClassName: props.className , 
+        imageStyle: props.data.image ? props.data.image.classes : {}
       }));
     const classes = useStyles();
  
+ 
     return (
         <React.Fragment>
-            <Typography component={props.data.variant} className={classes.myClassName} >
+            
+            <Typography component={props.data.variant} className={classes.myClassName} > 
                 { 
                     props.textChildren
                 } 

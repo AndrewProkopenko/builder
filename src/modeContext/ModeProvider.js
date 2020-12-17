@@ -4,7 +4,7 @@ import ModeContext from './ModeContext'
 
 export default class ModeProvider extends React.Component { 
 
-    state = {
+    state = { 
         modeDev: true
         // modeDev: false
     }
