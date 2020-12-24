@@ -2,18 +2,20 @@ import React from 'react'
 import { useLocation } from 'react-router-dom';
 import uuid from 'react-uuid' 
 
-import { AppBar, Toolbar, Typography, Button, Box, CircularProgress, Container  } from "@material-ui/core"; 
-import Skeleton from '@material-ui/lab/Skeleton';
+import { Typography, Button, Box, CircularProgress } from "@material-ui/core"; 
+
 import { indigo } from '@material-ui/core/colors'
   
 import ContainerElement from '../library/container/ElementCreator' 
 import ContainerLayout from '../library/container/containerLayout.json' 
+import SkeletonPage from '../placeholders/SkeletonPage'
  
 import firebase from '../../firebase/firebase'
 
 import pageLayout from './pageLayout.json'
 
 import ModeContext from '../../context/modeContext/ModeContext'
+import LoadingContext from '../../context/loadingContext/LoadingContext'
 
 function SinglePage(props) {
 
@@ -22,6 +24,7 @@ function SinglePage(props) {
     const pageSlug = props.slugForUpdate
 
     const { modeDev } = React.useContext(ModeContext)
+    const { setIsLoading } = React.useContext(LoadingContext)
   
     const [data, setData] = React.useState({})
     const [items, setItems] = React.useState([])
@@ -31,7 +34,8 @@ function SinglePage(props) {
     //  slug
     //  id
   
-    React.useEffect( () => {
+    React.useEffect( () => { 
+      setIsLoading(true)
       fetchData()
     }, [location])
   
@@ -53,6 +57,7 @@ function SinglePage(props) {
         setData(newPage)  
         setItems(newPage.items) 
         setIsUpdate(false)
+        setIsLoading(false)
 
       } else {
         console.log('Document data:', doc.data());
@@ -61,6 +66,7 @@ function SinglePage(props) {
         setItems(doc.data().items)  
         
         setIsUpdate(false)
+        setIsLoading(false)
       }
    
     }  
@@ -79,11 +85,13 @@ function SinglePage(props) {
       setData(newData)
       setItems(newData.items)
       setIsUpdate(true)
+      setIsLoading(true)
   
       await firebase.db.collection("site1").doc(pageSlug).update({
         items: newData.items, 
       }).then(() => {
         setIsUpdate(false)
+        setIsLoading(false)
       }) 
     } 
     const reSaveContainerStyleSettings = async (id, classes, settings) => {  
@@ -102,11 +110,13 @@ function SinglePage(props) {
       setData(newData)
       setItems(newData.items) 
       setIsUpdate(true)
+      setIsLoading(true)
   
       await firebase.db.collection("site1").doc(pageSlug).update({
         items: newData.items
       }).then(() => {
         setIsUpdate(false)
+        setIsLoading(false)
       }) 
     } 
    
@@ -124,11 +134,13 @@ function SinglePage(props) {
       setData(newData)
       setItems(newItems)
       setIsUpdate(true)
+      setIsLoading(true)
   
       await firebase.db.collection("site1").doc(pageSlug).update({
         items: newItems
       }).then(() => {
         setIsUpdate(false)
+        setIsLoading(false)
       });  
     }
   
@@ -141,11 +153,13 @@ function SinglePage(props) {
       setData(newData)
       setItems(filtered) 
       setIsUpdate(true)
+      setIsLoading(true)
        
       await firebase.db.collection("site1").doc(pageSlug).update({
         items: filtered
       }).then(() => {
         setIsUpdate(false)
+        setIsLoading(false)
       }); 
     }
   
@@ -183,12 +197,14 @@ function SinglePage(props) {
       setItems(newItems)
       setData(newData)
       setIsUpdate(true)
+      setIsLoading(true)
    
   
       await firebase.db.collection("site1").doc(pageSlug).update({
         items: newItems
       }).then(() => {
         setIsUpdate(false)
+        setIsLoading(false)
       }) 
     }
   
@@ -208,48 +224,8 @@ function SinglePage(props) {
        })
       }
       else {
-        return (
-           
-          <Box mt={5} clone={true} >
-            <Container>
-              <Box >
-                <Skeleton 
-                  variant='rect'
-                  height={60}
-                  animation='wave'
-                />
-              </Box>
-              <Box display='flex' alignItems='center'>
-                <Box mr={1}>
-                  <Skeleton
-                    width={30}
-                    height={30}
-                    variant='circle' 
-                    animation='wave'
-                  />
-                </Box>
-                <Skeleton 
-                  variant='text'  
-                  height={50}
-                  width='100%'
-                  animation='wave'
-                />
-              </Box>
-              <Box mb={2}>
-                <Skeleton 
-                  variant='rect'
-                  height={150}
-                  animation='wave'
-                />
-              </Box>
-              <Skeleton 
-                variant='rect'
-                height={80}
-                animation='wave'
-              />
-            </Container>
-          </Box>
-           
+        return ( 
+          <SkeletonPage/> 
         ) 
       }
       
@@ -259,12 +235,14 @@ function SinglePage(props) {
         <React.Fragment> 
           { 
             modeDev &&  
-            <AppBar position="static" component='div' style={{backgroundColor: indigo[200] }}>
-              <Toolbar variant="dense"> 
-                  <Typography variant="h6" >
-                    Page actions
-                  </Typography>
+            <Box px={3} display='flex' flexWrap='wrap' style={{backgroundColor: indigo[50] }}> 
                   
+                  <Box m={1}>
+                    <Typography variant="h6" >
+                      Page actions
+                    </Typography>
+                  </Box>
+
                   <Box display="flex" alignItems='center' mx={1} minWidth={22} >
                     {
                       isUpdate &&
@@ -272,19 +250,17 @@ function SinglePage(props) {
                     } 
                   </Box>
 
-                  <Box mx={1}>
+                  <Box m={1}>
                     <Button color={'primary'} variant={'contained'} onClick={addContainer}>
                         Add new container
                     </Button> 
                   </Box>
-                  <Box mx={1}>
+                  <Box m={1}>
                     <Button color={'primary'} variant={'outlined'} disabled={true} >
                         More settings
                     </Button> 
-                  </Box>
-              
-              </Toolbar>
-            </AppBar>
+                  </Box> 
+            </Box>
           }
            
           { 

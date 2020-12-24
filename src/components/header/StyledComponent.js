@@ -154,6 +154,24 @@ function StyledComponent() {
                 paddingRight: 3,
                 minWidth: 22
             }
+        },
+        deletePageBtn: {  
+            backgroundColor: '#e83b3b', 
+            paddingLeft: 0,
+            paddingRight: 0,
+            minWidth: 25, 
+            transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeInOut} opacity`,
+            '&:hover ': { 
+                backgroundColor: '#c40b0b' 
+            }
+        },
+        movingPageBtn: { 
+            transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeInOut} opacity`,
+            '&>button' : {
+                paddingLeft: 3,
+                paddingRight: 3,
+                minWidth: 22
+            }
         }
     
     }))
@@ -187,6 +205,7 @@ function StyledComponent() {
 
         setCategories(newCategories) 
     }
+
     const handleUpdateCategory = (place, value, id) => { 
         let newCategories = categories.slice()
         console.log(newCategories)
@@ -241,8 +260,7 @@ function StyledComponent() {
           }
           return 0 
         }) 
-
-        console.log(activeIndex)
+ 
      
         if(direction === 'up' && activeIndex === 0) return  
         if(direction === 'down' && activeIndex === newCategories.length - 1 ) return
@@ -262,14 +280,65 @@ function StyledComponent() {
           newCategories[activeIndex + 1 ] = movedItem  
         }
 
-        setCategories(newCategories)
+        setCategories(newCategories) 
+    }
+
+    const swapPage = (direction, categoryId, pageId) => {
+        let newCategories = categories.slice() 
+        let activeCategory = []
+        let activeIndex   
+     
+        newCategories.map( (item) => { 
+          if(item.id === categoryId) { 
+                activeCategory = item 
+                item.pages.map( page => {
+                    if(page.id === pageId) { 
+                        activeIndex = item.pages.indexOf(page) 
+                    }
+                }) 
+          }
+          return 0 
+        }) 
+  
+        if(direction === 'up' && activeIndex === 0) return  
+        if(direction === 'down' && activeIndex === activeCategory.pages.length - 1 ) return
+         
+        console.log(activeIndex)
+        if(direction === 'up') { 
+          const movedItem = activeCategory.pages[activeIndex]
+          const placeItem = activeCategory.pages[activeIndex - 1]
     
-        // newData.items = newItems
-           
-        // setItems(newItems)
-        // setData(newData)
-        // setIsUpdate(true)
-      
+          activeCategory.pages[activeIndex] = placeItem
+          activeCategory.pages[activeIndex - 1 ] = movedItem  
+        }
+        if(direction === 'down') {
+          const movedItem = activeCategory.pages[activeIndex]
+          const placeItem = activeCategory.pages[activeIndex + 1]
+    
+          activeCategory.pages[activeIndex] = placeItem
+          activeCategory.pages[activeIndex + 1 ] = movedItem  
+        }
+
+
+        newCategories.map( (item) => { 
+            if(item.id === categoryId) { 
+                item = activeCategory  
+            }
+            return 0 
+        }) 
+        console.log(newCategories)
+
+        setCategories(newCategories)
+    }
+
+    const deletePage = ( categoryId, pageId) => {
+        categories.map( category => {
+            if(category.id === categoryId) {  
+                let filtered = category.pages.filter((item) => (item.id !== pageId))  
+                category.pages = filtered
+            }
+        }) 
+        setCategories(categories)  
     }
 
     return (
@@ -389,13 +458,55 @@ function StyledComponent() {
                                                     />  
                                                     <ul className={classes.listPages}>  
                                                         <Typography className={classes.titlePages}>
-                                                            Pages:
+                                                            Pages List:
                                                         </Typography>
                                                         {
                                                             item.pages.length > 0 &&
                                                             item.pages.map((itemPages, indexPages) => (
                                                                 <li key={indexPages} >
-                                                                    <Typography gutterBottom >Page: { itemPages.title } </Typography>
+                                                                    <Box mb={1} display='flex' justifyContent='space-between' alignItems='center' >
+                                                                        <Typography >Page: { itemPages.title } </Typography>
+                                                                        <ButtonGroup 
+                                                                            color="primary"
+                                                                            aria-label="contained primary button group"
+                                                                            variant="contained"
+                                                                            className={classes.movingPageBtn}
+                                                                        >  
+                                                                            <Tooltip title='Get Up' placement='top'>
+                                                                                <Button   
+                                                                                    onClick={() => { swapPage('up', item.id, itemPages.id) }}
+                                                                                    size='small'
+                                                                                    variant='contained'
+                                                                                    color='primary' 
+                                                                                    // disabled={categories.indexOf(item) === 0 ? true : false }
+                                                                                >  
+                                                                                    <ExpandLessOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>   
+                                                                                </Button>
+                                                                            </Tooltip> 
+                                                                            <Tooltip title='Get Down' placement='top'>
+                                                                                <Button   
+                                                                                    onClick={() => { swapPage('down', item.id, itemPages.id) }} 
+                                                                                    size='small'
+                                                                                    variant='contained'
+                                                                                    color='primary' 
+                                                                                    // disabled={categories.indexOf(item) === categories.length - 1 ? true : false }
+                                                                                >     
+                                                                                    <ExpandMoreOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>
+                                                                                </Button>
+                                                                            </Tooltip>  
+                                                                            <Tooltip title='Delete Page' placement='top'>
+                                                                                <Button
+                                                                                    variant='contained'
+                                                                                    color="default"
+                                                                                    disableElevation={true}
+                                                                                    className={classes.deletePageBtn}
+                                                                                    onClick={() => { deletePage(item.id, itemPages.id) }}
+                                                                                > 
+                                                                                    <DeleteOutlineIcon style={{ color: '#fff' }} fontSize='small'/>
+                                                                                </Button>
+                                                                            </Tooltip>  
+                                                                        </ButtonGroup>
+                                                                    </Box>
                                                                     <TextField 
                                                                         type='text' 
                                                                         label="Page title"
@@ -420,13 +531,15 @@ function StyledComponent() {
                                                             <Typography gutterBottom >No Pages </Typography>
                                                         }
                                                         <li>
-                                                            <Button 
-                                                                color={'primary'} 
-                                                                variant="contained"
-                                                                onClick={() => { addPage(item.id) }}
-                                                            >
-                                                                Add Page
-                                                            </Button>
+                                                            <Box mt={2}> 
+                                                                <Button 
+                                                                    color={'primary'} 
+                                                                    variant="contained"
+                                                                    onClick={() => { addPage(item.id) }}
+                                                                >
+                                                                    Add New Page
+                                                                </Button>
+                                                            </Box>
                                                         </li>
                                                     </ul>
                                                 </Box>

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import CategoryContext from '../../context/categoryContext/CategoryContext'
-import { Link as RouterLink , NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import "../../assets/header.scss"
 import {
@@ -10,16 +10,19 @@ import {
     makeStyles,
     Button,
     IconButton,
-    Drawer,
-    Link,
+    Drawer, 
     MenuItem,
     Container, 
     Box,
+    AccordionSummary,
+    Accordion
 } from "@material-ui/core";
  
 import MenuIcon from "@material-ui/icons/Menu"; 
+import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt'; 
+import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
 
-const widthMobile = 900
+const widthMobile = 992
 
 const useStyles = makeStyles((theme) => ({
     header: {
@@ -47,17 +50,29 @@ const useStyles = makeStyles((theme) => ({
     toolbar: {
       display: "flex",
       justifyContent: "space-between",
+    },
+    drawerContainer: { 
+        width: '50vw', 
+        maxWidth: 450, 
+        minWidth: 260
+    }, 
+    mobileLink: { 
+        display: 'flex',
+        alignItems: 'center', 
+        color: 'inherit', 
+        textDecoration: 'none', 
+        height: '100%', 
+        width: '100%', 
+        padding: '6px 16px', 
     },  
-    // btnSetting: {
-    //   opacity: 0,
-    //   position: 'absolute', 
-    //   top: 0, 
-    //   left: 20,
-    //   backgroundColor: orange[700], 
-    //   '&:hover': {
-    //     backgroundColor: orange[900], 
-    //   }
-    // }
+    accordionReset: {
+        paddingLeft: 0,
+        marginTop: ' 0 !important', 
+        marginBottom: '0 !important',
+        minHeight: 'auto !important', 
+        background : 'none', 
+        boxShadow: 'none'
+    }
 }));
 
 function DumbComponent() {
@@ -72,7 +87,7 @@ function DumbComponent() {
         window.addEventListener("resize", () => setResponsiveness());
     }, []);
 
-    const { toolbar, header, logo , menuButton, drawerContainer} = useStyles();
+    const { toolbar, header, logo , menuButton, drawerContainer, mobileLink , accordionReset} = useStyles();
     const [state, setState] = useState({
         mobileView: false,
         drawerOpen: false,
@@ -155,28 +170,73 @@ function DumbComponent() {
                 }}
             >
                 <div className={drawerContainer}>
-                {
-                    categories.map( (item, index) => {
-                    return ( 
-                        <Link
-                        {...{
-                            component: RouterLink,
-                            to: item.slug ,
-                            color: "inherit",
-                            style: { textDecoration: "none" },
-                            key: index,
-                        }}
+                    <Box mx={2} my={1}  >
+                        <Button 
+                            variant='outlined'
+                            color='default'
+                            onClick={handleDrawerClose}
                         >
-                            <MenuItem>{item.title}</MenuItem>
-                            {/* {
-                                item.pages.map( page => {
-
-                                })
-                            } */}
-                        </Link>
-                    );
-                    })
-                }
+                            <ArrowRightAltIcon/>
+                        </Button>
+                    </Box>
+                    
+                    {
+                        categories.map( (item, index) => {  
+                            if(item.pages.length > 0) {
+                                return (  
+                                    <Accordion classes={{root: accordionReset}}>
+                                        <AccordionSummary
+                                            classes={{root: accordionReset, content: accordionReset  }}
+                                            expandIcon={ <ExpandMoreOutlinedIcon />}
+                                        >
+                                            <MenuItem style={{padding: 0, width: '100%'}}> 
+                                                <NavLink 
+                                                    to={item.slug} 
+                                                    key={index} 
+                                                    className={mobileLink}
+                                                    onClick={handleDrawerClose}
+                                                >
+                                                    {item.title}
+                                                    
+                                                </NavLink> 
+                                            </MenuItem>     
+                                        </AccordionSummary>
+                                        {
+                                            // isOpenPages && 
+                                            item.pages.map( page => (
+                                                <MenuItem style={{padding: '0 0 0 15px'}}> 
+                                                    <NavLink 
+                                                        to={`/${item.slug}/${page.slug}`} 
+                                                        key={index} 
+                                                        className={mobileLink}
+                                                        onClick={handleDrawerClose}
+                                                    >   
+                                                        {page.title}
+                                                        
+                                                    </NavLink> 
+                                                </MenuItem> 
+                                            ))
+                                        }
+                                    </Accordion>                                
+                                );
+                            }
+                            else { 
+                                return (
+                                    <MenuItem style={{padding: 0, width: '100%', borderTop: '1px solid rgba(0, 0, 0, 0.12)' }}>  
+                                        <NavLink 
+                                            to={item.slug} 
+                                            key={index} 
+                                            className={mobileLink}
+                                            onClick={handleDrawerClose}
+                                        >
+                                            {item.title} 
+                                        </NavLink> 
+                                    </MenuItem>     
+                                )
+                            }
+                            
+                        })
+                    }
                 </div>
             </Drawer>
 

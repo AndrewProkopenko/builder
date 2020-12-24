@@ -10,7 +10,7 @@ function ElementCreator() {
     const {modeDev} = React.useContext(ModeContext) 
     
     return (    
-        <React.Fragment>  
+        <React.Fragment>   
             {
                 modeDev && 
                 <StyledComponent />
