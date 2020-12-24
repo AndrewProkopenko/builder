@@ -12,6 +12,7 @@ function DumbComponent(props) {
       })); 
     const classes = useStyles();
  
+    const title = props.data.image.title ? props.data.image.title : ''
  
     return (
         <React.Fragment>
@@ -19,13 +20,13 @@ function DumbComponent(props) {
             <Typography component={props.data.variant} className={classes.myClassName} >
                 {
                     props.data.image.url &&
-                    <Tooltip title={props.data.image.title ? props.data.image.title : '' } placement={props.data.image.placement}>
-                         <img src={props.data.image.url} className={classes.imageStyle} /> 
+                    <Tooltip title={title} placement={props.data.image.placement}>
+                         <img src={props.data.image.url} className={classes.imageStyle} alt={title} /> 
                     </Tooltip> 
                 }
                 {/* <div dangerouslySetInnerHTML={{__html: props.textChildren}}></div> */}
-               <span style={{display: 'inherit'}}>
-               { 
+               <span style={{ display: 'inherit' }}>
+                { 
                     props.textChildren
                 } 
                </span>

@@ -1,0 +1,459 @@
+import React from 'react'
+import uuid from 'react-uuid'
+import CategoryContext from '../../context/categoryContext/CategoryContext'
+import { Tooltip,
+    Button, 
+    Modal, 
+    DialogContent , 
+    Typography, 
+    TextField, 
+    Accordion, 
+    AccordionSummary, 
+    Box,
+    makeStyles,  
+    ButtonGroup, 
+} from '@material-ui/core' 
+
+import { orange } from '@material-ui/core/colors'
+import SaveIcon from '@material-ui/icons/Save';
+import SettingsIcon from '@material-ui/icons/Settings';
+import OpenWithIcon from '@material-ui/icons/OpenWith';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import ExpandLessOutlinedIcon from '@material-ui/icons/ExpandLessOutlined';
+import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
+
+import DumbComponent from './DumbComponent'
+
+import Draggable from 'react-draggable'; 
+
+import categoryLayout from './categoryLayout.json'
+import pageLayout from '../pages/pageLayout.json'
+
+function StyledComponent() {
+    
+    const {categories, setCategories} = React.useContext(CategoryContext)    
+
+    const [localCategories, setLocalCategories] = React.useState(categories)
+    const [open, setOpen] = React.useState(false)
+    const [isDisableBtn, setIsDisableBtn] = React.useState(true)
+
+     
+    const handleInputFocus = () => {  
+      setOpen(true);
+    }
+    const handleClose = () => {
+      setOpen(false);
+    }; 
+
+    const useStyles = makeStyles((theme) => ({ 
+        listPages : {
+            marginTop: 20, 
+            paddingLeft: 25, 
+            '&>li' : { 
+                listStyle: 'none',
+                marginBottom: 5
+            }
+        },
+        titlePages: {
+            fontSize: 14, 
+            fontWeight: 600, 
+            borderBottom: `1px solid #eee`,
+            marginBottom: 12
+        },
+        menu: {    
+            position: "absolute", 
+            left: "calc(50% - 200px)",
+            top: 50, 
+            backgroundColor: '#fff',
+            padding: 10 , 
+            paddingBottom: 0, 
+            maxWidth: 400,  
+            width: 400,
+            maxHeight: 'calc(100vh - 100px)', 
+            minHeight: 500,
+            overflowY: 'scroll',  
+        },
+        menuTitle: {
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'space-between', 
+            fontSize: 14, 
+            borderBottom: '1px solid #eaeaea',
+            paddingBottom: 6,
+            marginBottom: 10, 
+            cursor: 'move'
+        },
+        btnSetting: {
+            opacity: 0,
+            position: 'absolute', 
+            zIndex: 10, 
+            top: 2, 
+            left: 2,
+            backgroundColor: orange[700], 
+            minWidth: 80, 
+            minHeight: 60, 
+            transition: `${theme.transitions.easing.easeInOut} ${theme.transitions.duration.shorter}ms opacity`, 
+            '&:hover': {
+                backgroundColor: orange[900], 
+            }
+        },
+        dumbWrapper: {
+            position: 'relative', 
+            '&:hover $btnSetting': {
+                opacity: 1
+            }
+        },
+        btnSave: {
+            position: 'sticky', 
+            zIndex: 15,
+            bottom: 0, 
+            left: 0, 
+            right: 0,
+            height: 70, 
+            paddingTop: 10, 
+            backgroundColor: '#fff'
+        },
+        accordionContainer: {
+            position: 'relative', 
+            '&:hover $deleteBtn': {
+                opacity: 1
+            },
+            '&:hover $movingBtn': {
+                opacity: 1
+            }, 
+        },
+        accordionHeader: {
+            paddingRight: 30, 
+            paddingLeft: 25,     
+        },
+        deleteBtn: {
+            position: 'absolute', 
+            zIndex: 10,
+            top: 5, 
+            right: 5, 
+            backgroundColor: '#e83b3b', 
+            paddingLeft: 0,
+            paddingRight: 0,
+            minWidth: 25,
+            opacity: 0, 
+            transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeInOut} opacity`,
+            '&:hover ': { 
+                backgroundColor: '#c40b0b' 
+            }
+        },
+        movingBtn: {
+            position: 'absolute', 
+            zIndex: 10,
+            top: 0, 
+            left: -5,
+            opacity: 0,
+            transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeInOut} opacity`,
+            '&>button' : {
+                paddingLeft: 3,
+                paddingRight: 3,
+                minWidth: 22
+            }
+        }
+    
+    }))
+    
+    const classes = useStyles();
+
+    const addCategory = () => {
+        let newList = categories.slice()
+        let newCategory = Object.assign({}, categoryLayout)
+        newCategory.id = uuid()
+        newCategory.slug = `slug_${uuid()}`
+        newList.push(newCategory)
+ 
+        setCategories(newList)
+ 
+    }
+    const addPage = (id) => { 
+        
+        let newCategories = categories.slice()
+        let newPage = Object.assign({}, pageLayout)
+        newPage.id = uuid()
+        newPage.slug = `slug_${uuid()}`
+
+        newCategories.map( (item) => { 
+            if(item.id === id) { 
+                console.log(newPage)
+                item.pages.push(newPage)
+            }
+            return 0 
+        })
+
+        setCategories(newCategories) 
+    }
+    const handleUpdateCategory = (place, value, id) => { 
+        let newCategories = categories.slice()
+        console.log(newCategories)
+        newCategories.map( (item) => { 
+            if(item.id === id ) { 
+                item[place] = value
+            }
+            return 0
+        })  
+        setLocalCategories(newCategories)
+        setIsDisableBtn(false)
+    }
+
+    const handleUpdatePage = (place, value, categoryId, pageId) => { 
+        let newCategories = categories.slice() 
+        newCategories.map( (item) => { 
+            if(item.id === categoryId ) { 
+                
+                item.pages.map( page => {
+                    if(page.id === pageId) {
+                        page[place] = value
+                    }
+                    return 0 
+                })
+            }
+            return 0
+        })  
+        setLocalCategories(newCategories)
+        setIsDisableBtn(false)
+    }
+ 
+    const handleSave = () => {
+        console.log('save')
+        setCategories(categories) 
+        setIsDisableBtn(true)
+    }
+
+    const deleteCategory = (id) => { 
+        let filtered = categories.filter((item) => (item.id !== id))  
+        
+        console.log(filtered) 
+        setCategories(filtered) 
+    }
+
+    const swapCategory = (direction, id) => {
+        let newCategories = categories.slice() 
+        let activeIndex   
+     
+        newCategories.map( (item) => { 
+          if(item.id === id) {
+            activeIndex = newCategories.indexOf(item) 
+          }
+          return 0 
+        }) 
+
+        console.log(activeIndex)
+     
+        if(direction === 'up' && activeIndex === 0) return  
+        if(direction === 'down' && activeIndex === newCategories.length - 1 ) return
+        
+        if(direction === 'up') { 
+          const movedItem = newCategories[activeIndex]
+          const placeItem = newCategories[activeIndex - 1]
+    
+          newCategories[activeIndex] = placeItem
+          newCategories[activeIndex - 1 ] = movedItem  
+        }
+        if(direction === 'down') {
+          const movedItem = newCategories[activeIndex]
+          const placeItem = newCategories[activeIndex + 1]
+    
+          newCategories[activeIndex] = placeItem
+          newCategories[activeIndex + 1 ] = movedItem  
+        }
+
+        setCategories(newCategories)
+    
+        // newData.items = newItems
+           
+        // setItems(newItems)
+        // setData(newData)
+        // setIsUpdate(true)
+      
+    }
+
+    return (
+        <div className={classes.dumbWrapper}>
+            <Tooltip title='Header Settings' placement='bottom'>
+                <Button  
+                    onClick={handleInputFocus} 
+                    size='medium'
+                    variant='contained'
+                    color='primary' 
+                    className={classes.btnSetting}
+                >  
+                    <SettingsIcon style={{ color: '#fff' }} fontSize='small'/>
+                </Button>
+            </Tooltip>
+
+            <Modal 
+                open={open} 
+                // PaperComponent={PaperComponent}
+                aria-labelledby="draggable-dialog-title"
+                onClose={handleClose} 
+            > 
+                <DialogContent> 
+                    <Draggable  handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'} >
+                        <div className={classes.menu}>
+                            <Typography 
+                                component='p' 
+                                className={classes.menuTitle}
+                                id="draggable-dialog-title"
+                            >
+                                Создать/отредактировать список категорий  <OpenWithIcon/>
+                            </Typography>
+                            <Box mb={1}>
+                                <Button 
+                                    color={'primary'} 
+                                    variant="contained"
+                                    onClick={addCategory}
+                                >
+                                    Add Category
+                                </Button>
+                            </Box>
+                            {
+                                categories.map( (item, index) => { 
+
+                                    return (
+                                        <Box className={classes.accordionContainer} >
+                                            <Tooltip title='Delete Category' placement='top'>
+                                                <Button
+                                                    variant='contained'
+                                                    color="default"
+                                                    disableElevation={true}
+                                                    className={classes.deleteBtn}
+                                                    onClick={() => { deleteCategory(item.id) }}
+                                                > 
+                                                    <DeleteOutlineIcon style={{ color: '#fff' }} fontSize='small'/>
+                                                </Button>
+                                            </Tooltip>
+
+                                            <ButtonGroup
+                                                orientation="vertical"
+                                                color="primary"
+                                                aria-label="vertical contained primary button group"
+                                                variant="contained"
+                                                className={classes.movingBtn}
+                                            >  
+                                                <Tooltip title='Get Up' placement='right'>
+                                                    <Button   
+                                                        onClick={() => { swapCategory('up', item.id) }}
+                                                        size='small'
+                                                        variant='contained'
+                                                        color='primary' 
+                                                        disabled={categories.indexOf(item) === 0 ? true : false }
+                                                    >  
+                                                        <ExpandLessOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>   
+                                                    </Button>
+                                                </Tooltip> 
+                                                <Tooltip title='Get Down' placement='right'>
+                                                    <Button   
+                                                        onClick={() => { swapCategory('down', item.id) }}
+                                                        size='small'
+                                                        variant='contained'
+                                                        color='primary' 
+                                                        disabled={categories.indexOf(item) === categories.length - 1 ? true : false }
+                                                    >     
+                                                        <ExpandMoreOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>
+                                                    </Button>
+                                                </Tooltip>  
+                                            </ButtonGroup>
+                                            
+                                            <Accordion key={index}>
+                                                <AccordionSummary
+                                                    expandIcon={<ExpandMoreIcon />}
+                                                    aria-controls="image-settings-content"
+                                                    id="panel1a-header" 
+                                                    className={classes.accordionHeader} 
+                                                >
+                                                    <Typography variant='h6'> Category: {item.title} </Typography> 
+
+                                                    
+                                                </AccordionSummary>
+                                                <Box p={2}  > 
+                                                    <TextField 
+                                                        type='text' 
+                                                        label="Category title"
+                                                        fullWidth
+                                                        variant='filled'
+                                                        value={item.title} 
+                                                        onChange={(e) => { handleUpdateCategory('title', e.target.value, item.id)}}
+                                                    />    
+                                                    <TextField 
+                                                        type='text' 
+                                                        label="Category slug"
+                                                        fullWidth
+                                                        variant='filled'
+                                                        value={item.slug} 
+                                                        onChange={(e) => { handleUpdateCategory('slug', e.target.value, item.id)}}
+                                                    />  
+                                                    <ul className={classes.listPages}>  
+                                                        <Typography className={classes.titlePages}>
+                                                            Pages:
+                                                        </Typography>
+                                                        {
+                                                            item.pages.length > 0 &&
+                                                            item.pages.map((itemPages, indexPages) => (
+                                                                <li key={indexPages} >
+                                                                    <Typography gutterBottom >Page: { itemPages.title } </Typography>
+                                                                    <TextField 
+                                                                        type='text' 
+                                                                        label="Page title"
+                                                                        fullWidth
+                                                                        variant='filled'
+                                                                        value={itemPages.title} 
+                                                                        onChange={(e) => {handleUpdatePage('title', e.target.value, item.id, itemPages.id )}}
+                                                                    />    
+                                                                    <TextField 
+                                                                        type='text' 
+                                                                        label="Page slug"
+                                                                        fullWidth
+                                                                        variant='filled'
+                                                                        value={itemPages.slug} 
+                                                                        onChange={(e) => {handleUpdatePage('slug', e.target.value, item.id, itemPages.id )}}
+                                                                    />  
+                                                                </li>
+                                                            ))
+                                                        }
+                                                        {
+                                                            item.pages.length === 0 && 
+                                                            <Typography gutterBottom >No Pages </Typography>
+                                                        }
+                                                        <li>
+                                                            <Button 
+                                                                color={'primary'} 
+                                                                variant="contained"
+                                                                onClick={() => { addPage(item.id) }}
+                                                            >
+                                                                Add Page
+                                                            </Button>
+                                                        </li>
+                                                    </ul>
+                                                </Box>
+                                            </Accordion>
+                                        </Box>
+                                    )  
+                                })
+                            }
+                            <Box className={classes.btnSave} mt={2}>
+                                <Button 
+                                    color={'primary'} 
+                                    variant="contained"
+                                    onClick={handleSave}
+                                    startIcon={<SaveIcon/>}
+                                    disabled={isDisableBtn}
+                                >
+                                    Save
+                                </Button>
+                            </Box>
+                        </div>
+                    </Draggable>
+                </DialogContent> 
+            </Modal>
+
+            <DumbComponent data={categories} />
+        </div>
+    )
+}
+
+export default StyledComponent

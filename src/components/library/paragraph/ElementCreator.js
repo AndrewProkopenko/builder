@@ -3,7 +3,7 @@ import React from 'react'
 import StyledComponent from "./StyledComponent"
 import DumbComponent from "./DumbComponent"
  
-import ModeContext from '../../../modeContext/ModeContext'
+import ModeContext from '../../../context/modeContext/ModeContext'
  
 function ElementCreator(props) {
 

@@ -8,9 +8,12 @@ import {
     MenuItem,   FormGroup,  Button,
     Box,  Menu,   Drawer,  Tooltip,
     TextField, FormControl, InputLabel,
-    Select,  Container, Typography,
+    Select,  Container, Typography, ButtonGroup, IconButton
 } from '@material-ui/core'
+
 import SettingsIcon from '@material-ui/icons/Settings';
+import ExpandLessOutlinedIcon from '@material-ui/icons/ExpandLessOutlined';
+import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
  
 import libraryHeading from '../heading/headingLayout.json'
 import libraryParagraph from '../paragraph/paragraphLayout.json'
@@ -18,6 +21,7 @@ import libraryParagraphImage from '../paragraphImage/paragraphImageLayout.json'
  
 
 import { makeStyles } from '@material-ui/core/styles';  
+import { InfoOutlined } from '@material-ui/icons';
 
 function ContainerElement(props) { 
     console.log('styled Container work')
@@ -31,6 +35,9 @@ function ContainerElement(props) {
         bottom: props.data.classes.marginBottom ,  
     })
     
+    const [display, setDisplay] = React.useState(props.data.classes.display || 'flex')
+    const [flexDirection, setFlexDirection] = React.useState(props.data.classes.flexDirection || 'column')
+
     const [color, setColor] = React.useState(props.data.classes.color || 'inherit')
     const [backgroundColor, setBackgroundColor] = React.useState(props.data.classes.backgroundColor ||  'transparent')
     const [shadow, setShadow] = React.useState(props.data.classes.boxShadow || 'none')
@@ -69,9 +76,7 @@ function ContainerElement(props) {
                 position: 'absolute', 
                 top: 0, 
                 left: 0, 
-                zIndex: 10,  
-                borderTopLeftRadius: 0, 
-                borderTopRightRadius: 0,
+                zIndex: 10,   
                 minWidth: 50, 
                 opacity: 0, 
                 transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeIn} opacity`,
@@ -79,7 +84,6 @@ function ContainerElement(props) {
             containerWrapper: {
                 position: 'relative', 
                 outline: "1px solid #ffffff00", 
-                outlineOffset: -1, 
                 transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeIn} outline`,
                 '&:hover' : {
                     outlineColor: `${theme.palette.error.main}`,
@@ -170,7 +174,9 @@ function ContainerElement(props) {
         borderStyle: borderStyle,
         borderRadius: borderRadius,
         borderWidth: borderWidth,
-        boxShadow: shadow
+        boxShadow: shadow, 
+        display: display, 
+        flexDirection: flexDirection
     } 
   
 
@@ -237,11 +243,11 @@ function ContainerElement(props) {
         props.reSaveContainer(props.data.id, newChildren)
  
     } 
+
     const reSaveClassesSettings = () => {    
         props.reSaveContainerStyleSettings(props.data.id, myClassName, propsSettings)
         setIsDisableBtn(true); 
-    }
- 
+    } 
     
     const reSaveChildren = async (id, data) => {   
         let slicedChild = children.slice()
@@ -274,6 +280,10 @@ function ContainerElement(props) {
     const removeContainer = () => { 
         props.removeContainer(props.data.id)
     }
+
+    const swapContainer = (direction, id) => { 
+        props.swapContainer(direction, id)
+    }
     
 
     return (
@@ -285,20 +295,51 @@ function ContainerElement(props) {
         >    
             <div className={classes.mtView}></div>
             <div className={classes.mbView}></div>
-            <Box style={{position: 'relative'}} >
+            <Box style={{position: 'relative'}} > 
                 {/*  DrawerContainer */}
-                    <Tooltip title='Container Settings' placement='bottom'>
-                        <Button  
-                            onClick={toggleDrawer} 
-                            size='medium'
-                            variant='contained'
-                            color='primary'
-                            className={classes.btnDrawerStyle}
-                        >  
-                            <SettingsIcon style={{ color: '#fff' }} fontSize='small'/>
-                        </Button>
-                    </Tooltip>
+                <Box className={classes.btnDrawerStyle}>
                     
+                    <ButtonGroup
+                        orientation="vertical"
+                        color="primary"
+                        aria-label="vertical contained primary button group"
+                        variant="contained"
+                    > 
+                        <Tooltip title='Container Settings' placement='right'>
+                            <Button  
+                                onClick={toggleDrawer} 
+                                size='medium'
+                                variant='contained'
+                                color='primary'
+                                
+                            >  
+                                <SettingsIcon style={{ color: '#fff' }} fontSize='small'/>
+                            </Button>
+                        </Tooltip>
+                        <Tooltip title='Get Up' placement='right'>
+                            <Button   
+                                onClick={() => { swapContainer('up', props.data.id) }}
+                                size='medium'
+                                variant='contained'
+                                color='primary' 
+                            >  
+                                <ExpandLessOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>   
+                            </Button>
+                        </Tooltip> 
+                        <Tooltip title='Get Down' placement='right'>
+                            <Button   
+                                onClick={() => { swapContainer('down', props.data.id) }}
+                                size='medium'
+                                variant='contained'
+                                color='primary' 
+                            >     
+                                <ExpandMoreOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>
+                            </Button>
+                        </Tooltip> 
+ 
+                    </ButtonGroup>
+                </Box>
+                     
                     <Drawer anchor={'left'} open={open} onClose={toggleDrawer}>
                          
                             <Box  
@@ -472,6 +513,57 @@ function ContainerElement(props) {
                                     Styles 
                                 </Typography>
                                 <React.Fragment>
+                                    {/* display */}
+                                    <Box className={classes.inputGroup}>
+
+                                        <Tooltip title="Для корректной работы margin у элементов внутри контейнера рекомендуется оставить display: flex, flexDirection: column"  >
+                                            <IconButton>
+                                                <InfoOutlined/>
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Box display="flex" flexDirection="row"  > 
+                                            <FormControl 
+                                                variant='filled' 
+                                                size='small'   
+                                                className={classes.inputNumber}
+                                                fullWidth
+                                            >
+                                                <InputLabel id="display-style-label">Display</InputLabel>
+                                                <Select
+                                                    labelId="display-style-label"
+                                                    id="display-style"
+                                                    value={display}
+                                                    onChange={(e) => {setIsDisableBtn(false); setDisplay(e.target.value) }}
+                                                >
+                                                    <MenuItem value={'block'}>Block</MenuItem>  
+                                                    <MenuItem value={'flex'}>Flex</MenuItem>  
+                                                </Select>
+                                            </FormControl>
+                                            {
+                                                display === 'flex' &&
+                                                <FormControl 
+                                                    variant='filled' 
+                                                    size='small'   
+                                                    className={classes.inputNumber}
+                                                    fullWidth
+                                                >
+                                                    <InputLabel id="direction-style-label">Flex Direction</InputLabel>
+                                                    <Select
+                                                        labelId="direction-style-label"
+                                                        id="direction-style"
+                                                        value={flexDirection}
+                                                        onChange={(e) => {setIsDisableBtn(false); setFlexDirection(e.target.value) }}
+                                                    >
+                                                        <MenuItem value={'row'}>Row</MenuItem>  
+                                                        <MenuItem value={'column'}>Column</MenuItem>  
+                                                        <MenuItem value={'row-reverse'}>Row Reverse</MenuItem>  
+                                                        <MenuItem value={'column-reverse'}>Column Reverse</MenuItem>  
+                                                    </Select>
+                                                </FormControl>   
+                                            }
+                                        </Box>
+                                    </Box>
+                                    
                                     {/* margin */}
                                     <Box className={classes.inputGroup}>
                                         <Box display="flex" flexDirection="row"  > 
@@ -665,8 +757,7 @@ function ContainerElement(props) {
                             </Box> 
                     </Drawer>
                 {/*  DrawerContainer */} 
-            </Box>
-           
+            </Box>                        
                 <DumbComponent
                     reSaveChildren={reSaveChildren}
                     removeItem={removeItem}

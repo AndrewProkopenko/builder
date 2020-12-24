@@ -53,7 +53,7 @@
             "prop": {}
         }
     ], 
-    "classes" : { 
+    "classes" : {  
         "paddingTop": 0 ,
         "paddingBottom": 0, 
         "marginTop": 0,
@@ -63,6 +63,8 @@
         "borderWitdh": 0, 
         "borderRadius": 0, 
         "borderColor": "inherit", 
-        "borderStyle": "none"
+        "borderStyle": "none",
+        "display": "flex", 
+        "flexDirection": "column"
     }
 } 

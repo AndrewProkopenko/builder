@@ -3,7 +3,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
 
-import ModeContext from '../../../modeContext/ModeContext'
+import ModeContext from '../../../context/modeContext/ModeContext'
 
 
 import HeadingCreator from '../heading/ElementCreator'

@@ -3,7 +3,7 @@ import React from 'react'
 import StyledComponent from "./StyledComponent"
 import DumbComponent from "./DumbComponent"
  
-import ModeContext from '../../../modeContext/ModeContext'
+import ModeContext from '../../../context/modeContext/ModeContext'
 
  
 function ElementCreator(props) {
@@ -24,8 +24,8 @@ function ElementCreator(props) {
                     data={props.data} 
                     reSaveContainer={props.reSaveContainer}
                     reSaveContainerStyleSettings={props.reSaveContainerStyleSettings}  
-                    removeContainer={props.removeContainer}   
-                    reSaveContainerSettings={props.reSaveContainerSettings}
+                    removeContainer={props.removeContainer}    
+                    swapContainer={props.swapContainer}
                 />
             }
  
