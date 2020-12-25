@@ -17,7 +17,7 @@ function RouterComponent() {
     const {isLoading} = React.useContext(LoadingContext) 
 
     return (
-        <Router> 
+        <Router basename="builder"> 
             {
                 isLoading && 
                 <LoadingProgress/>

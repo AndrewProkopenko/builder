@@ -62,8 +62,13 @@ const useStyles = makeStyles((theme) => ({
         color: 'inherit', 
         textDecoration: 'none', 
         height: '100%', 
+        minHeight: 48,
         width: '100%', 
         padding: '6px 16px', 
+        '&.active' : {
+            backgroundColor: theme.palette.primary.main,
+            color: '#fff'
+        }
     },  
     accordionReset: {
         paddingLeft: 0,
@@ -191,7 +196,8 @@ function DumbComponent() {
                                         >
                                             <MenuItem style={{padding: 0, width: '100%'}}> 
                                                 <NavLink 
-                                                    to={item.slug} 
+                                                    exact
+                                                    to={`/${item.slug}`} 
                                                     key={index} 
                                                     className={mobileLink}
                                                     onClick={handleDrawerClose}
@@ -201,11 +207,11 @@ function DumbComponent() {
                                                 </NavLink> 
                                             </MenuItem>     
                                         </AccordionSummary>
-                                        {
-                                            // isOpenPages && 
+                                        { 
                                             item.pages.map( page => (
                                                 <MenuItem style={{padding: '0 0 0 15px'}}> 
                                                     <NavLink 
+                                                        exact
                                                         to={`/${item.slug}/${page.slug}`} 
                                                         key={index} 
                                                         className={mobileLink}
@@ -224,7 +230,8 @@ function DumbComponent() {
                                 return (
                                     <MenuItem style={{padding: 0, width: '100%', borderTop: '1px solid rgba(0, 0, 0, 0.12)' }}>  
                                         <NavLink 
-                                            to={item.slug} 
+                                            exact
+                                            to={`/${item.slug}`} 
                                             key={index} 
                                             className={mobileLink}
                                             onClick={handleDrawerClose}
@@ -260,7 +267,7 @@ function DumbComponent() {
         <AppBar className={header}>
             <Container
                 disableGutters={true}
-                fixed={true} 
+                fixed={false} 
                 maxWidth={'lg'} 
                 className='link-in-header' 
             > 
