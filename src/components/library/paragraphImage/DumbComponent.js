@@ -19,9 +19,9 @@ function DumbComponent(props) {
             
             <Typography component={props.data.variant} className={classes.myClassName} >
                 {
-                    props.data.image.url &&
+                    props.imageUrl &&
                     <Tooltip title={title} placement={props.data.image.placement}>
-                         <img src={props.data.image.url} className={classes.imageStyle} alt={title} /> 
+                         <img src={props.imageUrl} className={classes.imageStyle} alt={title} /> 
                     </Tooltip> 
                 }
                 {/* <div dangerouslySetInnerHTML={{__html: props.textChildren}}></div> */}

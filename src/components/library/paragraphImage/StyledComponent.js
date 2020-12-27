@@ -1,5 +1,8 @@
 import React from 'react'  
 
+import firebase from '../../../firebase/firebase'
+import LoadingContext from '../../../context/loadingContext/LoadingContext' 
+
 import Draggable from 'react-draggable';
 import { TwitterPicker } from 'react-color';
 
@@ -25,8 +28,7 @@ import {
 } from '@material-ui/core'
 
 import DumbComponent from "./DumbComponent" 
-import DumbImage from '../image/DumbComponent'
- 
+import DumbImage from '../image/DumbComponent' 
 
 import OpenWithIcon from '@material-ui/icons/OpenWith';
 import DeleteOutline  from '@material-ui/icons/DeleteOutline'; 
@@ -34,8 +36,9 @@ import ImageIcon from '@material-ui/icons/Image';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const StyledComponent = (props) => {  
+    const { setIsLoading } = React.useContext(LoadingContext)
  
-    let [padding, setPadding] = React.useState({ 
+    const [padding, setPadding] = React.useState({ 
         top:  props.data.classes.paddingTop || 0, 
         left:  props.data.classes.paddingLeft || 0,
         bottom: props.data.classes.paddingBottom || 0,
@@ -49,6 +52,7 @@ const StyledComponent = (props) => {
     })
     
     const [image, setImage] = React.useState(props.data.image || {})
+    const [imageUrl, setImageUrl] = React.useState(props.data.image.url || '')
     const [imageTitle, setImageTitle] = React.useState(props.data.image.title || '')
     const [imagePlacement, setImagePlacement] = React.useState(props.data.image.imagePlacement || 'top')
     
@@ -134,14 +138,10 @@ const StyledComponent = (props) => {
                     opacity: 1
                 }, 
             }, 
-        },
-        
-       
+        }, 
         dumbItem: { 
             position: 'relative',
-            transition: "300ms cubic-bezier(0.4, 0, 1, 1)",
-            // height: '100%'
-            
+            transition: "300ms cubic-bezier(0.4, 0, 1, 1)", 
         }, 
         dumbItemDelete : { 
             opacity: 0,
@@ -154,8 +154,7 @@ const StyledComponent = (props) => {
             '&:hover' : { 
                 backgroundColor: theme.palette.error.light
             }
-        }, 
-         
+        },  
         menu: {    
             position: "absolute", 
             left: "calc(50% - 200px)",
@@ -217,8 +216,20 @@ const StyledComponent = (props) => {
                     opacity: 0
                 } 
             }, 
+        },
+        imageLabel: {
+            position: 'absolute',
+            zIndex: 10, 
+            top: 0, 
+            bottom: 0, 
+            left: 0, 
+            right: 0, 
+            width: "100%", 
+            maxWidth: "100%", 
+            height: "100%", 
+            maxHeight: "100%", 
+            cursor: 'pointer'
         }
-        
       }));
     
     const myClassName = { 
@@ -263,16 +274,7 @@ const StyledComponent = (props) => {
     const dataNew = {...props.data, ...{
         classes: myClassName,
     }} 
-
-    // const handleImageSetting = (value, type) => {  
-    //     const newImData = { 
-    //         [type]: value, 
-
-    //     }
-    //     setImage(Object.assign(image, newImData))
-         
-    //     console.log(image)
-    // }
+ 
     const handlePadding = (e, direction) => {  
         let newPadding = Object.assign({}, padding)
         newPadding[direction] = Number(e.target.value)
@@ -302,7 +304,8 @@ const StyledComponent = (props) => {
         sentData.image = Object.assign(image, {
             title: imageTitle, 
             placement: imagePlacement,
-            classes: imageClassName
+            classes: imageClassName, 
+            url: imageUrl
         })
         sentData.text = textInDumb
 
@@ -313,13 +316,36 @@ const StyledComponent = (props) => {
         props.removeItem(props.data.id)
     };
     
-    const handleInputFocus = (event) => {  
+    const handleInputFocus = () => {  
         setOpen(true);
     }
     const handleClose = () => {
         setOpen(false);
-      };
+    }
+    const handleImageSetting = (event) => {    
+        uploadHandler(event.target.files[0])
+        setIsDisableBtn(false)
+        setIsLoading(true)
+    }
     
+    const uploadHandler = (imageData) => { 
+        const storageRef = firebase.storage.ref(`${imageData.name}`).put(imageData)
+        storageRef.on('state-changed', 
+          snapshot => {
+            console.log( snapshot )
+          }, 
+          error => {
+            console.log(error.message)
+          },
+          () => {
+            setIsLoading(false)
+            storageRef.snapshot.ref.getDownloadURL()
+              .then( url => {
+                setImageUrl(url) 
+              })
+          }
+        )
+      }
     
 
     return ( 
@@ -366,29 +392,16 @@ const StyledComponent = (props) => {
                                             <Button> 
                                                 <ImageIcon color="action" />
 
-                                                <label htmlFor='image-input-label' style={{
-                                                    position: 'absolute',
-                                                    zIndex: 10, 
-                                                    top: 0, 
-                                                    bottom: 0, 
-                                                    left: 0, 
-                                                    right: 0, 
-                                                    width: "100%", 
-                                                    maxWidth: "100%", 
-                                                    height: "100%", 
-                                                    maxHeight: "100%", 
-                                                    cursor: 'pointer'
-                                                }}></label>
+                                                <label htmlFor='image-input-label' className={classes.imageLabel}></label>
                                                 <input 
                                                     id="image-input-label"
                                                     type="file" 
-                                                    onChange={ () => {alert("Changed")}} 
-                                                    style={{ 
-                                                        display: "none"
-                                                    }}
+                                                    onChange={handleImageSetting} 
+                                                    style={{ display: "none" }}
                                                 />
                                             </Button>
                                             <DumbImage
+                                                imageUrl={imageUrl}
                                                 image={dataNew.image}   
                                             /> 
                                         </Grid>
@@ -906,6 +919,7 @@ const StyledComponent = (props) => {
                                 data={dataNew} 
                                 className={myClassName}  
                                 imageClassName={imageClassName}
+                                imageUrl={imageUrl}
                                 prop={props.data.prop} 
                                 textChildren={textInDumb} 
                             />

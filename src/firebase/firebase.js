@@ -14,6 +14,7 @@ class Firebase {
     constructor() {
         const firebaseApp =  firebase.initializeApp(firebaseConfig)
         this.db = firebaseApp.firestore()
+        this.storage = firebaseApp.storage()
         console.log("constructor")
     }   
 }

@@ -15,8 +15,7 @@ export default class CategoryProvider extends React.Component {
         const doc = await categoryRef.get();
         if (!doc.exists) {
             console.log('No such categories!'); 
-          } else {
-            console.log('cat data:', doc.data());
+          } else { 
             this.setState({
                 categories: doc.data().list
             })
@@ -29,6 +28,17 @@ export default class CategoryProvider extends React.Component {
         })
     }
 
+    async deletePage(slug) {   
+        await firebase.db.collection('site1').doc(slug).delete()
+    }
+
+    deleteCategory(array) {
+        array.map( item => {
+            this.deletePage(item)
+            return 0
+        })
+    }
+
     render() {
         return(
             <CategoryContext.Provider
@@ -38,9 +48,14 @@ export default class CategoryProvider extends React.Component {
                         this.setState({
                             categories: data
                         })
-                        this.updateCategories(data)
-                        console.log(data)
-                    } 
+                        this.updateCategories(data) 
+                    }, 
+                    deletePageFromFirebase: (slug) => {
+                        this.deletePage(slug)
+                    },
+                    deleteCategoryFromFirebase: (array) => {
+                        this.deleteCategory(array)
+                    }
                 }}
             >
                 {this.props.children}

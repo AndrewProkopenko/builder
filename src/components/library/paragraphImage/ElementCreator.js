@@ -28,6 +28,7 @@ function ElementCreator(props) {
                     data={props.item} 
                     className={props.item.classes} 
                     imageClassName={props.item.image.classes}
+                    imageUrl={props.item.image.url}
                     prop={props.item.prop} 
                     textChildren={props.item.text} 
                 />

@@ -189,7 +189,7 @@ function DumbComponent() {
                         categories.map( (item, index) => {  
                             if(item.pages.length > 0) {
                                 return (  
-                                    <Accordion classes={{root: accordionReset}}>
+                                    <Accordion classes={{root: accordionReset}} key={index} >
                                         <AccordionSummary
                                             classes={{root: accordionReset, content: accordionReset  }}
                                             expandIcon={ <ExpandMoreOutlinedIcon />}
@@ -197,8 +197,7 @@ function DumbComponent() {
                                             <MenuItem style={{padding: 0, width: '100%'}}> 
                                                 <NavLink 
                                                     exact
-                                                    to={`/${item.slug}`} 
-                                                    key={index} 
+                                                    to={`/${item.slug}`}  
                                                     className={mobileLink}
                                                     onClick={handleDrawerClose}
                                                 >
@@ -209,11 +208,10 @@ function DumbComponent() {
                                         </AccordionSummary>
                                         { 
                                             item.pages.map( page => (
-                                                <MenuItem style={{padding: '0 0 0 15px'}}> 
+                                                <MenuItem style={{padding: '0 0 0 15px'}} key={index} > 
                                                     <NavLink 
                                                         exact
-                                                        to={`/${item.slug}/${page.slug}`} 
-                                                        key={index} 
+                                                        to={`/${item.slug}/${page.slug}`}  
                                                         className={mobileLink}
                                                         onClick={handleDrawerClose}
                                                     >   
