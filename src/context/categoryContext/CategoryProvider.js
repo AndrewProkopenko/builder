@@ -23,6 +23,7 @@ export default class CategoryProvider extends React.Component {
     }
 
     async updateCategories(data) {
+        console.log('firebase update')
         await firebase.db.collection("site1category").doc('categoryList').update({
             list: data
         })

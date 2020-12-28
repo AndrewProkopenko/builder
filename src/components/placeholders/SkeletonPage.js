@@ -11,7 +11,7 @@ function SkeletonPage() {
                 <Skeleton 
                   variant='rect'
                   height={60}
-                  animation='wave'
+                  animation={false}
                 />
               </Box>
               <Box display='flex' alignItems='center'>
@@ -34,13 +34,13 @@ function SkeletonPage() {
                 <Skeleton 
                   variant='rect'
                   height={150}
-                  animation='wave'
+                  animation={false}
                 />
               </Box>
               <Skeleton 
                 variant='rect'
                 height={80}
-                animation='wave'
+                animation={false}
               />
             </Container>
         </Box>

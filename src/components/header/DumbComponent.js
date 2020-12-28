@@ -226,11 +226,10 @@ function DumbComponent() {
                             }
                             else { 
                                 return (
-                                    <MenuItem style={{padding: 0, width: '100%', borderTop: '1px solid rgba(0, 0, 0, 0.12)' }}>  
+                                    <MenuItem key={index}  style={{padding: 0, width: '100%', borderTop: '1px solid rgba(0, 0, 0, 0.12)' }}>  
                                         <NavLink 
                                             exact
-                                            to={`/${item.slug}`} 
-                                            key={index} 
+                                            to={`/${item.slug}`}  
                                             className={mobileLink}
                                             onClick={handleDrawerClose}
                                         >

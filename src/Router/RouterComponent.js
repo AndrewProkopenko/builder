@@ -3,8 +3,10 @@ import { BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
 import LoadingProgress from '../components/placeholders/LoadingProgress'
 import Header from '../components/header/Header'
+import AdminHeader from '../components/header/AdminHeader'
 
 import Home from '../components/Home'
+import Login from '../components/Login'
 import Error from '../components/Error'
 import SinglePage from '../components/pages/SinglePage' 
 
@@ -25,7 +27,8 @@ function RouterComponent() {
             {
                 categories.length > 0 &&
                 <React.Fragment>
- 
+                    
+                    <AdminHeader/>
                     <Header/>
 
                     <Switch>
@@ -63,6 +66,8 @@ function RouterComponent() {
                             ))
                         }
          
+                        <Route path='/login' render={ () => <Login/> } />
+
                         <Route path='*' render={ () => <Error/> } />
                          
                     </Switch> 

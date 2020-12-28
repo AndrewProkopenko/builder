@@ -3,7 +3,16 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { Box, Typography} from '@material-ui/core'
 
+import LoadingContext from '../context/loadingContext/LoadingContext'
+
 function Error() {
+
+    const { setIsLoading } = React.useContext(LoadingContext)
+
+    React.useEffect( () => {
+        setIsLoading(false)
+    }, [])
+    
     return ( 
         <Box 
             display='flex' 

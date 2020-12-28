@@ -1,0 +1,183 @@
+{
+    "category": {
+        "type": "category",
+        "id": 1,
+        "pages": [],
+        "slug": "categoryslug", 
+        "title": "categoryTitle"
+    },
+    "page": {
+        "id": 1, 
+        "items": [],
+        "slug": "slug_for_page", 
+        "title": "title_for_page",
+        "type": "page"
+    },
+    "container": {
+        "id": 1,
+        "type": "container",  
+        "maxWidth": "lg", 
+        "fixed": false, 
+        "innerContainer": false, 
+        "disableGutters": false,
+        "children": [
+            {
+                "id": 1,
+                "type": "heading", 
+                "variant": "h1" , 
+                "classes" : {
+                    "paddingTop": 0 ,
+                    "paddingBottom": 0,
+                    "paddingLeft": 0,
+                    "paddingRight": 0,
+                    "marginTop": 0,
+                    "marginBottom": 15,
+                    "marginLeft": 0,
+                    "marginRight": 0,
+                    "color": "inherit",
+                    "backgroundColor": "transparent",
+                    "textAlign": "left",
+                    "fontSize": 28,
+                    "fontWeight": 700,
+                    "lineHeight": 1.43
+                }, 
+                "text": "Heading of Container" , 
+                "prop": {}
+            },
+            {
+                "id": 2,
+                "type": "paragraph", 
+                "variant":  "p" , 
+                "classes" : {
+                    "paddingTop": 0 ,
+                    "paddingBottom": 0,
+                    "paddingLeft": 0,
+                    "paddingRight": 0,
+                    "marginTop": 0,
+                    "marginBottom": 10,
+                    "marginLeft": 0,
+                    "marginRight": 0,
+                    "color": "inherit",
+                    "backgroundColor": "transparent",
+                    "textAlign": "left",
+                    "fontSize": 14,
+                    "fontWeight": 400,
+                    "lineHeight": 1.43
+                }, 
+                "text": "first paragraph of container" , 
+                "prop": {}
+            }
+        ], 
+        "classes" : {  
+            "paddingTop": 0 ,
+            "paddingBottom": 0, 
+            "marginTop": 0,
+            "marginBottom": 8, 
+            "color": "inherit",
+            "backgroundColor": "transparent",
+            "borderWitdh": 0, 
+            "borderRadius": 0, 
+            "borderColor": "inherit", 
+            "borderStyle": "none",
+            "display": "flex", 
+            "flexDirection": "column"
+        }
+    },
+    "heading": {
+        "id": 1,
+        "type": "heading", 
+        "variant": ["h1", "h2", "h3" , "h4" ,"h5" , "h6"], 
+        "classes" : {
+            "paddingTop": 0 ,
+            "paddingBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "marginTop": 0,
+            "marginBottom": 15,
+            "marginLeft": 0,
+            "marginRight": 0,
+            "color": "inherit",
+            "backgroundColor": "transparent",
+            "textAlign": "left",
+            "fontSize": 14,
+            "fontWeight": 700,
+            "lineHeight": 1.43
+        }, 
+        "text": "heading Default" , 
+        "prop": {}
+    }, 
+    "paragraph": {
+        "id": 1,
+        "type": "paragraph", 
+        "variant": "p", 
+        "classes" : {
+            "display": "block", 
+            "paddingTop": 0 ,
+            "paddingBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "marginTop": 0,
+            "marginBottom": 8,
+            "marginLeft": 0,
+            "marginRight": 0,
+            "color": "inherit",
+            "backgroundColor": "transparent",
+            "borderWitdh": 0, 
+            "borderRadius": 0, 
+            "borderColor": "inherit", 
+            "borderStyle": "none",
+            "textAlign": "left",
+            "fontSize": 14,
+            "fontWeight": 400,
+            "lineHeight": 1.4
+        }, 
+        "text": "Paragraph" , 
+        "prop": {}
+    },
+    "paragraphImage": {
+        "id": 1,
+        "type": "paragraphImage", 
+        "variant": "p", 
+        "image": {
+            "url": "https://panor.ru/img/default/category.png",
+            "title": "",
+            "placement": "top",
+            "classes": {
+                "width": 100, 
+                "height": 100,
+                "borderWitdh": 0, 
+                "borderRadius": 0, 
+                "borderColor": "inherit", 
+                "borderStyle": "none",
+                "float" : "none", 
+                "marginTop": 0,
+                "marginBottom": 0,
+                "marginLeft": 0,
+                "marginRight": 0
+            }
+        },
+        "classes" : {
+            "display": "flex", 
+            "paddingTop": 0 ,
+            "paddingBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "marginTop": 0,
+            "marginBottom": 8,
+            "marginLeft": 0,
+            "marginRight": 0,
+            "color": "inherit",
+            "backgroundColor": "transparent",
+            "borderWitdh": 0, 
+            "borderRadius": 0, 
+            "borderColor": "inherit", 
+            "borderStyle": "none",
+            "textAlign": "left",
+            "fontSize": 14,
+            "fontWeight": 400,
+            "lineHeight": 1.4
+        }, 
+        "text": "Paragraph with Image" , 
+        "prop": {}
+    } 
+}

@@ -1,8 +1,7 @@
 import React from 'react'
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Tooltip } from '@material-ui/core';
- 
+import { Typography, Tooltip } from '@material-ui/core';  
 
 function DumbComponent(props) {
   
@@ -23,8 +22,8 @@ function DumbComponent(props) {
                     <Tooltip title={title} placement={props.data.image.placement}>
                          <img src={props.imageUrl} className={classes.imageStyle} alt={title} /> 
                     </Tooltip> 
-                }
-                {/* <div dangerouslySetInnerHTML={{__html: props.textChildren}}></div> */}
+                } 
+                
                <span style={{ display: 'inherit' }}>
                 { 
                     props.textChildren

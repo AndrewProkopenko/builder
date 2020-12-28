@@ -1,6 +1,7 @@
 import React from 'react'
 import uuid from 'react-uuid'
 import CategoryContext from '../../context/categoryContext/CategoryContext'
+import LibraryContext from '../../context/libraryContext/LibraryContext'
 import { 
     Tooltip,
     Button, 
@@ -30,15 +31,15 @@ import InfoOutlined from '@material-ui/icons/InfoOutlined';
 
 import DumbComponent from './DumbComponent'
 
-import Draggable from 'react-draggable'; 
-
-import categoryLayout from './categoryLayout.json'
-import pageLayout from '../pages/pageLayout.json'
+import Draggable from 'react-draggable';  
 
 function StyledComponent() {
     
     const {categories, setCategories, deletePageFromFirebase, deleteCategoryFromFirebase} = React.useContext(CategoryContext)    
-
+    const {layouts} = React.useContext(LibraryContext)
+    const pageLayout = layouts.page
+    const categoryLayout = layouts.category
+ 
     const [localCategories, setLocalCategories] = React.useState(categories)
     const [open, setOpen] = React.useState(false)
     const [isDisableBtn, setIsDisableBtn] = React.useState(true)
@@ -200,7 +201,7 @@ function StyledComponent() {
  
         setCategories(newList)
         
-        setNewCategoryTitle('')
+        setNewCategoryTitle('') 
         setNewCategorySlug('')
     }
     const addPage = (e, id) => { 
@@ -232,26 +233,26 @@ function StyledComponent() {
         if(type === 'title') setNewPageTitle(value)
         if(type === 'slug') setNewPageSlug(value)
     }
-    const handleUpdateCategory = (place, value, id) => { 
-        let newCategories = categories.slice()
-        console.log(newCategories)
+    const handleUpdateCategory = (value, id) => { 
+        console.log('update')
+        let newCategories = localCategories.slice() 
         newCategories.map( (item) => { 
             if(item.id === id ) { 
-                item[place] = value
+                item.title = value
             }
             return 0
         })  
         setLocalCategories(newCategories)
         setIsDisableBtn(false)
     } 
-    const handleUpdatePage = (place, value, categoryId, pageId) => { 
-        let newCategories = categories.slice() 
+    const handleUpdatePage = ( value, categoryId, pageId) => { 
+        let newCategories = localCategories.slice() 
         newCategories.map( (item) => { 
             if(item.id === categoryId ) { 
                 
                 item.pages.map( page => {
                     if(page.id === pageId) {
-                        page[place] = value
+                        page.title = value
                     }
                     return 0 
                 })
@@ -261,10 +262,10 @@ function StyledComponent() {
         setLocalCategories(newCategories)
         setIsDisableBtn(false)
     } 
-    const handleSave = () => {
-        console.log('save')
-        setCategories(categories) 
+    const handleSave = () => { 
+        setCategories(localCategories) 
         setIsDisableBtn(true)
+        handleClose()
     }  
     const swapCategory = (direction, id) => {
         let newCategories = categories.slice() 
@@ -310,6 +311,7 @@ function StyledComponent() {
                     if(page.id === pageId) { 
                         activeIndex = item.pages.indexOf(page) 
                     }
+                    return 0 
                 }) 
           }
           return 0 
@@ -368,6 +370,7 @@ function StyledComponent() {
                 let filtered = category.pages.filter((item) => (item.id !== pageId))  
                 category.pages = filtered
             }
+            return 0 
         }) 
         setCategories(categories)  
 
@@ -448,9 +451,9 @@ function StyledComponent() {
                                 </Grid>
                                 <Grid item xs={8} >
                                     {
-                                        categories.map( (item, index) => {  
+                                        localCategories.map( (item, index) => {  
                                             return (
-                                                <Box className={classes.accordionContainer} >
+                                                <Box  key={index} className={classes.accordionContainer} >
                                                     <Tooltip title='Delete Category' placement='top'>
                                                         <Button
                                                             variant='contained'
@@ -494,7 +497,7 @@ function StyledComponent() {
                                                         </Tooltip>  
                                                     </ButtonGroup>
                                                     
-                                                    <Accordion key={index}>
+                                                    <Accordion>
                                                         <AccordionSummary
                                                             expandIcon={<ExpandMoreIcon />}
                                                             aria-controls="image-settings-content"
@@ -514,7 +517,7 @@ function StyledComponent() {
                                                                     fullWidth
                                                                     variant='filled'
                                                                     value={item.title} 
-                                                                    onChange={(e) => { handleUpdateCategory('title', e.target.value, item.id)}}
+                                                                    onChange={(e) => { handleUpdateCategory(e.target.value, item.id)}}
                                                                 />    
                                                             </Box>
                                                             <Box mb={1}>
@@ -586,7 +589,7 @@ function StyledComponent() {
                                                                                     fullWidth
                                                                                     variant='filled'
                                                                                     value={itemPages.title} 
-                                                                                    onChange={(e) => {handleUpdatePage('title', e.target.value, item.id, itemPages.id )}}
+                                                                                    onChange={(e) => {handleUpdatePage( e.target.value, item.id, itemPages.id )}}
                                                                                 />    
                                                                             </Box>
                                                                             <Box mb={1}>

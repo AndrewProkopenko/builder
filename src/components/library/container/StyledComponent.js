@@ -14,17 +14,18 @@ import {
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExpandLessOutlinedIcon from '@material-ui/icons/ExpandLessOutlined';
 import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
- 
-import libraryHeading from '../heading/headingLayout.json'
-import libraryParagraph from '../paragraph/paragraphLayout.json'
-import libraryParagraphImage from '../paragraphImage/paragraphImageLayout.json'
- 
+  
+import LibraryContext from '../../../context/libraryContext/LibraryContext' 
 
 import { makeStyles } from '@material-ui/core/styles';  
 import { InfoOutlined } from '@material-ui/icons';
 
 function ContainerElement(props) { 
     console.log('styled Container work')
+    const { layouts } = React.useContext(LibraryContext)
+    const libraryHeading = layouts.heading
+    const libraryParagraph = layouts.paragraph
+    const libraryParagraphImage = layouts.paragraphImage
   
     const [padding, setPadding] = React.useState({ 
         top:  props.data.classes.paddingTop ,  

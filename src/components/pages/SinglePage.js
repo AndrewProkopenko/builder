@@ -11,11 +11,10 @@ import ContainerLayout from '../library/container/containerLayout.json'
 import SkeletonPage from '../placeholders/SkeletonPage'
  
 import firebase from '../../firebase/firebase'
-
-import pageLayout from './pageLayout.json'
-
+  
 import ModeContext from '../../context/modeContext/ModeContext'
 import LoadingContext from '../../context/loadingContext/LoadingContext'
+import LibraryContext from '../../context/libraryContext/LibraryContext'
 
 function SinglePage(props) {
 
@@ -25,6 +24,8 @@ function SinglePage(props) {
 
     const { modeDev } = React.useContext(ModeContext)
     const { setIsLoading } = React.useContext(LoadingContext)
+    const { layouts } = React.useContext(LibraryContext)
+    const pageLayout = layouts.page
   
     const [data, setData] = React.useState({})
     const [items, setItems] = React.useState([])
@@ -45,7 +46,7 @@ function SinglePage(props) {
       const doc = await pageRef.get();
       
       if (!doc.exists) {
-        console.log('No such document!'); 
+        console.log('No such page!'); 
 
         // задать шаблон страницы
         let newPage = Object.assign({}, pageLayout)
@@ -59,9 +60,7 @@ function SinglePage(props) {
         setIsUpdate(false)
         setIsLoading(false)
 
-      } else {
-        console.log('Document data:', doc.data());
-        
+      } else { 
         setData(doc.data())  
         setItems(doc.data().items)  
         
@@ -77,9 +76,10 @@ function SinglePage(props) {
       newData.items = items
   
       Object.keys(newData.items).map( (elem) => { 
-         if(newData.items[elem].id === id) {
+        if(newData.items[elem].id === id) {
             newData.items[elem].children = childrenContainer 
         }
+        return 0 
       })
    
       setData(newData)
@@ -99,12 +99,13 @@ function SinglePage(props) {
         
       Object.keys(newData.items).map( (elem) => { 
         if(newData.items[elem].id === id) {
-            newData.items[elem].classes = classes 
-            newData.items[elem].disableGutters = settings.disableGutters 
-            newData.items[elem].fixed = settings.fixed 
-            newData.items[elem].maxWidth = settings.maxWidth 
-            newData.items[elem].innerContainer = settings.innerContainer 
+          newData.items[elem].classes = classes 
+          newData.items[elem].disableGutters = settings.disableGutters 
+          newData.items[elem].fixed = settings.fixed 
+          newData.items[elem].maxWidth = settings.maxWidth 
+          newData.items[elem].innerContainer = settings.innerContainer 
         }
+        return 0 
       }) 
   
       setData(newData)
@@ -172,6 +173,7 @@ function SinglePage(props) {
         if(item.id === id) {
           activeIndex = newItems.indexOf(item) 
         }
+        return 0 
       }) 
    
       if(direction === 'up' && activeIndex === 0) return  
