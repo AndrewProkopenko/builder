@@ -10,8 +10,8 @@ import Login from '../components/Login'
 import Error from '../components/Error'
 import SinglePage from '../components/pages/SinglePage' 
 
-import CategoryContext from '../context/categoryContext/CategoryContext'
-import LoadingContext from '../context/loadingContext/LoadingContext' 
+import CategoryContext from '../context/headerContext/CategoryContext'
+import LoadingContext from '../context/loadingContext/LoadingContext'  
 
 function RouterComponent() {
 

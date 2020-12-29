@@ -3,7 +3,7 @@ import React from "react"
 import CssBaseline from '@material-ui/core/CssBaseline'; 
 
 import ModeProvider from './context/modeContext/ModeProvider'
-import CategoryProvider from './context/categoryContext/CategoryProvider'
+import CategoryProvider from './context/headerContext/CategoryProvider'
 import LoadingProvider from './context/loadingContext/LoadingProvider'
 import LibraryProvider from './context/libraryContext/LibraryProvider'
  

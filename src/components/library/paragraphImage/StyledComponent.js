@@ -345,7 +345,7 @@ const StyledComponent = (props) => {
               })
           }
         )
-      }
+    }
     
 
     return ( 

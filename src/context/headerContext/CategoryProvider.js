@@ -7,7 +7,12 @@ import firebase from '../../firebase/firebase'
 export default class CategoryProvider extends React.Component { 
 
     state = { 
-        categories: [] 
+        categories: [],
+        logo: {
+            image: '', 
+            mainText: '', 
+            subText: ''
+        }
     }
 
     async componentDidMount() {
@@ -15,11 +20,12 @@ export default class CategoryProvider extends React.Component {
         const doc = await categoryRef.get();
         if (!doc.exists) {
             console.log('No such categories!'); 
-          } else { 
+        } else { 
             this.setState({
-                categories: doc.data().list
+                categories: doc.data().list,
+                logo: doc.data().logo
             })
-          } 
+        } 
     }
 
     async updateCategories(data) {
@@ -40,11 +46,24 @@ export default class CategoryProvider extends React.Component {
         })
     }
 
+    async updateLogo(logo) {   
+        await firebase.db.collection('site1category').doc('categoryList').update({
+            logo: logo
+        })
+    }
+
     render() {
         return(
             <CategoryContext.Provider
                 value={{
                     categories: this.state.categories,
+                    logo: this.state.logo,
+                    updateLogo: (data) => { 
+                        this.setState({
+                            logo: data
+                        })
+                        this.updateLogo(data) 
+                    }, 
                     setCategories: (data) => {
                         this.setState({
                             categories: data
