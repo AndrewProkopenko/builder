@@ -24,6 +24,7 @@ import {
     Accordion,
     AccordionSummary,
     DialogContent, 
+    Tooltip,
 
 } from '@material-ui/core'
 
@@ -137,8 +138,67 @@ const StyledComponent = (props) => {
                 '&>button' : { 
                     opacity: 1
                 }, 
+                '& $mtView' : { 
+                    opacity: 1
+                },
+                '& $mbView' : { 
+                    opacity: 1
+                }, 
+                '& $ptView' : { 
+                    opacity: 1
+                },
+                '& $pbView' : { 
+                    opacity: 1
+                }, 
+                '& $btnDrawerStyle': {
+                    opacity: 1
+                } 
             }, 
         }, 
+        mtView: {  
+            position: 'absolute', 
+            top: `-${margin.top}px`, 
+            left: 0, 
+            right: 0,
+            zIndex: 10, 
+            backgroundColor: '#fff7003d',
+            height: `${margin.top}px`, 
+            opacity: 0,
+            transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeIn} opacity`
+        },
+        mbView: {  
+            position: 'absolute', 
+            bottom: `-${margin.bottom}px`, 
+            left: 0, 
+            right: 0,
+            zIndex: 10, 
+            backgroundColor: '#fff7003d',
+            height: `${margin.bottom}px`, 
+            opacity: 0,
+            transition: `180ms ${theme.transitions.easing.easeIn} opacity`
+        },
+        ptView: {  
+            position: 'absolute', 
+            top: 0, 
+            left: 0, 
+            right: 0,
+            zIndex: 10, 
+            backgroundColor: '#400e575e',
+            height: `${padding.top}px`, 
+            opacity: 0,
+            transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeIn} opacity`
+        },
+        pbView: {  
+            position: 'absolute', 
+            bottom: 0, 
+            left: 0, 
+            right: 0,
+            zIndex: 10, 
+            backgroundColor: '#400e575e',
+            height: `${padding.bottom}px`, 
+            opacity: 0,
+            transition: `180ms ${theme.transitions.easing.easeIn} opacity`
+        },
         dumbItem: { 
             position: 'relative',
             transition: "300ms cubic-bezier(0.4, 0, 1, 1)", 
@@ -915,6 +975,18 @@ const StyledComponent = (props) => {
                             onClick={handleInputFocus}
                             aria-controls="simple-menu" aria-haspopup="true"  
                         > 
+                            <Tooltip  title={` paragraphImg margin top`}  placement={'top'}>
+                                <div className={classes.mtView}></div>
+                            </Tooltip>
+                            <Tooltip  title={` paragraphImg margin bottom`}  placement={'top'}>
+                                <div className={classes.mbView}></div>
+                            </Tooltip> 
+                            <Tooltip  title={` paragraphImg padding top`}  placement={'top'}>
+                                <div className={classes.ptView}></div>
+                            </Tooltip> 
+                            <Tooltip  title={` paragraphImg padding bottom`}  placement={'top'}>
+                                <div className={classes.pbView}></div>
+                            </Tooltip> 
                             <DumbComponent 
                                 data={dataNew} 
                                 className={myClassName}  
@@ -925,14 +997,16 @@ const StyledComponent = (props) => {
                             />
                            
                         </div>  
-                        <IconButton 
-                            className={ classes.dumbItemDelete}
-                            size="small"
-                            aria-label="delete"
-                            onClick={removeItem}
-                        > 
-                            <DeleteOutline style={{ color: '#fff'}}/>
-                        </IconButton>
+                        <Tooltip  title="Delete Paragraph"  placement={'top'}> 
+                            <IconButton 
+                                className={ classes.dumbItemDelete}
+                                size="small"
+                                aria-label="delete"
+                                onClick={removeItem}
+                            > 
+                                <DeleteOutline style={{ color: '#fff'}}/>
+                            </IconButton>
+                        </Tooltip>
  
                 </Grid>
             </Grid>

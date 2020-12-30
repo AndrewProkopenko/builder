@@ -94,6 +94,12 @@ function ContainerElement(props) {
                     '& $mbView' : { 
                         opacity: 1
                     }, 
+                    '& $ptView' : { 
+                        opacity: 1
+                    },
+                    '& $pbView' : { 
+                        opacity: 1
+                    }, 
                     '& $btnDrawerStyle': {
                         opacity: 1
                     }
@@ -119,6 +125,28 @@ function ContainerElement(props) {
                 zIndex: 10, 
                 backgroundColor: '#fff7003d',
                 height: `${margin.bottom}px`, 
+                opacity: 0,
+                transition: `180ms ${theme.transitions.easing.easeIn} opacity`
+            }, 
+            ptView: {  
+                position: 'absolute', 
+                top: 0, 
+                left: 0, 
+                right: 0,
+                zIndex: 10, 
+                backgroundColor: '#400e575e',
+                height: `${padding.top}px`, 
+                opacity: 0,
+                transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeIn} opacity`
+            },
+            pbView: {  
+                position: 'absolute', 
+                bottom: 0, 
+                left: 0, 
+                right: 0,
+                zIndex: 10, 
+                backgroundColor: '#400e575e',
+                height: `${padding.bottom}px`, 
                 opacity: 0,
                 transition: `180ms ${theme.transitions.easing.easeIn} opacity`
             },
@@ -298,8 +326,19 @@ function ContainerElement(props) {
             disableGutters={true}
             className={classes.containerWrapper} 
         >    
-            <div className={classes.mtView}></div>
-            <div className={classes.mbView}></div>
+            <Tooltip  title={` container margin top`}  placement={'top'}>
+                <div className={classes.mtView}></div>
+            </Tooltip>
+            <Tooltip  title={` container margin bottom`}  placement={'top'}>
+                <div className={classes.mbView}></div>
+            </Tooltip> 
+            <Tooltip  title={` container padding top`}  placement={'top'}>
+                <div className={classes.ptView}></div>
+            </Tooltip> 
+            <Tooltip  title={` container padding bottom`}  placement={'top'}>
+                <div className={classes.pbView}></div>
+            </Tooltip> 
+
             <Box style={{position: 'relative'}} > 
                 {/*  DrawerContainer */}
                 <Box className={classes.btnDrawerStyle}>
