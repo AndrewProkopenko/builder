@@ -1,7 +1,7 @@
 import React from 'react'
 import uuid from 'react-uuid'
-import CategoryContext from '../../context/headerContext/CategoryContext'
-import LibraryContext from '../../context/libraryContext/LibraryContext'
+import CategoryContext from '../../../context/headerContext/CategoryContext'
+import LibraryContext from '../../../context/libraryContext/LibraryContext'
 import { 
     Tooltip,
     Button, 
@@ -77,7 +77,7 @@ function CategoriesChanger() {
             position: "absolute", 
             left: "calc(50% - 350px)",
             top: 50, 
-            backgroundColor: '#fff',
+            backgroundColor: theme.palette.background.paper, 
             padding: 10 , 
             paddingBottom: 0, 
             maxWidth: 700,  
@@ -103,9 +103,9 @@ function CategoriesChanger() {
             // top: 2, 
             // left: 2,
             backgroundColor: orange[700], 
-            minWidth: 80, 
-            minHeight: 60, 
-            transition: `${theme.transitions.easing.easeInOut} ${theme.transitions.duration.shorter}ms opacity`, 
+            minWidth: 80,  
+            maxHeight: 50, 
+            transition: `${theme.transitions.easing.easeInOut} ${theme.transitions.duration.shorter}ms `, 
             '&:hover': {
                 backgroundColor: orange[900], 
             }, 
@@ -134,7 +134,7 @@ function CategoriesChanger() {
             right: 0,
             height: 70, 
             paddingTop: 10, 
-            backgroundColor: '#fff'
+            backgroundColor: theme.palette.background.paper, 
         },
         accordionContainer: {
             position: 'relative', 

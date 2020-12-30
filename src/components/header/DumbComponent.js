@@ -33,25 +33,37 @@ const useStyles = makeStyles((theme) => ({
       }, 
     },
     logoMain: { 
-      fontWeight: 600,
-      fontSize: 24,
-      color: "#FFFEFE",
-      textAlign: "left",
+        fontWeight: 600,
+        fontSize: 24,
+        color: "#FFFEFE",
+        textAlign: "left",
+        whiteSpace: 'nowrap',
+        [`@media (max-width: ${widthMobile}px)`]: {
+            fontSize: 18,
+            lineHeight: 1.2
+        },
     },
     logoSub: { 
-      fontWeight: 400,
-      fontSize: 12,
-      margin: 0,
-      color: "##DFDFDF",
-      textAlign: "left",
+        fontWeight: 400,
+        fontSize: 12,
+        margin: 0,
+        color: "##DFDFDF",
+        textAlign: "left",
+        whiteSpace: 'nowrap'
+        
     },
     logoImage: { 
         width: 80, 
         height: 60, 
+        marginRight: 4, 
         '&>img': { 
             width: '100%',
             height: '100%'
-        }
+        },
+        [`@media (max-width: ${widthMobile}px)`]: {
+            width: 60, 
+            height: 50, 
+        },
     },
     menuButton: { 
       position: 'relative', 

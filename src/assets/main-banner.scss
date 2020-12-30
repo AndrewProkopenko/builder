@@ -7,8 +7,7 @@
             line-height: 36px;
             font-weight: 700;
             // font-family: $font-bold;
-            margin-bottom: 10px;
-            color: #000;
+            margin-bottom: 10px; 
             white-space: nowrap;
         }
         h5 { 
@@ -112,13 +111,14 @@
         font-size: 16px;
         font-weight: 700;
         // font-family: $font-bold;
+        cursor: pointer;
     }
 }
 
  
 
 
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 960px) {
     
     .mac-main-banner { 
     
@@ -157,7 +157,7 @@
 
  
 
-@media screen and (max-width: 992px) { 
+@media screen and (max-width: 960px) { 
     .mac-main-banner { 
         padding-top: 150px;
         padding-bottom: 100px;

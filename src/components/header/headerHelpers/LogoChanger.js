@@ -1,7 +1,7 @@
 import React from 'react' 
-import firebase from '../../firebase/firebase'
-import CategoryContext from '../../context/headerContext/CategoryContext' 
-import LoadingContext from '../../context/loadingContext/LoadingContext' 
+import firebase from '../../../firebase/firebase'
+import CategoryContext from '../../../context/headerContext/CategoryContext' 
+import LoadingContext from '../../../context/loadingContext/LoadingContext' 
 import { 
     Tooltip,
     Button, 
@@ -14,7 +14,7 @@ import {
     Grid,  
 } from '@material-ui/core' 
 
-import { orange } from '@material-ui/core/colors'
+import { amber } from '@material-ui/core/colors'
 import SaveIcon from '@material-ui/icons/Save';
 import SettingsIcon from '@material-ui/icons/Settings';
 import OpenWithIcon from '@material-ui/icons/OpenWith';
@@ -47,7 +47,7 @@ function LogoChanger() {
             position: "absolute", 
             left: "calc(50% - 200px)",
             top: 50, 
-            backgroundColor: '#fff',
+            backgroundColor: theme.palette.background.paper, 
             padding: 10 , 
             paddingBottom: 0, 
             maxWidth: 400,  
@@ -72,12 +72,12 @@ function LogoChanger() {
             // zIndex: 10, 
             // top: 2, 
             // right: 2,
-            backgroundColor: orange[700], 
+            backgroundColor: amber[500], 
             minWidth: 80, 
-            minHeight: 60, 
-            transition: `${theme.transitions.easing.easeInOut} ${theme.transitions.duration.shorter}ms opacity`, 
+            maxHeight: 50, 
+            transition: `${theme.transitions.easing.easeInOut} ${theme.transitions.duration.shorter}ms `, 
             '&:hover': {
-                backgroundColor: orange[900], 
+                backgroundColor: amber[700], 
             }, 
             '&>span': {
                 display: 'flex', 
@@ -104,7 +104,7 @@ function LogoChanger() {
             right: 0,
             height: 70, 
             paddingTop: 10, 
-            backgroundColor: '#fff'
+            backgroundColor: theme.palette.background.paper, 
         },
         accordionContainer: {
             position: 'relative', 

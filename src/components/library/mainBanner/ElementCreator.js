@@ -13,21 +13,12 @@ function ElementCreator(props) {
         <React.Fragment>  
             {
                 modeDev && 
-                <StyledComponent  
-                    data={props.item} 
-                    reSaveChildren={props.reSaveChildren}
-                    removeItem={props.removeItem}
-                />
+                <StyledComponent />
             }
  
             {
                 !modeDev && 
-                <DumbComponent 
-                    data={props.item} 
-                    className={props.item.classes} 
-                    prop={props.item.prop} 
-                    textChildren={props.item.text}
-                />
+                <DumbComponent />
             } 
         </React.Fragment> 
     )

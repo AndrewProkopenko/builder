@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom'
-
+    
 import LoadingProgress from '../components/placeholders/LoadingProgress'
 import Header from '../components/header/Header'
 import AdminHeader from '../components/header/AdminHeader'
@@ -11,14 +11,15 @@ import Error from '../components/Error'
 import SinglePage from '../components/pages/SinglePage' 
 
 import CategoryContext from '../context/headerContext/CategoryContext'
-import LoadingContext from '../context/loadingContext/LoadingContext'  
+import LoadingContext from '../context/loadingContext/LoadingContext'   
 
 function RouterComponent() {
 
     const {categories} = React.useContext(CategoryContext) 
-    const {isLoading} = React.useContext(LoadingContext) 
+    const {isLoading} = React.useContext(LoadingContext)  
 
-    return (
+  
+    return (   
         <Router basename="builder"> 
             {
                 isLoading && 
@@ -44,10 +45,11 @@ function RouterComponent() {
                                                 return <Home/>
                                             }
                                             //if === concacts => return contacts .... 
-                                            return <SinglePage {...props} slugForUpdate={category.slug} />
+                                            return <SinglePage {...props} slugForUpdate={category.slug} metaTitle={category.title} />
                                         }
                                     }
-                                /> 
+                                />   
+                                
                             )
                         }
                         { 
@@ -59,7 +61,7 @@ function RouterComponent() {
                                         exact
                                         path={`/${category.slug}/${page.slug}`}
                                         render = {
-                                            (props) => <SinglePage {...props} slugForUpdate={page.slug} />
+                                            (props) => <SinglePage {...props} slugForUpdate={page.slug} metaTitle={page.title} />
                                         }
                                     />
                                 )
@@ -74,6 +76,7 @@ function RouterComponent() {
                 </React.Fragment>
             } 
         </Router>
+        
     )
 }
 

@@ -71,7 +71,7 @@ const StyledComponent = (props) => {
             width: "100%"
         }, 
         inputGroup: {
-            border: "1px solid #f5f5f5", 
+            border: `1px solid ${theme.palette.divider}`, 
             padding: 3, 
             inputNumber: { 
                 maxWidth: "100%"
@@ -85,7 +85,7 @@ const StyledComponent = (props) => {
             left: 0, 
             right: 0,
             height: 80, 
-            backgroundColor: '#fff', 
+            backgroundColor: theme.palette.background.paper, 
             
             '&>button': {
                 marginTop: 20, 
@@ -120,7 +120,7 @@ const StyledComponent = (props) => {
             zIndex: 9, 
             top: 3, 
             right: 5,
-            backgroundColor: '#fff',
+            backgroundColor: theme.palette.secondary.dark,
             transition: "100ms cubic-bezier(0.4, 0, 1, 1)",
             '&:hover' : { 
                 backgroundColor: theme.palette.error.light
@@ -130,8 +130,8 @@ const StyledComponent = (props) => {
         menu: {    
             position: "absolute", 
             left: "calc(50% - 200px)",
-            top: 50, 
-            backgroundColor: '#fff',
+            top: 50,  
+            backgroundColor: theme.palette.background.paper, 
             padding: 10 , 
             paddingBottom: 0, 
             maxWidth: 400,  
@@ -495,7 +495,7 @@ const StyledComponent = (props) => {
                             aria-label="delete"
                             onClick={removeItem}
                         >
-                            <DeleteOutline/>
+                            <DeleteOutline style={{ color: '#fff'}}/>
                         </IconButton>
  
                 </Grid>

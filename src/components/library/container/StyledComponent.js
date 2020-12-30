@@ -148,7 +148,7 @@ function ContainerElement(props) {
                 left: 20, 
                 right: 0,
                 height: 80, 
-                backgroundColor: '#fff', 
+                backgroundColor: theme.palette.background.paper, 
                 
                 '&>button': {
                     marginTop: 20, 
@@ -206,6 +206,7 @@ function ContainerElement(props) {
 
     const handleHeadingMenuClose = (variant, type) => {
         setAnchorEl(null); 
+        toggleDrawer()
         addHeading(variant, type)
     }; 
   
@@ -272,9 +273,12 @@ function ContainerElement(props) {
             
             let filtered = children.filter((item) => (item.id !== id))  
             setChildren(filtered) 
+
+            console.log(filtered, filtered.length)
             
-            // save in firestore
-            props.reSaveContainer(props.data.id, filtered) 
+            
+            // save in firestore 
+            props.reSaveContainer(props.data.id, filtered)  
         }
     }
 
@@ -385,7 +389,7 @@ function ContainerElement(props) {
                                                     aria-controls="heading-menu" 
                                                     aria-haspopup="true" 
                                                     onClick={handleHeadingMenuClick}
-                                                    variant='outlined'
+                                                    variant='contained'
                                                     color="primary"
                                                 >
                                                     Heading
@@ -409,8 +413,8 @@ function ContainerElement(props) {
 
                                             <Box mr={2} mb={1} clone={true} >
                                                 <Button
-                                                    onClick={() => {addHeading('p', 'paragraph')}}
-                                                    variant='outlined'
+                                                    onClick={() => {addHeading('p', 'paragraph'); toggleDrawer()}}
+                                                    variant='contained'
                                                     color="primary"
                                                 >
                                                     Paragraph
@@ -418,8 +422,8 @@ function ContainerElement(props) {
                                             </Box>
                                             <Box mr={2} mb={1} clone={true} >
                                                 <Button
-                                                    onClick={() => {addHeading('p', 'paragraphImage')}}
-                                                    variant='outlined'
+                                                    onClick={() => {addHeading('p', 'paragraphImage'); toggleDrawer()}}
+                                                    variant='contained'
                                                     color="primary" 
                                                 >
                                                     Paragraph-Image
