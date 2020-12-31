@@ -5,8 +5,7 @@
         h1 { 
             font-size: 36px;
             line-height: 36px;
-            font-weight: 700;
-            // font-family: $font-bold;
+            font-weight: 700; 
             margin-bottom: 10px; 
             white-space: nowrap;
         }
@@ -15,16 +14,13 @@
             align-items: flex-end;
             font-size: 24px;
             line-height: 30px;
-            font-weight: 400;
-            // font-family: $font-regular;
+            font-weight: 400; 
 
             margin-bottom: 50px;
 
-            color: #0071e3;
             svg {
                 width: 34px;
-                height: 32px;
-                fill: #0071e3;
+                height: 32px; 
                 margin-right: 12px;
             }
             span {
@@ -39,8 +35,7 @@
         &-form { 
             &__group {
                 display: flex; 
-                input {
-                    border: 1px solid #0071e3 ;
+                input { 
                     height: 50px;
                     width: 295px;
                     border-radius: 25px;
@@ -52,22 +47,18 @@
                     font-weight: 400;
                     // font-family: $font-regular;
                     &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-                        color: #000000;
                         font-size: 16px; 
                         opacity: 1; 
                       }
                     &::-moz-placeholder { /* Firefox 19+ */
-                        color: #000000;
                         font-size: 16px; 
                         opacity: 1; 
                     }
                     &:-ms-input-placeholder { /* IE 10+ */
-                        color: #000000;
                         font-size: 16px; 
                         opacity: 1; 
                     }
                     &:-moz-placeholder { /* Firefox 18- */
-                        color: #000000;
                         font-size: 16px; 
                         opacity: 1; 
                     }
@@ -75,13 +66,7 @@
                 .btn-form {
                     width: 295px;
                     button { 
-                        width: 100%;
-                        transition: 300ms ease;
-                        border: #0071e3 1px solid;
-                        &:hover { 
-                            background: none;
-                            color: #0071e3;
-                        }
+                        width: 100%; 
                     }
                 }
             }
@@ -105,12 +90,10 @@
         border: 0;
         outline: 0;
         white-space: nowrap;
-        color: #fff; 
-        background: #0071e3;
+        color: #fff;  
 
         font-size: 16px;
-        font-weight: 700;
-        // font-family: $font-bold;
+        font-weight: 700; 
         cursor: pointer;
     }
 }

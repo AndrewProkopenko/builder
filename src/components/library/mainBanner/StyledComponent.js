@@ -2,10 +2,10 @@ import React from 'react'
 
 import DumbComponent from "./DumbComponent"
 
-function StyledComponent() {
+function StyledComponent(props) {
     return (
         <div>
-            <DumbComponent />
+            <DumbComponent data={props.data} />
         </div>
     )
 }

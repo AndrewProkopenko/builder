@@ -7,8 +7,8 @@ import LoadingContext from '../context/loadingContext/LoadingContext'
 
 import MainBannerCreator from './library/mainBanner/ElementCreator'
 
-// import firebase from '../firebase/firebase'
-// import layout from '../data/library.json'
+import firebase from '../firebase/firebase'
+import layout from '../data/mainBannerLayout.json'
 
 function Home() {
 
@@ -20,7 +20,9 @@ function Home() {
     }, [])
 
     const handleClick = () => {
-        // firebase.db.collection("library").doc('layouts').set(layout)
+        firebase.db.collection("library").doc('layouts').update({
+            mainBanner: layout
+        })
     }
 
     return (

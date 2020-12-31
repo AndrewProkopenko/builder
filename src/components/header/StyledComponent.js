@@ -3,8 +3,10 @@ import React from 'react'
 
 import CategoriesChanger from './headerHelpers/CategoriesChanger'
 import LogoChanger from './headerHelpers/LogoChanger'
+import StyleChanger from './headerHelpers/StyleChanger'
 
 import DumbComponent from './DumbComponent'
+import AdminHeader from './AdminHeader'
 import { Box, Button, makeStyles } from '@material-ui/core'
 import SettingsIcon from '@material-ui/icons/Settings';
 
@@ -22,16 +24,17 @@ function StyledComponent() {
             }
         },
         hiddenButtonGroup: {
-            transform: open ? 'scaleY(1)' : 'scaleY(0)',
-            height: open ? 'auto' : 0, 
-            // transition: `${theme.transitions.easing.easeInOut} ${theme.transitions.duration.shorter}ms height`, 
+            position: 'absolute', 
+            zIndex: 1020, 
+            left: 105,
+            top: -5,  
         },
         btnSettings: { 
-            opacity: 0,
+            opacity: 0.15,
             position: 'absolute', 
-            zIndex: 100, 
-            left: 5, 
-            bottom: open ? 10 : 'calc( 50% - 20px )', 
+            zIndex: 1020, 
+            left: 35, 
+            top: 5, 
             width: 60, 
             height: 40,
             backgroundColor: theme.palette.error.dark,   
@@ -44,30 +47,48 @@ function StyledComponent() {
             '&:hover': {
                 backgroundColor: theme.palette.secondary.dark, 
             },
+        },
+        btnSettingsItem: {
+            marginLeft: theme.spacing(2),
+            marginTop: theme.spacing(1),
+            marginBottom: theme.spacing(1), 
+            display:'inline-block'
         }
     }))
     
     const classes = useStyles();
     return (
-        <div className={classes.headerContainer} >   
-            <Button 
-                className={classes.btnSettings}
-                onClick={() => { setOpen(!open) }}
-            >
-                settings
-                <SettingsIcon style={{ color: '#fff' }} fontSize='small'/>
-            </Button>
-            <div className={classes.hiddenButtonGroup}>
-                <Box ml={2} my={1} display='inline-block'>
-                    <CategoriesChanger/> 
-                </Box>
-                <Box ml={2} my={1} display='inline-block'>
-                    <LogoChanger/>
-                </Box>
+        <React.Fragment>
+
+            <AdminHeader/>
+
+            <div className={classes.headerContainer} >   
+                <Button 
+                    className={classes.btnSettings}
+                    onClick={() => { setOpen(!open) }}
+                >
+                    settings
+                    <SettingsIcon style={{ color: '#fff' }} fontSize='small'/>
+                </Button>
+                {
+                    open && 
+                    <div className={classes.hiddenButtonGroup}>
+                        <Box className={classes.btnSettingsItem}>
+                            <CategoriesChanger/> 
+                        </Box>
+                        <Box className={classes.btnSettingsItem}>
+                            <LogoChanger/>
+                        </Box>
+                        <Box className={classes.btnSettingsItem}>
+                            <StyleChanger/>
+                        </Box>
+                    </div>
+                }
+                 
             </div>
             
-            <DumbComponent logo={'logo'}/>
-        </div>
+            <DumbComponent/>
+        </React.Fragment>
     )
 }
 

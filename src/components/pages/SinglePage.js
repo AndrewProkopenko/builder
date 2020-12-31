@@ -7,8 +7,8 @@ import { Typography, Button, Box, CircularProgress, Tooltip , Container } from "
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 import SettingsIcon from '@material-ui/icons/Settings';
 
-import ContainerElement from '../library/container/ElementCreator' 
-// import ContainerLayout from '../library/container/containerLayout.json'  
+import ContainerElement from '../library/container/ElementCreator'  
+import MainBannerElement from '../library/mainBanner/ElementCreator'  
 import SkeletonPage from '../placeholders/SkeletonPage'
  
 import firebase from '../../firebase/firebase'
@@ -28,7 +28,8 @@ function SinglePage(props) {
     const { setIsLoading } = React.useContext(LoadingContext)
     const { layouts } = React.useContext(LibraryContext)
     const pageLayout = layouts.page
-    const ContainerLayout = layouts.container
+    const ContainerLayout = layouts.container 
+    const MainBannerLayout = layouts.mainBanner 
   
     const [data, setData] = React.useState({})
     const [items, setItems] = React.useState([])
@@ -42,11 +43,11 @@ function SinglePage(props) {
     const useStyles = makeStyles((theme) => ({ 
       
       btnSetting: {
-          opacity: isHideSettings ? '0.1' : '1',
+          opacity: isHideSettings ? '0.15' : '1',
           position: 'absolute', 
-          zIndex: 10, 
+          zIndex: 1030, 
           top: 2, 
-          left: 5,
+          left: 45,
           backgroundColor: theme.palette.error.dark,   
           minWidth: 30, 
           maxWidth: 40, 
@@ -64,8 +65,7 @@ function SinglePage(props) {
       settingsContainer: {
         display: 'flex',
         flexWrap: 'wrap',
-        borderBottom: `${theme.palette.action.active} 1px solid` ,
-        opacity: isHideSettings ? '0.1' : '1', 
+        borderBottom: `${theme.palette.action.active} 1px solid` , 
       },
       btnContainer: {
         position: 'relative',
@@ -77,11 +77,11 @@ function SinglePage(props) {
   }))
   
   const classes = useStyles();
-    React.useEffect( () => { 
-      setIsLoading(true)
-      fetchData()
-      document.title = props.metaTitle
-    }, [location])
+  React.useEffect( () => { 
+    setIsLoading(true)
+    fetchData()
+    document.title = props.metaTitle
+  }, [location])
   
     const fetchData = async () => {  
        
@@ -92,14 +92,15 @@ function SinglePage(props) {
         console.log('No such page!'); 
 
         // задать шаблон страницы
-        let newPage = Object.assign({}, pageLayout)
+        let newPage = Object.assign({}, pageLayout) 
         newPage.id = uuid()
         newPage.slug = pageSlug
+        newPage.items = []
 
         await pageRef.set(newPage)
 
         setData(newPage)  
-        setItems(newPage.items) 
+        setItems(newPage.items || []) 
         setIsUpdate(false)
         setIsLoading(false)
 
@@ -113,8 +114,7 @@ function SinglePage(props) {
    
     }  
     
-    const reSaveContainer = async (id, childrenContainer) => { 
-      console.log(childrenContainer.length)
+    const reSaveContainer = async (id, childrenContainer) => {  
    
       let newData = Object.assign({}, data)
       newData.items = items
@@ -169,11 +169,14 @@ function SinglePage(props) {
       }) 
     } 
    
-    const addContainer = async () => {   
+    const addContainer = async (type) => {   
       let newData = Object.assign({}, data)
       let newItems = items.slice()
   
-      let newCont = Object.assign({}, ContainerLayout) 
+      let newCont
+      if(type === 'container') newCont = Object.assign({}, ContainerLayout) 
+      if(type === 'mainBanner') newCont = Object.assign({}, MainBannerLayout) 
+
       newCont.id = uuid()
    
       newItems.push(newCont) 
@@ -260,17 +263,28 @@ function SinglePage(props) {
   
     function renderContainers () {   
       if(items.length > 0) {
-        return Object.keys(items).map( (key) => { 
-          return ( 
-           <ContainerElement 
-             key={items[key].id} 
-             data={items[key]} 
-             reSaveContainer={reSaveContainer}
-             reSaveContainerStyleSettings={reSaveContainerStyleSettings} 
-             removeContainer={removeContainer}
-             swapContainer={swapContainer}
-           /> 
-         ) 
+        return Object.keys(items).map( (key) => {  
+          if(items[key].type === 'container') {
+            return ( 
+                <ContainerElement 
+                  key={items[key].id} 
+                  data={items[key]} 
+                  reSaveContainer={reSaveContainer}
+                  reSaveContainerStyleSettings={reSaveContainerStyleSettings} 
+                  removeContainer={removeContainer}
+                  swapContainer={swapContainer}
+                /> 
+            ) 
+          }
+          if(items[key].type === 'mainBanner') { 
+            return(
+                <MainBannerElement
+                  key={items[key].id} 
+                  data={items[key]} 
+                />
+            )
+          }
+          
        })
       }
       else {
@@ -300,9 +314,11 @@ function SinglePage(props) {
                       <SettingsIcon style={{ color: '#fff' }} fontSize='small'/>
                   </Button>
               </Tooltip>  
-              <Container className={classes.settingsContainer} px={3} style={{}}> 
+              {
+                !isHideSettings && 
+                <Container className={classes.settingsContainer} px={3}  > 
                   
-                  <Box m={1} pl={'50px'}>
+                  <Box m={1} pl={'55px'}>
                     <Typography color={theme.palette.action.active} variant="h6" >
                       Page actions
                     </Typography>
@@ -316,8 +332,13 @@ function SinglePage(props) {
                   </Box>
 
                   <Box m={1}>
-                    <Button color={'primary'} variant={'contained'} onClick={addContainer}>
+                    <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('container') }}>
                         Add new container
+                    </Button> 
+                  </Box>
+                  <Box m={1}>
+                    <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('mainBanner') }}>
+                        Add Main Banner
                     </Button> 
                   </Box>
                   <Box m={1}>
@@ -326,6 +347,7 @@ function SinglePage(props) {
                     </Button> 
                   </Box> 
             </Container>
+              }
             </Box>
           }
            

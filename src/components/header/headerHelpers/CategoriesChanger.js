@@ -231,7 +231,7 @@ function CategoriesChanger() {
             return 0 
         })
 
-        setCategories(newCategories)  
+        // setCategories(newCategories)  
         setNewPageTitle('')
         setNewPageSlug('')
     } 
@@ -462,7 +462,7 @@ function CategoriesChanger() {
                                 </Grid>
                                 <Grid item xs={8} >
                                     {
-                                        localCategories.map( (item, index) => {  
+                                        categories.map( (item, index) => {  
                                             return (
                                                 <Box  key={index} className={classes.accordionContainer} >
                                                     <Tooltip title='Delete Category' placement='top'>

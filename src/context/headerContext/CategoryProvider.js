@@ -12,7 +12,8 @@ export default class CategoryProvider extends React.Component {
             image: '', 
             mainText: '', 
             subText: ''
-        }
+        },
+        settings: {}
     }
 
     async componentDidMount() {
@@ -23,7 +24,8 @@ export default class CategoryProvider extends React.Component {
         } else { 
             this.setState({
                 categories: doc.data().list,
-                logo: doc.data().logo
+                logo: doc.data().logo,
+                settings: doc.data().headerSettings
             })
         } 
     }
@@ -51,6 +53,11 @@ export default class CategoryProvider extends React.Component {
             logo: logo
         })
     }
+    async updateSettings(settings) {   
+        await firebase.db.collection('site1category').doc('categoryList').update({
+            headerSettings: settings
+        })
+    }
 
     render() {
         return(
@@ -58,11 +65,18 @@ export default class CategoryProvider extends React.Component {
                 value={{
                     categories: this.state.categories,
                     logo: this.state.logo,
+                    settings: this.state.settings,
                     updateLogo: (data) => { 
                         this.setState({
                             logo: data
                         })
                         this.updateLogo(data) 
+                    }, 
+                    updateSettings: (data) => { 
+                        this.setState({
+                            settings: data
+                        })
+                        this.updateSettings(data) 
                     }, 
                     setCategories: (data) => {
                         this.setState({

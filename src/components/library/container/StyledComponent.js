@@ -70,18 +70,24 @@ function ContainerElement(props) {
 
 
     const useStyles = makeStyles((theme) => {
-         
-        console.log(theme)
+          
         return ( {  
             btnDrawerStyle : {
-                position: 'absolute', 
+                backgroundColor: theme.palette.error.dark, 
+                position: 'absolute',  
                 top: 0, 
                 left: 0, 
-                zIndex: 10,   
+                zIndex: 1030,   
                 minWidth: 50, 
                 opacity: 0, 
                 transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeIn} opacity`,
             }, 
+            btnDrawerItem: { 
+                backgroundColor: theme.palette.error.dark, 
+                '&:hover': { 
+                    backgroundColor: theme.palette.secondary.dark,   
+                }, 
+            },
             containerWrapper: {
                 position: 'relative', 
                 outline: "1px solid #ffffff00", 
@@ -252,13 +258,11 @@ function ContainerElement(props) {
                 newItem.variant = newItem.variant[variant] 
                 newItem.text += " - " + newItem.variant 
                 break;
-            case 'paragraph' :  
-                console.log('paragraph')
+            case 'paragraph' :   
                 newItem = Object.assign({}, libraryParagraph)
                 newItem.id = uuid() 
                 break;
-            case 'paragraphImage' :  
-                console.log('paragraphImage')
+            case 'paragraphImage' :   
                 newItem = Object.assign({}, libraryParagraphImage)
                 newItem.id = uuid() 
                 break;
@@ -287,8 +291,7 @@ function ContainerElement(props) {
                     item[key] = data[key]
                 } 
             }
-        }) 
-        // console.log(slicedChild)
+        })  
         // save in firestore
         props.reSaveContainer(props.data.id, slicedChild)
  
@@ -297,14 +300,10 @@ function ContainerElement(props) {
     const removeItem = async (id) => {
         let conf = window.confirm("Delete ?");
  
-        if(conf) {
-            
+        if(conf) { 
             let filtered = children.filter((item) => (item.id !== id))  
             setChildren(filtered) 
-
-            console.log(filtered, filtered.length)
-            
-            
+  
             // save in firestore 
             props.reSaveContainer(props.data.id, filtered)  
         }
@@ -345,7 +344,7 @@ function ContainerElement(props) {
                     
                     <ButtonGroup
                         orientation="vertical"
-                        color="primary"
+                        color="secondary"
                         aria-label="vertical contained primary button group"
                         variant="contained"
                     > 
@@ -354,9 +353,9 @@ function ContainerElement(props) {
                                 onClick={toggleDrawer} 
                                 size='medium'
                                 variant='contained'
-                                color='primary'
-                                
-                            >  
+                                // color='primary' 
+                                className={classes.btnDrawerItem}
+                            >   
                                 <SettingsIcon style={{ color: '#fff' }} fontSize='small'/>
                             </Button>
                         </Tooltip>
@@ -365,7 +364,8 @@ function ContainerElement(props) {
                                 onClick={() => { swapContainer('up', props.data.id) }}
                                 size='medium'
                                 variant='contained'
-                                color='primary' 
+                                // color='primary' 
+                                className={classes.btnDrawerItem}
                             >  
                                 <ExpandLessOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>   
                             </Button>
@@ -375,7 +375,8 @@ function ContainerElement(props) {
                                 onClick={() => { swapContainer('down', props.data.id) }}
                                 size='medium'
                                 variant='contained'
-                                color='primary' 
+                                // color='primary' 
+                                className={classes.btnDrawerItem}
                             >     
                                 <ExpandMoreOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>
                             </Button>
@@ -397,21 +398,11 @@ function ContainerElement(props) {
                                     <Typography   variant={'h6'} gutterBottom  >
                                         Container actions 
                                     </Typography>
-                                   <Box mb={2}> 
-                                        {/* <Button
-                                            // onClick={addContainer}
-                                            variant='outlined'
-                                            color="primary" 
-                                            disabled={true}
-                                            
-                                        >
-                                            Add Container
-                                        </Button>   */}
+                                   <Box mb={2}>  
                                         <Button
                                             onClick={removeContainer}
                                             variant='outlined'
-                                            color="secondary" 
-                                            // disabled={true}
+                                            color="secondary"  
                                         >
                                             Remove Container
                                         </Button> 

@@ -24,17 +24,17 @@ const App = () => {
       <ThemeProvider>
        
 
-        <ModeProvider> 
-          <CategoryProvider>
-            <LoadingProvider>
-              <LibraryProvider>
-                <div className="App">  
-                  <ThemeComponent/> 
-                </div>
-              </LibraryProvider> 
-            </LoadingProvider> 
-          </CategoryProvider> 
-        </ModeProvider>
+       <LibraryProvider>
+          <ModeProvider> 
+            <CategoryProvider>
+              <LoadingProvider>
+                  <div className="App">  
+                    <ThemeComponent/> 
+                  </div>
+              </LoadingProvider> 
+            </CategoryProvider> 
+          </ModeProvider>
+        </LibraryProvider> 
 
       </ThemeProvider>
   );

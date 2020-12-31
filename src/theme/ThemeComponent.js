@@ -16,7 +16,7 @@ function ThemeComponent() {
         palette: {
             type: themeMode,
             primary: {
-                main: themeMode === 'dark' ?  '#302B50' : '#311b92',
+                main: themeMode === 'dark' ?  '#3185d8' : '#311b92',
             },
             secondary: {
                 main:  '#f40b00' ,

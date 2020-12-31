@@ -1,7 +1,7 @@
 
 import React from 'react' 
 
-import { Button, Typography, Box, Switch, FormControlLabel } from '@material-ui/core'
+import { Button, Typography, Box, Switch, FormControlLabel , makeStyles, Tooltip} from '@material-ui/core'
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 
@@ -12,11 +12,45 @@ import firebase from '../../firebase/firebase'
 
 function AdminHeader() {
 
-    const { user } = React.useContext(ModeContext)
-
+    const { user } = React.useContext(ModeContext) 
     const {themeMode, setThemeMode} = React.useContext(ThemeContext) 
- 
+
+    
     const [isOpen, setIsOpen] = React.useState(false)
+
+    const useStyles = makeStyles((theme) => ({
+        buttonSettings: {
+            position: 'absolute', 
+            top: 0,
+            left: 0,
+            zIndex: 1030,
+            display:"flex",
+            alignItems: 'center', 
+            width: 22,
+            height: '100%',  
+            minHeight: 54, 
+            backgroundColor: 'rgba(0, 0, 0, 0.33)',
+            cursor: 'pointer'
+        },
+        settingsContainer: { 
+            position: 'relative', 
+            zIndex: 1029,
+            display:'flex',
+            justifyContent:'space-between',
+            alignItems:'center',    
+            padding: 10, 
+            backgroundColor: theme.palette.background.default
+        },
+        wrapper: {
+            position:"relative", 
+            minHeight: isOpen ? 54 : 0, 
+            paddingLeft: 22
+        }
+    }));
+
+    const classes = useStyles()
+
+ 
     
     const handleSignOut = () => {
         firebase.logout()
@@ -24,24 +58,16 @@ function AdminHeader() {
     
     if(user) {
         return (
-            <Box px={3} py={1}  position="relative" minHeight={54}>
-                <Box style={{
-                    position: 'absolute', 
-                    top: 0,
-                    left: 0,
-                    display:"flex",
-                    alignItems: 'center', 
-                    width: 22,
-                    height: '100%',
-                    backgroundColor: 'rgba(0, 0, 0, 0.33)'
-                }}
-                    onClick={() => { setIsOpen(!isOpen)}}
-                >
-                    {
-                        isOpen ? <VisibilityOffIcon fontSize={'small'} /> : <VisibilityIcon  fontSize={'small'}  /> 
-                    }
-                </Box>
-                { isOpen && <Box display='flex' justifyContent='space-between' alignItems='center'>
+            <Box className={classes.wrapper} >
+                <Tooltip title='Global Settings' placement='right' >
+                    <Box onClick={() => { setIsOpen(!isOpen)}}  className={classes.buttonSettings} >
+                        {
+                            isOpen ? <VisibilityOffIcon fontSize={'small'} /> : <VisibilityIcon  fontSize={'small'}  /> 
+                        }
+                    </Box>
+                </Tooltip>
+                { isOpen && 
+                <Box className={classes.settingsContainer} >
                     <Typography component='span' >
                         hello, { user.providerData[0].email } 
                     </Typography>

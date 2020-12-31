@@ -2,10 +2,10 @@ import React from 'react'
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom'
     
 import LoadingProgress from '../components/placeholders/LoadingProgress'
-import Header from '../components/header/Header'
-import AdminHeader from '../components/header/AdminHeader'
+import Header from '../components/header/Header' 
+import Footer from '../components/footer/Footer' 
 
-import Home from '../components/Home'
+// import Home from '../components/Home'
 import Login from '../components/Login'
 import Error from '../components/Error'
 import SinglePage from '../components/pages/SinglePage' 
@@ -28,10 +28,10 @@ function RouterComponent() {
             {
                 categories.length > 0 &&
                 <React.Fragment>
-                    
-                    <AdminHeader/>
+                     
                     <Header/>
 
+                    <main>
                     <Switch>
                         { 
                             categories.map( category => 
@@ -42,7 +42,7 @@ function RouterComponent() {
                                     render={
                                         (props) => {
                                             if(category.slug === '/') { 
-                                                return <Home/>
+                                                return <SinglePage {...props} slugForUpdate={'home'} metaTitle={category.title} />
                                             }
                                             //if === concacts => return contacts .... 
                                             return <SinglePage {...props} slugForUpdate={category.slug} metaTitle={category.title} />
@@ -73,6 +73,9 @@ function RouterComponent() {
                         <Route path='*' render={ () => <Error/> } />
                          
                     </Switch> 
+                    </main>
+                    
+                    <Footer/>
                 </React.Fragment>
             } 
         </Router>

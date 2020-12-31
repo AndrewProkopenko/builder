@@ -13,12 +13,16 @@ function ElementCreator(props) {
         <React.Fragment>  
             {
                 modeDev && 
-                <StyledComponent />
+                <StyledComponent 
+                    data={props.data}
+                />
             }
  
             {
                 !modeDev && 
-                <DumbComponent />
+                <DumbComponent 
+                    data={props.data}
+                />
             } 
         </React.Fragment> 
     )
