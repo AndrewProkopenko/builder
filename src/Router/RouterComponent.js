@@ -1,5 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+
+import ScrollToTop from '../components/ScrollToTop'
     
 import LoadingProgress from '../components/placeholders/LoadingProgress'
 import Header from '../components/header/Header' 
@@ -21,6 +23,8 @@ function RouterComponent() {
   
     return (   
         <Router basename="builder"> 
+        
+            <ScrollToTop/>
             {
                 isLoading && 
                 <LoadingProgress/>
@@ -34,37 +38,56 @@ function RouterComponent() {
                     <main>
                     <Switch>
                         { 
-                            categories.map( category => 
-                                <Route 
-                                    key={category.id}
-                                    exact
-                                    path={`/${category.slug}`}
-                                    render={
-                                        (props) => {
-                                            if(category.slug === '/') { 
-                                                return <SinglePage {...props} slugForUpdate={'home'} metaTitle={category.title} />
+                            categories.map( category => {
+                                const breadcrumbs = [
+                                    {
+                                        title: category.title,
+                                        slug: category.slug
+                                    } 
+                                ]
+                                return (
+                                    <Route 
+                                        key={category.id}
+                                        exact
+                                        path={`/${category.slug}`}
+                                        render={
+                                            (props) => {
+                                                if(category.slug === '/') { 
+                                                    return <SinglePage {...props} slugForUpdate={'home'} metaTitle={category.title} breadcrumbs={null} />
+                                                }
+                                                //if === concacts => return contacts .... 
+                                                return <SinglePage {...props} slugForUpdate={category.slug} metaTitle={category.title} breadcrumbs={breadcrumbs} />
                                             }
-                                            //if === concacts => return contacts .... 
-                                            return <SinglePage {...props} slugForUpdate={category.slug} metaTitle={category.title} />
                                         }
-                                    }
-                                />   
-                                
-                            )
+                                    />  
+                                ) 
+                            })
                         }
                         { 
                             categories.map( category => (
                                 category.pages.length > 0 &&
-                                category.pages.map( page => 
-                                    <Route 
-                                        key={page.id}
-                                        exact
-                                        path={`/${category.slug}/${page.slug}`}
-                                        render = {
-                                            (props) => <SinglePage {...props} slugForUpdate={page.slug} metaTitle={page.title} />
+                                category.pages.map( page => {
+                                    const breadcrumbs = [
+                                        {
+                                            title: category.title,
+                                            slug: category.slug
+                                        }, 
+                                        {
+                                            title: page.title,
+                                            slug: `${category.slug}/${page.slug}`
                                         }
-                                    />
-                                )
+                                    ]
+                                    return(
+                                        <Route 
+                                            key={page.id}
+                                            exact
+                                            path={`/${category.slug}/${page.slug}`}
+                                            render = {
+                                                (props) => <SinglePage {...props} slugForUpdate={page.slug} metaTitle={page.title} breadcrumbs={breadcrumbs} />
+                                            }
+                                        />
+                                        )
+                                })
                             ))
                         }
          
@@ -74,7 +97,7 @@ function RouterComponent() {
                          
                     </Switch> 
                     </main>
-                    
+
                     <Footer/>
                 </React.Fragment>
             } 

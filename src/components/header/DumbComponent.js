@@ -3,7 +3,7 @@ import CategoryContext from '../../context/headerContext/CategoryContext'
 import { NavLink } from "react-router-dom";
 
 import "../../assets/header.scss"
-import {
+import { 
     AppBar,
     Toolbar,
     Typography,
@@ -21,9 +21,7 @@ import {
 import MenuIcon from "@material-ui/icons/Menu"; 
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt'; 
 import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
-
-// const widthMobile = 992
-
+ 
 
 function DumbComponent() {
 
@@ -72,7 +70,7 @@ function DumbComponent() {
                 }, 
             },
             fixedPadding: { 
-                height: headerHeight
+                minHeight: headerHeight
             },
             logoMain: { 
                 fontWeight: 600,
@@ -180,7 +178,7 @@ function DumbComponent() {
 
     const displayDesktop = () => {
         return (
-          <Toolbar className={toolbar}>
+          <Toolbar disableGutters={true} className={toolbar}>
             {femmecubatorLogo}
     
             <Box display='flex' clone={true}>
@@ -234,7 +232,7 @@ function DumbComponent() {
         const handleDrawerClose = () => setState((prevState) => ({ ...prevState, drawerOpen: false }));
 
         return (
-            <Toolbar style={{justifyContent: 'space-between'}}> 
+            <Toolbar disableGutters={true} style={{justifyContent: 'space-between'}}> 
                 <Drawer
                     {...{
                     anchor: "right",

@@ -10,6 +10,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import ContainerElement from '../library/container/ElementCreator'  
 import MainBannerElement from '../library/mainBanner/ElementCreator'  
 import SkeletonPage from '../placeholders/SkeletonPage'
+import Breadcrumbs from '../placeholders/Breadcrumbs'
  
 import firebase from '../../firebase/firebase'
   
@@ -63,6 +64,8 @@ function SinglePage(props) {
           }
       } ,
       settingsContainer: {
+        opacity : isHideSettings ? 0 : 1, 
+        transform : isHideSettings ? 'scaleX(0)' : 'scaleX(1)', 
         display: 'flex',
         flexWrap: 'wrap',
         borderBottom: `${theme.palette.action.active} 1px solid` , 
@@ -77,11 +80,11 @@ function SinglePage(props) {
   }))
   
   const classes = useStyles();
-  React.useEffect( () => { 
-    setIsLoading(true)
-    fetchData()
-    document.title = props.metaTitle
-  }, [location])
+    React.useEffect( () => { 
+      setIsLoading(true)
+      fetchData()
+      document.title = props.metaTitle
+    }, [location])
   
     const fetchData = async () => {  
        
@@ -315,7 +318,7 @@ function SinglePage(props) {
                   </Button>
               </Tooltip>  
               {
-                !isHideSettings && 
+                // !isHideSettings && 
                 <Container className={classes.settingsContainer} px={3}  > 
                   
                   <Box m={1} pl={'55px'}>
@@ -350,7 +353,12 @@ function SinglePage(props) {
               }
             </Box>
           }
-           
+  
+          <Breadcrumbs 
+            breadcrumbs={props.breadcrumbs}
+            history={props.history}
+          />
+
           { 
             renderContainers()  
           } 

@@ -1,5 +1,4 @@
-import React from "react" 
-
+import React from "react"   
 
 import ModeProvider from './context/modeContext/ModeProvider'
 import CategoryProvider from './context/headerContext/CategoryProvider'
@@ -16,9 +15,7 @@ import './assets/style.css'
 
 
   
-const App = () => {  
-
-  
+const App = () => {   
 
   return (
       <ThemeProvider>
