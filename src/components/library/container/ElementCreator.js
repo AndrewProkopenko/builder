@@ -13,7 +13,9 @@ function ElementCreator(props) {
     const propsSettings = {
         maxWidth: props.data.maxWidth,
         disableGutters: props.data.disableGutters,
-        fixed: props.data.fixed
+        fixed: props.data.fixed, 
+        innerContainer: props.data.innerContainer,
+        isPaper : props.data.isPaper
     }
     
     return (    

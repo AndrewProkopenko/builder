@@ -56,6 +56,7 @@ function ContainerElement(props) {
     const [settingFixed, setSettingFixed] = React.useState(props.data.fixed)
     const [settingMaxWidth, setSettingMaxWidth] = React.useState(props.data.maxWidth)
     const [settingInnerContainer, setSettingInnerContainer] = React.useState(props.data.innerContainer || false )
+    const [settingIsPaper, setSettingIsPaper] = React.useState(props.data.isPaper || false )
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [open, setOpen] = React.useState(false)
@@ -65,7 +66,8 @@ function ContainerElement(props) {
         maxWidth: settingMaxWidth,
         disableGutters: settingGutter,
         fixed: settingFixed,
-        innerContainer: settingInnerContainer
+        innerContainer: settingInnerContainer,
+        isPaper :settingIsPaper
     }
 
 
@@ -537,6 +539,25 @@ function ContainerElement(props) {
                                             id="inner-container-style"
                                             value={settingInnerContainer}
                                             onChange={(e) => {setIsDisableBtn(false); setSettingInnerContainer(e.target.value) }}
+                                        >
+                                            <MenuItem value={false}>False</MenuItem>
+                                            <MenuItem value={true}>True</MenuItem> 
+                                        </Select>
+                                    </FormControl>
+                                </FormGroup>
+                                <FormGroup row> 
+                                     
+                                    <FormControl 
+                                        variant='filled' 
+                                        size='small'   
+                                        className={classes.settingsItem}
+                                    >
+                                        <InputLabel id="inner-container-style-label">Inner Paper Component</InputLabel>
+                                        <Select
+                                            labelId="inner-paper-label"
+                                            id="inner-paper-style"
+                                            value={settingIsPaper}
+                                            onChange={(e) => {setIsDisableBtn(false); setSettingIsPaper(e.target.value) }}
                                         >
                                             <MenuItem value={false}>False</MenuItem>
                                             <MenuItem value={true}>True</MenuItem> 

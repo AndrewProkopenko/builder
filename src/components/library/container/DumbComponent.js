@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Container } from '@material-ui/core';
+import { Container, Paper } from '@material-ui/core';
 
 import ModeContext from '../../../context/modeContext/ModeContext'
 
@@ -22,158 +22,320 @@ function DumbComponent(props) {
  
     return (
         <React.Fragment>
-            <Container  
-                maxWidth={props.settings.maxWidth} 
-                fixed={props.settings.fixed} 
-                disableGutters={props.settings.disableGutters} 
-                className={classes.myClassName}
-            > 
-                {  
-                    props.settings.innerContainer && 
-                    <Container
-                        maxWidth={'lg'}
+            {
+                props.settings.isPaper && 
+                <Container  
+                    maxWidth={props.settings.maxWidth} 
+                    fixed={props.settings.fixed} 
+                    disableGutters={props.settings.disableGutters} 
+                    className={classes.myClassName}
+                > 
+                    <Paper style={{padding: '0 15px'}}>
+                        {  
+                            props.settings.innerContainer && 
+                            <Container
+                                maxWidth={'lg'}
+                                fixed={props.settings.fixed} 
+                                disableGutters={props.settings.disableGutters} 
+                            >
+                                { 
+                                    modeDev && 
+                                    props.data.children.map((item) => {   
+                                        switch(item.type) { 
+                                            case 'heading' :  
+                                                return ( 
+                                                    <HeadingCreator 
+                                                        key={item.id} 
+                                                        item={item}
+                                                        reSaveChildren={props.reSaveChildren}
+                                                        removeItem={props.removeItem}
+                                                    />
+                                                ) 
+                                            case 'paragraph' :  
+                                                return (
+                                                    <ParagraphCreator
+                                                        key={item.id} 
+                                                        item={item}
+                                                        reSaveChildren={props.reSaveChildren}
+                                                        removeItem={props.removeItem}
+                                                    />
+                                                ) 
+                                            case 'paragraphImage' :  
+                                                return (
+                                                    <ParagraphImageCreator
+                                                        key={item.id} 
+                                                        item={item}
+                                                        reSaveChildren={props.reSaveChildren}
+                                                        removeItem={props.removeItem}
+                                                    />
+                                                ) 
+                                            default: break;
+                                        }  
+                                        return null
+                                    })
+                                }
+                                {   !modeDev &&
+                                    props.data.children.map((item) => {  
+                                        switch(item.type) { 
+                                            case 'heading' :  
+                                                return ( 
+                                                    <HeadingCreator 
+                                                        key={item.id} 
+                                                        item={item} 
+                                                    />
+                                                ) 
+                                            case 'paragraph' :  
+                                                return (
+                                                    <ParagraphCreator
+                                                        key={item.id} 
+                                                        item={item} 
+                                                    />
+                                                ) 
+                                            case 'paragraphImage' :  
+                                                return (
+                                                    <ParagraphImageCreator
+                                                        key={item.id} 
+                                                        item={item} 
+                                                    />
+                                                ) 
+                                            default: break;
+                                        }  
+                                        return null
+                                    })
+                                }
+                            </Container>
+                        }
+                        {  
+                            !props.settings.innerContainer && 
+                            <React.Fragment>
+                                { 
+                                    modeDev && 
+                                    props.data.children.map((item) => {   
+                                        switch(item.type) { 
+                                            case 'heading' :  
+                                                return ( 
+                                                    <HeadingCreator 
+                                                        key={item.id} 
+                                                        item={item}
+                                                        reSaveChildren={props.reSaveChildren}
+                                                        removeItem={props.removeItem}
+                                                    />
+                                                ) 
+                                            case 'paragraph' :  
+                                                return (
+                                                    <ParagraphCreator
+                                                        key={item.id} 
+                                                        item={item}
+                                                        reSaveChildren={props.reSaveChildren}
+                                                        removeItem={props.removeItem}
+                                                    />
+                                                ) 
+                                            case 'paragraphImage' :  
+                                                return (
+                                                    <ParagraphImageCreator
+                                                        key={item.id} 
+                                                        item={item}
+                                                        reSaveChildren={props.reSaveChildren}
+                                                        removeItem={props.removeItem}
+                                                    />
+                                                ) 
+                                            default: break;
+                                        }  
+                                        return null
+                                    })
+                                }
+                                {   !modeDev &&
+                                    props.data.children.map((item) => {  
+                                        switch(item.type) { 
+                                            case 'heading' :  
+                                                return ( 
+                                                    <HeadingCreator 
+                                                        key={item.id} 
+                                                        item={item} 
+                                                    />
+                                                ) 
+                                            case 'paragraph' :  
+                                                return (
+                                                    <ParagraphCreator
+                                                        key={item.id} 
+                                                        item={item} 
+                                                    />
+                                                ) 
+                                            case 'paragraphImage' :  
+                                                return (
+                                                    <ParagraphImageCreator
+                                                        key={item.id} 
+                                                        item={item} 
+                                                    />
+                                                ) 
+                                            default: break;
+                                        }  
+                                        return null
+                                    })
+                                }
+                            </React.Fragment>
+                        }
+                        
+                    </Paper>
+                </Container> 
+            }
+            {
+                !props.settings.isPaper &&  
+                <Container  
+                        maxWidth={props.settings.maxWidth} 
                         fixed={props.settings.fixed} 
                         disableGutters={props.settings.disableGutters} 
-                    >
-                        { 
-                            modeDev && 
-                            props.data.children.map((item) => {   
-                                switch(item.type) { 
-                                    case 'heading' :  
-                                        return ( 
-                                            <HeadingCreator 
-                                                key={item.id} 
-                                                item={item}
-                                                reSaveChildren={props.reSaveChildren}
-                                                removeItem={props.removeItem}
-                                            />
-                                        ) 
-                                    case 'paragraph' :  
-                                        return (
-                                            <ParagraphCreator
-                                                key={item.id} 
-                                                item={item}
-                                                reSaveChildren={props.reSaveChildren}
-                                                removeItem={props.removeItem}
-                                            />
-                                        ) 
-                                    case 'paragraphImage' :  
-                                        return (
-                                            <ParagraphImageCreator
-                                                key={item.id} 
-                                                item={item}
-                                                reSaveChildren={props.reSaveChildren}
-                                                removeItem={props.removeItem}
-                                            />
-                                        ) 
-                                    default: break;
-                                }  
-                                return null
-                            })
+                        className={classes.myClassName}
+                    > 
+                        {  
+                            props.settings.innerContainer && 
+                            <Container
+                                maxWidth={'lg'}
+                                fixed={props.settings.fixed} 
+                                disableGutters={props.settings.disableGutters} 
+                            >
+                                { 
+                                    modeDev && 
+                                    props.data.children.map((item) => {   
+                                        switch(item.type) { 
+                                            case 'heading' :  
+                                                return ( 
+                                                    <HeadingCreator 
+                                                        key={item.id} 
+                                                        item={item}
+                                                        reSaveChildren={props.reSaveChildren}
+                                                        removeItem={props.removeItem}
+                                                    />
+                                                ) 
+                                            case 'paragraph' :  
+                                                return (
+                                                    <ParagraphCreator
+                                                        key={item.id} 
+                                                        item={item}
+                                                        reSaveChildren={props.reSaveChildren}
+                                                        removeItem={props.removeItem}
+                                                    />
+                                                ) 
+                                            case 'paragraphImage' :  
+                                                return (
+                                                    <ParagraphImageCreator
+                                                        key={item.id} 
+                                                        item={item}
+                                                        reSaveChildren={props.reSaveChildren}
+                                                        removeItem={props.removeItem}
+                                                    />
+                                                ) 
+                                            default: break;
+                                        }  
+                                        return null
+                                    })
+                                }
+                                {   !modeDev &&
+                                    props.data.children.map((item) => {  
+                                        switch(item.type) { 
+                                            case 'heading' :  
+                                                return ( 
+                                                    <HeadingCreator 
+                                                        key={item.id} 
+                                                        item={item} 
+                                                    />
+                                                ) 
+                                            case 'paragraph' :  
+                                                return (
+                                                    <ParagraphCreator
+                                                        key={item.id} 
+                                                        item={item} 
+                                                    />
+                                                ) 
+                                            case 'paragraphImage' :  
+                                                return (
+                                                    <ParagraphImageCreator
+                                                        key={item.id} 
+                                                        item={item} 
+                                                    />
+                                                ) 
+                                            default: break;
+                                        }  
+                                        return null
+                                    })
+                                }
+                            </Container>
                         }
-                        {   !modeDev &&
-                            props.data.children.map((item) => {  
-                                switch(item.type) { 
-                                    case 'heading' :  
-                                        return ( 
-                                            <HeadingCreator 
-                                                key={item.id} 
-                                                item={item} 
-                                            />
-                                        ) 
-                                    case 'paragraph' :  
-                                        return (
-                                            <ParagraphCreator
-                                                key={item.id} 
-                                                item={item} 
-                                            />
-                                        ) 
-                                    case 'paragraphImage' :  
-                                        return (
-                                            <ParagraphImageCreator
-                                                key={item.id} 
-                                                item={item} 
-                                            />
-                                        ) 
-                                    default: break;
-                                }  
-                                return null
-                            })
+                        {  
+                            !props.settings.innerContainer && 
+                            <React.Fragment>
+                                { 
+                                    modeDev && 
+                                    props.data.children.map((item) => {   
+                                        switch(item.type) { 
+                                            case 'heading' :  
+                                                return ( 
+                                                    <HeadingCreator 
+                                                        key={item.id} 
+                                                        item={item}
+                                                        reSaveChildren={props.reSaveChildren}
+                                                        removeItem={props.removeItem}
+                                                    />
+                                                ) 
+                                            case 'paragraph' :  
+                                                return (
+                                                    <ParagraphCreator
+                                                        key={item.id} 
+                                                        item={item}
+                                                        reSaveChildren={props.reSaveChildren}
+                                                        removeItem={props.removeItem}
+                                                    />
+                                                ) 
+                                            case 'paragraphImage' :  
+                                                return (
+                                                    <ParagraphImageCreator
+                                                        key={item.id} 
+                                                        item={item}
+                                                        reSaveChildren={props.reSaveChildren}
+                                                        removeItem={props.removeItem}
+                                                    />
+                                                ) 
+                                            default: break;
+                                        }  
+                                        return null
+                                    })
+                                }
+                                {   !modeDev &&
+                                    props.data.children.map((item) => {  
+                                        switch(item.type) { 
+                                            case 'heading' :  
+                                                return ( 
+                                                    <HeadingCreator 
+                                                        key={item.id} 
+                                                        item={item} 
+                                                    />
+                                                ) 
+                                            case 'paragraph' :  
+                                                return (
+                                                    <ParagraphCreator
+                                                        key={item.id} 
+                                                        item={item} 
+                                                    />
+                                                ) 
+                                            case 'paragraphImage' :  
+                                                return (
+                                                    <ParagraphImageCreator
+                                                        key={item.id} 
+                                                        item={item} 
+                                                    />
+                                                ) 
+                                            default: break;
+                                        }  
+                                        return null
+                                    })
+                                }
+                            </React.Fragment>
                         }
-                    </Container>
-                }
-                {  
-                    !props.settings.innerContainer && 
-                    <React.Fragment>
-                        { 
-                            modeDev && 
-                            props.data.children.map((item) => {   
-                                switch(item.type) { 
-                                    case 'heading' :  
-                                        return ( 
-                                            <HeadingCreator 
-                                                key={item.id} 
-                                                item={item}
-                                                reSaveChildren={props.reSaveChildren}
-                                                removeItem={props.removeItem}
-                                            />
-                                        ) 
-                                    case 'paragraph' :  
-                                        return (
-                                            <ParagraphCreator
-                                                key={item.id} 
-                                                item={item}
-                                                reSaveChildren={props.reSaveChildren}
-                                                removeItem={props.removeItem}
-                                            />
-                                        ) 
-                                    case 'paragraphImage' :  
-                                        return (
-                                            <ParagraphImageCreator
-                                                key={item.id} 
-                                                item={item}
-                                                reSaveChildren={props.reSaveChildren}
-                                                removeItem={props.removeItem}
-                                            />
-                                        ) 
-                                    default: break;
-                                }  
-                                return null
-                            })
-                        }
-                        {   !modeDev &&
-                            props.data.children.map((item) => {  
-                                switch(item.type) { 
-                                    case 'heading' :  
-                                        return ( 
-                                            <HeadingCreator 
-                                                key={item.id} 
-                                                item={item} 
-                                            />
-                                        ) 
-                                    case 'paragraph' :  
-                                        return (
-                                            <ParagraphCreator
-                                                key={item.id} 
-                                                item={item} 
-                                            />
-                                        ) 
-                                    case 'paragraphImage' :  
-                                        return (
-                                            <ParagraphImageCreator
-                                                key={item.id} 
-                                                item={item} 
-                                            />
-                                        ) 
-                                    default: break;
-                                }  
-                                return null
-                            })
-                        }
-                    </React.Fragment>
-                }
-                
-            </Container> 
+                        
+                    </Container> 
+                 
+            }
+            
         </React.Fragment>
     )
 }

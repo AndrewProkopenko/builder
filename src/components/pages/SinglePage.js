@@ -1,11 +1,13 @@
 import React from 'react' 
+import Draggable from 'react-draggable';  
 import { useLocation } from 'react-router-dom';
 import uuid from 'react-uuid' 
 
-import { Typography, Button, Box, CircularProgress, Tooltip , Container } from "@material-ui/core"; 
+import { Typography, Button, Box, CircularProgress, Tooltip , Container,  Modal, DialogContent  } from "@material-ui/core"; 
  
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 import SettingsIcon from '@material-ui/icons/Settings';
+import OpenWithIcon from '@material-ui/icons/OpenWith';
 
 import ContainerElement from '../library/container/ElementCreator'  
 import MainBannerElement from '../library/mainBanner/ElementCreator'  
@@ -33,21 +35,24 @@ function SinglePage(props) {
     const MainBannerLayout = layouts.mainBanner 
   
     const [data, setData] = React.useState({})
-    const [items, setItems] = React.useState([])
-  
-    const [isUpdate, setIsUpdate] = React.useState(true)
+    const [items, setItems] = React.useState([]) 
 
-    const [isHideSettings, setIsHideSettings] = React.useState(true)
-    //  title
-    //  slug
-    //  id
+    const [open, setOpen] = React.useState(false)
+   
+    const handleOpen = () => {  
+      setOpen(true);
+    }
+    const handleClose = () => {
+      setOpen(false);
+    };
+
     const useStyles = makeStyles((theme) => ({ 
       
       btnSetting: {
-          opacity: isHideSettings ? '0.15' : '1',
+          // opacity: isHideSettings ? '0.15' : '1',
           position: 'absolute', 
-          zIndex: 1030, 
-          top: 2, 
+          zIndex: 1031, 
+          top: 0, 
           left: 45,
           backgroundColor: theme.palette.error.dark,   
           minWidth: 30, 
@@ -63,19 +68,36 @@ function SinglePage(props) {
               fontSize: 10
           }
       } ,
-      settingsContainer: {
-        opacity : isHideSettings ? 0 : 1, 
-        transform : isHideSettings ? 'scaleX(0)' : 'scaleX(1)', 
-        display: 'flex',
-        flexWrap: 'wrap',
-        borderBottom: `${theme.palette.action.active} 1px solid` , 
-      },
+       
       btnContainer: {
         position: 'relative',
         '&:hover $btnSetting' : {
           opacity: 1
         }
-      }
+      },
+      menu: {    
+        position: "absolute", 
+        left: "calc(50% - 200px)",
+        top: 50, 
+        backgroundColor: theme.palette.background.paper, 
+        padding: 10 , 
+        paddingBottom: 0, 
+        maxWidth: 400,  
+        width: 400,
+        maxHeight: 'calc(100vh - 100px)', 
+        minHeight: 500,
+        overflowY: 'scroll',  
+    },
+    menuTitle: {
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'space-between', 
+        fontSize: 14, 
+        borderBottom: '1px solid #eaeaea',
+        paddingBottom: 6,
+        marginBottom: 10, 
+        cursor: 'move'
+    },
   
   }))
   
@@ -103,15 +125,13 @@ function SinglePage(props) {
         await pageRef.set(newPage)
 
         setData(newPage)  
-        setItems(newPage.items || []) 
-        setIsUpdate(false)
+        setItems(newPage.items || [])  
         setIsLoading(false)
 
       } else { 
         setData(doc.data())  
         setItems(doc.data().items)  
-        
-        setIsUpdate(false)
+         
         setIsLoading(false)
       }
    
@@ -130,14 +150,12 @@ function SinglePage(props) {
       })
    
       setData(newData)
-      setItems(newData.items)
-      setIsUpdate(true)
+      setItems(newData.items) 
       setIsLoading(true)
   
       await firebase.db.collection("site1").doc(pageSlug).update({
         items: newData.items, 
-      }).then(() => {
-        setIsUpdate(false)
+      }).then(() => { 
         setIsLoading(false)
       }).then( () => {
           if(childrenContainer.length === 0) {
@@ -155,19 +173,18 @@ function SinglePage(props) {
           newData.items[elem].fixed = settings.fixed 
           newData.items[elem].maxWidth = settings.maxWidth 
           newData.items[elem].innerContainer = settings.innerContainer 
+          newData.items[elem].isPaper = settings.isPaper 
         }
         return 0 
       }) 
   
       setData(newData)
-      setItems(newData.items) 
-      setIsUpdate(true)
+      setItems(newData.items)  
       setIsLoading(true)
   
       await firebase.db.collection("site1").doc(pageSlug).update({
         items: newData.items
-      }).then(() => {
-        setIsUpdate(false)
+      }).then(() => { 
         setIsLoading(false)
       }) 
     } 
@@ -187,14 +204,12 @@ function SinglePage(props) {
       newData.items = newItems
           
       setData(newData)
-      setItems(newItems)
-      setIsUpdate(true)
+      setItems(newItems) 
       setIsLoading(true)
-  
+      handleClose()
       await firebase.db.collection("site1").doc(pageSlug).update({
         items: newItems
-      }).then(() => {
-        setIsUpdate(false)
+      }).then(() => { 
         setIsLoading(false)
       });  
     }
@@ -206,14 +221,12 @@ function SinglePage(props) {
       newData.items = filtered
           
       setData(newData)
-      setItems(filtered) 
-      setIsUpdate(true)
+      setItems(filtered)  
       setIsLoading(true)
        
       await firebase.db.collection("site1").doc(pageSlug).update({
         items: filtered
-      }).then(() => {
-        setIsUpdate(false)
+      }).then(() => { 
         setIsLoading(false)
       }); 
     }
@@ -251,15 +264,13 @@ function SinglePage(props) {
       newData.items = newItems
          
       setItems(newItems)
-      setData(newData)
-      setIsUpdate(true)
+      setData(newData) 
       setIsLoading(true)
    
   
       await firebase.db.collection("site1").doc(pageSlug).update({
         items: newItems
-      }).then(() => {
-        setIsUpdate(false)
+      }).then(() => { 
         setIsLoading(false)
       }) 
     }
@@ -312,7 +323,7 @@ function SinglePage(props) {
                
               <Tooltip title='Page Settings' placement='bottom'>
                   <Button  
-                      onClick={() => { setIsHideSettings(!isHideSettings) }} 
+                      onClick={handleOpen} 
                       size='medium'
                       variant='contained'
                       color={'primary'}
@@ -322,45 +333,43 @@ function SinglePage(props) {
                       <SettingsIcon style={{ color: '#fff' }} fontSize='small'/>
                   </Button>
               </Tooltip>  
-              {
-                // !isHideSettings && 
-                <Container className={classes.settingsContainer} px={3}  > 
-                  
-                  <Box m={1} pl={'55px'}>
-                    <Typography color={theme.palette.action.active} variant="h6" >
-                      Page actions
-                    </Typography>
-                  </Box>
-
-                  <Box display="flex" alignItems='center' mx={1} minWidth={22} >
-                    {
-                      isUpdate &&
-                      <CircularProgress size={22} thickness={5} /> 
-                    } 
-                  </Box>
-
-                  <Box m={1}>
-                    <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('container') }}>
-                        Add new container
-                    </Button> 
-                  </Box>
-                  <Box m={1}>
-                    <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('mainBanner') }}>
-                        Add Main Banner
-                    </Button> 
-                  </Box>
-                  <Box m={1}>
-                    <Button color={'primary'} variant={'outlined'} disabled={true} >
-                        More settings
-                    </Button> 
-                  </Box> 
-            </Container>
-              }
+              <Modal 
+                open={open}  
+                aria-labelledby="draggable-dialog-title"
+                onClose={handleClose} 
+              > 
+                  <DialogContent> 
+                      <Draggable  handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'} >
+                          <div className={classes.menu}>
+                            <Typography 
+                                  component='p' 
+                                  className={classes.menuTitle}
+                                  id="draggable-dialog-title"
+                              >
+                                  Действия для страницы  <OpenWithIcon/>
+                              </Typography> 
+                              <Box m={1}>
+                                <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('container') }}>
+                                    Add new container
+                                </Button> 
+                              </Box>
+                              <Box m={1}>
+                                <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('mainBanner') }}>
+                                    Add Main Banner
+                                </Button> 
+                              </Box>
+                              <Box m={1}>
+                                <Button color={'primary'} variant={'outlined'} disabled={true} >
+                                    More settings
+                                </Button> 
+                              </Box> 
+                          </div>
+                      </Draggable>
+                  </DialogContent> 
+              </Modal>  
             </Box>
           }
-  
-          
-
+   
           { 
             renderContainers()  
           } 
