@@ -7,12 +7,22 @@ import ThemeContext from './ThemeContext'
 export default class ThemeProvider extends React.Component { 
 
     state = { 
-        themeMode: 'light'
+        themeMode: 'light',
+        theme: {
+            palette: {
+                type: 'light', 
+                primary: {
+                    main: themeMode === 'dark' ?  '#142E6F' : '#1fa67a',
+                },
+                secondary: {
+                    main:  '#db4453' ,
+                }, 
+            },  
+        }
     } 
 
     componentDidMount() {
-        const storageMode =  localStorage.getItem('siteBuilderThemeMode')
-        console.log(storageMode)
+        const storageMode =  localStorage.getItem('siteBuilderThemeMode') 
         if(storageMode == 'dark') {
             this.setState({
                 themeMode: 'dark'
@@ -30,6 +40,12 @@ export default class ThemeProvider extends React.Component {
             <ThemeContext.Provider
                 value={{
                     themeMode: this.state.themeMode,
+                    theme: this.state.theme, 
+                    setTheme: (theme) => {
+                        this.setState({
+                            theme: theme
+                        })
+                    },
                     setThemeMode: () => {
                         localStorage.setItem('siteBuilderThemeMode', this.state.themeMode === 'light' ? "dark" : "light" )
                         this.setState({

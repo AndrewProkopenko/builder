@@ -2,30 +2,42 @@ import React from 'react'
 
 import { ThemeProvider } from "@material-ui/core";
 import CssBaseline from '@material-ui/core/CssBaseline'; 
-import { createMuiTheme } from '@material-ui/core/styles';
-// import purple from '@material-ui/core/colors/purple';
-// import green from '@material-ui/core/colors/green';
-  
-import ThemeContext from '../context/themeContext/ThemeContext'  
+import { createMuiTheme } from '@material-ui/core/styles'; 
+   
+import CategoryContext from '../context/headerContext/CategoryContext'  
+
 import RouterComponent from '../Router/RouterComponent'
 
-function ThemeComponent() {  
-    const {themeMode} = React.useContext(ThemeContext) 
- 
-    const theme = createMuiTheme({
-        palette: {
-            type: themeMode,
-            primary: {
-                main: themeMode === 'dark' ?  '#3185d8' : '#311b92',
-            },
-            secondary: {
-                main:  '#f40b00' ,
-            },
-        },  
-    });
+function ThemeComponent() {   
+    const {themeLight, themeDark, themeMode } = React.useContext(CategoryContext) 
+  
+    // console.log(themeLight, themeDark, themeMode)
+    
+    let themeCreate 
+    if(themeMode === 'dark') { 
+        themeCreate = createMuiTheme(themeDark);
+    }
+    if(themeMode === 'light') { 
+        themeCreate = createMuiTheme(themeLight);
+    }
+    // const themeCreate = createMuiTheme({
+    //     palette: {
+    //         type: themeMode,
+
+    //         primary: {
+    //             main: themeMode === 'dark' ?  '#142E6F' : '#1fa67a',
+    //         },
+    //         secondary: {
+    //             main:  '#db4453' ,
+    //         },
+    //         // background: {
+    //         //     default: themeMode === 'dark' ? "#363636" : "#f2f2f2" 
+    //         // }
+    //     },  
+    // });
 
     return (
-        <ThemeProvider theme={theme} >
+        <ThemeProvider theme={themeCreate} >
             
             
             <CssBaseline/>   

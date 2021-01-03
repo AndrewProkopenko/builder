@@ -70,7 +70,7 @@ function ContainerElement(props) {
 
 
     const useStyles = makeStyles((theme) => {
-          console.log(theme)
+          console.log(theme , 'container')
         return ( {  
             btnDrawerStyle : {
                 backgroundColor: theme.palette.error.dark, 
@@ -655,7 +655,7 @@ function ContainerElement(props) {
                                         <Box 
                                             className={classes.inputNumber}
                                         >
-                                             <Typography  component={'h6'} gutterBottom  >
+                                            <Typography  component={'h6'} gutterBottom  >
                                                 Background  
                                             </Typography>
                                             <TwitterPicker

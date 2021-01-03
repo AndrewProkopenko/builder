@@ -4,13 +4,13 @@ import React from 'react'
 import CategoriesChanger from './headerHelpers/CategoriesChanger'
 import LogoChanger from './headerHelpers/LogoChanger'
 import StyleChanger from './headerHelpers/StyleChanger'
+import ThemeChanger from './headerHelpers/ThemeChanger'
 
-import DumbComponent from './DumbComponent'
+import DumbComponent from './dumb/DumbComponent'
 import AdminHeader from './AdminHeader'
 import { Box, Button, makeStyles } from '@material-ui/core'
 import SettingsIcon from '@material-ui/icons/Settings';
-
-import { deepOrange } from '@material-ui/core/colors'
+ 
 
 function StyledComponent() {
 
@@ -30,7 +30,7 @@ function StyledComponent() {
             top: -5,  
         },
         btnSettings: { 
-            opacity: 0.15,
+            opacity: 0,
             position: 'absolute', 
             zIndex: 1020, 
             left: 35, 
@@ -81,6 +81,9 @@ function StyledComponent() {
                         </Box>
                         <Box className={classes.btnSettingsItem}>
                             <StyleChanger/>
+                        </Box>
+                        <Box className={classes.btnSettingsItem}>
+                            <ThemeChanger/>
                         </Box>
                     </div>
                 }

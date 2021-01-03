@@ -1,7 +1,7 @@
 import React from 'react' 
 
 import StyledComponent from "./StyledComponent"
-import DumbComponent from "./DumbComponent"
+import DumbComponent from "./dumb/DumbComponent"
  
 import ModeContext from '../../context/modeContext/ModeContext' 
  

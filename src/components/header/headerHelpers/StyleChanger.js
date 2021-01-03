@@ -1,5 +1,6 @@
 
 import React from 'react'  
+import { TwitterPicker } from 'react-color';
 import CategoryContext from '../../../context/headerContext/CategoryContext'  
 import { 
     Tooltip,
@@ -35,10 +36,12 @@ function StyleChanger() {
     const [settingGutter, setSettingGutter] = React.useState(settings.disableGutters)
     const [settingFixed, setSettingFixed] = React.useState(settings.fixed)
     const [settingMaxWidth, setSettingMaxWidth] = React.useState(settings.maxWidth)
+    const [settingBreakpoint, setSettingBreakpoint] = React.useState(settings.breakpoint || 'md')
 
     const [settingBoxShadow, setSettingBoxShadow] = React.useState(settings.classes.boxShadow)
     const [settingPadding, setSettingPadding] = React.useState(settings.classes.paddingY)
     const [settingPosition, setSettingPosition] = React.useState(settings.classes.position)
+    const [settingBackground, setSettingBackground] = React.useState(settings.classes.backgroundColor ||  'transparent')
      
     const handleInputFocus = () => {  
       setOpen(true);
@@ -128,8 +131,10 @@ function StyleChanger() {
             classes: {
                 boxShadow: settingBoxShadow,
                 paddingY: settingPadding,
-                position: settingPosition
-            } 
+                position: settingPosition,
+                backgroundColor: settingBackground,
+            } ,
+            breakpoint: settingBreakpoint
         }
  
         updateSettings(newSettings)
@@ -228,7 +233,26 @@ function StyleChanger() {
                                             <MenuItem value={'xs'}>xs - 0 </MenuItem> 
                                         </Select>
                                     </FormControl>
-
+                                    <FormControl 
+                                        variant='filled' 
+                                        size='small'   
+                                        className={classes.settingsItem}
+                                    >
+                                        <InputLabel id="maxWidth-style-label">Breakpoint for Mobile</InputLabel>
+                                        <Select
+                                            labelId="Breakpoint-label"
+                                            id="Breakpoint-style"
+                                            value={settingBreakpoint}
+                                            onChange={(e) => {setIsDisableBtn(false); setSettingBreakpoint(e.target.value) }}
+                                        > 
+                                            <MenuItem value={'xl'}>xl - 1920 </MenuItem> 
+                                            <MenuItem value={'lg'}>lg - 1280 </MenuItem> 
+                                            <MenuItem value={'md'}>md - 960 </MenuItem> 
+                                            <MenuItem value={'sm'}>sm - 600 </MenuItem> 
+                                            <MenuItem value={'xs'}>xs - 0 </MenuItem> 
+                                        </Select>
+                                    </FormControl>
+                                        
                                     <FormControl 
                                         variant='filled' 
                                         size='small'   
@@ -256,9 +280,9 @@ function StyleChanger() {
                                         variant="filled" 
                                         size='small'  
                                         value={settingPadding}
-                                        onChange={ (e) => { setIsDisableBtn(false); setSettingPadding(e.target.value) } }     
+                                        onChange={ (e) => { setIsDisableBtn(false); setSettingPadding(Number(e.target.value)) } }     
                                     />
-                                    <FormControl 
+                                    <FormControl  
                                         variant='filled' 
                                         size='small'   
                                         className={classes.settingsItem}
@@ -279,9 +303,25 @@ function StyleChanger() {
                                             0px 9px 46px 8px rgba(0,0,0,0.12)`}>Large</MenuItem> 
                                         </Select>
                                     </FormControl>
+                                    {/* <Box 
+                                        className={classes.settingsItem}
+                                    >
+                                        <Typography  component={'h6'} gutterBottom  >
+                                            Background  
+                                        </Typography>
+                                        <TwitterPicker
+                                            width={'100%'}
+                                            triangle={'hide'}
+                                            colors={[   'transparent', '#4e36f4', '#36f477', 'rgb(244, 214, 54)']} 
+                                            onChangeComplete={(newColor) => {
+                                                setIsDisableBtn(false);
+                                                setSettingBackground(newColor.hex) 
+                                            }}
 
-                                    
-                                </FormGroup>  
+                                        /> 
+                                    </Box>  */}
+                                </FormGroup>
+                                   
      
                           
                             <Box className={classes.btnSave} mt={2}>

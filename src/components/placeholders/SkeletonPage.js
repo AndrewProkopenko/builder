@@ -5,7 +5,7 @@ import {  Box, Container  } from "@material-ui/core";
 
 function SkeletonPage() {
     return (
-        <Box mt={5} clone={true} >
+        <Box mt={5} mb={3} clone={true} >
             <Container>
               <Box >
                 <Skeleton 

@@ -301,6 +301,11 @@ function SinglePage(props) {
     return (
         <React.Fragment> 
 
+          <Breadcrumbs 
+            breadcrumbs={props.breadcrumbs}
+            history={props.history}
+          />
+
           { 
             modeDev &&  
             <Box className={classes.btnContainer}  >
@@ -354,10 +359,7 @@ function SinglePage(props) {
             </Box>
           }
   
-          <Breadcrumbs 
-            breadcrumbs={props.breadcrumbs}
-            history={props.history}
-          />
+          
 
           { 
             renderContainers()  

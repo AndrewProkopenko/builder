@@ -6,14 +6,14 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 
 import ModeContext from '../../context/modeContext/ModeContext'
-import ThemeContext from '../../context/themeContext/ThemeContext'  
+// import ThemeContext from '../../context/themeContext/ThemeContext'  
 
 import firebase from '../../firebase/firebase'
 
 function AdminHeader() {
 
     const { user } = React.useContext(ModeContext) 
-    const {themeMode, setThemeMode} = React.useContext(ThemeContext) 
+    // const {themeMode, setThemeMode} = React.useContext(ThemeContext) 
 
     
     const [isOpen, setIsOpen] = React.useState(false)
@@ -71,22 +71,9 @@ function AdminHeader() {
                     <Typography component='span' >
                         hello, { user.providerData[0].email } 
                     </Typography>
-                    <span>
-                        (theme setting , css for body, ....)
-                    </span>
-                    
-                    
+                  
                     <Box>
-                        <FormControlLabel
-                            control={
-                                <Switch 
-                                    color="primary" 
-                                    checked={themeMode === 'dark' ?  true : false}  
-                                    onChange={() => { setThemeMode()}}  
-                                /> 
-                            }
-                            label="Dark Mode"
-                        /> 
+                       
                         <Button 
                             size='small'
                             color='secondary' 

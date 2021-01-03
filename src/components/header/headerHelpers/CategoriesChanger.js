@@ -231,7 +231,7 @@ function CategoriesChanger() {
             return 0 
         })
 
-        // setCategories(newCategories)  
+        setCategories(newCategories)  
         setNewPageTitle('')
         setNewPageSlug('')
     } 
