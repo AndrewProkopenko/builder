@@ -15,6 +15,9 @@ function ElementCreator(props) {
                 modeDev && 
                 <StyledComponent 
                     data={props.data}
+                    swapContainer={props.swapContainer}
+                    removeContainer={props.removeContainer}
+                    reSaveItem={props.reSaveItem}
                 />
             }
  

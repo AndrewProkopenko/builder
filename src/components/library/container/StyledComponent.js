@@ -321,7 +321,7 @@ function ContainerElement(props) {
     
 
     return (
-        <Container 
+        <Box 
             maxWidth={propsSettings.maxWidth} 
             fixed={propsSettings.fixed} 
             disableGutters={true}
@@ -341,9 +341,8 @@ function ContainerElement(props) {
             </Tooltip> 
 
             <Box style={{position: 'relative'}} > 
-                {/*  DrawerContainer */}
-                <Box className={classes.btnDrawerStyle}>
-                    
+                
+                <Box className={classes.btnDrawerStyle}> 
                     <ButtonGroup
                         orientation="vertical"
                         color="secondary"
@@ -386,7 +385,7 @@ function ContainerElement(props) {
  
                     </ButtonGroup>
                 </Box>
-                     
+                {/*  DrawerContainer */}
                     <Drawer anchor={'left'} open={open} onClose={toggleDrawer}>
                          
                             <Box  
@@ -814,15 +813,16 @@ function ContainerElement(props) {
                     </Drawer>
                 {/*  DrawerContainer */} 
             </Box>                        
-                <DumbComponent
-                    reSaveChildren={reSaveChildren}
-                    removeItem={removeItem}
-                    data={props.data} 
-                    classes={myClassName}
-                    settings={propsSettings}
-                />  
+            
+            <DumbComponent
+                reSaveChildren={reSaveChildren}
+                removeItem={removeItem}
+                data={props.data} 
+                classes={myClassName}
+                settings={propsSettings}
+            />  
            
-        </Container>
+        </Box>
     )
 }
 

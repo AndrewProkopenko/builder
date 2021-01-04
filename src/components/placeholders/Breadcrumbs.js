@@ -27,9 +27,17 @@ const SimpleBreadcrumbs = (props) =>  {
             paddingBottom: 20,
             paddingLeft: theme.spacing(3),
             paddingRight: theme.spacing(3),
-            backgroundColor: theme.palette.background.paper
+            backgroundColor: theme.palette.background.paper,
+            [`@media (max-width: ${theme.breakpoints.values.md}px)`]: {
+                paddingTop: 10,  
+                paddingBottom: 10,  
+                paddingLeft: theme.spacing(2),
+                paddingRight: theme.spacing(2),
+            }, 
         },
         breadcrumbLink: {
+            display: 'flex', 
+            alignItems: 'center', 
             color: theme.palette.text.primary,
             textDecoration: 'none', 
 

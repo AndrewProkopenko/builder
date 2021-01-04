@@ -1,6 +1,7 @@
 {
     "type": "mainBanner",
     "id": 1, 
+    "color": "primary", 
     "heading": "Ремонт Macbook в Санкт-Петербурге", 
     "headingIcon": {
         "title": "С Бесплатным выездом к вам",

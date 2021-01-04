@@ -74,6 +74,8 @@ const Desktop = (props) => {
                 justifyContent: "space-between", 
                 paddingTop: props.settings.classes.paddingY,  
                 paddingBottom: props.settings.classes.paddingY,  
+                paddingLeft: 10, 
+                paddingRight: 10
             },
              
             listUnstyle: {
