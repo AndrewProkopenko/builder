@@ -65,7 +65,7 @@ const Mobile = (props) => {
             
         })
     });
-    const { drawerContainer, mobileLink , accordionReset , fixedPadding} = useStyles();
+    const { drawerContainer, mobileLink , accordionReset } = useStyles();
    
     const [drawerOpen, setDrawerOpen] = React.useState(false); 
       
@@ -100,7 +100,7 @@ const Mobile = (props) => {
                         props.categories.map( (item, index) => {  
                             if(item.pages.length > 0) {
                                 return (  
-                                    <Accordion classes={{root: accordionReset}} key={index} >
+                                    <Accordion key={index} classes={{root: accordionReset}}  >
                                         <AccordionSummary
                                             classes={{root: accordionReset, content: accordionReset  }}
                                             expandIcon={ <ExpandMoreOutlinedIcon />}
@@ -118,8 +118,8 @@ const Mobile = (props) => {
                                             </MenuItem>     
                                         </AccordionSummary>
                                         { 
-                                            item.pages.map( page => (
-                                                <MenuItem style={{padding: '0 0 0 15px'}} key={index} > 
+                                            item.pages.map( (page, indexPage) => (
+                                                <MenuItem style={{padding: '0 0 0 15px'}} key={indexPage} > 
                                                     <NavLink 
                                                         exact
                                                         to={`/${item.slug}/${page.slug}`}  
@@ -162,7 +162,7 @@ const Mobile = (props) => {
             <IconButton
                 {...{
                 edge: "start",
-                color: "textPrimary", 
+                // color: "textPrimary",  
                 "aria-label": "menu",
                 "aria-haspopup": "true",
                 onClick: handleDrawerOpen,

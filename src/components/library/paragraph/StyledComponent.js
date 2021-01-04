@@ -110,10 +110,7 @@ const StyledComponent = (props) => {
                 outlineColor: `${theme.palette.error.light}`,
                 '&>button' : { 
                     opacity: 1
-                },
-                '&>button' : { 
-                    opacity: 1
-                }  ,
+                }, 
                 '& $mtView' : { 
                     opacity: 1
                 },

@@ -2,7 +2,10 @@ import React from 'react'
 import {Redirect} from 'react-router-dom'
 import firebase from '../firebase/firebase'
 
+import ImageManager from './header/headerHelpers/ImageManager'
+
 import LoadingContext from '../context/loadingContext/LoadingContext'
+import ImageContext from '../context/imageContext/ImageContext'
  
 import { Avatar, Button, TextField, Typography, Container } from '@material-ui/core'; 
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'; 
@@ -32,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 function Login() {
     
     const { setIsLoading } = React.useContext(LoadingContext)
+    const { imageList } = React.useContext(ImageContext)
 
     const classes = useStyles();
 
@@ -43,6 +47,7 @@ function Login() {
     
     React.useEffect( () => {
         setIsLoading(false)
+        console.log(imageList)
     }, [])
 
     const hendlerSubmit = (e) => {
@@ -54,12 +59,15 @@ function Login() {
         })
         
     } 
-
+ 
+ 
     return (
         <Container component="main" maxWidth="xs">
     
             {/* Redirect при авторизации */}
             { isRedirect ? (<Redirect push to="/"/>) : null }
+ 
+            {/* <ImageManager/> */}
      
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>

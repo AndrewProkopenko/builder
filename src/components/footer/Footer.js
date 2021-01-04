@@ -1,8 +1,12 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { makeStyles, Box, Typography, Button, Container } from '@material-ui/core'
+import { makeStyles, Box, Typography, Button, Container, Switch , FormControlLabel } from '@material-ui/core'
+
+import CategoryContext from '../../context/headerContext/CategoryContext'
 
 function Footer() {
+
+    const { setThemeMode, themeMode } = React.useContext(CategoryContext)
 
     const useStyles = makeStyles( (theme) => ({
         subHeading: { 
@@ -23,13 +27,19 @@ function Footer() {
     }))
     const classes = useStyles()
 
+    const checked = themeMode === 'dark' ? true : false
+
+    const handleChange = () => {
+        let newMode = themeMode === 'dark' ? 'light' : 'dark' 
+        setThemeMode(newMode)
+    }
+
     return (
         <Box className={classes.footer}>
             <Container maxWidth={'lg'}>
                 <Typography 
                     variant='h6'
-                    className={classes.footerHeading}
-
+                    className={classes.footerHeading} 
                 > 
                     Footer
                 </Typography>
@@ -39,6 +49,20 @@ function Footer() {
                         Login
                     </Button>
                 </NavLink>
+
+                <Box>
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                checked={checked}
+                                onChange={handleChange}
+                                name="checkedB"
+                                color="primary"
+                            />
+                        }
+                        label="Dark Theme"
+                    />
+                </Box>
             </Container>
         </Box>
     ) 

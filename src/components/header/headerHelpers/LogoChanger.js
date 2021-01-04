@@ -1,7 +1,10 @@
 import React from 'react' 
 import firebase from '../../../firebase/firebase'
+
 import CategoryContext from '../../../context/headerContext/CategoryContext' 
 import LoadingContext from '../../../context/loadingContext/LoadingContext' 
+import ImageContext from '../../../context/imageContext/ImageContext' 
+
 import { 
     Tooltip,
     Button, 
@@ -26,6 +29,8 @@ function LogoChanger() {
     
     const { setIsLoading } = React.useContext(LoadingContext)
     const { logo, updateLogo } = React.useContext(CategoryContext)     
+
+    const { removeImage , updateImageNameList } = React.useContext(ImageContext)     
   
     const [open, setOpen] = React.useState(false)
     const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
@@ -33,7 +38,9 @@ function LogoChanger() {
     const [mainText, setMainText] = React.useState(logo.mainText)
     const [subText, setSubText] = React.useState(logo.subText)
     const [image, setImage] = React.useState(logo.image)
-     
+    const [imageName, setImageName] = React.useState(logo.imageName || '')
+      
+
     const handleInputFocus = () => {  
       setOpen(true);
     }
@@ -123,6 +130,7 @@ function LogoChanger() {
     const handleSave = () => {  
         const newLogo = { 
             image: image, 
+            imageName: imageName, 
             mainText: mainText,
             subText: subText
         }
@@ -132,6 +140,8 @@ function LogoChanger() {
     }  
     const handleImageSetting = (event) => {    
         uploadHandler(event.target.files[0])
+        removeImage(logo.imageName) 
+
         setIsDisableBtn(false)
         setIsLoading(true)
     }
@@ -143,17 +153,19 @@ function LogoChanger() {
             console.log( snapshot )
           }, 
           error => {
-            console.log(error.message)
+            console.log(error.message )
           },
-          () => {
+          () => { 
             setIsLoading(false)
             storageRef.snapshot.ref.getDownloadURL()
               .then( url => {
                 setImage(url) 
+                setImageName(imageData.name)
               })
           }
-        )
+        ) 
     }
+    
      
     return (
         <div className={classes.dumbWrapper}>
@@ -190,7 +202,7 @@ function LogoChanger() {
                                 <Grid item xs={5}>
                                     <Button 
                                         color='primary'
-                                        variant='outlined'
+                                        variant='contained'
                                         startIcon={<ImageIcon color="action" />}
                                     >  
                                         <label htmlFor='image-input-label'> Set Logo </label>
@@ -201,11 +213,14 @@ function LogoChanger() {
                                             style={{ display: "none" }}
                                         />
                                     </Button>
-                                    <img
-                                        width={100}
-                                        src={logo.image}
-                                        alt='logo'
-                                    /> 
+
+                                    <Box mt={2}>
+                                        <img
+                                            width={100}
+                                            src={image}
+                                            alt='logo'
+                                        /> 
+                                    </Box>
                                 </Grid>
                                 <Grid item xs={7}>
                                     <TextField

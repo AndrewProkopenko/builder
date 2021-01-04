@@ -14,20 +14,20 @@ function SkeletonPage() {
                   animation={false}
                 />
               </Box>
-              <Box display='flex' alignItems='center'>
+              <Box my={2} display='flex' alignItems='center'>
                 <Box mr={1}>
                   <Skeleton
                     width={30}
                     height={30}
                     variant='circle' 
-                    animation='wave'
+                    animation={false}
                   />
                 </Box>
                 <Skeleton 
-                  variant='text'  
-                  height={50}
+                  variant='rect'  
+                  height={30}
                   width='100%'
-                  animation='wave'
+                  animation={false}
                 />
               </Box>
               <Box mb={2}>

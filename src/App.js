@@ -4,7 +4,7 @@ import ModeProvider from './context/modeContext/ModeProvider'
 import CategoryProvider from './context/headerContext/CategoryProvider'
 import LoadingProvider from './context/loadingContext/LoadingProvider'
 import LibraryProvider from './context/libraryContext/LibraryProvider' 
-// import ThemeProvider from './context/themeContext/ThemeProvider'
+import ImageProvider from './context/imageContext/ImageProvider'
  
 import ThemeComponent from './theme/ThemeComponent' 
 // import theme from './theme/theme.js'
@@ -18,22 +18,21 @@ import './assets/style.scss'
 const App = () => {   
 
   return (
-      // <ThemeProvider>
-       
+      <ImageProvider> 
 
-      <CategoryProvider>
-       <LibraryProvider>
-          <ModeProvider> 
-              <LoadingProvider>
-                  <div className="App">  
-                    <ThemeComponent/> 
-                  </div>
-              </LoadingProvider> 
-          </ModeProvider>
-        </LibraryProvider> 
-        </CategoryProvider> 
+        <CategoryProvider>
+          <LibraryProvider>
+              <ModeProvider> 
+                  <LoadingProvider>
+                      <div className="App">  
+                        <ThemeComponent/> 
+                      </div>
+                  </LoadingProvider> 
+              </ModeProvider>
+            </LibraryProvider> 
+          </CategoryProvider> 
 
-      // </ThemeProvider>
+      </ImageProvider>
   );
 } 
 

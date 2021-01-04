@@ -10,12 +10,12 @@ import RouterComponent from '../Router/RouterComponent'
 
 function ThemeComponent() {   
     const {themeLight, themeDark, themeMode } = React.useContext(CategoryContext) 
-   
+    
     let themeCreate 
     if(themeMode === 'dark') { 
         themeCreate = createMuiTheme(themeDark);
     }
-    if(themeMode === 'light') { 
+    else { 
         themeCreate = createMuiTheme(themeLight);
     }
      

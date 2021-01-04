@@ -89,7 +89,7 @@ function DumbComponent(props) {
                             </div>
                         </div>
                     </Grid>
-                    <Grid md={5} className="col-lg-5"> 
+                    <Grid item md={5} className="col-lg-5"> 
                         <div className="mac-main-banner-image d-none d-lg-block">
                         <div className="image" style={{ backgroundImage: `url(${imageUrl})` }} />
                         </div>

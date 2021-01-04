@@ -71,132 +71,129 @@ function ContainerElement(props) {
     }
 
 
-    const useStyles = makeStyles((theme) => {
-          console.log(theme , 'container')
-        return ( {  
-            btnDrawerStyle : {
-                backgroundColor: theme.palette.error.dark, 
-                position: 'absolute',  
-                top: 0, 
-                left: 0, 
-                zIndex: 1030,   
-                minWidth: 50, 
-                opacity: 0, 
-                transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeIn} opacity`,
+    const useStyles = makeStyles((theme) => ({  
+        btnDrawerStyle : {
+            backgroundColor: theme.palette.error.dark, 
+            position: 'absolute',  
+            top: 0, 
+            left: 0, 
+            zIndex: 1030,   
+            minWidth: 50, 
+            opacity: 0, 
+            transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeIn} opacity`,
+        }, 
+        btnDrawerItem: { 
+            backgroundColor: theme.palette.error.dark, 
+            '&:hover': { 
+                backgroundColor: theme.palette.secondary.dark,   
             }, 
-            btnDrawerItem: { 
-                backgroundColor: theme.palette.error.dark, 
-                '&:hover': { 
-                    backgroundColor: theme.palette.secondary.dark,   
+        },
+        containerWrapper: {
+            position: 'relative', 
+            outline: "1px solid #ffffff00", 
+            transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeIn} outline`,
+            '&:hover' : {
+                outlineColor: `${theme.palette.error.main}`,
+                '& $mtView' : { 
+                    opacity: 1
+                },
+                '& $mbView' : { 
+                    opacity: 1
                 }, 
-            },
-            containerWrapper: {
-                position: 'relative', 
-                outline: "1px solid #ffffff00", 
-                transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeIn} outline`,
-                '&:hover' : {
-                    outlineColor: `${theme.palette.error.main}`,
-                    '& $mtView' : { 
-                        opacity: 1
-                    },
-                    '& $mbView' : { 
-                        opacity: 1
-                    }, 
-                    '& $ptView' : { 
-                        opacity: 1
-                    },
-                    '& $pbView' : { 
-                        opacity: 1
-                    }, 
-                    '& $btnDrawerStyle': {
-                        opacity: 1
-                    }
-                },   
-               
-            },
-            mtView: {  
-                position: 'absolute', 
-                top: `-${margin.top}px`, 
-                left: 0, 
-                right: 0,
-                zIndex: 10, 
-                backgroundColor: '#fff7003d',
-                height: `${margin.top}px`, 
-                opacity: 0,
-                transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeIn} opacity`
-            },
-            mbView: {  
-                position: 'absolute', 
-                bottom: `-${margin.bottom}px`, 
-                left: 0, 
-                right: 0,
-                zIndex: 10, 
-                backgroundColor: '#fff7003d',
-                height: `${margin.bottom}px`, 
-                opacity: 0,
-                transition: `180ms ${theme.transitions.easing.easeIn} opacity`
-            }, 
-            ptView: {  
-                position: 'absolute', 
-                top: 0, 
-                left: 0, 
-                right: 0,
-                zIndex: 10, 
-                backgroundColor: '#400e575e',
-                height: `${padding.top}px`, 
-                opacity: 0,
-                transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeIn} opacity`
-            },
-            pbView: {  
-                position: 'absolute', 
-                bottom: 0, 
-                left: 0, 
-                right: 0,
-                zIndex: 10, 
-                backgroundColor: '#400e575e',
-                height: `${padding.bottom}px`, 
-                opacity: 0,
-                transition: `180ms ${theme.transitions.easing.easeIn} opacity`
-            },
-            settingsItem: {
-                marginRight: 5, 
-                marginBottom: 10, 
-                flexGrow: 1
-            },
-            inputNumber: {
-                flexGrow: 1, 
-                margin: 5, 
-                width: "100%", 
-                maxWidth: '50%'
-            }, 
-            inputGroup: {
-                border: "1px solid #f5f5f5", 
-                padding: 3, 
-                inputNumber: { 
-                    maxWidth: "100%"
-    
+                '& $ptView' : { 
+                    opacity: 1
+                },
+                '& $pbView' : { 
+                    opacity: 1
+                }, 
+                '& $btnDrawerStyle': {
+                    opacity: 1
                 }
-            },
-            btnSave: { 
-                position: 'sticky', 
-                zIndex: theme.zIndex.tooltip,
-                bottom: 0, 
-                left: 20, 
-                right: 0,
-                height: 80, 
-                backgroundColor: theme.palette.background.paper, 
-                
-                '&>button': {
-                    marginTop: 20, 
-                    marginBottom: 30, 
-                    opacity: 1,  
-                    paddingLeft: 40, 
-                    paddingRight: 40
-                }
-            }
+            },   
             
-        } )
+        },
+        mtView: {  
+            position: 'absolute', 
+            top: `-${margin.top}px`, 
+            left: 0, 
+            right: 0,
+            zIndex: 10, 
+            backgroundColor: '#fff7003d',
+            height: `${margin.top}px`, 
+            opacity: 0,
+            transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeIn} opacity`
+        },
+        mbView: {  
+            position: 'absolute', 
+            bottom: `-${margin.bottom}px`, 
+            left: 0, 
+            right: 0,
+            zIndex: 10, 
+            backgroundColor: '#fff7003d',
+            height: `${margin.bottom}px`, 
+            opacity: 0,
+            transition: `180ms ${theme.transitions.easing.easeIn} opacity`
+        }, 
+        ptView: {  
+            position: 'absolute', 
+            top: 0, 
+            left: 0, 
+            right: 0,
+            zIndex: 10, 
+            backgroundColor: '#400e575e',
+            height: `${padding.top}px`, 
+            opacity: 0,
+            transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeIn} opacity`
+        },
+        pbView: {  
+            position: 'absolute', 
+            bottom: 0, 
+            left: 0, 
+            right: 0,
+            zIndex: 10, 
+            backgroundColor: '#400e575e',
+            height: `${padding.bottom}px`, 
+            opacity: 0,
+            transition: `180ms ${theme.transitions.easing.easeIn} opacity`
+        },
+        settingsItem: {
+            marginRight: 5, 
+            marginBottom: 10, 
+            flexGrow: 1
+        },
+        inputNumber: {
+            flexGrow: 1, 
+            margin: 5, 
+            width: "100%", 
+            maxWidth: '50%'
+        }, 
+        inputGroup: {
+            border: "1px solid #f5f5f5", 
+            padding: 3, 
+            inputNumber: { 
+                maxWidth: "100%"
+
+            }
+        },
+        btnSave: { 
+            position: 'sticky', 
+            zIndex: theme.zIndex.tooltip,
+            bottom: 0, 
+            left: 20, 
+            right: 0,
+            height: 80, 
+            backgroundColor: theme.palette.background.paper, 
+            
+            '&>button': {
+                marginTop: 20, 
+                marginBottom: 30, 
+                opacity: 1,  
+                paddingLeft: 40, 
+                paddingRight: 40
+            }
+        }
     })
+    )
     
     const classes = useStyles();
     
@@ -274,7 +271,9 @@ function ContainerElement(props) {
         newChildren.push(newItem) 
   
         setChildren(newChildren) 
- 
+
+        toggleDrawer()
+
         // save in firestore
         props.reSaveContainer(props.data.id, newChildren)
  
@@ -283,6 +282,7 @@ function ContainerElement(props) {
     const reSaveClassesSettings = () => {    
         props.reSaveContainerStyleSettings(props.data.id, myClassName, propsSettings)
         setIsDisableBtn(true); 
+        toggleDrawer()
     } 
     
     const reSaveChildren = async (id, data) => {   
@@ -445,7 +445,7 @@ function ContainerElement(props) {
 
                                             <Box mr={2} mb={1} clone={true} >
                                                 <Button
-                                                    onClick={() => {addHeading('p', 'paragraph'); toggleDrawer()}}
+                                                    onClick={() => {addHeading('p', 'paragraph');}}
                                                     variant='contained'
                                                     color="primary"
                                                 >
@@ -454,7 +454,7 @@ function ContainerElement(props) {
                                             </Box>
                                             <Box mr={2} mb={1} clone={true} >
                                                 <Button
-                                                    onClick={() => {addHeading('p', 'paragraphImage'); toggleDrawer()}}
+                                                    onClick={() => {addHeading('p', 'paragraphImage');  }}
                                                     variant='contained'
                                                     color="primary" 
                                                 >

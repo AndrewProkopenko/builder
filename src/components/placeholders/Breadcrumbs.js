@@ -66,16 +66,13 @@ const SimpleBreadcrumbs = (props) =>  {
                                         </Link>
                                     )
                                     else return (
-                                    <Typography color="textDisabled">
+                                    <Typography key={index} >
                                         {crumb.title}
                                     </Typography> 
                                     )  
                                 })
                             }
-                            {/* <Link color="inherit" href="/getting-started/installation/" onClick={handleClick}>
-                                Core
-                            </Link>
-                            <Typography color="textPrimary">Breadcrumb</Typography> */}
+                            
                         </Breadcrumbs>
                     
                     </Paper>

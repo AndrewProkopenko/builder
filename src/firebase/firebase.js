@@ -15,8 +15,7 @@ class Firebase {
         const firebaseApp =  firebase.initializeApp(firebaseConfig)
         this.db = firebaseApp.firestore()
         this.storage = firebaseApp.storage()
-        this.auth = firebaseApp.auth()
-        console.log("constructor")
+        this.auth = firebaseApp.auth() 
     }   
     async registerWithGoogle() {
         var provider = new firebase.auth.GoogleAuthProvider();

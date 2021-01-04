@@ -1,21 +1,18 @@
 
 import React from 'react' 
 
-import { Button, Typography, Box, Switch, FormControlLabel , makeStyles, Tooltip} from '@material-ui/core'
+import { Button, Typography, Box, makeStyles, Tooltip} from '@material-ui/core'
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 
-import ModeContext from '../../context/modeContext/ModeContext'
-// import ThemeContext from '../../context/themeContext/ThemeContext'  
+import ModeContext from '../../context/modeContext/ModeContext' 
 
 import firebase from '../../firebase/firebase'
 
 function AdminHeader() {
 
-    const { user } = React.useContext(ModeContext) 
-    // const {themeMode, setThemeMode} = React.useContext(ThemeContext) 
-
-    
+    const { user } = React.useContext(ModeContext)  
+ 
     const [isOpen, setIsOpen] = React.useState(false)
 
     const useStyles = makeStyles((theme) => ({
@@ -66,24 +63,25 @@ function AdminHeader() {
                         }
                     </Box>
                 </Tooltip>
-                { isOpen && 
-                <Box className={classes.settingsContainer} >
-                    <Typography component='span' >
-                        hello, { user.providerData[0].email } 
-                    </Typography>
-                  
-                    <Box>
-                       
-                        <Button 
-                            size='small'
-                            color='secondary' 
-                            variant={'contained'} 
-                            onClick={handleSignOut}
-                        >
-                            Sign Out
-                        </Button>
+                { 
+                    isOpen && 
+                    <Box className={classes.settingsContainer} >
+                        <Typography component='span' >
+                            hello, { user.providerData[0].email } 
+                        </Typography>
+                    
+                        <Box> 
+                            <Button 
+                                size='small'
+                                color='secondary' 
+                                variant={'contained'} 
+                                onClick={handleSignOut}
+                            >
+                                Sign Out
+                            </Button>
+                        </Box>
                     </Box>
-                </Box>}
+                }
             </Box>
         )
     }

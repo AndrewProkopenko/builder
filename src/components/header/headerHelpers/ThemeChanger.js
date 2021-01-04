@@ -32,9 +32,7 @@ function ThemeChanger() {
   
     const [open, setOpen] = React.useState(false)
     const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
-
-    const [mode, setMode] = React.useState(themeMode)
-
+  
     const [lightBackgroundDefault, setLightBackgroundDefault] = React.useState(themeLight.palette.background.default)
     const [lightBackgroundPaper, setLightBackgroundPaper] = React.useState(themeLight.palette.background.paper)
     const [darkBackgroundDefault, setDarkBackgroundDefault] = React.useState(themeDark.palette.background.default)
@@ -148,7 +146,7 @@ function ThemeChanger() {
             } 
         }
 
-        updateTheme(newDarkTheme, newLightTheme,  mode)
+        updateTheme(newDarkTheme, newLightTheme )
         setIsDisableBtn(true)
         handleClose()
     }  
@@ -184,26 +182,7 @@ function ThemeChanger() {
                             >
                                 Отредактировать тему  <OpenWithIcon/>
                             </Typography>
-                               
-                            <FormGroup row>
-                                <FormControl 
-                                    variant='filled' 
-                                    size='small'   
-                                    // className={classes.settingsItem}
-                                >
-                                    <InputLabel id="fixed-style-label">Mode</InputLabel>
-                                    <Select
-                                        labelId="fixed-label"
-                                        id="fixed-style"
-                                        value={mode}
-                                        onChange={(e) => {setIsDisableBtn(false); setMode(e.target.value) }}
-                                    >
-                                        <MenuItem value={'dark'}>Dark</MenuItem>
-                                        <MenuItem value={'light'}>Light</MenuItem> 
-                                    </Select>
-                                </FormControl>    
-                            </FormGroup>  
-                            
+                                
                             <Box display='flex' flexWrap='nowrap'  mt={2}>
                                 <Box mr={1}> 
                                     <TextField 
