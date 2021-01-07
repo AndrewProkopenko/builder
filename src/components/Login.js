@@ -2,7 +2,11 @@ import React from 'react'
 import {Redirect} from 'react-router-dom'
 import firebase from '../firebase/firebase'
 
-import ImageManager from './header/headerHelpers/ImageManager'
+// import ImageManager from './header/headerHelpers/ImageManager'
+// import DumbAccordion from '../components/library/accordion/DumbComponent'
+import Dumb from '../components/library/about/DumbComponent'
+
+import DumbContact from '../components/library/contactMap/DumbComponent'
 
 import LoadingContext from '../context/loadingContext/LoadingContext'
 import ImageContext from '../context/imageContext/ImageContext'
@@ -46,8 +50,7 @@ function Login() {
     const [isRedirect, setIsRedirect] = React.useState(false)
     
     React.useEffect( () => {
-        setIsLoading(false)
-        console.log(imageList)
+        setIsLoading(false) 
     }, [])
 
     const hendlerSubmit = (e) => {
@@ -62,13 +65,15 @@ function Login() {
  
  
     return (
+        <React.Fragment>
+        {/* <Dumb/>   */}
         <Container component="main" maxWidth="xs">
     
             {/* Redirect при авторизации */}
             { isRedirect ? (<Redirect push to="/"/>) : null }
  
             {/* <ImageManager/> */}
-     
+ 
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
@@ -121,6 +126,7 @@ function Login() {
             </div>
            
         </Container>
+        </React.Fragment>
     )
 }
 

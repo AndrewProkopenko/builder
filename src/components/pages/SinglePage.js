@@ -3,7 +3,7 @@ import Draggable from 'react-draggable';
 import { useLocation } from 'react-router-dom';
 import uuid from 'react-uuid' 
 
-import { Typography, Button, Box, CircularProgress, Tooltip , Container,  Modal, DialogContent  } from "@material-ui/core"; 
+import { Typography, Button, Box, Tooltip,  Modal, DialogContent  } from "@material-ui/core"; 
  
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -11,6 +11,10 @@ import OpenWithIcon from '@material-ui/icons/OpenWith';
 
 import ContainerElement from '../library/container/ElementCreator'  
 import MainBannerElement from '../library/mainBanner/ElementCreator'  
+import AccordionElement from '../library/accordion/ElementCreator'  
+import ContactMapElement from '../library/contactMap/ElementCreator'  
+import AboutElement from '../library/about/ElementCreator'  
+
 import SkeletonPage from '../placeholders/SkeletonPage'
 import Breadcrumbs from '../placeholders/Breadcrumbs'
  
@@ -33,6 +37,9 @@ function SinglePage(props) {
   const pageLayout = layouts.page
   const ContainerLayout = layouts.container 
   const MainBannerLayout = layouts.mainBanner 
+  const AccordionLayout = layouts.accordion 
+  const СontactMapLayout = layouts.contactMap 
+  const AboutLayout = layouts.about 
 
   const [data, setData] = React.useState({})
   const [items, setItems] = React.useState([]) 
@@ -52,7 +59,7 @@ function SinglePage(props) {
         position: 'absolute', 
         zIndex: 1031, 
         top: 0, 
-        left: 60,
+        left: 80,
         backgroundColor: theme.palette.error.dark,   
         minWidth: 30, 
         maxWidth: 40, 
@@ -196,6 +203,9 @@ function SinglePage(props) {
     let newCont
     if(type === 'container') newCont = Object.assign({}, ContainerLayout) 
     if(type === 'mainBanner') newCont = Object.assign({}, MainBannerLayout) 
+    if(type === 'accordion') newCont = Object.assign({}, AccordionLayout) 
+    if(type === 'contactMap') newCont = Object.assign({}, СontactMapLayout) 
+    if(type === 'about') newCont = Object.assign({}, AboutLayout) 
 
     newCont.id = uuid()
   
@@ -275,8 +285,7 @@ function SinglePage(props) {
     }) 
   }
 
-  const reSaveItem = async (id, data) => {
-      // console.log(id, data)
+  const reSaveItem = async (id, data) => { 
       let newData = Object.assign({}, data)
       newData.items = items
   
@@ -316,6 +325,39 @@ function SinglePage(props) {
         if(items[key].type === 'mainBanner') { 
           return(
               <MainBannerElement
+                key={items[key].id} 
+                data={items[key]} 
+                swapContainer={swapContainer}
+                removeContainer={removeContainer}
+                reSaveItem={reSaveItem}
+              />
+          )
+        } 
+        if(items[key].type === 'accordion') { 
+          return(
+              <AccordionElement
+                key={items[key].id} 
+                data={items[key]} 
+                swapContainer={swapContainer}
+                removeContainer={removeContainer}
+                reSaveItem={reSaveItem}
+              />
+          )
+        } 
+        if(items[key].type === 'contactMap') { 
+          return(
+              <ContactMapElement
+                key={items[key].id} 
+                data={items[key]} 
+                swapContainer={swapContainer}
+                removeContainer={removeContainer}
+                reSaveItem={reSaveItem}
+              />
+          )
+        } 
+        if(items[key].type === 'about') { 
+          return(
+              <AboutElement
                 key={items[key].id} 
                 data={items[key]} 
                 swapContainer={swapContainer}
@@ -381,6 +423,21 @@ function SinglePage(props) {
                             <Box m={1}>
                               <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('mainBanner') }}>
                                   Add Main Banner
+                              </Button> 
+                            </Box>
+                            <Box m={1}>
+                              <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('accordion') }}>
+                                  Add Accordion
+                              </Button> 
+                            </Box>
+                            <Box m={1}>
+                              <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('contactMap') }}>
+                                  Add Contacts with Map
+                              </Button> 
+                            </Box>
+                            <Box m={1}>
+                              <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('about') }}>
+                                  Add About
                               </Button> 
                             </Box>
                             <Box m={1}>

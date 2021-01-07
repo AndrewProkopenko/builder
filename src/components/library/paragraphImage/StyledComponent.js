@@ -371,6 +371,7 @@ const StyledComponent = (props) => {
 
         props.reSaveChildren(props.data.id, sentData)
         setIsDisableBtn(true); 
+        handleClose()
     }
     const removeItem = () => {  
         props.removeItem(props.data.id)

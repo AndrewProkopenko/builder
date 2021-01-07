@@ -2,6 +2,7 @@
  
 @import url(https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap) ;
 
+
 html, body, .App, #root { 
     height: 100%;
     // background-color: #f2f2f2 !important;
@@ -14,12 +15,50 @@ html, body, .App, #root {
 .App main { 
     flex-grow: 1;
 }
-
-
+ 
+button:focus, a:focus {  
+    outline: none !important;
+}
+button:active {  
+    outline: none;
+}
+input:focus {  
+    outline: none;
+}
+select:focus { 
+    outline: none;
+}
+textarea:focus { 
+    outline: none;
+} 
 
 .d-none { 
     display: none !important;
 } 
+
+.position-relative {
+    position: relative
+}
+
+.heading { 
+    h3 { 
+        font-size: 32px; 
+        line-height: 32px; 
+        text-align: center;
+        margin-bottom: 0; 
+        margin-top: 0; 
+        padding: 0 15px; 
+        padding-bottom: 25px;
+    }
+}
+@media screen and (max-width: 767px) {
+    .heading { 
+        h3 { 
+            font-size: 25px;
+            line-height: 27px;
+        } 
+    }
+}
 
 @media screen and (min-width: 992px) {
     

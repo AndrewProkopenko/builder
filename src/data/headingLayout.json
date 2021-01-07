@@ -19,5 +19,6 @@
         "lineHeight": 1.43
     }, 
     "text": "heading Default" , 
-    "prop": {}
+    "prop": {}, 
+    "responseFont": false
 } 

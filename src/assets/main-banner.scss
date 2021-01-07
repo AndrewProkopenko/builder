@@ -21,8 +21,7 @@
             svg, img {
                 width: 34px;
                 height: 32px; 
-                margin-right: 12px;
-                color: '#fff'
+                margin-right: 12px; 
             }
             span {
                 display: block;
@@ -47,6 +46,7 @@
                     font-size: 16px;  
                     font-weight: 400;
                     // font-family: $font-regular;
+                    box-shadow: none;
                     &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
                         font-size: 16px; 
                         opacity: 1; 
@@ -194,7 +194,7 @@
     
 
 }
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 600px) {
     
     .mac-main-banner {  
         padding-top: 40px;

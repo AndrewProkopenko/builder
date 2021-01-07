@@ -1,10 +1,9 @@
-import React from 'react'
-import firebase from '../../../firebase/firebase'
+import React from 'react' 
 import Draggable from 'react-draggable';  
 
 import { 
     MenuItem,Button, Box, Tooltip, TextField, FormControl, InputLabel,
-    Select, Typography, ButtonGroup, makeStyles, Modal, DialogContent
+    Select, Typography, ButtonGroup, makeStyles, Modal, DialogContent, Divider
 } from '@material-ui/core'
 
 import OpenWithIcon from '@material-ui/icons/OpenWith';
@@ -12,7 +11,7 @@ import OpenWithIcon from '@material-ui/icons/OpenWith';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExpandLessOutlinedIcon from '@material-ui/icons/ExpandLessOutlined';
 import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined'; 
-import { DeleteOutline } from '@material-ui/icons';
+import { DeleteOutline } from '@material-ui/icons'; 
 
 import DumbComponent from "./DumbComponent"
 
@@ -22,18 +21,12 @@ function StyledComponent(props) {
     const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
     const [open, setOpen] = React.useState(false)
 
-    const [heading, setHeading] = React.useState(props.data.heading)
-    const [subHeading, setSubHeading] = React.useState(props.data.headingIcon.title)
-    const [paragraph, setParagraph] = React.useState(props.data.paragraph)
-    const [inputLabel, setInputLabel] = React.useState(props.data.form.inputLabel)
-    const [buttonLabel, setButtonLabel] = React.useState(props.data.form.buttonLabel)
-    const [policy, setPolicy] = React.useState(props.data.form.policy)
+    const [items, setItems] = React.useState(props.data.items)   
+    const [heading, setHeading] = React.useState(props.data.heading)   
 
     const [colorSelect, setColorSelect] = React.useState(props.data.color)
     const [colorCustom, setColorCustom] = React.useState(props.data.color)
-
-    const [imageUrl, setImageUrl] = React.useState(props.data.image)
-    const [iconUrl, setIconUrl] = React.useState(props.data.headingIcon.icon)
+ 
 
 
     
@@ -45,11 +38,10 @@ function StyledComponent(props) {
     };
 
     React.useEffect(() => {
-        if(props.data.color !== 'primary' && props.data.color !== 'secondary' ) { 
-            console.log(props.data.color)
+        if(props.data.color !== 'primary' && props.data.color !== 'secondary' ) {  
             setColorSelect('custom')
         }
-    }, []) 
+    }, [props.data.color]) 
 
     const useStyles = makeStyles((theme) => ({
         btnDrawerStyle : { 
@@ -135,55 +127,85 @@ function StyledComponent(props) {
     }))
     
     const classes = useStyles();
-
-    const handleImageUpload = async (e, imageType) => { 
-        const imageData = e.target.files[0]
-        const storageRef = firebase.storage.ref(`${imageData.name}`).put(imageData)
-        storageRef.on('state-changed', 
-          snapshot => {
-            console.log( snapshot )
-          }, 
-          error => {
-            console.log(error.message )
-          },
-          () => {  
-            storageRef.snapshot.ref.getDownloadURL()
-              .then( url => {
-                  if(imageType === 'icon') setIconUrl(url)
-
-                  if(imageType === 'mainImage') setImageUrl(url) 
-              })
-          }
-        ) 
-        setIsDisableBtn(false)
-    }
+ 
     const handleSave = () => {
         const newData = Object.assign({}, props.data) 
+ 
         newData.heading = heading
-        newData.paragraph = paragraph
-        newData.headingIcon = {
-            title: subHeading,
-            icon : iconUrl
-        }  
-        newData.form = {
-            inputLabel: inputLabel,
-            buttonLabel: buttonLabel,
-            policy: policy 
-        }
-        newData.image = imageUrl
+        newData.items = items
+        
 
         if(colorSelect === 'custom') {
             newData.color = colorCustom
         } else {
             newData.color = colorSelect
         }
-  
+   
         props.reSaveItem(props.data.id, newData) 
         handleClose()
     }
-    const removeItem = () => {
+    const removeAccordion = () => {
         const conf = window.confirm('Delete? ')
         if(conf) props.removeContainer(props.data.id)
+    }
+
+    const handleUpdateItem = (index, value, place) => { 
+        const newItems = items.slice()
+        newItems[index][place] = value
+
+        setItems(newItems)
+        setIsDisableBtn(false); 
+    } 
+    const swapItem = (direction, index) => { 
+        const newItems = items.slice()
+        let activeIndex   
+    
+        newItems.map( (item) => { 
+        if(newItems.indexOf(item) === index) {
+            activeIndex = index
+        }
+        return 0 
+        }) 
+ 
+        if(direction === 'up' && activeIndex === 0) return  
+        if(direction === 'down' && activeIndex === newItems.length - 1 ) return
+        
+        if(direction === 'up') { 
+            const movedItem = newItems[activeIndex]
+            const placeItem = newItems[activeIndex - 1]
+
+            newItems[activeIndex] = placeItem
+            newItems[activeIndex - 1 ] = movedItem  
+        }
+        if(direction === 'down') {
+            const movedItem = newItems[activeIndex]
+            const placeItem = newItems[activeIndex + 1]
+
+            newItems[activeIndex] = placeItem
+            newItems[activeIndex + 1 ] = movedItem  
+        }
+ 
+            
+        setItems(newItems) 
+        setIsDisableBtn(false); 
+    }
+    const addItem = () => {
+        const newItems = items.slice()
+        const itemLayout = {
+            head: "heading",
+            body: "body"
+        }
+        newItems.push(itemLayout)
+
+        setItems(newItems)
+        setIsDisableBtn(false); 
+    }
+    const removeItem = (index) => { 
+        const newItems = items.slice()
+        newItems.splice(index, 1) 
+ 
+        setItems(newItems)
+        setIsDisableBtn(false); 
     }
 
     return (
@@ -192,7 +214,7 @@ function StyledComponent(props) {
                 <Box className={classes.btnDrawerStyle}> 
                     <Box display="flex" flexDirection="column"> 
                         <Box mb={1}>
-                            <Tooltip title='Main Banner Settings' placement='right'>
+                            <Tooltip title='Accordion Settings' placement='right'>
                                 <Button  
                                     onClick={handleOpen} 
                                     size='medium'
@@ -235,7 +257,7 @@ function StyledComponent(props) {
                         <Box mt={1}>
                             <Tooltip title='Remove' placement='right'>
                                 <Button   
-                                    onClick={removeItem}
+                                    onClick={removeAccordion}
                                     size='medium'
                                     variant='contained' 
                                     className={classes.btnDrawerItem}
@@ -259,7 +281,7 @@ function StyledComponent(props) {
                                         className={classes.menuTitle}
                                         id="draggable-dialog-title"
                                     >
-                                        Настройки банера <OpenWithIcon/>
+                                        Настройки аккордиона  <OpenWithIcon/>
                                     </Typography> 
                                     <Box mt={2}>  
                                         <TextField  
@@ -271,82 +293,100 @@ function StyledComponent(props) {
                                             onChange={ (e) => { setIsDisableBtn(false); setHeading(e.target.value) } }     
                                         />
                                     </Box> 
-                                    <Box display="flex" mt={3}>   
-                                        <Box display="flex" mr={2} minWidth={150} >
-                                            <Button> 
-                                                <label htmlFor='imageIcon-input-label'> Set Icon </label>
-                                                <input 
-                                                    id="imageIcon-input-label"
-                                                    type="file" 
-                                                    onChange={(e) => { handleImageUpload(e, 'icon')}} 
-                                                    style={{ display: "none" }}
-                                                />
+                                    <Box mt={2}>  
+                                        <Typography variant='h6'>
+                                            Items: 
+                                        </Typography>
+                                        <Divider/>
+
+                                        {
+                                            items.map( (item, index) => { 
+                                                return(
+                                                    <Box key={index} mt={3}>
+                                                        <Box display='flex' alignItems='center'>
+                                                            <Box component='p' mr={2}>
+                                                                Item № {index + 1}
+                                                            </Box>
+                                                            <ButtonGroup 
+                                                                color="primary"
+                                                                aria-label="contained primary button group"
+                                                                variant="contained" 
+                                                            >  
+                                                                <Tooltip title='Get Up' placement='top'>
+                                                                    <Button   
+                                                                        onClick={() => { swapItem('up', index) }}
+                                                                        size='small'
+                                                                        variant='contained'
+                                                                        color='primary' 
+                                                                        disabled={index === 0 ? true : false }
+                                                                    >  
+                                                                        <ExpandLessOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>   
+                                                                    </Button>
+                                                                </Tooltip> 
+                                                                <Tooltip title='Get Down' placement='top'>
+                                                                    <Button   
+                                                                        onClick={() => { swapItem('down', index) }} 
+                                                                        size='small'
+                                                                        variant='contained'
+                                                                        color='primary' 
+                                                                        disabled={items.length - 1 === index ? true : false }
+                                                                    >     
+                                                                    { console.log(items.length, index)}
+                                                                        <ExpandMoreOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>
+                                                                    </Button>
+                                                                </Tooltip>  
+                                                                <Tooltip title='Delete Page' placement='top'>
+                                                                    <Button
+                                                                        variant='contained'
+                                                                        color="secondary"
+                                                                        disableElevation={true}
+                                                                        className={classes.deletePageBtn}
+                                                                        onClick={() => { removeItem(index) }}
+                                                                    > 
+                                                                        <DeleteOutline style={{ color: '#fff' }} fontSize='small'/>
+                                                                    </Button>
+                                                                </Tooltip>  
+                                                            </ButtonGroup>
+                                                        </Box>
+
+
+                                                        <Box mt={1}>
+                                                            <TextField  
+                                                                fullWidth
+                                                                type='text'
+                                                                label="Head" 
+                                                                variant="outlined"  
+                                                                value={item.head}
+                                                                onChange={ (e) => {  handleUpdateItem(index, e.target.value, 'head') } }     
+                                                            /> 
+                                                        </Box>
+                                                        
+                                                        <Box mt={1}>
+                                                            <TextField  
+                                                                fullWidth
+                                                                type='text'
+                                                                label="Body" 
+                                                                variant="outlined"  
+                                                                value={item.body}
+                                                                onChange={ (e) => {  handleUpdateItem(index, e.target.value, 'body') } }     
+                                                            />
+                                                        </Box>
+                                                    </Box>
+                                                )
+                                            })
+                                        }
+
+                                        <Box my={2}>
+                                            <Button 
+                                                variant='contained' 
+                                                color='primary'
+                                                onClick={addItem}
+                                            >
+                                                Add item
                                             </Button>
-                                            <img src={iconUrl} alt='icon' width={35} />
-                                            
-                                        </Box> 
-                                        <TextField  
-                                            fullWidth
-                                            type='text'
-                                            label="Sub Heading" 
-                                            variant="outlined" 
-                                            size='small'  
-                                            value={subHeading}
-                                            onChange={ (e) => { setIsDisableBtn(false); setSubHeading(e.target.value)  } }     
-                                        />
-                                    </Box> 
-                                    <Box mt={3} mb={3}>   
-                                        <TextField  
-                                            multiline
-                                            fullWidth
-                                            type='text'
-                                            label="Paragraph" 
-                                            variant="outlined"  
-                                            value={paragraph}
-                                            onChange={ (e) => { setIsDisableBtn(false);  setParagraph(e.target.value)  } }     
-                                        />
-                                    </Box> 
-                                    <Typography 
-                                        component='p' 
-                                        className={classes.menuTitle}
-                                        id="draggable-dialog-title"
-                                    >
-                                        Форма
-                                    </Typography> 
-                                    <Box display='flex' mt={2}>
-                                        <Box mr={1} flexGrow='1' >   
-                                            <TextField   
-                                                fullWidth
-                                                type='text'
-                                                label="Form Input Label" 
-                                                size='small'  
-                                                variant="outlined"  
-                                                value={inputLabel}
-                                                onChange={ (e) => { setIsDisableBtn(false); setInputLabel(e.target.value) } }     
-                                            />
-                                        </Box> 
-                                        <Box flexGrow='1' >   
-                                            <TextField   
-                                                fullWidth
-                                                type='text'
-                                                label="Form Button Label" 
-                                                size='small'  
-                                                variant="outlined"  
-                                                value={buttonLabel}
-                                                onChange={ (e) => { setIsDisableBtn(false); setButtonLabel(e.target.value) } }     
-                                            />
-                                        </Box> 
-                                    </Box>
-                                    <Box mt={2}>   
-                                        <TextField   
-                                            fullWidth
-                                            type='text'
-                                            label="Form Policy" 
-                                            size='small'  
-                                            variant="outlined"  
-                                            value={policy}
-                                            onChange={ (e) => { setIsDisableBtn(false);  setPolicy(e.target.value) } }     
-                                        />
+                                        </Box>
+                                         
+                                        <Divider/>
                                     </Box> 
 
                                     <Box mt={2} display="flex" >
@@ -378,23 +418,6 @@ function StyledComponent(props) {
                                         </Box>
                                     </Box>
 
-                                    <Box mt={3} display="flex" alignItems='flex-start' >
-                                        <Tooltip title='recomended size 515x340' placement='top'> 
-                                            <Button color='primary' variant='contained'> 
-                                                <label htmlFor='image-input-label'> Set main image</label>
-                                                <input 
-                                                    id="image-input-label"
-                                                    type="file" 
-                                                    onChange={(e) => { handleImageUpload(e, 'mainImage')}} 
-                                                    style={{ display: "none" }}
-                                                />
-                                            </Button> 
-                                        </Tooltip>
-                                        <Box ml={1} maxWidth={300}>
-                                            <img src={imageUrl} alt='main' width={'100%'} />
-                                        </Box>
-                                    </Box>
-
                                     <Box className={classes.btnSave}>
                                         <Button
                                             disabled={isDisableBtn}
@@ -407,6 +430,8 @@ function StyledComponent(props) {
                                             Save
                                         </Button> 
                                     </Box>
+                                    
+                                    
                                 </div>
                             </Draggable>
                         </DialogContent> 

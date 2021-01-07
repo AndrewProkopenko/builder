@@ -1,0 +1,111 @@
+.mac-accordion { 
+    margin-top: 60px;
+    margin-bottom: 60px; 
+    h3 {  
+        
+        padding-bottom: 25px;
+    }
+    &_card {  
+        &-header {  
+            &_btn {   
+                padding-top: 15px;
+                padding-bottom: 15px; 
+                padding-left: 40px;
+                padding-right: 10px; 
+                span { 
+                    display: flex; 
+                    font-size: 22px;
+                    line-height: 22px;
+                    text-align: left;
+                    font-weight: 700;
+                    b {  
+                        margin-right: 0.3em;
+                    }
+                }  
+            }
+        }
+        &-body {   
+            padding-left: 75px;
+            padding-right: 75px;
+            padding-bottom: 30px;
+            font-size: 16px;
+            line-height: 18px;   
+        } 
+    } 
+}
+ 
+ 
+  
+
+@media screen and (max-width: 767px) {
+      
+    .mac-accordion { 
+        h3 { 
+            padding-bottom: 20px;
+        }
+        &_card { 
+            &-header { 
+                &_btn { 
+                    padding-left: 15px;
+                    span { 
+                        font-size: 18px;
+                        line-height: 18px;
+                        padding-right: 15px; 
+                    }
+                }
+            }
+            &-body { 
+                padding-left: 20px;
+                padding-right: 20px; 
+            }
+        }
+    }
+ 
+
+}
+@media screen and (max-width: 600px) {
+    
+    
+    .mac-accordion { 
+        
+        &_card { 
+            margin-bottom: 0; 
+            box-shadow: none; 
+            &:hover { 
+                box-shadow: none;
+            }
+
+            &-header {
+                 
+                &_btn.collapsed {  
+                    i {  
+                        &:before { 
+                            transform: rotate(90deg) translateY(-10px) !important; 
+                        }
+                    }
+                } 
+                &_btn { 
+                    padding-top: 15px;
+                    padding-bottom: 15px;
+                    padding-left: 20px;
+                    padding-right: 20px; 
+                    span { 
+                        // font-size: 16px;
+                    }
+                    i { 
+                        height: 9px;
+                        min-width: 15px;
+                        &:before { 
+                            transform: rotate(-90deg) translateY(-14px) translateX(3px) !important;
+                            transition: 100ms transform;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+   
+}
+ 
+    

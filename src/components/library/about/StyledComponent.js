@@ -22,18 +22,10 @@ function StyledComponent(props) {
     const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
     const [open, setOpen] = React.useState(false)
 
-    const [heading, setHeading] = React.useState(props.data.heading)
-    const [subHeading, setSubHeading] = React.useState(props.data.headingIcon.title)
+    const [heading, setHeading] = React.useState(props.data.heading) 
     const [paragraph, setParagraph] = React.useState(props.data.paragraph)
-    const [inputLabel, setInputLabel] = React.useState(props.data.form.inputLabel)
-    const [buttonLabel, setButtonLabel] = React.useState(props.data.form.buttonLabel)
-    const [policy, setPolicy] = React.useState(props.data.form.policy)
-
-    const [colorSelect, setColorSelect] = React.useState(props.data.color)
-    const [colorCustom, setColorCustom] = React.useState(props.data.color)
-
-    const [imageUrl, setImageUrl] = React.useState(props.data.image)
-    const [iconUrl, setIconUrl] = React.useState(props.data.headingIcon.icon)
+    
+    const [imageUrl, setImageUrl] = React.useState(props.data.image) 
 
 
     
@@ -44,13 +36,7 @@ function StyledComponent(props) {
         setOpen(false);
     };
 
-    React.useEffect(() => {
-        if(props.data.color !== 'primary' && props.data.color !== 'secondary' ) { 
-            console.log(props.data.color)
-            setColorSelect('custom')
-        }
-    }, []) 
-
+    
     const useStyles = makeStyles((theme) => ({
         btnDrawerStyle : { 
             position: 'absolute',  
@@ -136,7 +122,7 @@ function StyledComponent(props) {
     
     const classes = useStyles();
 
-    const handleImageUpload = async (e, imageType) => { 
+    const handleImageUpload = async (e) => { 
         const imageData = e.target.files[0]
         const storageRef = firebase.storage.ref(`${imageData.name}`).put(imageData)
         storageRef.on('state-changed', 
@@ -148,10 +134,8 @@ function StyledComponent(props) {
           },
           () => {  
             storageRef.snapshot.ref.getDownloadURL()
-              .then( url => {
-                  if(imageType === 'icon') setIconUrl(url)
-
-                  if(imageType === 'mainImage') setImageUrl(url) 
+              .then( url => { 
+                  setImageUrl(url) 
               })
           }
         ) 
@@ -161,23 +145,9 @@ function StyledComponent(props) {
         const newData = Object.assign({}, props.data) 
         newData.heading = heading
         newData.paragraph = paragraph
-        newData.headingIcon = {
-            title: subHeading,
-            icon : iconUrl
-        }  
-        newData.form = {
-            inputLabel: inputLabel,
-            buttonLabel: buttonLabel,
-            policy: policy 
-        }
+        
         newData.image = imageUrl
-
-        if(colorSelect === 'custom') {
-            newData.color = colorCustom
-        } else {
-            newData.color = colorSelect
-        }
-  
+ 
         props.reSaveItem(props.data.id, newData) 
         handleClose()
     }
@@ -271,30 +241,7 @@ function StyledComponent(props) {
                                             onChange={ (e) => { setIsDisableBtn(false); setHeading(e.target.value) } }     
                                         />
                                     </Box> 
-                                    <Box display="flex" mt={3}>   
-                                        <Box display="flex" mr={2} minWidth={150} >
-                                            <Button> 
-                                                <label htmlFor='imageIcon-input-label'> Set Icon </label>
-                                                <input 
-                                                    id="imageIcon-input-label"
-                                                    type="file" 
-                                                    onChange={(e) => { handleImageUpload(e, 'icon')}} 
-                                                    style={{ display: "none" }}
-                                                />
-                                            </Button>
-                                            <img src={iconUrl} alt='icon' width={35} />
-                                            
-                                        </Box> 
-                                        <TextField  
-                                            fullWidth
-                                            type='text'
-                                            label="Sub Heading" 
-                                            variant="outlined" 
-                                            size='small'  
-                                            value={subHeading}
-                                            onChange={ (e) => { setIsDisableBtn(false); setSubHeading(e.target.value)  } }     
-                                        />
-                                    </Box> 
+                                     
                                     <Box mt={3} mb={3}>   
                                         <TextField  
                                             multiline
@@ -306,86 +253,16 @@ function StyledComponent(props) {
                                             onChange={ (e) => { setIsDisableBtn(false);  setParagraph(e.target.value)  } }     
                                         />
                                     </Box> 
-                                    <Typography 
-                                        component='p' 
-                                        className={classes.menuTitle}
-                                        id="draggable-dialog-title"
-                                    >
-                                        Форма
-                                    </Typography> 
-                                    <Box display='flex' mt={2}>
-                                        <Box mr={1} flexGrow='1' >   
-                                            <TextField   
-                                                fullWidth
-                                                type='text'
-                                                label="Form Input Label" 
-                                                size='small'  
-                                                variant="outlined"  
-                                                value={inputLabel}
-                                                onChange={ (e) => { setIsDisableBtn(false); setInputLabel(e.target.value) } }     
-                                            />
-                                        </Box> 
-                                        <Box flexGrow='1' >   
-                                            <TextField   
-                                                fullWidth
-                                                type='text'
-                                                label="Form Button Label" 
-                                                size='small'  
-                                                variant="outlined"  
-                                                value={buttonLabel}
-                                                onChange={ (e) => { setIsDisableBtn(false); setButtonLabel(e.target.value) } }     
-                                            />
-                                        </Box> 
-                                    </Box>
-                                    <Box mt={2}>   
-                                        <TextField   
-                                            fullWidth
-                                            type='text'
-                                            label="Form Policy" 
-                                            size='small'  
-                                            variant="outlined"  
-                                            value={policy}
-                                            onChange={ (e) => { setIsDisableBtn(false);  setPolicy(e.target.value) } }     
-                                        />
-                                    </Box> 
-
-                                    <Box mt={2} display="flex" >
-                                        <FormControl variant='filled' style={{minWidth: '250px' }}>
-                                            <InputLabel id="color-select-label">Color for Form and SubHeading</InputLabel>
-                                            <Select
-                                                labelId="color-select-label"
-                                                id="color-select"
-                                                value={colorSelect}
-                                                onChange={(e) => {setIsDisableBtn(false); setColorSelect(e.target.value)   }}
-                                            >
-                                                <MenuItem value={'primary'}>Primary</MenuItem>
-                                                <MenuItem value={'secondary'}>Secondary</MenuItem>
-                                                <MenuItem value={'custom'}>Custom</MenuItem>
-                                            </Select>
-                                        </FormControl>
-                                        <Box ml={1} >
-                                            {
-                                                colorSelect === 'custom' &&
-                                                <TextField    
-                                                    type='text'
-                                                    label="Set Custom Color on #hex"  
-                                                    variant="outlined"  
-                                                    value={colorCustom}
-                                                    onChange={ (e) => { setIsDisableBtn(false); setColorCustom(e.target.value)  } }     
-                                                />
-                                            }
-                                            
-                                        </Box>
-                                    </Box>
+                                        
 
                                     <Box mt={3} display="flex" alignItems='flex-start' >
                                         <Tooltip title='recomended size 515x340' placement='top'> 
                                             <Button color='primary' variant='contained'> 
-                                                <label htmlFor='image-input-label'> Set main image</label>
+                                                <label htmlFor='image-input-label'> Set image</label>
                                                 <input 
                                                     id="image-input-label"
                                                     type="file" 
-                                                    onChange={(e) => { handleImageUpload(e, 'mainImage')}} 
+                                                    onChange={(e) => { handleImageUpload(e)}} 
                                                     style={{ display: "none" }}
                                                 />
                                             </Button> 

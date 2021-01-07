@@ -1,0 +1,7 @@
+{
+    "type": "contactMap",
+    "id": 1,  
+    "location": "City, street, number", 
+    "phone": "+711 111 111 11" , 
+    "mapFrame": null
+}

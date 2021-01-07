@@ -11,9 +11,13 @@ function DumbComponent(props) {
         resposiveFontSize: { 
             [`@media (max-width: 960px)`]: {
                 fontSize: props.className.fontSize*0.8, 
+                marginTop: props.className.marginTop*0.8,
+                marginBottom: props.className.marginBottom*0.8
             },
             [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
                 fontSize: props.className.fontSize*0.6, 
+                marginTop: props.className.marginTop*0.5,
+                marginBottom: props.className.marginBottom*0.5
             },
         }
       }
@@ -21,7 +25,7 @@ function DumbComponent(props) {
     const classes = useStyles();
  
     
-    const classeForResp = props.isResponsiveFont ? classes.resposiveFontSize : '' 
+    const classeForResp = props.data.responseFont ? classes.resposiveFontSize : '' 
 
     const renderText = () => {
         if(props.textChildren) { 

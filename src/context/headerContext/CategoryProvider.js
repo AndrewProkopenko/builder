@@ -88,6 +88,7 @@ export default class CategoryProvider extends React.Component {
                     themeDark: this.state.themeDark,
                     themeLight: this.state.themeLight,
                     setThemeMode: (mode) => {
+                        console.log(mode)
                         localStorage.setItem('siteBuilderThemeMode', mode)
                         this.setState({
                             themeMode: mode

@@ -5,9 +5,10 @@ import CategoryProvider from './context/headerContext/CategoryProvider'
 import LoadingProvider from './context/loadingContext/LoadingProvider'
 import LibraryProvider from './context/libraryContext/LibraryProvider' 
 import ImageProvider from './context/imageContext/ImageProvider'
+import SendFormProvider from './context/sendFormContext/SendFormProvider'
  
 import ThemeComponent from './theme/ThemeComponent' 
-// import theme from './theme/theme.js'
+
 import './assets/style.scss'
 
 
@@ -18,6 +19,7 @@ import './assets/style.scss'
 const App = () => {   
 
   return (
+    <SendFormProvider>
       <ImageProvider> 
 
         <CategoryProvider>
@@ -33,6 +35,7 @@ const App = () => {
           </CategoryProvider> 
 
       </ImageProvider>
+    </SendFormProvider>
   );
 } 
 

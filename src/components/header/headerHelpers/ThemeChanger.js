@@ -1,6 +1,5 @@
 import React from 'react'   
-import CategoryContext from '../../../context/headerContext/CategoryContext' 
-import LoadingContext from '../../../context/loadingContext/LoadingContext' 
+import CategoryContext from '../../../context/headerContext/CategoryContext'  
 import { 
     Tooltip,
     Button, 
@@ -9,13 +8,7 @@ import {
     Typography, 
     TextField,  
     Box,
-    makeStyles,   
-    Grid,  
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    FormGroup
+    makeStyles,    
 } from '@material-ui/core' 
 
 import { deepOrange } from '@material-ui/core/colors'
@@ -26,9 +19,8 @@ import OpenWithIcon from '@material-ui/icons/OpenWith';
 import Draggable from 'react-draggable';  
 
 function ThemeChanger() {
-    
-    const { setIsLoading } = React.useContext(LoadingContext)
-    const { themeMode, themeDark,  themeLight, updateTheme } = React.useContext(CategoryContext)     
+     
+    const { themeDark,  themeLight, updateTheme } = React.useContext(CategoryContext)     
   
     const [open, setOpen] = React.useState(false)
     const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
@@ -182,8 +174,13 @@ function ThemeChanger() {
                             >
                                 Отредактировать тему  <OpenWithIcon/>
                             </Typography>
-                                
-                            <Box display='flex' flexWrap='nowrap'  mt={2}>
+
+                            <Typography 
+                                variant='h6'  
+                            >
+                                Light Theme
+                            </Typography>
+                            <Box display='flex' flexWrap='nowrap'  mt={1} mb={3}>
                                 <Box mr={1}> 
                                     <TextField 
                                         required
@@ -241,7 +238,13 @@ function ThemeChanger() {
                                     <Box className={classes.colorPreview} style={{ backgroundColor: lightSecondary}}></Box>
                                 </Box>  
                             </Box>
-                            <Box display='flex' flexWrap='nowrap'  mt={3}>
+
+                            <Typography 
+                                variant='h6'  
+                            >
+                                Dark Theme
+                            </Typography>
+                            <Box display='flex' flexWrap='nowrap'  mt={1}>
                                 <Box mr={1}> 
                                     <TextField 
                                         required

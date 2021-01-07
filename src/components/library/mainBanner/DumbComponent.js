@@ -1,11 +1,18 @@
 import React from 'react'
 
-import { Container, Grid, makeStyles } from '@material-ui/core'
+import SendFormContext from '../../../context/sendFormContext/SendFormContext'
+
+import { Container, Grid, makeStyles, Button } from '@material-ui/core'
 
 import '../../../assets/main-banner.scss'
 
 
 function DumbComponent(props) {
+
+    const { sendRequests } = React.useContext(SendFormContext)
+
+    const [formPhone, setFormPhone] = React.useState('')
+    const [isDisableBtn, setIsDisableBtn] = React.useState(false)
 
     const titleMain = props.data.heading
     const titleSubText = props.data.headingIcon.title
@@ -39,15 +46,44 @@ function DumbComponent(props) {
                 border: `2px solid ${color} !important`, 
                 backgroundColor: color, 
                 transition: `${theme.transitions.easing.easeInOut} ${theme.transitions.duration.shorter}ms`, 
+                textTransform: 'inherit', 
                 '&:hover' : {
                     background: 'none', 
                     color: theme.palette.text.primary
                 }
-            }
+            },
+            icon: {
+                width: 512, 
+                height: 512, 
+                backgroundColor: '#fff',
+                webkitMaskImage: `url(${titleSubIcon})`,
+                maskImage: `url(${titleSubIcon})`,
+                webkitMask: `url(${titleSubIcon}) no-repeat 100% 100% ` ,
+                mask: `url(${titleSubIcon}) no-repeat 100% 100% `,
+                webkitMaskSize: 'cover',
+                maskSize: 'cover'
+            } 
         } )
     })
 
     const classes = useStyles()
+
+    const handleSubmit = (event) => {
+        event.preventDefault() 
+        setIsDisableBtn(true)
+
+        const sendForm = {
+            phone: formPhone,
+            place: 'main page',  
+            isCheck: false
+        }
+
+        sendRequests(sendForm)
+        
+        setIsDisableBtn(false) 
+        setFormPhone('')
+    }
+
     return (
         <div className="mac-main-banner">
             <Container maxWidth='lg'>
@@ -59,9 +95,9 @@ function DumbComponent(props) {
                                     titleMain
                                 }
                             </h1>
-                            <h5 className={classes.subHeading}> 
-                                <svg fill='#fff'>       
-                                    <image fill='#fff' xlinkHref={titleSubIcon} src={titleSubIcon} width={'100%'} height={'100%'}   />    
+                            <h5 className={classes.subHeading}>  
+                                <svg style={{fill: '#fff'}}>       
+                                    <image style={{fill: '#fff'}} xlinkHref={titleSubIcon} src={titleSubIcon} width={'100%'} height={'100%'}   />    
                                 </svg>
  
                                 <span>
@@ -72,7 +108,7 @@ function DumbComponent(props) {
                                 { paragraph }
                             </p>
                             <div className="mac-main-banner_content-form">
-                                <form onSubmit={(e) => { e.preventDefault() }}>
+                                <form onSubmit={handleSubmit}>
                                     <div className="mac-main-banner_content-form__group">
                                         <span>
                                             <input 
@@ -81,15 +117,18 @@ function DumbComponent(props) {
                                                 required 
                                                 placeholder={`${inputLabel}`} 
                                                 className={classes.input}
+                                                value={formPhone}
+                                                onChange={(e) => { setFormPhone(e.target.value) }}
                                             />
                                         </span>
                                         <div className="btn-form">
-                                            <button 
+                                            <Button 
                                                 className={classes.button}
                                                 type="submit"
+                                                disabled={isDisableBtn}
                                             >
                                                 { buttonLabel }
-                                            </button>
+                                            </Button>
                                         </div>
                                     </div>
                                 </form>

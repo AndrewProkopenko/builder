@@ -42,7 +42,8 @@
                     "lineHeight": 1.43
                 }, 
                 "text": "Heading of Container" , 
-                "prop": {}
+                "prop": {},
+                "responseFont": false
             },
             {
                 "id": 2,
@@ -104,7 +105,8 @@
             "lineHeight": 1.43
         }, 
         "text": "heading Default" , 
-        "prop": {}
+        "prop": {}, 
+        "responseFont": false
     }, 
     "paragraph": {
         "id": 1,
@@ -195,6 +197,32 @@
             "buttonLabel": "Вызвать мастера",
             "policy": "Нажимая кнопку 'Вызвать мастера' Вы соглашаетесь на обработку Ваших персональных данных"
         },
+        "image": ""
+    },
+    "accordion" : {
+        "type": "accordion",
+        "id": 1,  
+        "heading": "Accordion Header",  
+        "color": "primary", 
+        "items": [
+            {
+                "head": "heading",
+                "body": "body"
+            }
+        ]
+    },
+    "contactMap": {
+        "type": "contactMap",
+        "id": 1,  
+        "location": "City, street, number", 
+        "phone": "+711 111 111 11" , 
+        "mapFrame": null
+    },
+    "about": {
+        "type": "about", 
+        "id": 1,  
+        "heading": "About Header",  
+        "paragraph": "Lorem ipsum dolor set ami ", 
         "image": ""
     }
 }

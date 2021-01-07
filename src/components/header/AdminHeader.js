@@ -2,10 +2,13 @@
 import React from 'react' 
 
 import { Button, Typography, Box, makeStyles, Tooltip} from '@material-ui/core'
+
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 
 import ModeContext from '../../context/modeContext/ModeContext' 
+
+import RequestsChanger from './headerHelpers/RequestsChanger'
 
 import firebase from '../../firebase/firebase'
 
@@ -69,6 +72,8 @@ function AdminHeader() {
                         <Typography component='span' >
                             hello, { user.providerData[0].email } 
                         </Typography>
+
+                        <RequestsChanger/>
                     
                         <Box> 
                             <Button 

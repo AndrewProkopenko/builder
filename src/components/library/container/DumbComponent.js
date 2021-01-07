@@ -16,9 +16,20 @@ function DumbComponent(props) {
   
     const useStyles = makeStyles((theme) => ({
         myClassName: props.classes ,  
+        resposiveFontSize: { 
+            [`@media (max-width: 960px)`]: { 
+                marginTop: props.classes.marginTop*0.8,
+                marginBottom: props.classes.marginBottom*0.8
+            },
+            [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: { 
+                marginTop: props.classes.marginTop*0.45,
+                marginBottom: props.classes.marginBottom*0.45
+            },
+        }
       }));
     const classes = useStyles(); 
   
+    const classForResp = classes.resposiveFontSize 
  
     return (
         <React.Fragment>
@@ -28,7 +39,7 @@ function DumbComponent(props) {
                     maxWidth={props.settings.maxWidth} 
                     fixed={props.settings.fixed} 
                     disableGutters={props.settings.disableGutters} 
-                    className={classes.myClassName}
+                    className={`${classes.myClassName} ${classForResp}`}
                 > 
                     <Paper style={{padding: '0 15px'}}>
                         {  
@@ -185,7 +196,7 @@ function DumbComponent(props) {
                         maxWidth={props.settings.maxWidth} 
                         fixed={props.settings.fixed} 
                         disableGutters={props.settings.disableGutters} 
-                        className={classes.myClassName}
+                        className={`${classes.myClassName} ${classForResp}`}
                     > 
                         {  
                             props.settings.innerContainer && 

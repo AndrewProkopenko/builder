@@ -8,7 +8,7 @@ import {
     MenuItem,   FormGroup,  Button,
     Box,  Menu,   Drawer,  Tooltip,
     TextField, FormControl, InputLabel,
-    Select,  Container, Typography, ButtonGroup, IconButton
+    Select, Typography, ButtonGroup, IconButton
 } from '@material-ui/core'
 
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -324,7 +324,7 @@ function ContainerElement(props) {
         <Box 
             maxWidth={propsSettings.maxWidth} 
             fixed={propsSettings.fixed} 
-            disableGutters={true}
+            disableGutters={'true'}
             className={classes.containerWrapper} 
         >    
             <Tooltip  title={` container margin top`}  placement={'top'}>

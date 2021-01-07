@@ -1,0 +1,12 @@
+{
+    "type": "accordion",
+    "id": 1,  
+    "heading": "Accordion Header",  
+    "color": "primary", 
+    "items": [
+        {
+            "head": "heading",
+            "body": "body"
+        }
+    ]
+}

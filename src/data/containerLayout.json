@@ -4,12 +4,13 @@
     "maxWidth": "lg", 
     "fixed": false, 
     "innerContainer": false, 
-    "disableGutters": false,
+    "disableGutters": false, 
     "children": [
         {
             "id": 1,
             "type": "heading", 
             "variant": "h1" , 
+            "responseFont": false, 
             "classes" : {
                 "paddingTop": 0 ,
                 "paddingBottom": 0,

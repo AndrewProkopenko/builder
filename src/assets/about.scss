@@ -1,0 +1,92 @@
+.electro-about_image{ 
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 49vw;
+    height: 420px; 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: rgba(138, 138, 138, 0.337);
+}  
+
+.electro-about{ 
+    margin-top: 50px;
+    margin-bottom: 50px; 
+
+
+    &_item { 
+        min-height: 420px; 
+        padding-right: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        
+        h3 { 
+            text-align: left !important;
+            padding-left: 0 !important;
+        }
+        p { 
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin: 0;
+        }
+        
+        
+    }
+}
+
+ 
+
+@media screen and (max-width: 960px) { 
+    
+    .electro-about {  
+        &_item { 
+            min-height: auto; 
+            margin-bottom: 20px;
+            padding-right: 0;
+
+        }
+        &_image { 
+            position: static;
+            width: 100%
+        }
+    }
+    
+}
+
+ 
+    
+ 
+ @media screen and (max-width: 600px) {  
+    .electro-about { 
+         margin-top: 30px;
+         margin-bottom: 30px; 
+         &_item { 
+             min-height: auto;
+             h3 { 
+                 text-align: center !important;
+                 padding-bottom: 20px !important;
+                 margin-bottom: 0;
+             }
+             p { 
+                 text-align: center; 
+                 font-size: 1rem;
+             }
+        }
+        &_image { 
+            height: 300px;  
+        }
+    }
+      
+}
+ 
+ @media screen and (max-width: 400px) {   
+    .electro-about {  
+        &_image { 
+            height: 220px;  
+        }
+    } 
+}
+ 
+   
