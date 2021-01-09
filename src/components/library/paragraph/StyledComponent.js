@@ -122,10 +122,7 @@ const StyledComponent = (props) => {
                 },
                 '& $pbView' : { 
                     opacity: 1
-                }, 
-                '& $btnDrawerStyle': {
-                    opacity: 1
-                } 
+                },  
             }, 
         },
         mtView: {  

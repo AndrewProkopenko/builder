@@ -23,12 +23,22 @@ function DumbComponent(props) {
     const policy = props.data.form.policy
     const imageUrl = props.data.image
     let color = props.data.color 
+    let colorFocusInput
   
     
     const useStyles = makeStyles( (theme) => {
 
-        if(color === 'primary')  color = theme.palette.primary.main
-        if(color === 'secondary') color = theme.palette.secondary.main 
+        if(color === 'primary') { 
+            color = theme.palette.primary.main
+            colorFocusInput = theme.palette.secondary.main
+        }
+        if(color === 'secondary') {
+            color = theme.palette.secondary.main 
+            colorFocusInput = theme.palette.primary.main
+        }
+        if(color === 'custom') { 
+            colorFocusInput = theme.palette.secondary.main
+        }
  
         return( {
             subHeading: {  
@@ -38,12 +48,15 @@ function DumbComponent(props) {
                 }
             },
             input: { 
-                border: `2px solid ${color}`,
+                border: `1px solid ${color}`,
                 backgroundColor: theme.palette.background.default, 
-                color:  theme.palette.text.primary
+                color:  theme.palette.text.primary, 
+                "&:focus": {
+                    borderColor: colorFocusInput
+                }
             },
             button: {
-                border: `2px solid ${color} !important`, 
+                border: `1px solid ${color} !important`, 
                 backgroundColor: color, 
                 transition: `${theme.transitions.easing.easeInOut} ${theme.transitions.duration.shorter}ms`, 
                 textTransform: 'inherit', 

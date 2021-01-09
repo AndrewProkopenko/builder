@@ -1,7 +1,7 @@
 import React from 'react'
 import firebase from '../../../firebase/firebase'
 import Draggable from 'react-draggable';  
-
+ 
 import { 
     Button, Box, Tooltip, TextField, Typography, ButtonGroup, makeStyles, Modal, DialogContent
 } from '@material-ui/core'
@@ -16,14 +16,19 @@ import { DeleteOutline } from '@material-ui/icons';
 import DumbComponent from "./DumbComponent"
 
 function StyledComponent(props) {
-
-        
-    console.log(props)
+ 
     const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
     const [open, setOpen] = React.useState(false)
 
     const [location, setLocation] = React.useState(props.data.location)
     const [phone, setPhone] = React.useState(props.data.phone)
+    const [paragraph, setParagraph] = React.useState(props.data.paragraph || '')
+    const [inputName, setInputName] = React.useState(props.data.inputName || '')
+    const [inputPhone, setInputPhone] = React.useState(props.data.inputPhone || '')
+    const [inputComment, setInputComment] = React.useState(props.data.inputComment || '')
+    const [buttonText, setButtonText] = React.useState(props.data.buttonText || '')
+    const [policy, setPolicy] = React.useState(props.data.policy || '')
+
     const [mapFrame, setMapFrame] = React.useState(props.data.mapFrame) 
 
 
@@ -126,6 +131,12 @@ function StyledComponent(props) {
         const newData = Object.assign({}, props.data) 
         newData.location = location
         newData.phone = phone 
+        newData.paragraph = paragraph 
+        newData.inputName = inputName 
+        newData.inputPhone = inputPhone 
+        newData.inputComment = inputComment 
+        newData.buttonText = buttonText 
+        newData.policy = policy 
         newData.mapFrame = mapFrame === '' ? null : mapFrame 
   
         props.reSaveItem(props.data.id, newData) 
@@ -142,7 +153,7 @@ function StyledComponent(props) {
                 <Box className={classes.btnDrawerStyle}> 
                     <Box display="flex" flexDirection="column"> 
                         <Box mb={1}>
-                            <Tooltip title='Main Banner Settings' placement='right'>
+                            <Tooltip title='Contacts Map Settings' placement='right'>
                                 <Button  
                                     onClick={handleOpen} 
                                     size='medium'
@@ -216,23 +227,98 @@ function StyledComponent(props) {
                                             fullWidth
                                             type='text'
                                             label="Location" 
+                                            size='small'
                                             variant="outlined"  
                                             value={location}
                                             onChange={ (e) => { setIsDisableBtn(false); setLocation(e.target.value) } }     
                                         />
                                     </Box>  
-                                    <Box mt={3} >   
+                                    <Box mt={2} >   
                                         <TextField  
                                             multiline
                                             fullWidth
                                             type='text'
-                                            label="Paragraph" 
+                                            label="Phone" 
+                                            size='small'
                                             variant="outlined"  
                                             value={phone}
                                             onChange={ (e) => { setIsDisableBtn(false);  setPhone(e.target.value)  } }     
                                         />
                                     </Box> 
-                                    <Box mt={3} mb={3}>   
+                                    <Box mt={2} >   
+                                        <TextField  
+                                            multiline
+                                            fullWidth
+                                            type='text'
+                                            label="Paragraph" 
+                                            size='small'
+                                            variant="outlined"  
+                                            value={paragraph}
+                                            onChange={ (e) => { setIsDisableBtn(false);  setParagraph(e.target.value)  } } 
+                                              
+                                        />
+                                    </Box> 
+                                    <Box mt={2} >   
+                                        <TextField  
+                                            multiline
+                                            fullWidth
+                                            type='text'
+                                            label="Input Name Placeholder" 
+                                            size='small'
+                                            variant="outlined"      
+                                            value={inputName}
+                                            onChange={ (e) => { setIsDisableBtn(false);  setInputName(e.target.value)  } }   
+                                        />
+                                    </Box> 
+                                    <Box mt={2} >   
+                                        <TextField  
+                                            multiline
+                                            fullWidth
+                                            type='text'
+                                            label="Input Phone Placeholder" 
+                                            size='small'
+                                            variant="outlined"  
+                                            value={inputPhone}
+                                            onChange={ (e) => { setIsDisableBtn(false);  setInputPhone(e.target.value)  } }     
+                                        />
+                                    </Box> 
+                                    <Box mt={2} >   
+                                        <TextField  
+                                            multiline
+                                            fullWidth
+                                            type='text'
+                                            label="Input Comment Placeholder" 
+                                            size='small'
+                                            variant="outlined" 
+                                            value={inputComment}
+                                            onChange={ (e) => { setIsDisableBtn(false);  setInputComment(e.target.value)  } }     
+                                        />
+                                    </Box> 
+                                    <Box mt={2} >   
+                                        <TextField  
+                                            multiline
+                                            fullWidth
+                                            type='text'
+                                            label="Button Text" 
+                                            size='small'
+                                            variant="outlined"  
+                                            value={buttonText}
+                                            onChange={ (e) => { setIsDisableBtn(false);  setButtonText(e.target.value)  } }     
+                                        />
+                                    </Box> 
+                                    <Box mt={2} >   
+                                        <TextField  
+                                            multiline
+                                            fullWidth
+                                            type='text'
+                                            label="Policy Text" 
+                                            size='small'
+                                            variant="outlined"  
+                                            value={policy}
+                                            onChange={ (e) => { setIsDisableBtn(false);  setPolicy(e.target.value)  } }     
+                                        />
+                                    </Box> 
+                                    <Box mt={2} mb={2}>   
                                         <TextField  
                                             multiline
                                             fullWidth
@@ -248,8 +334,7 @@ function StyledComponent(props) {
                                         <Typography color='secondary'>
                                             If <b>Map Frame</b> is null layout have another view!
                                         </Typography>
-                                    }
-                                    
+                                    } 
                                     <Box className={classes.btnSave}>
                                         <Button
                                             disabled={isDisableBtn}

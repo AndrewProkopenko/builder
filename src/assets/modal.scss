@@ -1,0 +1,68 @@
+.modal-item { 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+        
+    margin: 0 auto;
+
+    h3 { 
+        font-size: 30px;
+        line-height: 30px;
+        font-weight: 700;
+        margin-bottom: 30px;
+        margin-top: 20px;
+        padding: 0 40px;
+    }
+    h6 { 
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 18px;  
+        text-align: center; 
+        margin-bottom: 10px; 
+        margin-top: 0;
+    }
+    form { 
+        max-width: 250px;
+        width: 100%; 
+          
+    }
+    .policy {    
+        max-width: 380px;
+        margin-top: 20px;
+        text-align: center;
+        font-size: 12px;
+        line-height: 12px; 
+        font-weight: 300;
+    }  
+}
+
+
+ 
+ 
+@media screen and (max-width: 600px) {
+    
+ 
+    .modal-item { 
+        h3 { 
+            font-size: 23px;
+            line-height: 23px;
+            margin-bottom: 20px;
+            margin-top: 10px;
+        }
+        h6 { 
+            font-size: 14px;
+            line-height: 14px;
+        }
+        form {  
+            input { 
+                text-align: center; 
+            }
+        }
+    }
+
+} 
+ 
+ 

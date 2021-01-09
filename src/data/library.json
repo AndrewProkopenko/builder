@@ -216,13 +216,23 @@
         "id": 1,  
         "location": "City, street, number", 
         "phone": "+711 111 111 11" , 
-        "mapFrame": null
+        "mapFrame": null, 
+        "paragraph": "paragraph", 
+        "inputName": "Name",
+        "inputPhone": "Phone",
+        "inputComment": "Comment",
+        "buttonText": "Button",
+        "policy": " you agree with policy" 
     },
     "about": {
         "type": "about", 
         "id": 1,  
         "heading": "About Header",  
         "paragraph": "Lorem ipsum dolor set ami ", 
-        "image": ""
+        "image": "", 
+        "isButton": false, 
+        "textButton": "",
+        "targetButton": "", 
+        "colorButton": "primary"
     }
 }

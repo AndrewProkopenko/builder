@@ -21,6 +21,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        align-items: flex-start;
         
         h3 { 
             text-align: left !important;
@@ -64,6 +65,7 @@
          margin-bottom: 30px; 
          &_item { 
              min-height: auto;
+             align-items: center;
              h3 { 
                  text-align: center !important;
                  padding-bottom: 20px !important;

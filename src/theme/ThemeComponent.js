@@ -8,6 +8,8 @@ import CategoryContext from '../context/headerContext/CategoryContext'
 import SendFormContext from '../context/sendFormContext/SendFormContext'  
 
 import RouterComponent from '../Router/RouterComponent'
+
+import Modal from '../components/modal/DumbComponent' 
 import Alert from '../components/placeholders/Alert'
 
 function ThemeComponent() {   
@@ -29,7 +31,8 @@ function ThemeComponent() {
             {
                 isShowAlert &&
                 <Alert severity={isShowAlert} closeAlert={closeAlert} /> 
-            }
+            } 
+            <Modal/>
             <RouterComponent/>
 
         </ThemeProvider>

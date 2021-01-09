@@ -64,19 +64,7 @@ function StyledComponent(props) {
             outline: "1px solid #ffffff00", 
             transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeIn} outline`,
             '&:hover' : {
-                outlineColor: `${theme.palette.error.main}`,
-                '& $mtView' : { 
-                    opacity: 1
-                },
-                '& $mbView' : { 
-                    opacity: 1
-                }, 
-                '& $ptView' : { 
-                    opacity: 1
-                },
-                '& $pbView' : { 
-                    opacity: 1
-                }, 
+                outlineColor: `${theme.palette.error.main}`, 
                 '& $btnDrawerStyle': {
                     opacity: 1
                 }
@@ -330,8 +318,7 @@ function StyledComponent(props) {
                                                                         variant='contained'
                                                                         color='primary' 
                                                                         disabled={items.length - 1 === index ? true : false }
-                                                                    >     
-                                                                    { console.log(items.length, index)}
+                                                                    >    
                                                                         <ExpandMoreOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>
                                                                     </Button>
                                                                 </Tooltip>  

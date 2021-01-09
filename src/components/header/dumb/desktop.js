@@ -16,6 +16,8 @@ import "../../../assets/header.scss"
  
 
 const Desktop = (props) => { 
+    
+
     const useStyles = makeStyles((theme) => { 
         return ({
              
@@ -71,13 +73,12 @@ const Desktop = (props) => {
             },
             toolbar: {
                 display: "flex",
-                justifyContent: "space-between", 
+                justifyContent: "flex-start", 
                 paddingTop: props.settings.classes.paddingY,  
                 paddingBottom: props.settings.classes.paddingY,  
                 paddingLeft: 10, 
                 paddingRight: 10
-            },
-             
+            }, 
             listUnstyle: {
                position: 'absolute', 
                top: 0, 
@@ -89,16 +90,21 @@ const Desktop = (props) => {
                padding: 0, 
                '& li': {}
                 
-            }
+            },
+            
             
         })
     });
-    const { toolbar, menuButton , menuButtonInnerLi , menuButtonLink,  menuLink , listUnstyle  } = useStyles();
-  
+    const { toolbar, menuButton , menuButtonInnerLi , menuButtonLink,  menuLink , listUnstyle, buttonModal  } = useStyles();
+ 
     return (
       <Toolbar disableGutters={true} className={toolbar}>
            
-            {props.logo}  
+        {props.logo}  
+
+        <Box mx={4}>
+            {props.modalBtn}
+        </Box>
 
         <Box display='flex' clone={true} className='link-in-header'>
             <ul className={listUnstyle} >

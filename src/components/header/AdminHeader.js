@@ -9,6 +9,7 @@ import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import ModeContext from '../../context/modeContext/ModeContext' 
 
 import RequestsChanger from './headerHelpers/RequestsChanger'
+import ModalChanger from './headerHelpers/ModalChanger'
 
 import firebase from '../../firebase/firebase'
 
@@ -73,7 +74,10 @@ function AdminHeader() {
                             hello, { user.providerData[0].email } 
                         </Typography>
 
-                        <RequestsChanger/>
+                        <Box display='flex'>
+                            <RequestsChanger/>  &nbsp;
+                            <ModalChanger/>
+                        </Box>
                     
                         <Box> 
                             <Button 

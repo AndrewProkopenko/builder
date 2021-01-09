@@ -29,8 +29,7 @@ function RequestsChanger() {
     
     const { setIsLoading } = React.useContext(LoadingContext)     
     const { requests, updateRequests } = React.useContext(SendFormContext)     
-
-    console.log(requests)
+ 
   
     const [localRequests, setLocalRequests] = React.useState(requests)
 
@@ -231,7 +230,7 @@ function RequestsChanger() {
      
     return (
         <div className={classes.dumbWrapper}>
-            <Tooltip title='Logo Settings' placement='bottom'>
+            <Tooltip title='Requests List' placement='bottom'>
                 <Button  
                     onClick={handleInputFocus} 
                     size='medium'

@@ -146,7 +146,7 @@ function ThemeChanger() {
      
     return (
         <div className={classes.dumbWrapper}>
-            <Tooltip title='Logo Settings' placement='bottom'>
+            <Tooltip title='Theme Settings' placement='bottom'>
                 <Button  
                     onClick={handleInputFocus} 
                     size='medium'

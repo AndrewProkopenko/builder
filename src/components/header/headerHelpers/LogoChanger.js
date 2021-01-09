@@ -15,6 +15,13 @@ import {
     Box,
     makeStyles,   
     Grid,  
+    Divider,
+    FormControlLabel, 
+    Switch,
+    FormControl,
+    InputLabel, 
+    Select, 
+    MenuItem
 } from '@material-ui/core' 
 
 import { amber } from '@material-ui/core/colors'
@@ -25,12 +32,13 @@ import ImageIcon from '@material-ui/icons/Image';
  
 import Draggable from 'react-draggable';  
 
-function LogoChanger() {
+function LogoChanger() { 
+    
     
     const { setIsLoading } = React.useContext(LoadingContext)
-    const { logo, updateLogo } = React.useContext(CategoryContext)     
+    const { logo, modal, updateLogo } = React.useContext(CategoryContext)     
 
-    const { removeImage , updateImageNameList } = React.useContext(ImageContext)     
+    const { removeImage  } = React.useContext(ImageContext)     
   
     const [open, setOpen] = React.useState(false)
     const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
@@ -39,7 +47,19 @@ function LogoChanger() {
     const [subText, setSubText] = React.useState(logo.subText)
     const [image, setImage] = React.useState(logo.image)
     const [imageName, setImageName] = React.useState(logo.imageName || '')
-      
+
+    
+    const [isModal, setIsModal] = React.useState(modal.isModal)  
+    const [modalText, setModalText] = React.useState(modal.text) 
+
+    const [colorSelect,  setColorSelect] = React.useState(modal.color)
+    const [colorCustom, setColorCustom] = React.useState(modal.color)
+
+    React.useEffect(() => {
+        if(modal.color !== 'primary' && modal.color !== 'secondary' ) {  
+            setColorSelect('custom')
+        }
+    }, [modal])
 
     const handleInputFocus = () => {  
       setOpen(true);
@@ -73,12 +93,7 @@ function LogoChanger() {
             marginBottom: 10, 
             cursor: 'move'
         },
-        btnSetting: {
-            // opacity: 0,
-            // position: 'absolute', 
-            // zIndex: 10, 
-            // top: 2, 
-            // right: 2,
+        btnSetting: { 
             backgroundColor: amber[500], 
             minWidth: 80, 
             maxHeight: 50, 
@@ -91,18 +106,7 @@ function LogoChanger() {
                 flexDirection: 'column', 
                 fontSize: 10
             }
-        },
-        dumbWrapper: {
-            // position: 'absolute', 
-            // zIndex: 10, 
-            // top: 0, 
-            // left: 0,  
-            // height: 64,
-            // width: 150, 
-            '&:hover $btnSetting': {
-                opacity: 1
-            }
-        },
+        }, 
         btnSave: {
             position: 'sticky', 
             zIndex: 15,
@@ -134,7 +138,17 @@ function LogoChanger() {
             mainText: mainText,
             subText: subText
         }
-        updateLogo(newLogo)
+        const newModal = { 
+            isModal: isModal, 
+            text: modalText
+        }
+        if (colorSelect === 'custom') {
+            newModal.color = colorCustom
+        } else {
+            newModal.color = colorSelect
+        }
+        
+        updateLogo(newLogo, newModal)
         setIsDisableBtn(true)
         handleClose()
     }  
@@ -165,11 +179,15 @@ function LogoChanger() {
           }
         ) 
     }
+    const handleChange = () => {
+        setIsModal(!isModal)
+        setIsDisableBtn(false)
+    }
     
      
     return (
         <div className={classes.dumbWrapper}>
-            <Tooltip title='Logo Settings' placement='bottom'>
+            <Tooltip title='Logo/Modal Settings' placement='bottom'>
                 <Button  
                     onClick={handleInputFocus} 
                     size='medium'
@@ -177,7 +195,7 @@ function LogoChanger() {
                     color='primary' 
                     className={classes.btnSetting}
                 >   
-                    <span>Logo</span>
+                    <span>Logo/Modal</span>
                     <SettingsIcon style={{ color: '#fff' }} fontSize='small'/>
                 </Button>
             </Tooltip>
@@ -195,9 +213,12 @@ function LogoChanger() {
                                 className={classes.menuTitle}
                                 id="draggable-dialog-title"
                             >
-                                Создать/отредактировать логотип  <OpenWithIcon/>
+                                Редактировать логотип/модальное окно   <OpenWithIcon/>
                             </Typography>
                              
+                            <Typography variant='h6' gutterBottom>
+                                Set logo 
+                            </Typography>
                             <Grid container>
                                 <Grid item xs={5}>
                                     <Button 
@@ -214,9 +235,9 @@ function LogoChanger() {
                                         />
                                     </Button>
 
-                                    <Box mt={2}>
+                                    <Box mt={1}>
                                         <img
-                                            width={100}
+                                            width={60}
                                             src={image}
                                             alt='logo'
                                         /> 
@@ -242,7 +263,66 @@ function LogoChanger() {
                                 </Grid>
 
                             </Grid>
-                           
+                            <Divider style={{margin: '10px 0'}}/>
+                            
+                            <Typography variant='h6' gutterBottom>
+                                Set Modal Button 
+                            </Typography>
+                            <Box  mt={3} mb={3}>
+                                <FormControlLabel
+                                    control={
+                                        < Switch checked = { isModal }
+                                                onChange = { handleChange }
+                                                name = "checkedB" 
+                                                color = "primary" />
+                                    }
+                                    label="Add Modal Button"
+                                /> 
+                                {
+                                    isModal && 
+                                    <Box mt={1} >
+                                        <Box mb={1}> 
+                                                <TextField
+                                                    type='text'
+                                                    label="Text for Button"
+                                                    variant="outlined"
+                                                    value={modalText}
+                                                    onChange={(e) => {
+                                                    setIsDisableBtn(false);
+                                                    setModalText(e.target.value)
+                                                }}/>   
+                                        </Box>
+                                        <Box mt={2} display="flex" flexDirection='column'>
+                                            <FormControl variant='filled' style={{minWidth: '250px' }}>
+                                                <InputLabel id="color-select-label">Color for Button</InputLabel>
+                                                <Select
+                                                    labelId="color-select-label"
+                                                    id="color-select"
+                                                    value={colorSelect}
+                                                    onChange={(e) => {setIsDisableBtn(false); setColorSelect(e.target.value)   }}
+                                                >
+                                                    <MenuItem value={'primary'}>Primary</MenuItem>
+                                                    <MenuItem value={'secondary'}>Secondary</MenuItem>
+                                                    <MenuItem value={'custom'}>Custom</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                            <Box mt={2} >
+                                                {
+                                                    colorSelect === 'custom' &&
+                                                    <TextField    
+                                                        type='text'
+                                                        label="Set Custom Color on #hex"  
+                                                        variant="outlined"  
+                                                        value={colorCustom}
+                                                        onChange={ (e) => { setIsDisableBtn(false); setColorCustom(e.target.value)  } }     
+                                                    />
+                                                }
+                                                
+                                            </Box>
+                                        </Box>
+                                    </Box>
+                                }
+                            </Box>
 
 
                             <Box className={classes.btnSave} mt={2}>

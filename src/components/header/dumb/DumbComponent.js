@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import ModalContext from '../../../context/modalContext/ModalContext'  
 import CategoryContext from '../../../context/headerContext/CategoryContext'
 import { NavLink } from "react-router-dom";
 
@@ -12,19 +13,38 @@ import {
     makeStyles, 
     Container, 
     Box, 
+    Button
 } from "@material-ui/core"; 
+import { darken } from '@material-ui/core/styles';
+
 function DumbComponent() {
 
-    const {categories, logo, settings} = React.useContext(CategoryContext)    
+    const { handleOpen  } = React.useContext(ModalContext)
+    const {categories, logo, modal,  settings} = React.useContext(CategoryContext)    
   
-   const [headerHeight, setHeaderHeight] = useState(0)
+    const [headerHeight, setHeaderHeight] = useState(0)
 
-  
+    let modalBtnColor = modal.color
+    let modalBtnColor1 
+    let modalBtnColor2 
 
     let widthMobile 
     
     const useStyles = makeStyles((theme) => {
         widthMobile = theme.breakpoints.values[`${settings.breakpoint}`]
+        if(modalBtnColor === 'primary') {
+            modalBtnColor1 = theme.palette.primary.main
+            modalBtnColor2 = theme.palette.primary.dark
+        }
+        if(modalBtnColor === 'secondary') {
+            modalBtnColor1 = theme.palette.secondary.main
+            modalBtnColor2 = theme.palette.secondary.dark
+        }
+        if(modalBtnColor !== 'primary' && modalBtnColor !== 'secondary' ) {
+            modalBtnColor1 = modal.color
+            modalBtnColor2 = modal.color
+        } 
+
         return ({
             header: { 
                 display: 'flex', 
@@ -32,10 +52,7 @@ function DumbComponent() {
 
                 backgroundColor: theme.palette.background.paper, 
 
-                position: settings.classes.position,  
-                // paddingTop: settings.classes.paddingY,  
-                // paddingBottom: settings.classes.paddingY,  
-                // backgroundColor: settings.classes.backgroundColor, 
+                position: settings.classes.position,   
                 boxShadow: settings.classes.boxShadow, 
 
                 top: 0, 
@@ -86,10 +103,21 @@ function DumbComponent() {
                     height: 50, 
                 },
             }, 
-               
+            buttonModal: { 
+                backgroundImage: `linear-gradient(180deg, ${modalBtnColor1} 0%, ${modalBtnColor2} 100%)`,  
+                color: theme.palette.getContrastText(modalBtnColor2), 
+                transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeInOut}`,
+                textTransform: 'inherit', 
+                padding: theme.spacing(1, 3), 
+                cursor: 'pointer', 
+                '&:hover': { 
+                    color: theme.palette.getContrastText(modalBtnColor2) ,
+                    backgroundImage: `linear-gradient(200deg, ${modalBtnColor1} 0%, ${modalBtnColor2} 100%)`, 
+                }
+            }
         })
     });
-    const { header, logoImage ,logoMain , logoSub,  fixedPadding} = useStyles();
+    const { header, logoImage ,logoMain , logoSub, fixedPadding, buttonModal } = useStyles();
   
     useEffect(() => {  
         const setResponsiveness = () => {
@@ -106,7 +134,10 @@ function DumbComponent() {
     }, []);
      
     const [mobileView, setMobileView] = useState(false); 
-      
+
+    const openModal = () => {
+        handleOpen('')
+    }
 
     const createLogo = (
         <NavLink to={'/'} style={{textDecoration: 'none'}} >
@@ -125,9 +156,19 @@ function DumbComponent() {
         </NavLink> 
     );
 
-   
-    
-  
+    const createModalBtn = ( 
+        <Button
+            onClick={openModal}
+            variant="contained"
+            size='small' 
+            className={buttonModal}
+        >
+            { modal.text }
+        </Button>
+    ) 
+        
+    const renderModal = modal.isModal ? createModalBtn : ( <span></span> )
+ 
 
     return (
         <React.Fragment>
@@ -143,9 +184,18 @@ function DumbComponent() {
                     className='link-in-header' 
                 > 
                     {   !mobileView ? 
-                        <Desktop logo={createLogo}  categories={categories} settings={settings}/> 
+                        <Desktop 
+                            modalBtn={renderModal}
+                            logo={createLogo}  
+                            categories={categories} 
+                            settings={settings}
+                        /> 
                         : 
-                        <Mobile logo={createLogo}  categories={categories}  /> }
+                        <Mobile 
+                            modalBtn={renderModal}
+                            logo={createLogo}  
+                            categories={categories}  
+                        /> }
                 </Container>
             </AppBar> 
         </React.Fragment>

@@ -323,8 +323,7 @@ function ContainerElement(props) {
     return (
         <Box 
             maxWidth={propsSettings.maxWidth} 
-            fixed={propsSettings.fixed} 
-            disableGutters={'true'}
+            fixed={String(propsSettings.fixed)}  
             className={classes.containerWrapper} 
         >    
             <Tooltip  title={` container margin top`}  placement={'top'}>

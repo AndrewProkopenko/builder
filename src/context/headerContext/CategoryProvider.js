@@ -13,6 +13,11 @@ export default class CategoryProvider extends React.Component {
             mainText: '', 
             subText: ''
         },
+        modalHeader: {
+            isModal: false, 
+            color: '',  
+            text: '' 
+        },
         settings: {}, 
         themeDark: {},
         themeLight: {},
@@ -31,6 +36,7 @@ export default class CategoryProvider extends React.Component {
             this.setState({
                 categories: doc.data().list,
                 logo: doc.data().logo,
+                modalHeader: doc.data().modalHeader,
                 settings: doc.data().headerSettings, 
                 themeDark: doc.data().themeDark, 
                 themeLight: doc.data().themeLight,  
@@ -58,9 +64,10 @@ export default class CategoryProvider extends React.Component {
         })
     }
 
-    async updateLogo(logo) {   
+    async updateLogo(logo, modal) {   
         await firebase.db.collection('site1category').doc('categoryList').update({
-            logo: logo
+            logo: logo,
+            modalHeader: modal
         })
     }
     async updateSettings(settings) {   
@@ -83,12 +90,12 @@ export default class CategoryProvider extends React.Component {
                 value={{
                     categories: this.state.categories,
                     logo: this.state.logo,
+                    modal: this.state.modalHeader,
                     settings: this.state.settings,
                     themeMode: this.state.themeMode,
                     themeDark: this.state.themeDark,
                     themeLight: this.state.themeLight,
-                    setThemeMode: (mode) => {
-                        console.log(mode)
+                    setThemeMode: (mode) => { 
                         localStorage.setItem('siteBuilderThemeMode', mode)
                         this.setState({
                             themeMode: mode
@@ -102,11 +109,12 @@ export default class CategoryProvider extends React.Component {
                          
                         this.updateTheme(dark, light)
                     },
-                    updateLogo: (data) => { 
+                    updateLogo: (logo, modal) => { 
                         this.setState({
-                            logo: data
+                            logo: logo,
+                            modalHeader: modal
                         })
-                        this.updateLogo(data) 
+                        this.updateLogo(logo, modal) 
                     }, 
                     updateSettings: (data) => { 
                         this.setState({

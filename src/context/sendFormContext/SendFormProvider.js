@@ -8,6 +8,7 @@ export default class SendFormProvider extends React.Component {
 
     state = {   
         requests: [], 
+        modalSettings: {}, 
         isShowAlert: null,
     }
 
@@ -21,6 +22,7 @@ export default class SendFormProvider extends React.Component {
         else { 
             this.setState({
                 requests: doc.data().list, 
+                modalSettings: doc.data().modalSettings, 
             }) 
         } 
     }
@@ -35,15 +37,27 @@ export default class SendFormProvider extends React.Component {
         
         return `${year}/${month<10?`0${month}`:`${month}`}/${date}; ${hour}:${minute}:${second}`
     }
+    closeAlertFromTimeout() {
+        setTimeout(() => {
+            this.setState({ 
+                isShowAlert: null
+            })
+        }, 7000);
+    }
 
     async sendRequests(req) { 
+        
+
         const newList = this.state.requests.slice()
         const newReq = Object.assign({
             time: this.getCurrentDate()
         }, req)
         newList.push(newReq)
  
- 
+        this.setState({  
+            isShowAlert: 'info'
+        })
+        
         await firebase.db.collection("site1category").doc('requests').update({
             list: newList, 
         }).then(() => { 
@@ -60,18 +74,19 @@ export default class SendFormProvider extends React.Component {
             this.closeAlertFromTimeout()
           })
     }
-
-    closeAlertFromTimeout() {
-        setTimeout(() => {
-            this.setState({ 
-                isShowAlert: null
-            })
-        }, 5000);
-    }
-
+ 
     async updateRequests(req) {
         await firebase.db.collection("site1category").doc('requests').update({
             list: req, 
+        }) 
+    }
+    
+    async updateModalSettings(settings) {
+        this.setState({
+            modalSettings: settings
+        })
+        await firebase.db.collection("site1category").doc('requests').update({
+            modalSettings: settings, 
         }) 
     }
 
@@ -81,8 +96,13 @@ export default class SendFormProvider extends React.Component {
                 value={{
                     requests: this.state.requests, 
                     isShowAlert: this.state.isShowAlert, 
+                    modalSettings: this.state.modalSettings, 
+                    
                     updateRequests: (req) => {
                         this.updateRequests(req)
+                    },
+                    updateModalSettings: (settings) => {
+                        this.updateModalSettings(settings)
                     },
                     sendRequests: (req) => {
                         this.sendRequests(req)

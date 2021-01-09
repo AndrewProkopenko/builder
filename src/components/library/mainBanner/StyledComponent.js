@@ -45,11 +45,10 @@ function StyledComponent(props) {
     };
 
     React.useEffect(() => {
-        if(props.data.color !== 'primary' && props.data.color !== 'secondary' ) { 
-            console.log(props.data.color)
+        if(props.data.color !== 'primary' && props.data.color !== 'secondary' ) {  
             setColorSelect('custom')
         }
-    }, []) 
+    }, [props.data.color]) 
 
     const useStyles = makeStyles((theme) => ({
         btnDrawerStyle : { 
@@ -73,18 +72,7 @@ function StyledComponent(props) {
             transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeIn} outline`,
             '&:hover' : {
                 outlineColor: `${theme.palette.error.main}`,
-                '& $mtView' : { 
-                    opacity: 1
-                },
-                '& $mbView' : { 
-                    opacity: 1
-                }, 
-                '& $ptView' : { 
-                    opacity: 1
-                },
-                '& $pbView' : { 
-                    opacity: 1
-                }, 
+                  
                 '& $btnDrawerStyle': {
                     opacity: 1
                 }

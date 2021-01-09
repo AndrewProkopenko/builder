@@ -145,7 +145,7 @@ function StyleChanger() {
      
     return (
         <div className={classes.dumbWrapper}>
-            <Tooltip title='Logo Settings' placement='bottom'>
+            <Tooltip title='Style Settings' placement='bottom'>
                 <Button  
                     onClick={handleInputFocus} 
                     size='medium'

@@ -2,8 +2,7 @@ import React from 'react'
 import { NavLink } from "react-router-dom";
 import {  
     Toolbar, 
-    makeStyles,
-    Button,
+    makeStyles, 
     IconButton,
     Drawer, 
     MenuItem, 
@@ -13,7 +12,7 @@ import {
 } from "@material-ui/core";
  
 import MenuIcon from "@material-ui/icons/Menu"; 
-import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt'; 
+import CloseIcon from '@material-ui/icons/Close'; 
 import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
  
 
@@ -86,14 +85,13 @@ const Mobile = (props) => {
                 }}
             >
                 <div className={drawerContainer}>
-                    <Box mx={2} my={1}  >
-                        <Button 
-                            variant='outlined'
-                            color='default'
-                            onClick={handleDrawerClose}
+                    <Box mx={2} my={1}  > 
+                        <IconButton 
+                            aria-label="close" 
+                            onClick={handleDrawerClose}   
                         >
-                            <ArrowRightAltIcon/>
-                        </Button>
+                            <CloseIcon />
+                        </IconButton>
                     </Box>
                     
                     {
@@ -152,6 +150,13 @@ const Mobile = (props) => {
                             
                         })
                     }
+
+                    <Box px={2}>
+                        <Box  my={4} width={'100%'} clone={true}>
+                            {props.modalBtn}
+                        </Box>
+                    </Box>
+                   
                 </div>
             </Drawer>
 

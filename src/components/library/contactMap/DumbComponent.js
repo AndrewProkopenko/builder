@@ -15,7 +15,13 @@ function DumbComponent(props) {
     const mapHtml = props.data.mapFrame
     const location = props.data.location 
     const phone = props.data.phone
-
+    const paragraph = props.data.paragraph
+    const inputName = props.data.inputName
+    const inputPhone = props.data.inputPhone
+    const inputComment = props.data.inputComment
+    const buttonText = props.data.buttonText
+    const policy = props.data.policy
+    
 
     let colorMapOnload 
 
@@ -24,8 +30,8 @@ function DumbComponent(props) {
         return ({
             svg: {
                 fill: theme.palette.secondary.main
-            },
-            itemBackground: { 
+            }, 
+            itemBackground: {  
                 backgroundColor: theme.palette.background.paper, 
                 position: 'relative', 
                 zIndex: 10, 
@@ -142,57 +148,61 @@ function DumbComponent(props) {
                                         </div>
                                     </Box>
                                     <form onSubmit={handleSubmit}>
-                                    <p>Задайте нам вопрос</p>
-                                    <div className="kr-form">
-                                        <div className="kr-form-inputs">
-                                        <span>
-                                            <input 
-                                                name="name" 
-                                                type="text" 
-                                                placeholder="Ваше имя" 
-                                                required 
+                                        <p> 
+                                            { paragraph }
+                                        </p>
+                                        <div className="kr-form">
+                                            <div className="kr-form-inputs">
+                                            <span>
+                                                <input 
+                                                    name="name" 
+                                                    type="text" 
+                                                    placeholder={inputName} 
+                                                    required 
+                                                    className={classes.input}
+                                                    value={formName}
+                                                    onChange={e => {setFormName(e.target.value)}}
+                                                />
+                                            </span>
+                                            <span>
+                                                <input 
+                                                    name="phone" 
+                                                    type="tel" 
+                                                    placeholder={inputPhone}
+                                                    required 
+                                                    className={classes.input}
+                                                    value={formPhone}
+                                                    onChange={e => {setFormPhone(e.target.value)}}
+                                                />
+                                            </span>
+                                            </div>
+                                            <textarea   
+                                                cols={30} 
+                                                rows={10} 
+                                                placeholder={inputComment} 
+                                                defaultValue={""} 
                                                 className={classes.input}
-                                                value={formName}
-                                                onChange={e => {setFormName(e.target.value)}}
+                                                value={formComment}
+                                                onChange={e => {setFormComment(e.target.value)}}
                                             />
-                                        </span>
-                                        <span>
-                                            <input 
-                                                name="phone" 
-                                                type="tel" 
-                                                placeholder="Ваш телефон" 
-                                                required 
-                                                className={classes.input}
-                                                value={formPhone}
-                                                onChange={e => {setFormPhone(e.target.value)}}
-                                            />
-                                        </span>
                                         </div>
-                                        <textarea   
-                                            cols={30} 
-                                            rows={10} 
-                                            placeholder="Ваш коментарий" 
-                                            defaultValue={""} 
-                                            className={classes.input}
-                                            value={formComment}
-                                            onChange={e => {setFormComment(e.target.value)}}
-                                        />
-                                    </div>
-                                    <div className="ln-contact_item-btn">
-                                        <div className="btn-custom">
-                                            <Button type="submit" className={classes.button}>
-                                                <span>Отправить</span>
-                                            </Button>
+                                        <div className="ln-contact_item-btn">
+                                            <div className="btn-custom">
+                                                <Button type="submit" className={classes.button}>
+                                                    <span> { buttonText } </span>
+                                                </Button>
+                                            </div>
+                                            <span>
+                                                { policy }
+                                            </span>
                                         </div>
-                                        <span>Нажимая на кнопку "Отправить" Вы соглашаетесь на обработку Ваших данных</span>
-                                    </div>
-                                </form>
+                                    </form>
                                 </Box>
                             </div> 
                         </Grid>
                         {   
                             mapHtml  && 
-                            <Grid item lg={6} className=" position-static "> 
+                            <Grid item lg={6} className={`position-static`} > 
                                 <div className="map" style={{ backgroundColor: colorMapOnload }} > 
                                     <div style={{height: '100%'}} dangerouslySetInnerHTML={{__html: mapHtml}}></div> 
                                 </div>

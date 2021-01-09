@@ -40,7 +40,10 @@ const SimpleBreadcrumbs = (props) =>  {
             alignItems: 'center', 
             color: theme.palette.text.primary,
             textDecoration: 'none', 
-
+            transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeInOut} `,
+            "&:hover": { 
+                color: theme.palette.text.secondary
+            }
         }
     }))
 

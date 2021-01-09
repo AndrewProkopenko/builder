@@ -5,7 +5,7 @@ import uuid from 'react-uuid'
 
 import { Typography, Button, Box, Tooltip,  Modal, DialogContent  } from "@material-ui/core"; 
  
-import { useTheme, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import SettingsIcon from '@material-ui/icons/Settings';
 import OpenWithIcon from '@material-ui/icons/OpenWith';
 
@@ -26,8 +26,7 @@ import LibraryContext from '../../context/libraryContext/LibraryContext'
 
 function SinglePage(props) {
 
-  const location = useLocation()
-  const theme = useTheme(); 
+  const location = useLocation() 
 
   const pageSlug = props.slugForUpdate
 
