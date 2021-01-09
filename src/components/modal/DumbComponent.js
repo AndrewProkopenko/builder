@@ -80,7 +80,7 @@ export default function TransitionsModal() {
       }, 
       input: {
         fontFamily: 'inherit', 
-        border: `1px solid ${theme.palette.text.primary}`, 
+        border: `1px solid ${theme.palette.divider}`, 
         outline: 0, 
         backgroundColor: theme.palette.background.paper,
         color: theme.palette.text.primary,
