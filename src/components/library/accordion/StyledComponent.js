@@ -1,5 +1,6 @@
 import React from 'react' 
 import Draggable from 'react-draggable';  
+import {ColorPicker} from '../colorPicker/ColorPicker'
 
 import { 
     MenuItem,Button, Box, Tooltip, TextField, FormControl, InputLabel,
@@ -219,27 +220,34 @@ function StyledComponent(props) {
                             color="secondary"
                             aria-label="vertical contained primary button group"
                             variant="contained"
-                        >
-                            <Tooltip title='Get Up' placement='right'>
-                                <Button   
-                                    onClick={() => { props.swapContainer('up', props.data.id) }}
-                                    size='medium'
-                                    variant='contained' 
-                                    className={classes.btnDrawerItem}
-                                >  
-                                    <ExpandLessOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>   
-                                </Button>
-                            </Tooltip> 
-                            <Tooltip title='Get Down' placement='right'>
-                                <Button   
-                                    onClick={() => { props.swapContainer('down', props.data.id) }}
-                                    size='medium'
-                                    variant='contained' 
-                                    className={classes.btnDrawerItem}
-                                >     
-                                    <ExpandMoreOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>
-                                </Button>
-                            </Tooltip> 
+                        >   
+                            {
+                                !props.isFirst  &&
+                                <Tooltip title='Get Up' placement='right'>
+                                    <Button   
+                                        onClick={() => { props.swapContainer('up', props.data.id) }}
+                                        size='medium'
+                                        variant='contained' 
+                                        className={classes.btnDrawerItem}
+                                    >  
+                                        <ExpandLessOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>   
+                                    </Button>
+                                </Tooltip>
+                            }
+                            {
+                                !props.isLast &&
+                                <Tooltip title='Get Down' placement='right'>
+                                    <Button   
+                                        onClick={() => { props.swapContainer('down', props.data.id) }}
+                                        size='medium'
+                                        variant='contained' 
+                                        className={classes.btnDrawerItem}
+                                    >     
+                                        <ExpandMoreOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>
+                                    </Button>
+                                </Tooltip> 
+                            }
+                            
                         </ButtonGroup>
                         
                         <Box mt={1}>
@@ -300,28 +308,33 @@ function StyledComponent(props) {
                                                                 aria-label="contained primary button group"
                                                                 variant="contained" 
                                                             >  
-                                                                <Tooltip title='Get Up' placement='top'>
-                                                                    <Button   
-                                                                        onClick={() => { swapItem('up', index) }}
-                                                                        size='small'
-                                                                        variant='contained'
-                                                                        color='primary' 
-                                                                        disabled={index === 0 ? true : false }
-                                                                    >  
-                                                                        <ExpandLessOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>   
-                                                                    </Button>
-                                                                </Tooltip> 
-                                                                <Tooltip title='Get Down' placement='top'>
-                                                                    <Button   
-                                                                        onClick={() => { swapItem('down', index) }} 
-                                                                        size='small'
-                                                                        variant='contained'
-                                                                        color='primary' 
-                                                                        disabled={items.length - 1 === index ? true : false }
-                                                                    >    
-                                                                        <ExpandMoreOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>
-                                                                    </Button>
-                                                                </Tooltip>  
+                                                                {
+                                                                    index !== 0 &&
+                                                                    <Tooltip title='Get Up' placement='top'>
+                                                                        <Button   
+                                                                            onClick={() => { swapItem('up', index) }}
+                                                                            size='small'
+                                                                            variant='contained'
+                                                                            color='primary'  
+                                                                        >  
+                                                                            <ExpandLessOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>   
+                                                                        </Button>
+                                                                    </Tooltip> 
+                                                                }
+                                                                 
+                                                                {
+                                                                    items.length - 1 !== index && 
+                                                                    <Tooltip title='Get Down' placement='top'>
+                                                                        <Button   
+                                                                            onClick={() => { swapItem('down', index) }} 
+                                                                            size='small'
+                                                                            variant='contained'
+                                                                            color='primary'  
+                                                                        >    
+                                                                            <ExpandMoreOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>
+                                                                        </Button>
+                                                                    </Tooltip>  
+                                                                }
                                                                 <Tooltip title='Delete Page' placement='top'>
                                                                     <Button
                                                                         variant='contained'
@@ -393,13 +406,12 @@ function StyledComponent(props) {
                                         <Box ml={1} >
                                             {
                                                 colorSelect === 'custom' &&
-                                                <TextField    
-                                                    type='text'
-                                                    label="Set Custom Color on #hex"  
-                                                    variant="outlined"  
-                                                    value={colorCustom}
-                                                    onChange={ (e) => { setIsDisableBtn(false); setColorCustom(e.target.value)  } }     
-                                                />
+                                                <ColorPicker
+                                                    initialColor = {colorCustom}
+                                                    changeColor = {setColorCustom}
+                                                    setIsDisableBtn = {setIsDisableBtn}
+                                                    position = {'right'}
+                                                />   
                                             }
                                             
                                         </Box>

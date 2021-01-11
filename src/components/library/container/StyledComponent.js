@@ -1,20 +1,14 @@
 import React from 'react' 
 import uuid from 'react-uuid' 
-import { TwitterPicker } from 'react-color';
- 
-import DumbComponent from './DumbComponent' 
+import {ColorPicker} from '../colorPicker/ColorPicker'
   
 import { 
     MenuItem,   FormGroup,  Button,
     Box,  Menu,   Drawer,  Tooltip,
     TextField, FormControl, InputLabel,
-    Select, Typography, ButtonGroup, IconButton
-} from '@material-ui/core'
+    Select, Typography, IconButton
+} from '@material-ui/core' 
 
-import SettingsIcon from '@material-ui/icons/Settings';
-import ExpandLessOutlinedIcon from '@material-ui/icons/ExpandLessOutlined';
-import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
-  
 import LibraryContext from '../../../context/libraryContext/LibraryContext' 
 
 import { makeStyles } from '@material-ui/core/styles';  
@@ -58,8 +52,7 @@ function ContainerElement(props) {
     const [settingInnerContainer, setSettingInnerContainer] = React.useState(props.data.innerContainer || false )
     const [settingIsPaper, setSettingIsPaper] = React.useState(props.data.isPaper || false )
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [open, setOpen] = React.useState(false)
+    const [anchorEl, setAnchorEl] = React.useState(null); 
      
 
     const propsSettings = {
@@ -72,90 +65,7 @@ function ContainerElement(props) {
 
 
     const useStyles = makeStyles((theme) => ({  
-        btnDrawerStyle : {
-            backgroundColor: theme.palette.error.dark, 
-            position: 'absolute',  
-            top: 0, 
-            left: 0, 
-            zIndex: 1030,   
-            minWidth: 50, 
-            opacity: 0, 
-            transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeIn} opacity`,
-        }, 
-        btnDrawerItem: { 
-            backgroundColor: theme.palette.error.dark, 
-            '&:hover': { 
-                backgroundColor: theme.palette.secondary.dark,   
-            }, 
-        },
-        containerWrapper: {
-            position: 'relative', 
-            outline: "1px solid #ffffff00", 
-            transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeIn} outline`,
-            '&:hover' : {
-                outlineColor: `${theme.palette.error.main}`,
-                '& $mtView' : { 
-                    opacity: 1
-                },
-                '& $mbView' : { 
-                    opacity: 1
-                }, 
-                '& $ptView' : { 
-                    opacity: 1
-                },
-                '& $pbView' : { 
-                    opacity: 1
-                }, 
-                '& $btnDrawerStyle': {
-                    opacity: 1
-                }
-            },   
-            
-        },
-        mtView: {  
-            position: 'absolute', 
-            top: `-${margin.top}px`, 
-            left: 0, 
-            right: 0,
-            zIndex: 10, 
-            backgroundColor: '#fff7003d',
-            height: `${margin.top}px`, 
-            opacity: 0,
-            transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeIn} opacity`
-        },
-        mbView: {  
-            position: 'absolute', 
-            bottom: `-${margin.bottom}px`, 
-            left: 0, 
-            right: 0,
-            zIndex: 10, 
-            backgroundColor: '#fff7003d',
-            height: `${margin.bottom}px`, 
-            opacity: 0,
-            transition: `180ms ${theme.transitions.easing.easeIn} opacity`
-        }, 
-        ptView: {  
-            position: 'absolute', 
-            top: 0, 
-            left: 0, 
-            right: 0,
-            zIndex: 10, 
-            backgroundColor: '#400e575e',
-            height: `${padding.top}px`, 
-            opacity: 0,
-            transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeIn} opacity`
-        },
-        pbView: {  
-            position: 'absolute', 
-            bottom: 0, 
-            left: 0, 
-            right: 0,
-            zIndex: 10, 
-            backgroundColor: '#400e575e',
-            height: `${padding.bottom}px`, 
-            opacity: 0,
-            transition: `180ms ${theme.transitions.easing.easeIn} opacity`
-        },
+         
         settingsItem: {
             marginRight: 5, 
             marginBottom: 10, 
@@ -168,7 +78,7 @@ function ContainerElement(props) {
             maxWidth: '50%'
         }, 
         inputGroup: {
-            border: "1px solid #f5f5f5", 
+            border: `1px solid ${theme.palette.divider}`, 
             padding: 3, 
             inputNumber: { 
                 maxWidth: "100%"
@@ -228,18 +138,14 @@ function ContainerElement(props) {
 
         setIsDisableBtn(false);
     }
-     
-    const toggleDrawer =  () => {  
-        setOpen(!open)
-    }; 
-
+  
     const handleHeadingMenuClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
     const handleHeadingMenuClose = (variant, type) => {
         setAnchorEl(null); 
-        toggleDrawer()
+        props.toggleDrawer()
         addHeading(variant, type)
     }; 
   
@@ -272,7 +178,7 @@ function ContainerElement(props) {
   
         setChildren(newChildren) 
 
-        toggleDrawer()
+        props.toggleDrawer()
 
         // save in firestore
         props.reSaveContainer(props.data.id, newChildren)
@@ -282,110 +188,21 @@ function ContainerElement(props) {
     const reSaveClassesSettings = () => {    
         props.reSaveContainerStyleSettings(props.data.id, myClassName, propsSettings)
         setIsDisableBtn(true); 
-        toggleDrawer()
+        props.toggleDrawer()
     } 
+     
     
-    const reSaveChildren = async (id, data) => {   
-        let slicedChild = children.slice()
-        slicedChild.forEach((item) => {
-            if(item.id === id) {
-                for( let key in item) { 
-                    item[key] = data[key]
-                } 
-            }
-        })  
-        // save in firestore
-        props.reSaveContainer(props.data.id, slicedChild)
  
-    }
-
-    const removeItem = async (id) => {
-        let conf = window.confirm("Delete ?");
- 
-        if(conf) { 
-            let filtered = children.filter((item) => (item.id !== id))  
-            setChildren(filtered) 
-  
-            // save in firestore 
-            props.reSaveContainer(props.data.id, filtered)  
-        }
-    }
-
-    const removeContainer = () => { 
-        props.removeContainer(props.data.id)
-    }
-
-    const swapContainer = (direction, id) => { 
-        props.swapContainer(direction, id)
-    }
-    
-
     return (
         <Box 
-            maxWidth={propsSettings.maxWidth} 
-            fixed={String(propsSettings.fixed)}  
-            className={classes.containerWrapper} 
+            maxWidth={props.propsSettings.maxWidth} 
+            fixed={String(props.propsSettings.fixed)}   
         >    
-            <Tooltip  title={` container margin top`}  placement={'top'}>
-                <div className={classes.mtView}></div>
-            </Tooltip>
-            <Tooltip  title={` container margin bottom`}  placement={'top'}>
-                <div className={classes.mbView}></div>
-            </Tooltip> 
-            <Tooltip  title={` container padding top`}  placement={'top'}>
-                <div className={classes.ptView}></div>
-            </Tooltip> 
-            <Tooltip  title={` container padding bottom`}  placement={'top'}>
-                <div className={classes.pbView}></div>
-            </Tooltip> 
-
+            
             <Box style={{position: 'relative'}} > 
-                
-                <Box className={classes.btnDrawerStyle}> 
-                    <ButtonGroup
-                        orientation="vertical"
-                        color="secondary"
-                        aria-label="vertical contained primary button group"
-                        variant="contained"
-                    > 
-                        <Tooltip title='Container Settings' placement='right'>
-                            <Button  
-                                onClick={toggleDrawer} 
-                                size='medium'
-                                variant='contained'
-                                // color='primary' 
-                                className={classes.btnDrawerItem}
-                            >   
-                                <SettingsIcon style={{ color: '#fff' }} fontSize='small'/>
-                            </Button>
-                        </Tooltip>
-                        <Tooltip title='Get Up' placement='right'>
-                            <Button   
-                                onClick={() => { swapContainer('up', props.data.id) }}
-                                size='medium'
-                                variant='contained'
-                                // color='primary' 
-                                className={classes.btnDrawerItem}
-                            >  
-                                <ExpandLessOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>   
-                            </Button>
-                        </Tooltip> 
-                        <Tooltip title='Get Down' placement='right'>
-                            <Button   
-                                onClick={() => { swapContainer('down', props.data.id) }}
-                                size='medium'
-                                variant='contained'
-                                // color='primary' 
-                                className={classes.btnDrawerItem}
-                            >     
-                                <ExpandMoreOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>
-                            </Button>
-                        </Tooltip> 
- 
-                    </ButtonGroup>
-                </Box>
+                 
                 {/*  DrawerContainer */}
-                    <Drawer anchor={'left'} open={open} onClose={toggleDrawer}>
+                    <Drawer anchor={'left'} open={props.open} onClose={props.toggleDrawer}>
                          
                             <Box  
                                 pt={3}
@@ -394,21 +211,7 @@ function ContainerElement(props) {
                                 maxWidth={600}    
                                 position={'relative'}
                             > 
-                                <FormGroup> 
-                                    <Typography   variant={'h6'} gutterBottom  >
-                                        Container actions 
-                                    </Typography>
-                                   <Box mb={2}>  
-                                        <Button
-                                            onClick={removeContainer}
-                                            variant='outlined'
-                                            color="secondary"  
-                                        >
-                                            Remove Container
-                                        </Button> 
-                                   </Box>
-                                </FormGroup>
-                                
+                               
                                 <FormGroup > 
                                     <Typography  variant={'h6'} gutterBottom  >
                                         Add item from libs
@@ -670,41 +473,30 @@ function ContainerElement(props) {
                                     
                                     {/* bg-color */}
                                     <Box className={classes.inputGroup} display="flex" flexDirection="row" > 
-                                
-                                        <Box 
-                                            className={classes.inputNumber}
-                                        >
-                                            <Typography  component={'h6'} gutterBottom  >
-                                                Background  
-                                            </Typography>
-                                            <TwitterPicker
-                                                width={'100%'}
-                                                triangle={'hide'}
-                                                colors={[   '#f44336', '#4e36f4', '#36f477', 'rgb(244, 214, 54)']} 
-                                                onChangeComplete={(newColor) => {
-                                                    setIsDisableBtn(false);
-                                                    setBackgroundColor(newColor.hex) 
-                                                }}
-
+                                            
+                                        <Box className={classes.inputNumber} >
+                                            <Typography  component={'p'} gutterBottom  >
+                                                Background  -  { backgroundColor }
+                                            </Typography> 
+                                            <ColorPicker 
+                                                initialColor={backgroundColor} 
+                                                changeColor={setBackgroundColor} 
+                                                setIsDisableBtn={setIsDisableBtn}
+                                                position={'left'}
                                             /> 
-                                        </Box> 
-                                        <Box 
-                                            className={classes.inputNumber}
-                                        >
-                                            <Typography component={'h6'} gutterBottom  >
-                                                Color text
-                                            </Typography>
-                                            <TwitterPicker
-                                                width={'100%'}
-                                                triangle={'hide'}
-                                                colors={[   '#f44336', '#4e36f4', '#36f477', 'rgb(244, 214, 54)']} 
-                                                onChangeComplete={(newColor) => {
-                                                    setIsDisableBtn(false);
-                                                    setColor(newColor.hex) 
-                                                }} 
+                                        </Box>
+                                        <Box className={classes.inputNumber} >
+                                            <Typography  component={'p'} gutterBottom  >
+                                                Color  -  { color }
+                                            </Typography> 
+                                            <ColorPicker 
+                                                initialColor={color} 
+                                                changeColor={setColor} 
+                                                setIsDisableBtn={setIsDisableBtn}
+                                                position={'right'}
                                             /> 
-                                        </Box> 
-                                      
+                                        </Box>
+                                          
                                     </Box>
                                     
                                     {/* color */}
@@ -736,15 +528,17 @@ function ContainerElement(props) {
                                     {/* border */}
                                     <Box className={classes.inputGroup}> 
                                         <Box display="flex" flexDirection="row" > 
-                                            <TextField 
-                                                    className={classes.inputNumber}
-                                                    type='color'
-                                                    label="Border Color" 
-                                                    variant="filled" 
-                                                    size='small'  
-                                                    value={borderColor}
-                                                    onChange={ (e) => { setIsDisableBtn(false);  setBorderColor(e.target.value)} }     
-                                            />
+                                            <Box className={classes.inputNumber} >
+                                                <Typography  component={'p'} gutterBottom  >
+                                                    Border Color  -  { borderColor }
+                                                </Typography> 
+                                                <ColorPicker 
+                                                    initialColor={borderColor} 
+                                                    changeColor={setBorderColor} 
+                                                    setIsDisableBtn={setIsDisableBtn}
+                                                    position={'right'}
+                                                /> 
+                                            </Box> 
                                             <TextField 
                                                     className={classes.inputNumber}
                                                     type='number'
@@ -812,15 +606,7 @@ function ContainerElement(props) {
                     </Drawer>
                 {/*  DrawerContainer */} 
             </Box>                        
-            
-            <DumbComponent
-                reSaveChildren={reSaveChildren}
-                removeItem={removeItem}
-                data={props.data} 
-                classes={myClassName}
-                settings={propsSettings}
-            />  
-           
+             
         </Box>
     )
 }

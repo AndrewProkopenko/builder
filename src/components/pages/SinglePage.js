@@ -53,7 +53,12 @@ function SinglePage(props) {
   };
 
   const useStyles = makeStyles((theme) => ({ 
-    
+    btnContainer: {
+      position: 'relative',
+      '&:hover $btnSetting' : {
+        opacity: 1
+      }
+    },
     btnSetting: { 
         position: 'absolute', 
         zIndex: 1031, 
@@ -72,14 +77,7 @@ function SinglePage(props) {
             flexDirection: 'column', 
             fontSize: 10
         }
-    } ,
-      
-    btnContainer: {
-      position: 'relative',
-      '&:hover $btnSetting' : {
-        opacity: 1
-      }
-    },
+    } , 
     menu: {    
       position: "absolute", 
       left: "calc(50% - 200px)",
@@ -112,6 +110,7 @@ function SinglePage(props) {
     setIsLoading(true)
     fetchData()
     document.title = props.metaTitle
+    // eslint-disable-next-line
   }, [location])
   
   const fetchData = async () => {  
@@ -309,6 +308,11 @@ function SinglePage(props) {
   function renderContainers () {   
     if(items.length > 0) {
       return Object.keys(items).map( (key) => {  
+        // eslint-disable-next-line
+        let orderFirst = key == 0 ? true : false
+        // eslint-disable-next-line
+        let orderLast = key == items.length - 1 ? true : false  
+        
         if(items[key].type === 'container') {
           return ( 
               <ContainerElement 
@@ -318,6 +322,8 @@ function SinglePage(props) {
                 reSaveContainerStyleSettings={reSaveContainerStyleSettings} 
                 removeContainer={removeContainer}
                 swapContainer={swapContainer}
+                isFirst={orderFirst}
+                isLast={orderLast}
               /> 
           ) 
         }
@@ -329,6 +335,8 @@ function SinglePage(props) {
                 swapContainer={swapContainer}
                 removeContainer={removeContainer}
                 reSaveItem={reSaveItem}
+                isFirst={orderFirst}
+                isLast={orderLast}
               />
           )
         } 
@@ -340,6 +348,8 @@ function SinglePage(props) {
                 swapContainer={swapContainer}
                 removeContainer={removeContainer}
                 reSaveItem={reSaveItem}
+                isFirst={orderFirst}
+                isLast={orderLast}
               />
           )
         } 
@@ -351,6 +361,8 @@ function SinglePage(props) {
                 swapContainer={swapContainer}
                 removeContainer={removeContainer}
                 reSaveItem={reSaveItem}
+                isFirst={orderFirst}
+                isLast={orderLast}
               />
           )
         } 
@@ -362,9 +374,12 @@ function SinglePage(props) {
                 swapContainer={swapContainer}
                 removeContainer={removeContainer}
                 reSaveItem={reSaveItem}
+                isFirst={orderFirst}
+                isLast={orderLast}
               />
           )
         } 
+        return false
       })
     }
     else {

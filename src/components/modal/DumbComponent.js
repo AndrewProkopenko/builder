@@ -22,7 +22,9 @@ import ModalContext from '../../context/modalContext/ModalContext'
 export default function TransitionsModal() {
   
   const { sendRequests , modalSettings } = React.useContext(SendFormContext)
-  const { target, open, handleOpen, handleClose } = React.useContext(ModalContext)
+  const { target, open, 
+    // handleOpen, 
+    handleClose } = React.useContext(ModalContext)
  
   const [formPhone, setFormPhone] = React.useState('')
   const [formName, setFormName] = React.useState('') 
@@ -35,8 +37,7 @@ export default function TransitionsModal() {
   const inputName = modalSettings.inputName
   const inputPhone = modalSettings.inputPhone
   const colorButton = modalSettings.colorButton 
-  let colorGradient1, colorGradient2 
-  console.log(modalSettings)
+  let colorGradient1, colorGradient2  
  
   const useStyles = makeStyles((theme) => {
 
@@ -64,7 +65,7 @@ export default function TransitionsModal() {
       paper: {
         position: 'relative', 
         backgroundColor: theme.palette.background.paper,  
-        padding: theme.spacing(2, 6, 3),
+        padding: theme.spacing(2, 6, 4),
         margin: theme.spacing(2),
         [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
           padding: theme.spacing(2, 2, 3),
@@ -114,19 +115,26 @@ export default function TransitionsModal() {
             backgroundImage: `linear-gradient(200deg, ${colorGradient1} 0%, ${colorGradient2} 100%)`, 
         }
       },
-      targetContainer: { 
+      targetContainer: {  
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
         marginTop: theme.spacing(2), 
         border: `1px solid ${colorGradient1}`, 
         padding: theme.spacing(1, 2), 
+        minHeight: 50, 
         maxWidth: 250, 
+        width: '100%', 
         textAlign: 'center', 
-        fontSize: ".75rem"
+        fontSize: ".875rem"
       }, 
-      target: {
+      targetLabel: {
         display: 'block', 
         textAlign: 'center', 
-        fontSize: "1.2em", 
-        fontWeight: 500
+        fontSize: ".9em",  
+        fontWeight: 500, 
+        color: theme.palette.text.secondary
       } 
     })
   });
@@ -150,9 +158,9 @@ export default function TransitionsModal() {
     closeModal()
   } 
 
-  const openModal = () => {
-    handleOpen('')
-  }
+  // const openModal = () => {
+  //   handleOpen('')
+  // }
   const closeModal = () => {
     handleClose()
   }
@@ -197,7 +205,7 @@ export default function TransitionsModal() {
                   {
                     target.length > 0 && 
                     <Box className={classes.targetContainer}>
-                      <span className={classes.target}>{ targetText } </span>{ target }
+                      <span className={classes.targetLabel}>{ targetText } &nbsp; </span> { target }
                     </Box>  
                   }
                      

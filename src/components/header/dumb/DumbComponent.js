@@ -23,6 +23,11 @@ function DumbComponent() {
     const {categories, logo, modal,  settings} = React.useContext(CategoryContext)    
   
     const [headerHeight, setHeaderHeight] = useState(0)
+ 
+    let backgroundHeader = settings.classes.backgroundColor
+    let colorHeader 
+    let hoverActiveLinkColor
+
 
     let modalBtnColor = modal.color
     let modalBtnColor1 
@@ -42,15 +47,44 @@ function DumbComponent() {
         }
         if(modalBtnColor !== 'primary' && modalBtnColor !== 'secondary' ) {
             modalBtnColor1 = modal.color
-            modalBtnColor2 = modal.color
+            modalBtnColor2 = darken(modal.color, 0.4) 
         } 
-
+        if(backgroundHeader === 'primary') {
+            backgroundHeader = theme.palette.primary.main
+            colorHeader = theme.palette.getContrastText(theme.palette.primary.main)
+            hoverActiveLinkColor = darken(theme.palette.primary.main, 0.3)
+        }
+        if(backgroundHeader === 'secondary') {
+            backgroundHeader = theme.palette.secondary.main
+            colorHeader = theme.palette.getContrastText(theme.palette.secondary.main)
+            hoverActiveLinkColor = darken(theme.palette.secondary.main, 0.3)
+        }
+        
+        if( backgroundHeader !== 'default' && 
+            backgroundHeader !== 'paper' && 
+            backgroundHeader !== 'primary' && 
+            backgroundHeader !== 'secondary' ) {  
+                colorHeader = theme.palette.getContrastText(backgroundHeader)
+                hoverActiveLinkColor = darken(backgroundHeader, 0.3) 
+        }   
+        if(backgroundHeader === 'paper') { 
+            backgroundHeader = theme.palette.background.paper
+            colorHeader = theme.palette.getContrastText(theme.palette.background.paper)
+            hoverActiveLinkColor = theme.palette.primary.main 
+        }  
+        if(backgroundHeader === 'default') { 
+            backgroundHeader = theme.palette.background.default
+            colorHeader = theme.palette.getContrastText(theme.palette.background.default)
+            hoverActiveLinkColor = theme.palette.primary.main 
+        } 
+ 
         return ({
             header: { 
                 display: 'flex', 
                 justifyContent: 'center',   
 
-                backgroundColor: theme.palette.background.paper, 
+                backgroundColor: backgroundHeader, 
+                color: `${colorHeader} !important`,  
 
                 position: settings.classes.position,   
                 boxShadow: settings.classes.boxShadow, 
@@ -71,7 +105,8 @@ function DumbComponent() {
             logoMain: { 
                 fontWeight: 600,
                 fontSize: 24,
-                color: theme.palette.text.primary,
+                color: colorHeader ,
+                // color: theme.palette.text.primary,
                 textDecoration: 'none',
                 textAlign: "left",
                 whiteSpace: 'nowrap',
@@ -84,7 +119,7 @@ function DumbComponent() {
                 fontWeight: 400,
                 fontSize: 12,
                 margin: 0,
-                color: theme.palette.text.primary,
+                color: colorHeader ,
                 textDecoration: 'none',
                 textAlign: "left",
                 whiteSpace: 'nowrap'
@@ -130,7 +165,7 @@ function DumbComponent() {
         setResponsiveness(); 
         window.removeEventListener('resize', setResponsiveness)
         window.addEventListener("resize", () => setResponsiveness());
-       
+        // eslint-disable-next-line
     }, []);
      
     const [mobileView, setMobileView] = useState(false); 
@@ -189,6 +224,9 @@ function DumbComponent() {
                             logo={createLogo}  
                             categories={categories} 
                             settings={settings}
+                            colorHeader={colorHeader}
+                            backgroundHeader={backgroundHeader}
+                            hoverActiveLinkColor={hoverActiveLinkColor}
                         /> 
                         : 
                         <Mobile 

@@ -11,7 +11,7 @@ function Error() {
 
     React.useEffect( () => {
         setIsLoading(false)
-    }, [])
+    }, [setIsLoading])
     
     return ( 
         <Box 

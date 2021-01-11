@@ -1,6 +1,6 @@
 
 import React from 'react'  
-import { TwitterPicker } from 'react-color';
+import { ColorPicker } from '../../library/colorPicker/ColorPicker'
 import CategoryContext from '../../../context/headerContext/CategoryContext'  
 import { 
     Tooltip,
@@ -41,7 +41,17 @@ function StyleChanger() {
     const [settingBoxShadow, setSettingBoxShadow] = React.useState(settings.classes.boxShadow)
     const [settingPadding, setSettingPadding] = React.useState(settings.classes.paddingY)
     const [settingPosition, setSettingPosition] = React.useState(settings.classes.position)
-    const [settingBackground, setSettingBackground] = React.useState(settings.classes.backgroundColor ||  'transparent')
+    const [settingBackgroundSelect, setSettingBackgroundSelect] = React.useState(settings.classes.backgroundColor ||  'transparent')
+    const [settingBackgroundCustom, setSettingBackgroundCustom] = React.useState(settings.classes.backgroundColor ||  'transparent')
+ 
+    React.useEffect(() => {
+        if( settings.classes.backgroundColor !== 'default' && 
+            settings.classes.backgroundColor !== 'paper' && 
+            settings.classes.backgroundColor !== 'primary' &&  
+            settings.classes.backgroundColor !== 'secondary' ) {  
+            setSettingBackgroundSelect('custom')
+        }
+    }, [settings])
      
     const handleInputFocus = () => {  
       setOpen(true);
@@ -103,16 +113,7 @@ function StyleChanger() {
             height: 70, 
             paddingTop: 10, 
             backgroundColor: theme.palette.background.paper, 
-        },
-        accordionContainer: {
-            position: 'relative', 
-            '&:hover $deleteBtn': {
-                opacity: 1
-            },
-            '&:hover $movingBtn': {
-                opacity: 1
-            }, 
-        }, 
+        },  
         settingsItem: {
             width: '100%',
             marginRight: 5, 
@@ -131,10 +132,14 @@ function StyleChanger() {
             classes: {
                 boxShadow: settingBoxShadow,
                 paddingY: settingPadding,
-                position: settingPosition,
-                backgroundColor: settingBackground,
+                position: settingPosition, 
             } ,
             breakpoint: settingBreakpoint
+        }
+        if (settingBackgroundSelect === 'custom') {
+            newSettings.classes.backgroundColor = settingBackgroundCustom
+        } else {
+            newSettings.classes.backgroundColor = settingBackgroundSelect
         }
  
         updateSettings(newSettings)
@@ -303,23 +308,41 @@ function StyleChanger() {
                                             0px 9px 46px 8px rgba(0,0,0,0.12)`}>Large</MenuItem> 
                                         </Select>
                                     </FormControl>
-                                    {/* <Box 
+                                    
+                                    <Box mt={2} display="flex" flexDirection='column'>
+                                            <FormControl    variant='filled' style={{minWidth: '250px' }}>
+                                                <InputLabel id="color-select-label">Background Color for Header</InputLabel>
+                                                <Select
+                                                    labelId="color-select-label"
+                                                    id="color-select"
+                                                    value={settingBackgroundSelect}
+                                                    onChange={(e) => {setIsDisableBtn(false); setSettingBackgroundSelect(e.target.value)   }}
+                                                >
+                                                    <MenuItem value={'primary'}>Theme Primary</MenuItem>
+                                                    <MenuItem value={'secondary'}>Theme Secondary</MenuItem>
+                                                    <MenuItem value={'default'}>Theme BG default</MenuItem>
+                                                    <MenuItem value={'paper'}>Theme BG paper</MenuItem>
+                                                    <MenuItem value={'custom'}>Custom</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                            <Box mt={2} >
+                                                {
+                                                    settingBackgroundSelect === 'custom' &&
+                                                    <ColorPicker
+                                                        initialColor = {settingBackgroundCustom}
+                                                        changeColor = {setSettingBackgroundCustom}
+                                                        setIsDisableBtn = {setIsDisableBtn}
+                                                        position = {'left'}
+                                                    /> 
+                                                }
+                                                
+                                            </Box>
+                                        </Box>
+                                    <Box 
                                         className={classes.settingsItem}
-                                    >
-                                        <Typography  component={'h6'} gutterBottom  >
-                                            Background  
-                                        </Typography>
-                                        <TwitterPicker
-                                            width={'100%'}
-                                            triangle={'hide'}
-                                            colors={[   'transparent', '#4e36f4', '#36f477', 'rgb(244, 214, 54)']} 
-                                            onChangeComplete={(newColor) => {
-                                                setIsDisableBtn(false);
-                                                setSettingBackground(newColor.hex) 
-                                            }}
-
-                                        /> 
-                                    </Box>  */}
+                                    > 
+                                        
+                                    </Box> 
                                 </FormGroup>
                                    
      

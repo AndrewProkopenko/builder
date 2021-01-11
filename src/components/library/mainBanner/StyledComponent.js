@@ -2,6 +2,8 @@ import React from 'react'
 import firebase from '../../../firebase/firebase'
 import Draggable from 'react-draggable';  
 
+import {ColorPicker} from '../colorPicker/ColorPicker'
+
 import { 
     MenuItem,Button, Box, Tooltip, TextField, FormControl, InputLabel,
     Select, Typography, ButtonGroup, makeStyles, Modal, DialogContent
@@ -197,27 +199,34 @@ function StyledComponent(props) {
                             color="secondary"
                             aria-label="vertical contained primary button group"
                             variant="contained"
-                        >
-                            <Tooltip title='Get Up' placement='right'>
-                                <Button   
-                                    onClick={() => { props.swapContainer('up', props.data.id) }}
-                                    size='medium'
-                                    variant='contained' 
-                                    className={classes.btnDrawerItem}
-                                >  
-                                    <ExpandLessOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>   
-                                </Button>
-                            </Tooltip> 
-                            <Tooltip title='Get Down' placement='right'>
-                                <Button   
-                                    onClick={() => { props.swapContainer('down', props.data.id) }}
-                                    size='medium'
-                                    variant='contained' 
-                                    className={classes.btnDrawerItem}
-                                >     
-                                    <ExpandMoreOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>
-                                </Button>
-                            </Tooltip> 
+                        > 
+                            {
+                                !props.isFirst  && 
+                                <Tooltip title='Get Up' placement='right'>
+                                    <Button   
+                                        onClick={() => { props.swapContainer('up', props.data.id) }}
+                                        size='medium'
+                                        variant='contained' 
+                                        className={classes.btnDrawerItem}
+                                    >  
+                                        <ExpandLessOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>   
+                                    </Button>
+                                </Tooltip> 
+                            }
+                            {
+                                !props.isLast &&
+                                <Tooltip title='Get Down' placement='right'>
+                                    <Button   
+                                        onClick={() => { props.swapContainer('down', props.data.id) }}
+                                        size='medium'
+                                        variant='contained' 
+                                        className={classes.btnDrawerItem}
+                                    >     
+                                        <ExpandMoreOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>
+                                    </Button>
+                                </Tooltip> 
+                            }
+                            
                         </ButtonGroup>
                         
                         <Box mt={1}>
@@ -354,13 +363,12 @@ function StyledComponent(props) {
                                         <Box ml={1} >
                                             {
                                                 colorSelect === 'custom' &&
-                                                <TextField    
-                                                    type='text'
-                                                    label="Set Custom Color on #hex"  
-                                                    variant="outlined"  
-                                                    value={colorCustom}
-                                                    onChange={ (e) => { setIsDisableBtn(false); setColorCustom(e.target.value)  } }     
-                                                />
+                                                <ColorPicker
+                                                    initialColor = {colorCustom}
+                                                    changeColor = {setColorCustom}
+                                                    setIsDisableBtn = {setIsDisableBtn}
+                                                    position = {'right'}
+                                                /> 
                                             }
                                             
                                         </Box>

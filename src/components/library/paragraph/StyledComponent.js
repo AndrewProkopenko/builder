@@ -1,7 +1,6 @@
 import React from 'react'  
 
-import Draggable from 'react-draggable';
-import { TwitterPicker } from 'react-color';
+import Draggable from 'react-draggable'; 
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -24,6 +23,7 @@ import {
 } from '@material-ui/core'
 
 import DumbComponent from "./DumbComponent"  
+import {ColorPicker} from '../colorPicker/ColorPicker'
  
 
 import OpenWithIcon from '@material-ui/icons/OpenWith';
@@ -277,9 +277,9 @@ const StyledComponent = (props) => {
     const classes = useStyles();
 
     //const dataNew - props for Dumb Component
-    const dataNew = {...props.data, ...{
-        classes: myClassName
-    }} 
+    // const dataNew = {...props.data, ...{
+    //     classes: myClassName
+    // }} 
 
      
     const handlePadding = (e, direction) => {  
@@ -468,56 +468,47 @@ const StyledComponent = (props) => {
                           
                             {/* bg-color */}
                             <Box className={classes.inputGroup} display="flex" flexDirection="row" > 
-                                    <Box 
-                                        className={classes.inputNumber}
-                                    >
-                                        <Typography  component={'h6'} gutterBottom  >
-                                            Background  
-                                        </Typography>
-                                        <TwitterPicker
-                                            width={'100%'}
-                                            triangle={'hide'}
-                                            color={backgroundColor}
-                                            colors={[ '#4e36f4', '#36f477', 'rgb(244, 214, 54)']} 
-                                            onChangeComplete={(newColor) => {
-                                                setIsDisableBtn(false);
-                                                setBackgroundColor(newColor.hex) 
-                                            }}
-
+                                    <Box className={classes.inputNumber} >
+                                        <Typography  component={'p'} gutterBottom  >
+                                            Background   -  { backgroundColor }
+                                        </Typography> 
+                                        <ColorPicker 
+                                            initialColor={backgroundColor} 
+                                            changeColor={setBackgroundColor} 
+                                            setIsDisableBtn={setIsDisableBtn}
+                                            position={'left'}
                                         /> 
                                     </Box> 
-                                    <Box 
-                                        className={classes.inputNumber}
-                                    >
-                                        <Typography  component={'h6'} gutterBottom  >
-                                            Color  
-                                        </Typography>
-                                        <TwitterPicker
-                                            width={'100%'}
-                                            triangle={'hide'}
-                                            colors={[ '#4e36f4', '#36f477', 'rgb(244, 214, 54)']} 
-                                            color={color}
-                                            onChangeComplete={(newColor) => {
-                                                setIsDisableBtn(false);
-                                                setColor(newColor.hex) 
-                                            }}
-
+                                    <Box className={classes.inputNumber} >
+                                        <Typography  component={'p'} gutterBottom  >
+                                            Color  -  { color }
+                                        </Typography> 
+                                        <ColorPicker 
+                                            initialColor={color} 
+                                            changeColor={setColor} 
+                                            setIsDisableBtn={setIsDisableBtn}
+                                            position={'right'}
                                         /> 
-                                    </Box>  
+                                    </Box> 
+                                      
                             </Box>
                                                     
                             {/* border */}
                             <Box className={classes.inputGroup}> 
                                 <Box display="flex" flexDirection="row" > 
-                                    <TextField 
-                                            className={classes.inputNumber}
-                                            type='color'
-                                            label="Border Color" 
-                                            variant="filled" 
-                                            size='small'  
-                                            value={borderColor}
-                                            onChange={ (e) => { setIsDisableBtn(false);  setBorderColor(e.target.value)} }     
-                                    />
+                                    
+                                    <Box className={classes.inputNumber} >
+                                        <Typography  component={'p'} gutterBottom  >
+                                            Border Color  -  { borderColor }
+                                        </Typography> 
+                                        <ColorPicker 
+                                            initialColor={borderColor} 
+                                            changeColor={setBorderColor} 
+                                            setIsDisableBtn={setIsDisableBtn}
+                                            position={'left'}
+                                        /> 
+                                    </Box> 
+                                     
                                     <TextField 
                                             className={classes.inputNumber}
                                             type='number'
@@ -663,11 +654,12 @@ const StyledComponent = (props) => {
                             <Tooltip  title={` paragraph padding bottom`}  placement={'top'}>
                                 <div className={classes.pbView}></div>
                             </Tooltip>   
+                            
                             <DumbComponent 
-                                data={dataNew} 
-                                className={myClassName}  
+                                data={props.data} 
+                                className={props.data.classes}  
                                 prop={props.data.prop} 
-                                textChildren={textInDumb} 
+                                textChildren={props.data.text} 
                             /> 
                            
                         </div>  

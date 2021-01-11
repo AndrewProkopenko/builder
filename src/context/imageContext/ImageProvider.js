@@ -7,7 +7,14 @@ import ImageContext from './ImageContext'
 export default class ImageProvider extends React.Component { 
 
     state = { 
-        imageList: [],
+        imageList: [ 
+            {
+                name: 'name' , 
+                url: 'url', 
+                quantity: 2, 
+
+            }
+        ],
         nameList: []
     } 
 
@@ -45,6 +52,26 @@ export default class ImageProvider extends React.Component {
                 nameList: doc.data().list
             }) 
         }
+    }
+    async uploadImage(imageData) {
+        let answerUrl
+        const storageRef = firebase.storage.ref(`${imageData.name}`).put(imageData)
+        storageRef.on('state-changed', 
+          snapshot => {
+            console.log("image uploaded")
+            // console.log( snapshot )
+          }, 
+          error => {
+            console.log(error.message)
+          },
+          () => { 
+            storageRef.snapshot.ref.getDownloadURL()
+              .then( url => {
+                answerUrl = url 
+              })
+          }
+        )
+        return answerUrl
     }
 
     removeImage(name) { 

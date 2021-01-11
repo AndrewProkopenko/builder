@@ -19,6 +19,7 @@ const Desktop = (props) => {
     
 
     const useStyles = makeStyles((theme) => { 
+
         return ({
              
             menuButton: { 
@@ -46,21 +47,25 @@ const Desktop = (props) => {
                 display: 'block',
                 height: "100%", 
                 width: '100%',
-                color: theme.palette.text.primary,
+                color: props.colorHeader,
                 textDecoration: 'none',   
                 // backgroundColor: theme.palette.background.default,
                 transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeIn}`,
                 '&:hover': {
-                    backgroundColor: theme.palette.primary.light,
+                    backgroundColor: props.hoverActiveLinkColor,
+                    // backgroundColor: theme.palette.primary.light,
                     color: theme.palette.type === "dark" ? theme.palette.text.default : theme.palette.background.paper ,
 
                 },
                 '&.active': {
-                    backgroundColor: theme.palette.primary.main,
+                    backgroundColor: props.hoverActiveLinkColor,
                     color: theme.palette.type === "dark" ? theme.palette.text.default : theme.palette.background.paper ,
                     
                 },
             },
+            menuInnerLink: { 
+                color: theme.palette.text.primary , 
+            }, 
             menuButtonInnerLi: {
                 position: 'absolute',
                 top: '100%',
@@ -68,8 +73,7 @@ const Desktop = (props) => {
                 backgroundColor: theme.palette.background.paper, 
                 minWidth: '100%', 
                 maxWidth: 200, 
-                transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeIn}`,
-
+                transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeIn}`, 
             },
             toolbar: {
                 display: "flex",
@@ -95,7 +99,7 @@ const Desktop = (props) => {
             
         })
     });
-    const { toolbar, menuButton , menuButtonInnerLi , menuButtonLink,  menuLink , listUnstyle, buttonModal  } = useStyles();
+    const { toolbar, menuButton , menuButtonInnerLi , menuButtonLink,  menuLink , menuInnerLink,  listUnstyle, buttonModal  } = useStyles();
  
     return (
       <Toolbar disableGutters={true} className={toolbar}>
@@ -153,7 +157,7 @@ const Desktop = (props) => {
                                         <NavLink  
                                             key={innerIndex} 
                                             to={`/${item.slug}/${innerItem.slug}`} 
-                                            className={menuLink} 
+                                            className={` ${menuLink} ${menuInnerLink}`} 
                                             style={{minWidth: innerItem.title.length > 15 ? 200 : '100%',  maxWidth: 200, }} 
                                         > 
                                             <ListItem button> 

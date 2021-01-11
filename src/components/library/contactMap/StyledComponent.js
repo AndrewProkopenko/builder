@@ -64,18 +64,7 @@ function StyledComponent(props) {
             transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeIn} outline`,
             '&:hover' : {
                 outlineColor: `${theme.palette.error.main}`,
-                '& $mtView' : { 
-                    opacity: 1
-                },
-                '& $mbView' : { 
-                    opacity: 1
-                }, 
-                '& $ptView' : { 
-                    opacity: 1
-                },
-                '& $pbView' : { 
-                    opacity: 1
-                }, 
+                 
                 '& $btnDrawerStyle': {
                     opacity: 1
                 }
@@ -170,27 +159,34 @@ function StyledComponent(props) {
                             color="secondary"
                             aria-label="vertical contained primary button group"
                             variant="contained"
-                        >
-                            <Tooltip title='Get Up' placement='right'>
-                                <Button   
-                                    onClick={() => { props.swapContainer('up', props.data.id) }}
-                                    size='medium'
-                                    variant='contained' 
-                                    className={classes.btnDrawerItem}
-                                >  
-                                    <ExpandLessOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>   
-                                </Button>
-                            </Tooltip> 
-                            <Tooltip title='Get Down' placement='right'>
-                                <Button   
-                                    onClick={() => { props.swapContainer('down', props.data.id) }}
-                                    size='medium'
-                                    variant='contained' 
-                                    className={classes.btnDrawerItem}
-                                >     
-                                    <ExpandMoreOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>
-                                </Button>
-                            </Tooltip> 
+                        >   
+                            { 
+                                !props.isFirst  &&
+                                <Tooltip title='Get Up' placement='right'>
+                                    <Button   
+                                        onClick={() => { props.swapContainer('up', props.data.id) }}
+                                        size='medium'
+                                        variant='contained' 
+                                        className={classes.btnDrawerItem}
+                                    >  
+                                        <ExpandLessOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>   
+                                    </Button>
+                                </Tooltip> 
+                            }
+                            {
+                                !props.isLast &&
+                                <Tooltip title='Get Down' placement='right'>
+                                    <Button   
+                                        onClick={() => { props.swapContainer('down', props.data.id) }}
+                                        size='medium'
+                                        variant='contained' 
+                                        className={classes.btnDrawerItem}
+                                    >     
+                                        <ExpandMoreOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>
+                                    </Button>
+                                </Tooltip> 
+                            }
+                            
                         </ButtonGroup>
                         
                         <Box mt={1}>

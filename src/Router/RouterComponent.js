@@ -1,7 +1,11 @@
 import React from 'react'
+
+import { useTheme } from '@material-ui/core/styles';
+
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
 import ScrollToTop from '../components/ScrollToTop'
+import { Styles  } from '../styles/styles'
     
 import LoadingProgress from '../components/placeholders/LoadingProgress'
 import Header from '../components/header/Header' 
@@ -20,11 +24,18 @@ function RouterComponent() {
     const {categories} = React.useContext(CategoryContext) 
     const {isLoading} = React.useContext(LoadingContext)  
 
-  
+    const theme = useTheme();
+
+    const cls = Styles(theme)
+
+    // console.log(cls(theme))
+
+
     return (   
         <Router basename="builder"> 
         
             <ScrollToTop/>
+            {/* <Styles/> */}
             {
                 isLoading && 
                 <LoadingProgress/>

@@ -8,7 +8,7 @@ import ModeContext from '../../../context/modeContext/ModeContext'
 function ElementCreator(props) {
 
     const {modeDev} = React.useContext(ModeContext)  
-   
+    
     return (    
         <React.Fragment>  
             {
@@ -18,6 +18,8 @@ function ElementCreator(props) {
                     swapContainer={props.swapContainer}
                     removeContainer={props.removeContainer}
                     reSaveItem={props.reSaveItem}
+                    isFirst={props.isFirst}
+                    isLast={props.isLast}
                 />
             }
  

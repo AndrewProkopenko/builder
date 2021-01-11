@@ -1,14 +1,16 @@
 import React from 'react'   
-import CategoryContext from '../../../context/headerContext/CategoryContext'  
+import Draggable from 'react-draggable';   
+import { ColorPicker } from '../../library/colorPicker/ColorPicker'
+
 import { 
     Tooltip,
     Button, 
     Modal, 
     DialogContent , 
-    Typography, 
-    TextField,  
+    Typography,  
     Box,
     makeStyles,    
+    Divider
 } from '@material-ui/core' 
 
 import { deepOrange } from '@material-ui/core/colors'
@@ -16,7 +18,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import SettingsIcon from '@material-ui/icons/Settings';
 import OpenWithIcon from '@material-ui/icons/OpenWith'; 
  
-import Draggable from 'react-draggable';  
+import CategoryContext from '../../../context/headerContext/CategoryContext'  
 
 function ThemeChanger() {
      
@@ -94,12 +96,20 @@ function ThemeChanger() {
             height: 70, 
             paddingTop: 10, 
             backgroundColor: theme.palette.background.paper, 
-        },
-        
+        }, 
         colorPreview: { 
             width: '100%',
             height: 8,  
             borderRadius: 3, 
+        }, 
+        colorItem: {
+            display: "flex",
+            flexDirection: 'column', 
+            justifyContent: 'space-between', 
+            maxWidth: '25%',
+
+            flexGrow: 1, 
+            marginRight: theme.spacing(1)
         }
     
     }))
@@ -181,62 +191,59 @@ function ThemeChanger() {
                                 Light Theme
                             </Typography>
                             <Box display='flex' flexWrap='nowrap'  mt={1} mb={3}>
-                                <Box mr={1}> 
-                                    <TextField 
-                                        required
-                                        type='text'
-                                        variant='outlined'
-                                        value={lightBackgroundDefault}
-                                        label='Light Background Default'
-                                        onChange={(e) => {
-                                            setIsDisableBtn(false);
-                                            setLightBackgroundDefault(e.target.value) 
-                                        }} 
+                                <Box className={classes.colorItem}> 
+                                    <Typography variant='caption' >
+                                        Light Background Default - { lightBackgroundDefault }
+                                    </Typography>
+                                    <ColorPicker
+                                        initialColor = {lightBackgroundDefault}
+                                        changeColor = {setLightBackgroundDefault}
+                                        setIsDisableBtn = {setIsDisableBtn}
+                                        position = {'top'}
+                                        noInherit={true}
                                     /> 
-                                    <Box className={classes.colorPreview} style={{ backgroundColor: lightBackgroundDefault}}></Box>
                                 </Box> 
-                                <Box mr={1}> 
-                                    <TextField 
-                                        required
-                                        type='text'
-                                        variant='outlined'
-                                        value={lightBackgroundPaper}
-                                        label='Light Background Paper'
-                                        onChange={(e) => {
-                                            setIsDisableBtn(false);
-                                            setLightBackgroundPaper(e.target.value) 
-                                        }} 
+                                <Box className={classes.colorItem}> 
+                                    <Typography variant='caption' >
+                                        Light Background Paper - { lightBackgroundPaper }
+                                    </Typography>
+                                    <ColorPicker
+                                        initialColor = {lightBackgroundPaper}
+                                        changeColor = {setLightBackgroundPaper}
+                                        setIsDisableBtn = {setIsDisableBtn}
+                                        position = {'top'}
+                                        noInherit={true}
                                     /> 
-                                    <Box className={classes.colorPreview} style={{ backgroundColor: lightBackgroundPaper}}></Box>
-                                </Box>  
-                                <Box mr={1}> 
-                                    <TextField 
-                                        required
-                                        type='text'
-                                        variant='outlined'
-                                        value={lightPrimary}
-                                        label='Light Primary'
-                                        onChange={(e) => {
-                                            setIsDisableBtn(false);
-                                            setLightPrimary(e.target.value) 
-                                        }} 
+                                </Box> 
+                                <Box className={classes.colorItem}> 
+                                    <Typography variant='caption' >
+                                        Light Primary - { lightPrimary }
+                                    </Typography>
+                                    <ColorPicker
+                                        initialColor = {lightPrimary}
+                                        changeColor = {setLightPrimary}
+                                        setIsDisableBtn = {setIsDisableBtn}
+                                        position = {'top'}
+                                        noInherit={true}
                                     /> 
-                                    <Box className={classes.colorPreview} style={{ backgroundColor: lightPrimary}}></Box>
                                 </Box>  
-                                <Box> 
-                                    <TextField 
-                                        required
-                                        type='text'
-                                        variant='outlined'
-                                        value={lightSecondary}
-                                        label='Light Secondary'
-                                        onChange={(e) => {
-                                            setIsDisableBtn(false);
-                                            setLightSecondary(e.target.value) 
-                                        }} 
+                                <Box className={classes.colorItem}> 
+                                    <Typography variant='caption' >
+                                        Light Secondary - { lightSecondary }
+                                    </Typography>
+                                    <ColorPicker
+                                        initialColor = {lightSecondary}
+                                        changeColor = {setLightSecondary}
+                                        setIsDisableBtn = {setIsDisableBtn}
+                                        position = {'top'}
+                                        noInherit={true}
                                     /> 
-                                    <Box className={classes.colorPreview} style={{ backgroundColor: lightSecondary}}></Box>
                                 </Box>  
+                                 
+                            </Box>
+
+                            <Box mt={3} mb={4} >
+                               <Divider />
                             </Box>
 
                             <Typography 
@@ -245,62 +252,54 @@ function ThemeChanger() {
                                 Dark Theme
                             </Typography>
                             <Box display='flex' flexWrap='nowrap'  mt={1}>
-                                <Box mr={1}> 
-                                    <TextField 
-                                        required
-                                        type='text'
-                                        variant='outlined'
-                                        value={darkBackgroundDefault}
-                                        label='Dark Background Default'
-                                        onChange={(e) => {
-                                            setIsDisableBtn(false);
-                                            setDarkBackgroundDefault(e.target.value) 
-                                        }} 
+                                <Box className={classes.colorItem}> 
+                                    <Typography variant='caption' >
+                                        Dark Background Default - { darkBackgroundDefault }
+                                    </Typography>
+                                    <ColorPicker
+                                        initialColor = {darkBackgroundDefault}
+                                        changeColor = {setDarkBackgroundDefault}
+                                        setIsDisableBtn = {setIsDisableBtn}
+                                        position = {'left'}
+                                        noInherit={true}
                                     /> 
-                                    <Box className={classes.colorPreview} style={{ backgroundColor: darkBackgroundDefault}}></Box>
+                                </Box>
+                                <Box className={classes.colorItem}> 
+                                    <Typography variant='caption' >
+                                        Dark Background Paper - { darkBackgroundPaper }
+                                    </Typography>
+                                    <ColorPicker
+                                        initialColor = {darkBackgroundPaper}
+                                        changeColor = {setDarkBackgroundPaper}
+                                        setIsDisableBtn = {setIsDisableBtn}
+                                        position = {'left'}
+                                        noInherit={true}
+                                    /> 
+                                </Box>
+                                <Box className={classes.colorItem}> 
+                                    <Typography variant='caption' >
+                                        Dark Primary - { darkPrimary }
+                                    </Typography>
+                                    <ColorPicker
+                                        initialColor = {darkPrimary}
+                                        changeColor = {setDarkPrimary}
+                                        setIsDisableBtn = {setIsDisableBtn}
+                                        position = {'left'}
+                                        noInherit={true}
+                                    /> 
+                                </Box>
+                                <Box className={classes.colorItem}> 
+                                    <Typography variant='caption' >
+                                        Dark Secondary - { darkSecondary }
+                                    </Typography>
+                                    <ColorPicker
+                                        initialColor = {darkSecondary}
+                                        changeColor = {setDarkSecondary}
+                                        setIsDisableBtn = {setIsDisableBtn}
+                                        position = {'right'}
+                                        noInherit={true}
+                                    /> 
                                 </Box> 
-                                <Box mr={1}> 
-                                    <TextField 
-                                        required
-                                        type='text'
-                                        variant='outlined'
-                                        value={darkBackgroundPaper}
-                                        label='Dark Background Paper'
-                                        onChange={(e) => {
-                                            setIsDisableBtn(false);
-                                            setDarkBackgroundPaper(e.target.value) 
-                                        }} 
-                                    /> 
-                                    <Box className={classes.colorPreview} style={{ backgroundColor: darkBackgroundPaper}}></Box>
-                                </Box>  
-                                <Box mr={1}> 
-                                    <TextField 
-                                        required
-                                        type='text'
-                                        variant='outlined'
-                                        value={darkPrimary}
-                                        label='Dark Primary'
-                                        onChange={(e) => {
-                                            setIsDisableBtn(false);
-                                            setDarkPrimary(e.target.value) 
-                                        }} 
-                                    /> 
-                                    <Box className={classes.colorPreview} style={{ backgroundColor: darkPrimary}}></Box>
-                                </Box>  
-                                <Box> 
-                                    <TextField 
-                                        required
-                                        type='text'
-                                        variant='outlined'
-                                        value={darkSecondary}
-                                        label='Dark Secondary'
-                                        onChange={(e) => {
-                                            setIsDisableBtn(false);
-                                            setDarkSecondary(e.target.value) 
-                                        }} 
-                                    /> 
-                                    <Box className={classes.colorPreview} style={{ backgroundColor: darkSecondary}}></Box>
-                                </Box>  
                             </Box>
 
                             <Box className={classes.btnSave} mt={2}>

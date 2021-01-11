@@ -13,6 +13,8 @@ import ParagraphImageCreator from '../paragraphImage/ElementCreator'
 function DumbComponent(props) {
  
     const {modeDev} = React.useContext(ModeContext)
+
+    console.log('dumb container work')
   
     const useStyles = makeStyles((theme) => ({
         myClassName: props.classes ,  

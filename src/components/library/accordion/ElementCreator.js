@@ -18,6 +18,8 @@ function ElementCreator(props) {
                     swapContainer={props.swapContainer}
                     removeContainer={props.removeContainer}
                     reSaveItem={props.reSaveItem}
+                    isFirst={props.isFirst}
+                    isLast={props.isLast}
                 />
             }
  

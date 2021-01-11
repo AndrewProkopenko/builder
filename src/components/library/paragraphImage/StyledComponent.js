@@ -4,7 +4,7 @@ import firebase from '../../../firebase/firebase'
 import LoadingContext from '../../../context/loadingContext/LoadingContext' 
 
 import Draggable from 'react-draggable';
-import { TwitterPicker } from 'react-color';
+import {ColorPicker} from '../colorPicker/ColorPicker'
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -37,6 +37,7 @@ import ImageIcon from '@material-ui/icons/Image';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const StyledComponent = (props) => {  
+    console.log("styled paragraph image")
     const { setIsLoading } = React.useContext(LoadingContext)
  
     const [padding, setPadding] = React.useState({ 
@@ -77,7 +78,7 @@ const StyledComponent = (props) => {
     const [imageBorderColor, setImageBorderColor] = React.useState(props.data.image.classes.borderColor ||  'transperent')
     const [imageBorderStyle, setImageBorderStyle] = React.useState(props.data.image.classes.borderStyle ||  'solid')
     const [imageBorderWidth, setImageBorderWidth] = React.useState(props.data.image.classes.borderWidth ||  '0px')
-    const [imageBorderRadius, setImageBorderRadius] = React.useState(props.data.image.classes.borderRadius ||  '0px')
+    const [imageBorderRadius, setImageBorderRadius] = React.useState(props.data.image.classes.borderRadius ||  0)
     const [imageFloat, setImageFloat] = React.useState(props.data.image.classes.float || 'none')
     const [imageMargin, setImageMargin] = React.useState({
         top:  props.data.image.classes.marginTop || 0, 
@@ -328,9 +329,9 @@ const StyledComponent = (props) => {
     const classes = useStyles();
 
     //const dataNew - props for Dumb Component
-    const dataNew = {...props.data, ...{
-        classes: myClassName,
-    }} 
+    // const dataNew = {...props.data, ...{
+    //     classes: myClassName,
+    // }} 
  
     const handlePadding = (e, direction) => {  
         let newPadding = Object.assign({}, padding)
@@ -460,7 +461,7 @@ const StyledComponent = (props) => {
                                             </Button>
                                             <DumbImage
                                                 imageUrl={imageUrl}
-                                                image={dataNew.image}   
+                                                image={props.data.image}   
                                             /> 
                                         </Grid>
                                         <Grid item xs={8}> 
@@ -604,15 +605,18 @@ const StyledComponent = (props) => {
                                 {/* border */}
                                 <Box className={classes.inputGroup}> 
                                     <Box display="flex" flexDirection="row" > 
-                                        <TextField 
-                                                className={classes.inputNumber}
-                                                type='color'
-                                                label="Border Color" 
-                                                variant="filled" 
-                                                size='small'  
-                                                value={imageBorderColor}
-                                                onChange={ (e) => { setIsDisableBtn(false);  setImageBorderColor(e.target.value)} }     
-                                        />
+                                        <Box className={classes.inputNumber} >
+                                            <Typography  component={'p'} gutterBottom  >
+                                                Border  -  { imageBorderColor }
+                                            </Typography> 
+                                            <ColorPicker 
+                                                initialColor={imageBorderColor} 
+                                                changeColor={setImageBorderColor} 
+                                                setIsDisableBtn={setIsDisableBtn}
+                                                position={'left'}
+                                            /> 
+                                        </Box>
+                                         
                                         <TextField 
                                                 className={classes.inputNumber}
                                                 type='number'
@@ -787,56 +791,44 @@ const StyledComponent = (props) => {
                           
                             {/* bg-color */}
                             <Box className={classes.inputGroup} display="flex" flexDirection="row" > 
-                                <Box 
-                                    className={classes.inputNumber}
-                                >
-                                    <Typography  component={'h6'} gutterBottom  >
-                                        Background  
-                                    </Typography>
-                                    <TwitterPicker
-                                        width={'100%'}
-                                        triangle={'hide'}
-                                        color={backgroundColor}
-                                        colors={[ '#4e36f4', '#36f477', 'rgb(244, 214, 54)']} 
-                                        onChangeComplete={(newColor) => {
-                                            setIsDisableBtn(false);
-                                            setBackgroundColor(newColor.hex) 
-                                        }}
-
+                                <Box className={classes.inputNumber} >
+                                    <Typography  component={'p'} gutterBottom  >
+                                        Background  -  { backgroundColor }
+                                    </Typography> 
+                                    <ColorPicker 
+                                        initialColor={backgroundColor} 
+                                        changeColor={setBackgroundColor} 
+                                        setIsDisableBtn={setIsDisableBtn}
+                                        position={'left'}
                                     /> 
-                                </Box> 
-                                <Box 
-                                    className={classes.inputNumber}
-                                >
-                                    <Typography  component={'h6'} gutterBottom  >
-                                        Color  
-                                    </Typography>
-                                    <TwitterPicker
-                                        width={'100%'}
-                                        triangle={'hide'}
-                                        colors={[ '#4e36f4', '#36f477', 'rgb(244, 214, 54)']} 
-                                        color={color}
-                                        onChangeComplete={(newColor) => {
-                                            setIsDisableBtn(false);
-                                            setColor(newColor.hex) 
-                                        }}
-
+                                </Box>
+                                <Box className={classes.inputNumber} >
+                                    <Typography  component={'p'} gutterBottom  >
+                                        Color  -  { color }
+                                    </Typography> 
+                                    <ColorPicker 
+                                        initialColor={color} 
+                                        changeColor={setColor} 
+                                        setIsDisableBtn={setIsDisableBtn}
+                                        position={'right'}
                                     /> 
-                                </Box>  
+                                </Box>   
                             </Box>
                                                     
                             {/* border */}
                             <Box className={classes.inputGroup}> 
                                 <Box display="flex" flexDirection="row" > 
-                                    <TextField 
-                                            className={classes.inputNumber}
-                                            type='color'
-                                            label="Border Color" 
-                                            variant="filled" 
-                                            size='small'  
-                                            value={borderColor}
-                                            onChange={ (e) => { setIsDisableBtn(false);  setBorderColor(e.target.value)} }     
-                                    />
+                                    <Box className={classes.inputNumber} >
+                                        <Typography  component={'p'} gutterBottom  >
+                                            Border  -  { borderColor }
+                                        </Typography> 
+                                        <ColorPicker 
+                                            initialColor={borderColor} 
+                                            changeColor={setBorderColor} 
+                                            setIsDisableBtn={setIsDisableBtn}
+                                            position={'right'}
+                                        /> 
+                                    </Box>   
                                     <TextField 
                                             className={classes.inputNumber}
                                             type='number'
@@ -986,12 +978,12 @@ const StyledComponent = (props) => {
                                 <div className={classes.pbView}></div>
                             </Tooltip> 
                             <DumbComponent 
-                                data={dataNew} 
-                                className={myClassName}  
-                                imageClassName={imageClassName}
-                                imageUrl={imageUrl}
+                                data={props.data} 
+                                className={props.data.classes}  
+                                imageClassName={props.data.image.classes}
+                                imageUrl={props.data.image.url}
                                 prop={props.data.prop} 
-                                textChildren={textInDumb} 
+                                textChildren={props.data.text} 
                             />
                            
                         </div>  

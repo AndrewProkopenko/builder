@@ -4,7 +4,7 @@ import SendFormContext from '../../../context/sendFormContext/SendFormContext'
 
 import { Container, Grid, makeStyles, Button, Box } from '@material-ui/core'
 
-import '../../../assets/contactMap.scss'
+import '../../../assets/contactMap.scss' 
 
 function DumbComponent(props) {
     const { sendRequests } = React.useContext(SendFormContext)
@@ -144,7 +144,7 @@ function DumbComponent(props) {
                                                 </g></g> 
                                             </svg>
 
-                                            <a className={classes.link} href={`${phone}`}>{phone}</a>
+                                            <a className={classes.link} href={`tel:${phone}`}> {phone} </a>
                                         </div>
                                     </Box>
                                     <form onSubmit={handleSubmit}>
@@ -179,8 +179,7 @@ function DumbComponent(props) {
                                             <textarea   
                                                 cols={30} 
                                                 rows={10} 
-                                                placeholder={inputComment} 
-                                                defaultValue={""} 
+                                                placeholder={inputComment}  
                                                 className={classes.input}
                                                 value={formComment}
                                                 onChange={e => {setFormComment(e.target.value)}}

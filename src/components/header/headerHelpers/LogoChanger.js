@@ -5,6 +5,8 @@ import CategoryContext from '../../../context/headerContext/CategoryContext'
 import LoadingContext from '../../../context/loadingContext/LoadingContext' 
 import ImageContext from '../../../context/imageContext/ImageContext' 
 
+import { ColorPicker } from '../../library/colorPicker/ColorPicker'
+
 import { 
     Tooltip,
     Button, 
@@ -117,15 +119,7 @@ function LogoChanger() {
             paddingTop: 10, 
             backgroundColor: theme.palette.background.paper, 
         },
-        accordionContainer: {
-            position: 'relative', 
-            '&:hover $deleteBtn': {
-                opacity: 1
-            },
-            '&:hover $movingBtn': {
-                opacity: 1
-            }, 
-        }, 
+         
     
     }))
     
@@ -309,13 +303,12 @@ function LogoChanger() {
                                             <Box mt={2} >
                                                 {
                                                     colorSelect === 'custom' &&
-                                                    <TextField    
-                                                        type='text'
-                                                        label="Set Custom Color on #hex"  
-                                                        variant="outlined"  
-                                                        value={colorCustom}
-                                                        onChange={ (e) => { setIsDisableBtn(false); setColorCustom(e.target.value)  } }     
-                                                    />
+                                                    <ColorPicker
+                                                        initialColor = {colorCustom}
+                                                        changeColor = {setColorCustom}
+                                                        setIsDisableBtn = {setIsDisableBtn}
+                                                        position = {'right'}
+                                                    /> 
                                                 }
                                                 
                                             </Box>

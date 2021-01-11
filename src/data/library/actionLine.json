@@ -1,0 +1,11 @@
+{
+    "type": "about", 
+    "id": 1,  
+    "heading": "About Header",  
+    "paragraph": "Lorem ipsum dolor set ami ", 
+    "image": "",
+    "isButton": false, 
+    "textButton": "",
+    "targetButton": "", 
+    "colorButton": "primary"
+}

@@ -484,28 +484,53 @@ function CategoriesChanger() {
                                                         variant="contained"
                                                         className={classes.movingBtn}
                                                     >  
-                                                        <Tooltip title='Get Up' placement='right'>
-                                                            <Button   
-                                                                onClick={() => { swapCategory('up', item.id) }}
+                                                        { 
+                                                            categories.indexOf(item) !== 0 ?
+                                                            <Tooltip title='Get Up' placement='right'>
+                                                                <Button   
+                                                                    onClick={() => { swapCategory('up', item.id) }}
+                                                                    size='small'
+                                                                    variant='contained'
+                                                                    color='primary' 
+                                                                    disabled={categories.indexOf(item) === 0 ? true : false }
+                                                                >  
+                                                                    <ExpandLessOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>   
+                                                                </Button>
+                                                            </Tooltip>
+                                                            :
+                                                            <Button    
                                                                 size='small'
                                                                 variant='contained'
                                                                 color='primary' 
-                                                                disabled={categories.indexOf(item) === 0 ? true : false }
-                                                            >  
-                                                                <ExpandLessOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>   
+                                                                disabled={true}
+                                                            >     
+                                                                <ExpandLessOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>
                                                             </Button>
-                                                        </Tooltip> 
-                                                        <Tooltip title='Get Down' placement='right'>
-                                                            <Button   
-                                                                onClick={() => { swapCategory('down', item.id) }}
+                                                        }
+                                                        {
+                                                            categories.indexOf(item) !== categories.length - 1 ?  
+                                                            <Tooltip title='Get Down' placement='right'>
+                                                                <Button   
+                                                                    onClick={() => { swapCategory('down', item.id) }}
+                                                                    size='small'
+                                                                    variant='contained'
+                                                                    color='primary' 
+                                                                    disabled={categories.indexOf(item) === categories.length - 1 ? true : false }
+                                                                >     
+                                                                    <ExpandMoreOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>
+                                                                </Button>
+                                                            </Tooltip> 
+                                                            : 
+                                                            <Button    
                                                                 size='small'
                                                                 variant='contained'
                                                                 color='primary' 
-                                                                disabled={categories.indexOf(item) === categories.length - 1 ? true : false }
+                                                                disabled={true}
                                                             >     
                                                                 <ExpandMoreOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>
                                                             </Button>
-                                                        </Tooltip>  
+                                                        }
+                                                         
                                                     </ButtonGroup>
                                                     
                                                     <Accordion>
@@ -557,28 +582,35 @@ function CategoriesChanger() {
                                                                                     variant="contained"
                                                                                     className={classes.movingPageBtn}
                                                                                 >  
-                                                                                    <Tooltip title='Get Up' placement='top'>
-                                                                                        <Button   
-                                                                                            onClick={() => { swapPage('up', item.id, itemPages.id) }}
-                                                                                            size='small'
-                                                                                            variant='contained'
-                                                                                            color='primary' 
-                                                                                            disabled={item.pages.indexOf(itemPages) === 0 ? true : false }
-                                                                                        >  
-                                                                                            <ExpandLessOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>   
-                                                                                        </Button>
-                                                                                    </Tooltip> 
-                                                                                    <Tooltip title='Get Down' placement='top'>
-                                                                                        <Button   
-                                                                                            onClick={() => { swapPage('down', item.id, itemPages.id) }} 
-                                                                                            size='small'
-                                                                                            variant='contained'
-                                                                                            color='primary' 
-                                                                                            disabled={item.pages.indexOf(itemPages) === item.pages.length - 1 ? true : false }
-                                                                                        >     
-                                                                                            <ExpandMoreOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>
-                                                                                        </Button>
-                                                                                    </Tooltip>  
+                                                                                    {
+                                                                                        item.pages.indexOf(itemPages) !== 0 &&
+                                                                                        <Tooltip title='Get Up' placement='top'>
+                                                                                            <Button   
+                                                                                                onClick={() => { swapPage('up', item.id, itemPages.id) }}
+                                                                                                size='small'
+                                                                                                variant='contained'
+                                                                                                color='primary' 
+                                                                                                disabled={item.pages.indexOf(itemPages) === 0 ? true : false }
+                                                                                            >  
+                                                                                                <ExpandLessOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>   
+                                                                                            </Button>
+                                                                                        </Tooltip>
+                                                                                    }
+                                                                                    {
+                                                                                        item.pages.indexOf(itemPages) !== item.pages.length - 1 &&
+                                                                                        <Tooltip title='Get Down' placement='top'>
+                                                                                            <Button   
+                                                                                                onClick={() => { swapPage('down', item.id, itemPages.id) }} 
+                                                                                                size='small'
+                                                                                                variant='contained'
+                                                                                                color='primary' 
+                                                                                                disabled={item.pages.indexOf(itemPages) === item.pages.length - 1 ? true : false }
+                                                                                            >     
+                                                                                                <ExpandMoreOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>
+                                                                                            </Button>
+                                                                                        </Tooltip>
+                                                                                    }
+                                                                                      
                                                                                     <Tooltip title='Delete Page' placement='top'>
                                                                                         <Button
                                                                                             variant='contained'

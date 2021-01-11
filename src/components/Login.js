@@ -1,20 +1,15 @@
 import React from 'react'
 import {Redirect} from 'react-router-dom'
-import firebase from '../firebase/firebase'
+import firebase from '../firebase/firebase' 
 
-// import ImageManager from './header/headerHelpers/ImageManager'
-// import DumbAccordion from '../components/library/accordion/DumbComponent'
-import Dumb from '../components/library/about/DumbComponent'
-
-import DumbContact from '../components/library/contactMap/DumbComponent'
-
-import LoadingContext from '../context/loadingContext/LoadingContext'
-import ImageContext from '../context/imageContext/ImageContext'
+import LoadingContext from '../context/loadingContext/LoadingContext' 
  
 import { Avatar, Button, TextField, Typography, Container } from '@material-ui/core'; 
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'; 
 import { makeStyles } from '@material-ui/core/styles';  
 import { Alert } from '@material-ui/lab';
+
+import Dumb from '../components/library/actionLine/DumbComponent'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -37,9 +32,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Login() {
+
     
-    const { setIsLoading } = React.useContext(LoadingContext)
-    const { imageList } = React.useContext(ImageContext)
+    const { setIsLoading } = React.useContext(LoadingContext) 
 
     const classes = useStyles();
 
@@ -51,6 +46,7 @@ function Login() {
     
     React.useEffect( () => {
         setIsLoading(false) 
+        // eslint-disable-next-line
     }, [])
 
     const hendlerSubmit = (e) => {
@@ -64,16 +60,16 @@ function Login() {
     } 
  
  
-    return (
+    return ( 
         <React.Fragment>
-        {/* <Dumb/>   */}
+        <Dumb/>
         <Container component="main" maxWidth="xs">
-    
+            
             {/* Redirect при авторизации */}
             { isRedirect ? (<Redirect push to="/"/>) : null }
- 
-            {/* <ImageManager/> */}
- 
+
+            
+  
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
@@ -125,7 +121,7 @@ function Login() {
                 </form>
             </div>
            
-        </Container>
+        </Container> 
         </React.Fragment>
     )
 }

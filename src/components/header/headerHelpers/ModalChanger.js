@@ -1,5 +1,7 @@
 import React from 'react'  
  
+import { ColorPicker } from '../../library/colorPicker/ColorPicker'
+
 import LoadingContext from '../../../context/loadingContext/LoadingContext' 
 import SendFormContext from '../../../context/sendFormContext/SendFormContext'  
 import { 
@@ -256,13 +258,12 @@ function RequestsChanger() {
                                 <Box ml={1} >
                                     {
                                         colorSelect === 'custom' &&
-                                        <TextField    
-                                            type='text'
-                                            label="Set Custom Color on #hex"  
-                                            variant="outlined"  
-                                            value={colorCustom}
-                                            onChange={ (e) => { setIsDisableBtn(false); setColorCustom(e.target.value)  } }     
-                                        />
+                                        <ColorPicker
+                                            initialColor = {colorCustom}
+                                            changeColor = {setColorCustom}
+                                            setIsDisableBtn = {setIsDisableBtn}
+                                            position = {'right'}
+                                        /> 
                                     }
                                     
                                 </Box>

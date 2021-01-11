@@ -1,7 +1,6 @@
 import React from 'react'  
 
-import Draggable from 'react-draggable';
-import { TwitterPicker } from 'react-color';
+import Draggable from 'react-draggable'; 
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -25,7 +24,8 @@ import {
 } from '@material-ui/core'
 
 import DumbComponent from "./DumbComponent" 
- 
+
+import {ColorPicker} from '../colorPicker/ColorPicker'
 
 import OpenWithIcon from '@material-ui/icons/OpenWith';
 import { DeleteOutline, InfoOutlined } from '@material-ui/icons';
@@ -71,11 +71,11 @@ const StyledComponent = (props) => {
             width: "100%"
         }, 
         inputGroup: {
+            position: "relative", 
             border: `1px solid ${theme.palette.divider}`, 
             padding: 3, 
-            inputNumber: { 
-                maxWidth: "100%"
-
+            "& $inputNumber": { 
+                maxWidth: "100%" 
             }
         }, 
         btnSave: { 
@@ -231,9 +231,9 @@ const StyledComponent = (props) => {
     const classes = useStyles();
 
     //const dataNew - props for Dumb Component
-    const dataNew = {...props.data, ...{
-        classes: myClassName
-    }}  
+    // const dataNew = {...props.data, ...{
+    //     classes: myClassName
+    // }}  
 
     const handlePadding = (e, direction) => {  
         let newPadding = Object.assign({}, padding)
@@ -417,36 +417,26 @@ const StyledComponent = (props) => {
                                         className={classes.inputNumber}
                                     >
                                         <Typography  component={'h6'} gutterBottom  >
-                                            Background  
-                                        </Typography>
-                                        <TwitterPicker
-                                            width={'100%'}
-                                            triangle={'hide'}
-                                            color={backgroundColor}
-                                            colors={[ '#4e36f4', '#36f477', 'rgb(244, 214, 54)']} 
-                                            onChangeComplete={(newColor) => {
-                                                setIsDisableBtn(false);
-                                                setBackgroundColor(newColor.hex) 
-                                            }}
-
+                                            Background  -  { backgroundColor }
+                                        </Typography> 
+                                        <ColorPicker 
+                                            initialColor={backgroundColor} 
+                                            changeColor={setBackgroundColor} 
+                                            setIsDisableBtn={setIsDisableBtn}
+                                            position={'left'}
                                         /> 
                                     </Box> 
                                     <Box 
                                         className={classes.inputNumber}
                                     >
                                         <Typography  component={'h6'} gutterBottom  >
-                                            Color  
+                                            Color  -  { color }
                                         </Typography>
-                                        <TwitterPicker
-                                            width={'100%'}
-                                            triangle={'hide'}
-                                            colors={[ '#4e36f4', '#36f477', 'rgb(244, 214, 54)']} 
-                                            color={color}
-                                            onChangeComplete={(newColor) => {
-                                                setIsDisableBtn(false);
-                                                setColor(newColor.hex) 
-                                            }}
-
+                                        <ColorPicker 
+                                            initialColor={color} 
+                                            changeColor={setColor} 
+                                            setIsDisableBtn={setIsDisableBtn}
+                                            position={'right'}
                                         /> 
                                     </Box>  
                                 </Box>
@@ -551,11 +541,11 @@ const StyledComponent = (props) => {
                                 <div className={classes.pbView}></div>
                             </Tooltip>  
                             <DumbComponent 
-                                data={dataNew} 
-                                className={myClassName}
-                                isResponsiveFont={isResponsiveFont}
+                                data={props.data} 
+                                className={props.data.classes}
+                                isResponsiveFont={props.data.responseFont}
                                 prop={props.data.prop} 
-                                textChildren={textInDumb}
+                                textChildren={props.data.text}
                             />
                            
                         </div>  
