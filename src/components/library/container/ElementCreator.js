@@ -1,5 +1,8 @@
 import React from 'react' 
 
+import StylesChangers from '../../../styles/changers'   
+import StyledInputs from '../../../styles/inputs'   
+
 import { makeStyles, Box, Tooltip, ButtonGroup, Button  } from '@material-ui/core'
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExpandLessOutlinedIcon from '@material-ui/icons/ExpandLessOutlined';
@@ -26,106 +29,73 @@ function ElementCreator(props) {
         isPaper : props.data.isPaper
     } 
 
-    const useStyles = makeStyles((theme) => ({
-        containerWrapper: {
-            position: 'relative', 
-            outline: "1px solid #ffffff00", 
-            transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeIn} outline`,
-            '&:hover' : {
-                outlineColor: `${theme.palette.error.main}`,
-                '& $mtView' : { 
-                    opacity: 1
-                },
-                '& $mbView' : { 
-                    opacity: 1
-                }, 
-                '& $ptView' : { 
-                    opacity: 1
-                },
-                '& $pbView' : { 
-                    opacity: 1
-                }, 
-                '& $btnDrawerStyle' : { 
-                    opacity: 1
-                }, 
-                 
-            },    
-        },
-        btnDrawerStyle : {
-            // backgroundColor: theme.palette.error.dark, 
-            position: 'absolute',  
-            top: 0, 
-            left: 0, 
-            zIndex: 1030,   
-            minWidth: 50, 
-            opacity: 0, 
-            transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeIn} opacity`,
-        }, 
-        btnDrawerItem: { 
-            backgroundColor: theme.palette.error.dark, 
-            '&:hover': { 
-                backgroundColor: theme.palette.secondary.dark,   
+    const useStyles = makeStyles((theme) => {
+        const styleRef = StyledInputs()
+        const commonStyle = styleRef(theme)
+        const classesRef = StylesChangers()
+        const commonClasses = classesRef(theme)
+
+        const { containerWrapper, btnDrawerItem, btnDrawerStyle } = commonClasses 
+        const { mtView, mbView, ptView, pbView } = commonStyle 
+        return ({
+            containerWrapper: {
+                 ...containerWrapper, ...{
+                '&:hover' : {
+                    outlineColor: `${theme.palette.error.main}`,
+                    '& $mtView' : { 
+                        opacity: 1
+                    },
+                    '& $mbView' : { 
+                        opacity: 1
+                    }, 
+                    '& $ptView' : { 
+                        opacity: 1
+                    },
+                    '& $pbView' : { 
+                        opacity: 1
+                    }, 
+                    '& $btnDrawerStyle' : { 
+                        opacity: 1
+                    },  
+                }}    
+            },
+            btnDrawerStyle : btnDrawerStyle, 
+            btnDrawerItem: btnDrawerItem,
+            mtView: { ...mtView, ...{
+                top: `-${props.data.classes.marginTop}px`,  
+                height: `${props.data.classes.marginTop}px`
+                } 
+            },
+            mbView: { ...mbView, ...{
+                bottom: `-${props.data.classes.marginBottom}px`,
+                height: `${props.data.classes.marginBottom}px`,  
+                } 
             }, 
-        },
-        mtView: {  
-            position: 'absolute', 
-            top: `-${props.data.classes.marginTop}px`, 
-            left: 0, 
-            right: 0,
-            zIndex: 10, 
-            backgroundColor: '#fff7003d',
-            height: `${props.data.classes.marginTop}px`, 
-            opacity: 0,
-            transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeIn} opacity`
-        },
-        mbView: {  
-            position: 'absolute', 
-            bottom: `-${props.data.classes.marginBottom}px`, 
-            left: 0, 
-            right: 0,
-            zIndex: 10, 
-            backgroundColor: '#fff7003d',
-            height: `${props.data.classes.marginBottom}px`, 
-            opacity: 0,
-            transition: `180ms ${theme.transitions.easing.easeIn} opacity`
-        }, 
-        ptView: {  
-            position: 'absolute', 
-            top: 0, 
-            left: 0, 
-            right: 0,
-            zIndex: 10, 
-            backgroundColor: '#400e575e',
-            height: `${props.data.classes.paddingTop}px`, 
-            opacity: 0,
-            transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeIn} opacity`
-        },
-        pbView: {  
-            position: 'absolute', 
-            bottom: 0, 
-            left: 0, 
-            right: 0,
-            zIndex: 10, 
-            backgroundColor: '#400e575e',
-            height: `${props.data.classes.paddingBottom}px`, 
-            opacity: 0,
-            transition: `180ms ${theme.transitions.easing.easeIn} opacity`
-        },
-    }))
+            ptView: { ...ptView, ...{
+                height: `${props.data.classes.paddingTop}px`} 
+            }, 
+            pbView: { ...pbView, ...{
+                height: `${props.data.classes.paddingBottom}px`} 
+            }, 
+              
+        })
+    })
 
     const classes = useStyles();
 
-    const reSaveChildren = async (id, data) => {   
-        let slicedChild = props.data.children.slice()
-        slicedChild.forEach((item) => {
-            if(item.id === id) {
-                for( let key in item) { 
-                    item[key] = data[key]
-                } 
-            }
-        })  
+   
+    const reSaveChildren = (id, data) => {   
+        const newArr =  props.data.children.map((item) => item.id === id ? { ...data} : item);
+        // let slicedChild = props.data.children.slice()
+        // slicedChild.forEach((item) => {
+        //     if(item.id === id) {
+        //         for( let key in item) { 
+        //             item[key] = data[key]
+        //         } 
+        //     }
+        // })  
         // save in firestore
-        props.reSaveContainer(props.data.id, slicedChild)
+        props.reSaveContainer(props.data.id, newArr)
  
     }
 

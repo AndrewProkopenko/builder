@@ -31,7 +31,7 @@ export const ColorPicker = memo(({ initialColor, changeColor, setIsDisableBtn, p
             color !== 'paper' ) ? 
             theme.palette.getContrastText(color) : theme.palette.text.primary
         return( {
-            boxColor: {
+            boxColor: { 
                 display: 'flex', 
                 alignItems: 'center', 
                 justifyContent: 'center', 
@@ -52,7 +52,7 @@ export const ColorPicker = memo(({ initialColor, changeColor, setIsDisableBtn, p
             }, 
             boxPicker: { 
                 position: 'absolute',
-                zIndex: 100, 
+                zIndex: 1510, 
                 top: position === 'top' ? 100 : -250, 
                 left: position === 'left' ? 0 : 'auto',
                 right: position === 'right' ? 0 : 'auto',

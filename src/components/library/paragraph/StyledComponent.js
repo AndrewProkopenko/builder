@@ -1,5 +1,8 @@
 import React from 'react'  
 
+import StylesChangers from '../../../styles/changers'   
+import StyledInputs from '../../../styles/inputs'   
+
 import Draggable from 'react-draggable'; 
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -44,8 +47,7 @@ const StyledComponent = (props) => {
         bottom: props.data.classes.marginBottom , 
         right: props.data.classes.marginRight 
     })
-     
-    
+      
     const [color, setColor] = React.useState(props.data.classes.color || 'inherit')
     const [backgroundColor, setBackgroundColor] = React.useState(props.data.classes.backgroundColor ||  'transperent')
 
@@ -67,191 +69,70 @@ const StyledComponent = (props) => {
     const [open, setOpen] = React.useState(false);
          
 
-    const useStyles = makeStyles((theme) => ({
-     
-        inputNumber: {
-            flexGrow: 1, 
-            margin: 5, 
-            width: "100%"
-        }, 
-        inputGroup: {
-            border: `1px solid ${theme.palette.divider}`, 
-            padding: 3, 
-            inputNumber: { 
-                maxWidth: "100%"
+    const useStyles = makeStyles((theme) => {
+        const styleRef = StyledInputs()
+        const commonStyle = styleRef(theme)
+        const classesRef = StylesChangers()
+        const commonClasses = classesRef(theme)
 
-            }
-        },
-        btnSave: { 
-            position: 'sticky', 
-            zIndex: theme.zIndex.tooltip,
-            bottom: 0, 
-            left: 0, 
-            right: 0,
-            height: 80, 
-            backgroundColor: theme.palette.background.paper, 
-            
-            '&>button': {
-                marginTop: 20, 
-                marginBottom: 30, 
-                marginLeft: 5, 
-                opacity: 1,  
-                paddingLeft: 40, 
-                paddingRight: 40
-            }
-        },
-        dumbItemContainer: { 
-            position: 'relative', 
-            outline: '1px solid #f000',
-            transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeIn} outline`,
-            '&:hover' : {   
-                boxShadow: theme.shadows[10], 
-                cursor: 'pointer',
-                outlineColor: `${theme.palette.error.light}`,
-                '&>button' : { 
-                    opacity: 1
-                }, 
-                '& $mtView' : { 
-                    opacity: 1
-                },
-                '& $mbView' : { 
-                    opacity: 1
-                }, 
-                '& $ptView' : { 
-                    opacity: 1
-                },
-                '& $pbView' : { 
-                    opacity: 1
-                },  
-            }, 
-        },
-        mtView: {  
-            position: 'absolute', 
-            top: `-${margin.top}px`, 
-            left: 0, 
-            right: 0,
-            zIndex: 10, 
-            backgroundColor: '#fff7003d',
-            height: `${margin.top}px`, 
-            opacity: 0,
-            transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeIn} opacity`
-        },
-        mbView: {  
-            position: 'absolute', 
-            bottom: `-${margin.bottom}px`, 
-            left: 0, 
-            right: 0,
-            zIndex: 10, 
-            backgroundColor: '#fff7003d',
-            height: `${margin.bottom}px`, 
-            opacity: 0,
-            transition: `180ms ${theme.transitions.easing.easeIn} opacity`
-        },
-        ptView: {  
-            position: 'absolute', 
-            top: 0, 
-            left: 0, 
-            right: 0,
-            zIndex: 10, 
-            backgroundColor: '#400e575e',
-            height: `${padding.top}px`, 
-            opacity: 0,
-            transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeIn} opacity`
-        },
-        pbView: {  
-            position: 'absolute', 
-            bottom: 0, 
-            left: 0, 
-            right: 0,
-            zIndex: 10, 
-            backgroundColor: '#400e575e',
-            height: `${padding.bottom}px`, 
-            opacity: 0,
-            transition: `180ms ${theme.transitions.easing.easeIn} opacity`
-        },
-        dumbItem: { 
-            position: 'relative',
-            transition: "300ms cubic-bezier(0.4, 0, 1, 1)",
-            // height: '100%'
-            
-        }, 
-        dumbItemDelete : { 
-            opacity: 0,
-            position: 'absolute', 
-            zIndex: 15, 
-            top: 3, 
-            right: 5,
-            backgroundColor: theme.palette.secondary.dark,
-            transition: "100ms cubic-bezier(0.4, 0, 1, 1)",
-            '&:hover' : { 
-                backgroundColor: theme.palette.error.light
-            }
-        }, 
-         
-        menu: {    
-            position: "absolute", 
-            left: "calc(50% - 200px)",
-            top: 50, 
-            backgroundColor: theme.palette.background.paper, 
-            padding: 10 , 
-            paddingBottom: 0, 
-            maxWidth: 400,  
-            width: 400, 
-            maxHeight: 'calc(100vh - 100px)', 
-            minHeight: 500,
-            overflowY: 'scroll'
-        },
-        menuTitle: {
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'space-between', 
-            fontSize: 14, 
-            borderBottom: '1px solid #eaeaea',
-            paddingBottom: 6,
-            marginBottom: 10, 
-            cursor: 'move'
-        },
-        imageAccordion: { 
-            marginBottom: 10,  
-        },
-        imagePreview: {
-            position: 'relative', 
-            width: 100, 
-            height: 100, 
-            border: `1px solid ${theme.palette.primary.light}`, 
-            '&>img' : {  
-                position: 'absolute',
-                top: 0, 
-                bottom: 0, 
-                left: 0, 
-                right: 0, 
-                margin: 0, 
-                width: "100%", 
-                maxWidth: "100%", 
-                height: "100%", 
-                maxHeight: "100%", 
-            }, 
-            '&>button' : {
-                position: 'absolute',
-                zIndex: 10, 
-                top: 0, 
-                bottom: 0, 
-                left: 0, 
-                right: 0, 
-                width: "100%", 
-                maxWidth: "100%", 
-                height: "100%", 
-                maxHeight: "100%", 
-                backgroundColor: "#0027ff70", 
-                borderRadius: 0, 
-                transition: "200ms cubic-bezier(0.4, 0, 1, 1)",
-                "&:hover": {
-                    opacity: 0
+        const { btnSave, menu, menuTitle } = commonClasses 
+        const { mtView, mbView, ptView, pbView, inputNumber, inputGroup, dumbItemContainer, dumbItem, dumbItemDelete } = commonStyle
+        return ({
+     
+            inputNumber: inputNumber, 
+            inputGroup: inputGroup,
+            btnSave: btnSave,
+            dumbItemContainer: {  ...dumbItemContainer, ...{
+                '&:hover' : {     
+                    boxShadow: theme.shadows[10], 
+                    cursor: 'pointer',
+                    outlineColor: `${theme.palette.error.light}`,  
+                    '&>button' : { 
+                        opacity: 1
+                    }  ,
+                    '& $mtView' : { 
+                        opacity: 1
+                    },
+                    '& $mbView' : { 
+                        opacity: 1
+                    }, 
+                    '& $ptView' : { 
+                        opacity: 1
+                    },
+                    '& $pbView' : { 
+                        opacity: 1
+                    },  
+                }
+            }},
+            mtView: { ...mtView, ...{
+                top: `-${margin.top}px`, 
+                height: `${margin.top}px`, 
                 } 
             }, 
-        }
-        
-      }));
+            mbView: { ...mbView, ...{
+                bottom: `-${margin.bottom}px`, 
+                height: `${margin.bottom}px`, 
+                } 
+            }, 
+            ptView: { ...ptView, ...{
+                height: `${padding.top}px`,  
+                } 
+            }, 
+            pbView: { ...pbView, ...{
+                height: `${padding.bottom}px`,  
+                } 
+            },   
+            dumbItem: dumbItem, 
+            dumbItemDelete : dumbItemDelete,  
+            menu: {...menu, ...{
+                left: "calc(50% - 200px)",
+                width: 400, 
+            } },
+             
+            menuTitle: menuTitle,
+             
+          })
+    });
     
     const myClassName = { 
         display: display,

@@ -21,8 +21,7 @@ function DumbComponent(props) {
     const inputComment = props.data.inputComment
     const buttonText = props.data.buttonText
     const policy = props.data.policy
-    
-
+     
     let colorMapOnload 
 
     const useStyles = makeStyles((theme) => {  
@@ -80,11 +79,26 @@ function DumbComponent(props) {
                     color: `${theme.palette.primary.main} !important`,
                 }
             },
-            boxForFlex: {
-                [`@media (min-width: 960px)`]: {
+            boxForFlex: { 
+                [`@media (min-width: ${theme.breakpoints.values.md}px)`]: { 
                     display: mapHtml !== null ? 'block' : 'flex', 
+                    flexDirection: 'row-reverse', 
                     justifyContent: 'space-between'
                 }, 
+            }, 
+            heightRegular: {
+                height: mapHtml === null ? 'auto' : 430,
+                [`@media (max-width: ${theme.breakpoints.values.md}px)`]: {
+                    height: 'auto', 
+                }
+            }, 
+            linksContainer : {
+                width: '100%',
+                display: mapHtml !== null ? 'block' : 'flex', 
+                
+                justifyContent: 'center',
+                flexDirection: 'column', 
+                alignItems: 'center'
             }
         })
     });
@@ -115,9 +129,9 @@ function DumbComponent(props) {
                 <div className="ln-contact"> 
                     <Grid container>  
                         <Grid item xs={12} md={ mapHtml !== null ? 6 : 12 } className={classes.itemBackground} >  
-                            <div className={'ln-contact_item'} >
+                            <div className={`ln-contact_item ${classes.heightRegular}`} >
                                 <Box className={classes.boxForFlex}>
-                                    <Box>
+                                    <Box className={classes.linksContainer}>
                                         <div className="loc">
                                             <svg className={classes.svg} viewBox="0 0 511.999 511.999">
                                                 <g>

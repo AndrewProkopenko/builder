@@ -159,7 +159,7 @@
             }
         },
         "classes" : {
-            "display": "flex", 
+            "display": "block", 
             "paddingTop": 0 ,
             "paddingBottom": 0,
             "paddingLeft": 0,
@@ -234,5 +234,15 @@
         "textButton": "",
         "targetButton": "", 
         "colorButton": "primary"
+    }, 
+    "actionLine" : {
+        "type": "actionLine", 
+        "id": 1,  
+        "heading": "Action Colored Line with Button",  
+        "headingSize": 40,  
+        "isButton": true, 
+        "textButton": "buy",
+        "targetButton": "", 
+        "colorMain": "primary"
     }
 }

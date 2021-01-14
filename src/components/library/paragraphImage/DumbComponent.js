@@ -7,7 +7,14 @@ function DumbComponent(props) {
   
     const useStyles = makeStyles((theme) => ({
         myClassName: props.className , 
-        imageStyle: props.imageClassName ? props.imageClassName : {}
+        imageStyle: props.imageClassName ? props.imageClassName : {},
+        mobileClass: {
+            [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
+                display: "flex !important",
+                flexDirection: 'column', 
+                alignItems: 'center'
+            }, 
+        }
       })); 
     const classes = useStyles();
  
@@ -16,7 +23,7 @@ function DumbComponent(props) {
     return (
         <React.Fragment>
             
-            <Typography component={props.data.variant} className={classes.myClassName} >
+            <Typography component={props.data.variant} className={`${classes.myClassName} ${classes.mobileClass}`} >
                 {
                     props.imageUrl &&
                     <Tooltip title={title} placement={props.data.image.placement}>

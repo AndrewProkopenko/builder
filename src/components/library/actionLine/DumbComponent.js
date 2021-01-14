@@ -1,33 +1,27 @@
 import React from 'react'
 
-import { Container, Grid, makeStyles, Box, Button, Typography } from '@material-ui/core'
-// import { lighten } from '@material-ui/core/styles';
-import { darken, fade } from '@material-ui/core/styles/colorManipulator';
+import { Container, Grid, makeStyles, Box, Button, Typography } from '@material-ui/core' 
+import { fade } from '@material-ui/core/styles/colorManipulator';
  
 import ModalContext from '../../../context/modalContext/ModalContext'
 
 function DumbComponent(props) {
 
-    const { handleOpen } = React.useContext(ModalContext)
+    const { handleOpen } = React.useContext(ModalContext) 
 
-    const justify = 'space-between'
-    const heading = "text heading space-between Sale 30% primary"
-    const headingSize = 40
-    const isButton = true
-    const textButton = "buy now"
-    const targetButton = 'Sale 30%'  
-    let colorButton = 'primary'
-    let colorMain = '#0aa24c'
-    // const heading = props.data.heading 
-    // const isButton = props.data.isButton
-    // const textButton = props.data.textButton
-    // const targetButton = props.data.targetButton  
-    // let colorButton = props.data.colorButton || '#f00'
-    // let colorMain = props.data.colorButton || '#f00'
+    const heading = props.data.heading 
+    const headingSize = props.data.headingSize 
+
+    const isButton = props.data.isButton
+    const textButton = props.data.textButton
+    const targetButton = props.data.targetButton   
+    let colorMain = props.data.colorMain || '#f00'
+    let colorTheme
 
     const useStyles = makeStyles((theme) => {   
-        if(colorButton === 'primary')  colorButton = theme.palette.primary.main
-        if(colorButton === 'secondary') colorButton = theme.palette.secondary.main  
+        if(colorMain === 'primary')  colorMain = theme.palette.primary.main
+        if(colorMain === 'secondary') colorMain = theme.palette.secondary.main  
+        colorTheme = theme.palette.type === 'dark' ? fade(colorMain, 0.65) : fade(colorMain, 0.2) 
         return ({
             button: {
                 textTransform: 'inherit',  
@@ -50,7 +44,8 @@ function DumbComponent(props) {
             heading: { 
                 fontSize: headingSize, 
                 marginRight: theme.spacing(3),
-                color: darken(colorMain, 0.5),
+                color: theme.palette.text.primary,
+                textAlign: 'center', 
                 [`@media (max-width: ${theme.breakpoints.values.md}px)`]: {   
                     fontSize: headingSize*0.8,  
                 },
@@ -62,11 +57,9 @@ function DumbComponent(props) {
                 },
             },
             containerColored: { 
-                backgroundColor: fade(colorMain, 0.35), 
+                backgroundColor: colorTheme, 
                 padding: theme.spacing(3, 0), 
-                margin: theme.spacing(6, 0),
-                borderTop: `1px solid ${colorMain}`,
-                borderBottom: `1px solid ${colorMain}`,
+                margin: theme.spacing(6, 0), 
                 [`@media (max-width: ${theme.breakpoints.values.md}px)`]: { 
                     padding: theme.spacing(2, 0), 
                     margin: theme.spacing(3, 0),
@@ -76,7 +69,7 @@ function DumbComponent(props) {
                 width: '100%', 
                 display: 'flex',
                 alignItems: 'center', 
-                justifyContent: justify,
+                justifyContent: 'space-between',
                 [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: { 
                     flexDirection: 'column', 
                     alignItems: 'center', 

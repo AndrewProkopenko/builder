@@ -1,4 +1,7 @@
 import React from 'react'
+
+import StylesChangers from '../../../styles/changers'  
+
 import firebase from '../../../firebase/firebase'
 import Draggable from 'react-draggable';
 import {ColorPicker} from '../colorPicker/ColorPicker'
@@ -53,81 +56,36 @@ function StyledComponent(props) {
     const handleClose = () => {
         setOpen(false);
     };
+    const handleChange = () => {
+        setIsButton(!isButton)
+        setIsDisableBtn(!isDisableBtn)
+    }
     React.useEffect(() => {
         if(props.data.colorButton !== 'primary' && props.data.colorButton !== 'secondary' ) {  
             setColorSelect('custom')
         }
-    }, [props.data.colorButton]) 
+    }, [props.data.colorButton])  
 
-    const useStyles = makeStyles((theme) => ({
-        btnDrawerStyle: {
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            zIndex: 1030,
-            minWidth: 50,
-            opacity: 0,
-            transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeIn} opacity`
-        },
-        btnDrawerItem: {
-            backgroundColor: theme.palette.error.dark,
-            '&:hover': {
-                backgroundColor: theme.palette.secondary.dark
-            }
-        },
-        containerWrapper: {
-            position: 'relative',
-            outline: "1px solid #ffffff00",
-            transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeIn} outline`,
-            '&:hover': {
-                outlineColor: `${theme.palette.error.main}`,
-                 
-                '& $btnDrawerStyle': {
-                    opacity: 1
-                }
-            }
-        },
-        menu: {
-            position: "absolute",
-            left: 50,
-            top: 50,
-            backgroundColor: theme.palette.background.paper,
-            padding: 10,
-            paddingBottom: 0,
-            maxWidth: '100% ',
-            width: 'calc( 100% - 100px )',
-            maxHeight: 'calc(100vh - 100px)',
-            minHeight: 500,
-            overflowY: 'scroll'
-        },
-        menuTitle: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            fontSize: 14,
-            borderBottom: '1px solid #eaeaea',
-            paddingBottom: 6,
-            marginBottom: 10,
-            cursor: 'move'
-        },
-        btnSave: {
-            position: 'sticky',
-            zIndex: theme.zIndex.tooltip,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: 80,
-            backgroundColor: theme.palette.background.paper,
+    const useStyles = makeStyles((theme) => {
+        const classesRef = StylesChangers()
+        const commonClasses = classesRef(theme)
 
-            '&>button': {
-                marginTop: 20,
-                marginBottom: 30,
-                opacity: 1,
-                paddingLeft: 40,
-                paddingRight: 40
-            }
-        }
-    }))
+        const { menu, menuTitle, btnSetting, btnSave, btnDrawerStyle, btnDrawerItem, containerWrapper } = commonClasses 
+        return ({
+            btnDrawerStyle: btnDrawerStyle,
+            btnDrawerItem: btnDrawerItem,
+            containerWrapper: containerWrapper,
+            menu: {...menu, ...{
+                left: 50,
+                maxWidth: '100% ',
+                width: 'calc( 100% - 100px )',
+            }}, 
+            menuTitle: menuTitle,
+            btnSetting: btnSetting,  
+            btnSave: btnSave,
+             
+        })
+    })
 
     const classes = useStyles();
 
@@ -175,9 +133,7 @@ function StyledComponent(props) {
         if (conf) 
             props.removeContainer(props.data.id)
     }
-    const handleChange = () => {
-        setIsButton(!isButton)
-    }
+    
 
     return (
         <div className={classes.containerWrapper}>
@@ -187,7 +143,7 @@ function StyledComponent(props) {
                 <Box className={classes.btnDrawerStyle}>
                     <Box display="flex" flexDirection="column">
                         <Box mb={1}>
-                            <Tooltip title='Main Banner Settings' placement='right'>
+                            <Tooltip title='About Settings' placement='right'>
                                 <Button
                                     onClick={handleOpen}
                                     size='medium'
@@ -277,7 +233,7 @@ function StyledComponent(props) {
                                         component='p'
                                         className={classes.menuTitle}
                                         id="draggable-dialog-title">
-                                        Настройки банера
+                                        Settings About
                                         <OpenWithIcon/>
                                     </Typography>
                                     <Box mt={2}>

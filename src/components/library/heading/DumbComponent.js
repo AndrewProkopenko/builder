@@ -15,9 +15,11 @@ function DumbComponent(props) {
                 marginBottom: props.className.marginBottom*0.8
             },
             [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
-                fontSize: props.className.fontSize*0.6, 
-                marginTop: props.className.marginTop*0.5,
-                marginBottom: props.className.marginBottom*0.5
+                fontSize: props.className.fontSize*0.6,
+                lineHeight : 1.2, 
+                marginTop: props.className.marginTop*0.5, 
+                marginBottom: props.className.marginBottom*0.5, 
+                textAlign: 'center'
             },
         }
       }

@@ -1,4 +1,8 @@
 import React from 'react' 
+
+import StylesChangers from '../../../styles/changers'   
+import StyledInputs from '../../../styles/inputs'   
+
 import uuid from 'react-uuid' 
 import {ColorPicker} from '../colorPicker/ColorPicker'
   
@@ -64,46 +68,24 @@ function ContainerElement(props) {
     }
 
 
-    const useStyles = makeStyles((theme) => ({  
-         
-        settingsItem: {
-            marginRight: 5, 
-            marginBottom: 10, 
-            flexGrow: 1
-        },
-        inputNumber: {
-            flexGrow: 1, 
-            margin: 5, 
-            width: "100%", 
-            maxWidth: '50%'
-        }, 
-        inputGroup: {
-            border: `1px solid ${theme.palette.divider}`, 
-            padding: 3, 
-            inputNumber: { 
-                maxWidth: "100%"
+    const useStyles = makeStyles((theme) => {
+        const styleRef = StyledInputs()
+        const commonStyle = styleRef(theme)
+        const classesRef = StylesChangers()
+        const commonClasses = classesRef(theme)
 
-            }
-        },
-        btnSave: { 
-            position: 'sticky', 
-            zIndex: theme.zIndex.tooltip,
-            bottom: 0, 
-            left: 20, 
-            right: 0,
-            height: 80, 
-            backgroundColor: theme.palette.background.paper, 
-            
-            '&>button': {
-                marginTop: 20, 
-                marginBottom: 30, 
-                opacity: 1,  
-                paddingLeft: 40, 
-                paddingRight: 40
-            }
-        }
+        const { btnSave } = commonClasses 
+        const { inputNumber, inputGroup , settingsItem } = commonStyle 
+
+        return ({   
+            settingsItem: settingsItem,
+            inputNumber: {...inputNumber, ...{
+                maxWidth: '50%'
+            }}, 
+            inputGroup: inputGroup,
+            btnSave: btnSave
+        })
     })
-    )
     
     const classes = useStyles();
     

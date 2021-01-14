@@ -16,6 +16,9 @@ html, body, .App, #root {
     flex-grow: 1;
 }
  
+a { 
+    text-decoration: none;
+}
 button:focus, a:focus {  
     outline: none !important;
 }

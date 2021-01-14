@@ -1,4 +1,5 @@
 import React from 'react' 
+import StylesChangers from '../../styles/changers'   
 import Draggable from 'react-draggable';  
 import { useLocation } from 'react-router-dom';
 import uuid from 'react-uuid' 
@@ -14,6 +15,7 @@ import MainBannerElement from '../library/mainBanner/ElementCreator'
 import AccordionElement from '../library/accordion/ElementCreator'  
 import ContactMapElement from '../library/contactMap/ElementCreator'  
 import AboutElement from '../library/about/ElementCreator'  
+import ActionLineElement from '../library/actionLine/ElementCreator'  
 
 import SkeletonPage from '../placeholders/SkeletonPage'
 import Breadcrumbs from '../placeholders/Breadcrumbs'
@@ -39,6 +41,7 @@ function SinglePage(props) {
   const AccordionLayout = layouts.accordion 
   const СontactMapLayout = layouts.contactMap 
   const AboutLayout = layouts.about 
+  const ActionLineLayout = layouts.actionLine 
 
   const [data, setData] = React.useState({})
   const [items, setItems] = React.useState([]) 
@@ -51,58 +54,46 @@ function SinglePage(props) {
   const handleClose = () => {
     setOpen(false);
   };
+  
+  const useStyles = makeStyles((theme) => {
+    const classesRef = StylesChangers()
+  const commonClasses = classesRef(theme)
 
-  const useStyles = makeStyles((theme) => ({ 
-    btnContainer: {
-      position: 'relative',
-      '&:hover $btnSetting' : {
-        opacity: 1
-      }
-    },
-    btnSetting: { 
-        position: 'absolute', 
-        zIndex: 1031, 
-        top: 0, 
-        left: 80,
-        backgroundColor: theme.palette.error.dark,   
-        minWidth: 30, 
-        maxWidth: 40, 
-        minHeight: 38, 
-        transition: `${theme.transitions.easing.easeInOut} ${theme.transitions.duration.shorter}ms `, 
-        '&:hover': { 
-          backgroundColor: theme.palette.secondary.dark,   
-        }, 
-        '&>span': {
-            display: 'flex', 
-            flexDirection: 'column', 
-            fontSize: 10
+  const { menu, menuTitle } = commonClasses 
+    return ({ 
+      btnContainer: {
+        position: 'relative',
+        '&:hover $btnSetting' : {
+          opacity: 1
         }
-    } , 
-    menu: {    
-      position: "absolute", 
-      left: "calc(50% - 200px)",
-      top: 50, 
-      backgroundColor: theme.palette.background.paper, 
-      padding: 10 , 
-      paddingBottom: 0, 
-      maxWidth: 400,  
-      width: 400,
-      maxHeight: 'calc(100vh - 100px)', 
-      minHeight: 500,
-      overflowY: 'scroll',  
-    },
-    menuTitle: {
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'space-between', 
-        fontSize: 14, 
-        borderBottom: '1px solid #eaeaea',
-        paddingBottom: 6,
-        marginBottom: 10, 
-        cursor: 'move'
-    },
-
-  }))
+      },
+      btnSetting: { 
+          position: 'absolute', 
+          zIndex: 1031, 
+          top: 0, 
+          left: 80,
+          backgroundColor: theme.palette.error.dark,   
+          minWidth: 30, 
+          maxWidth: 40, 
+          minHeight: 38, 
+          transition: `${theme.transitions.easing.easeInOut} ${theme.transitions.duration.shorter}ms `, 
+          '&:hover': { 
+            backgroundColor: theme.palette.secondary.dark,   
+          }, 
+          '&>span': {
+              display: 'flex', 
+              flexDirection: 'column', 
+              fontSize: 10
+          }
+      }, 
+      menu: {...menu, ...{ 
+        width: 400, 
+        left: "calc(50% - 200px)",
+      }},     
+      menuTitle: menuTitle
+  
+    })
+  })
   
   const classes = useStyles();
 
@@ -204,6 +195,7 @@ function SinglePage(props) {
     if(type === 'accordion') newCont = Object.assign({}, AccordionLayout) 
     if(type === 'contactMap') newCont = Object.assign({}, СontactMapLayout) 
     if(type === 'about') newCont = Object.assign({}, AboutLayout) 
+    if(type === 'actionLine') newCont = Object.assign({}, ActionLineLayout) 
 
     newCont.id = uuid()
   
@@ -379,6 +371,19 @@ function SinglePage(props) {
               />
           )
         } 
+        if(items[key].type === 'actionLine') { 
+          return(
+              <ActionLineElement
+                key={items[key].id} 
+                data={items[key]} 
+                swapContainer={swapContainer}
+                removeContainer={removeContainer}
+                reSaveItem={reSaveItem}
+                isFirst={orderFirst}
+                isLast={orderLast}
+              />
+          )
+        } 
         return false
       })
     }
@@ -452,6 +457,11 @@ function SinglePage(props) {
                             <Box m={1}>
                               <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('about') }}>
                                   Add About
+                              </Button> 
+                            </Box>
+                            <Box m={1}>
+                              <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('actionLine') }}>
+                                  Add Colored Action Line 
                               </Button> 
                             </Box>
                             <Box m={1}>

@@ -1,7 +1,11 @@
 import React from 'react'
 import uuid from 'react-uuid'
+
 import CategoryContext from '../../../context/headerContext/CategoryContext'
 import LibraryContext from '../../../context/libraryContext/LibraryContext'
+
+import StylesChangers from '../../../styles/changers'  
+
 import { 
     Tooltip,
     Button, 
@@ -18,8 +22,7 @@ import {
     FormGroup,
     IconButton, 
 } from '@material-ui/core' 
-
-import { orange } from '@material-ui/core/colors'
+ 
 import SaveIcon from '@material-ui/icons/Save';
 import SettingsIcon from '@material-ui/icons/Settings';
 import OpenWithIcon from '@material-ui/icons/OpenWith';
@@ -28,12 +31,11 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import ExpandLessOutlinedIcon from '@material-ui/icons/ExpandLessOutlined';
 import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
 import InfoOutlined from '@material-ui/icons/InfoOutlined';
-
-// import DumbComponent from './DumbComponent'
+ 
 
 import Draggable from 'react-draggable';  
 
-function CategoriesChanger() {
+function CategoriesChanger() { 
     
     const {categories, setCategories, deletePageFromFirebase, deleteCategoryFromFirebase} = React.useContext(CategoryContext)    
     const {layouts} = React.useContext(LibraryContext)
@@ -58,145 +60,100 @@ function CategoriesChanger() {
       setOpen(false);
     }; 
 
-    const useStyles = makeStyles((theme) => ({ 
-        listPages : {
-            marginTop: 20, 
-            paddingLeft: 25, 
-            '&>li' : { 
-                listStyle: 'none',
-                marginBottom: 5
-            }
-        },
-        titlePages: {
-            fontSize: 14, 
-            fontWeight: 600, 
-            borderBottom: `1px solid #eee`,
-            marginBottom: 12
-        },
-        menu: {    
-            position: "absolute", 
-            left: "calc(50% - 350px)",
-            top: 50, 
-            backgroundColor: theme.palette.background.paper, 
-            padding: 10 , 
-            paddingBottom: 0, 
-            maxWidth: 700,  
-            width: 700,
-            maxHeight: 'calc(100vh - 100px)', 
-            minHeight: 500,
-            overflowY: 'scroll',  
-        },
-        menuTitle: {
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'space-between', 
-            fontSize: 14, 
-            borderBottom: '1px solid #eaeaea',
-            paddingBottom: 6,
-            marginBottom: 10, 
-            cursor: 'move'
-        },
-        btnSetting: {
-            // opacity: 0,
-            // position: 'absolute', 
-            // zIndex: 10, 
-            // top: 2, 
-            // left: 2,
-            backgroundColor: orange[700], 
-            minWidth: 80,  
-            maxHeight: 50, 
-            transition: `${theme.transitions.easing.easeInOut} ${theme.transitions.duration.shorter}ms `, 
-            '&:hover': {
-                backgroundColor: orange[900], 
-            }, 
-            '&>span': {
-                display: 'flex', 
-                flexDirection: 'column', 
-                fontSize: 10
-            }
-        },
-        dumbWrapper: {
-            // position: 'absolute', 
-            // zIndex: 10, 
-            // top: 0, 
-            // left: 0,  
-            // height: 64,
-            // width: 150, 
-            '&:hover $btnSetting': {
-                opacity: 1
-            }
-        },
-        btnSave: {
-            position: 'sticky', 
-            zIndex: 15,
-            bottom: 0, 
-            left: 0, 
-            right: 0,
-            height: 70, 
-            paddingTop: 10, 
-            backgroundColor: theme.palette.background.paper, 
-        },
-        accordionContainer: {
-            position: 'relative', 
-            '&:hover $deleteBtn': {
-                opacity: 1
-            },
-            '&:hover $movingBtn': {
-                opacity: 1
-            }, 
-        },
-        accordionHeader: {
-            paddingRight: 30, 
-            paddingLeft: 25,     
-        },
-        deleteBtn: {
-            position: 'absolute', 
-            zIndex: 10,
-            top: 5, 
-            right: 5, 
-            backgroundColor: '#e83b3b', 
-            paddingLeft: 0,
-            paddingRight: 0,
-            minWidth: 25,
-            opacity: 0, 
-            transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeInOut} opacity`,
-            '&:hover ': { 
-                backgroundColor: '#c40b0b' 
-            }
-        },
-        movingBtn: {
-            position: 'absolute', 
-            zIndex: 10,
-            top: 0, 
-            left: -5,
-            opacity: 0,
-            transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeInOut} opacity`,
-            '&>button' : {
-                paddingLeft: 3,
-                paddingRight: 3,
-                minWidth: 22
-            }
-        },
-        deletePageBtn: {  
-            backgroundColor: '#e83b3b', 
-            paddingLeft: 0,
-            paddingRight: 0,
-            minWidth: 25, 
-            transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeInOut} opacity`,
-            '&:hover ': { 
-                backgroundColor: '#c40b0b' 
-            }
-        },
-        movingPageBtn: { 
-            transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeInOut} opacity`,
-            '&>button' : {
-                paddingLeft: 3,
-                paddingRight: 3,
-                minWidth: 22
-            }
-        }
+
+    const useStyles = makeStyles((theme) => {
+        
     
-    }))
+        const classesRef = StylesChangers()
+        const commonClasses = classesRef(theme)
+
+        const { menu, menuTitle, btnSetting, btnSave } = commonClasses
+       
+        return( { 
+            menu: {...menu, ...{
+                left: "calc(50% - 350px)",
+                maxWidth: 700,   
+            }}, 
+            menuTitle: menuTitle,
+            btnSetting: btnSetting, 
+            btnSave: btnSave,
+
+            listPages : {
+                marginTop: 20, 
+                paddingLeft: 25, 
+                '&>li' : { 
+                    listStyle: 'none',
+                    marginBottom: 5
+                }
+            },
+            titlePages: {
+                fontSize: 14, 
+                fontWeight: 600, 
+                borderBottom: `1px solid #eee`,
+                marginBottom: 12
+            }, 
+            accordionContainer: {
+                position: 'relative', 
+                '&:hover $deleteBtn': {
+                    opacity: 1
+                },
+                '&:hover $movingBtn': {
+                    opacity: 1
+                }, 
+            },
+            accordionHeader: {
+                paddingRight: 30, 
+                paddingLeft: 25,     
+            },
+            deleteBtn: {
+                position: 'absolute', 
+                zIndex: 10,
+                top: 5, 
+                right: 5, 
+                backgroundColor: '#e83b3b', 
+                paddingLeft: 0,
+                paddingRight: 0,
+                minWidth: 25,
+                opacity: 0, 
+                transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeInOut} opacity`,
+                '&:hover ': { 
+                    backgroundColor: '#c40b0b' 
+                }
+            },
+            movingBtn: {
+                position: 'absolute', 
+                zIndex: 10,
+                top: 0, 
+                left: -5,
+                opacity: 0,
+                transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeInOut} opacity`,
+                '&>button' : {
+                    paddingLeft: 3,
+                    paddingRight: 3,
+                    minWidth: 22
+                }
+            },
+            deletePageBtn: {  
+                backgroundColor: '#e83b3b', 
+                paddingLeft: 0,
+                paddingRight: 0,
+                minWidth: 25, 
+                transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeInOut} opacity`,
+                '&:hover ': { 
+                    backgroundColor: '#c40b0b' 
+                }
+            },
+            movingPageBtn: { 
+                transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeInOut} opacity`,
+                '&>button' : {
+                    paddingLeft: 3,
+                    paddingRight: 3,
+                    minWidth: 22
+                }
+            }
+        
+        } )
+    })
     
     const classes = useStyles();
 
@@ -415,7 +372,7 @@ function CategoriesChanger() {
                                 className={classes.menuTitle}
                                 id="draggable-dialog-title"
                             >
-                                Создать/отредактировать список категорий  <OpenWithIcon/>
+                                Category list changer <OpenWithIcon/>
                             </Typography>
                             <Grid container direction="row" spacing={1}>
                                 <Grid item xs={4} >

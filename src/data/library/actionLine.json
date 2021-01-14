@@ -1,11 +1,10 @@
 {
-    "type": "about", 
+    "type": "actionLine", 
     "id": 1,  
-    "heading": "About Header",  
-    "paragraph": "Lorem ipsum dolor set ami ", 
-    "image": "",
-    "isButton": false, 
-    "textButton": "",
+    "heading": "Action Colored Line with Button",  
+    "headingSize": 40,  
+    "isButton": true, 
+    "textButton": "buy",
     "targetButton": "", 
-    "colorButton": "primary"
+    "colorMain": "primary"
 }

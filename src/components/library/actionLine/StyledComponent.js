@@ -1,5 +1,6 @@
-import React from 'react'
-import firebase from '../../../firebase/firebase'
+import React from 'react' 
+import StylesChangers from '../../../styles/changers'  
+
 import Draggable from 'react-draggable';
 import {ColorPicker} from '../colorPicker/ColorPicker'
 
@@ -35,17 +36,15 @@ function StyledComponent(props) {
     const [isDisableBtn, setIsDisableBtn] = React.useState(true)
     const [open, setOpen] = React.useState(false)
 
-    const [heading, setHeading] = React.useState(props.data.heading)
-    const [paragraph, setParagraph] = React.useState(props.data.paragraph)
-
-    const [imageUrl, setImageUrl] = React.useState(props.data.image)
-
+    const [heading, setHeading] = React.useState(props.data.heading) 
+    const [headingSize, setHeadingSize] = React.useState(props.data.headingSize) 
+ 
     const [isButton, setIsButton] = React.useState(props.data.isButton || false)
     const [textButton,  setTextButton] = React.useState(props.data.textButton || '')
     const [targetButton, setTargetButton] = React.useState(props.data.targetButton || '')
 
-    const [colorSelect,  setColorSelect] = React.useState(props.data.colorButton || '')
-    const [colorCustom, setColorCustom] = React.useState(props.data.colorButton || '')
+    const [colorSelect,  setColorSelect] = React.useState(props.data.colorMain || '')
+    const [colorCustom, setColorCustom] = React.useState(props.data.colorMain || '')
 
     const handleOpen = () => {
         setOpen(true);
@@ -53,118 +52,52 @@ function StyledComponent(props) {
     const handleClose = () => {
         setOpen(false);
     };
+    const handleChange = () => {
+        setIsButton(!isButton)
+        setIsDisableBtn(!isDisableBtn)
+    }
     React.useEffect(() => {
-        if(props.data.colorButton !== 'primary' && props.data.colorButton !== 'secondary' ) {  
+        if(props.data.colorMain !== 'primary' && props.data.colorMain !== 'secondary' ) {  
             setColorSelect('custom')
         }
-    }, [props.data.colorButton]) 
+    }, [props.data.colorMain]) 
 
-    const useStyles = makeStyles((theme) => ({
-        btnDrawerStyle: {
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            zIndex: 1030,
-            minWidth: 50,
-            opacity: 0,
-            transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeIn} opacity`
-        },
-        btnDrawerItem: {
-            backgroundColor: theme.palette.error.dark,
-            '&:hover': {
-                backgroundColor: theme.palette.secondary.dark
-            }
-        },
-        containerWrapper: {
-            position: 'relative',
-            outline: "1px solid #ffffff00",
-            transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeIn} outline`,
-            '&:hover': {
-                outlineColor: `${theme.palette.error.main}`,
-                 
-                '& $btnDrawerStyle': {
-                    opacity: 1
-                }
-            }
-        },
-        menu: {
-            position: "absolute",
-            left: 50,
-            top: 50,
-            backgroundColor: theme.palette.background.paper,
-            padding: 10,
-            paddingBottom: 0,
-            maxWidth: '100% ',
-            width: 'calc( 100% - 100px )',
-            maxHeight: 'calc(100vh - 100px)',
-            minHeight: 500,
-            overflowY: 'scroll'
-        },
-        menuTitle: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            fontSize: 14,
-            borderBottom: '1px solid #eaeaea',
-            paddingBottom: 6,
-            marginBottom: 10,
-            cursor: 'move'
-        },
-        btnSave: {
-            position: 'sticky',
-            zIndex: theme.zIndex.tooltip,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: 80,
-            backgroundColor: theme.palette.background.paper,
+    const useStyles = makeStyles((theme) => {
+        const classesRef = StylesChangers()
+        const commonClasses = classesRef(theme)
 
-            '&>button': {
-                marginTop: 20,
-                marginBottom: 30,
-                opacity: 1,
-                paddingLeft: 40,
-                paddingRight: 40
-            }
-        }
-    }))
-
+        const { menu, menuTitle, btnSetting, btnSave, btnDrawerStyle, btnDrawerItem, containerWrapper } = commonClasses 
+        return ({
+            btnDrawerStyle: btnDrawerStyle,
+            btnDrawerItem: btnDrawerItem,
+            containerWrapper: containerWrapper,
+            menu: {...menu, ...{
+                left: 50,
+                maxWidth: '100% ',
+                width: 'calc( 100% - 100px )',
+            }}, 
+            menuTitle: menuTitle,
+            btnSetting: btnSetting,  
+            btnSave: btnSave,
+                  
+        })
+    })
+    
     const classes = useStyles();
 
-    const handleImageUpload = async(e) => {
-        const imageData = e.target.files[0]
-        const storageRef = firebase
-            .storage
-            .ref(`${imageData.name}`)
-            .put(imageData)
-        storageRef.on('state-changed', snapshot => {
-            console.log(snapshot)
-        }, error => {
-            console.log(error.message)
-        }, () => {
-            storageRef
-                .snapshot
-                .ref
-                .getDownloadURL()
-                .then(url => {
-                    setImageUrl(url)
-                })
-        })
-        setIsDisableBtn(false)
-    }
+  
     const handleSave = () => {
         const newData = Object.assign({}, props.data)
-        newData.heading = heading
-        newData.paragraph = paragraph
-        newData.image = imageUrl
+        newData.heading = heading  
+        newData.headingSize = headingSize  
         newData.isButton = isButton
         newData.textButton = textButton
         newData.targetButton = targetButton
 
         if (colorSelect === 'custom') {
-            newData.colorButton = colorCustom
+            newData.colorMain = colorCustom
         } else {
-            newData.colorButton = colorSelect
+            newData.colorMain = colorSelect
         }
 
         props.reSaveItem(props.data.id, newData)
@@ -175,9 +108,7 @@ function StyledComponent(props) {
         if (conf) 
             props.removeContainer(props.data.id)
     }
-    const handleChange = () => {
-        setIsButton(!isButton)
-    }
+    
 
     return (
         <div className={classes.containerWrapper}>
@@ -187,7 +118,7 @@ function StyledComponent(props) {
                 <Box className={classes.btnDrawerStyle}>
                     <Box display="flex" flexDirection="column">
                         <Box mb={1}>
-                            <Tooltip title='Main Banner Settings' placement='right'>
+                            <Tooltip title='Action Line Settings' placement='right'>
                                 <Button
                                     onClick={handleOpen}
                                     size='medium'
@@ -277,14 +208,14 @@ function StyledComponent(props) {
                                         component='p'
                                         className={classes.menuTitle}
                                         id="draggable-dialog-title">
-                                        Настройки банера
+                                        Settings Action Line
                                         <OpenWithIcon/>
                                     </Typography>
                                     <Box mt={2}>
                                         <TextField
                                             fullWidth
                                             type='text'
-                                            label="Main Heading"
+                                            label="Heading"
                                             variant="outlined"
                                             value={heading}
                                             onChange={(e) => {
@@ -292,21 +223,47 @@ function StyledComponent(props) {
                                             setHeading(e.target.value)
                                         }}/>
                                     </Box>
-
-                                    <Box mt={3}>
+                                    <Box mt={2}>
                                         <TextField
-                                            multiline
                                             fullWidth
-                                            type='text'
-                                            label="Paragraph"
+                                            type='number'
+                                            label="Heading Size"
                                             variant="outlined"
-                                            value={paragraph}
+                                            value={headingSize}
                                             onChange={(e) => {
                                             setIsDisableBtn(false);
-                                            setParagraph(e.target.value)
+                                            setHeadingSize(e.target.value)
                                         }}/>
                                     </Box>
-
+                                    <Box mt={2} display="flex" >
+                                        <FormControl variant='filled' style={{minWidth: '250px' }}>
+                                            <InputLabel id="color-select-label">Color for Block</InputLabel>
+                                            <Select
+                                                labelId="color-select-label"
+                                                id="color-select"
+                                                value={colorSelect}
+                                                onChange={(e) => {setIsDisableBtn(false); setColorSelect(e.target.value)   }}
+                                            >
+                                                <MenuItem value={'primary'}>Primary</MenuItem>
+                                                <MenuItem value={'secondary'}>Secondary</MenuItem>
+                                                <MenuItem value={'custom'}>Custom</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                        <Box ml={1} >
+                                            {
+                                                colorSelect === 'custom' &&
+                                                <ColorPicker
+                                                    initialColor = {colorCustom}
+                                                    changeColor = {setColorCustom}
+                                                    setIsDisableBtn = {setIsDisableBtn}
+                                                    position = {'top'}
+                                                    noInherit={true}
+                                                />  
+                                            }
+                                            
+                                        </Box>
+                                    </Box>
+  
                                     <Box display='flex' mt={3} mb={3}>
                                         <FormControlLabel
                                             control={
@@ -341,55 +298,10 @@ function StyledComponent(props) {
                                                             />
                                                         </Box>
                                                     </Box>
-                                                    <Box mt={2} display="flex" >
-                                                        <FormControl variant='filled' style={{minWidth: '250px' }}>
-                                                            <InputLabel id="color-select-label">Color for Button</InputLabel>
-                                                            <Select
-                                                                labelId="color-select-label"
-                                                                id="color-select"
-                                                                value={colorSelect}
-                                                                onChange={(e) => {setIsDisableBtn(false); setColorSelect(e.target.value)   }}
-                                                            >
-                                                                <MenuItem value={'primary'}>Primary</MenuItem>
-                                                                <MenuItem value={'secondary'}>Secondary</MenuItem>
-                                                                <MenuItem value={'custom'}>Custom</MenuItem>
-                                                            </Select>
-                                                        </FormControl>
-                                                        <Box ml={1} >
-                                                            {
-                                                                colorSelect === 'custom' &&
-                                                                <ColorPicker
-                                                                    initialColor = {colorCustom}
-                                                                    changeColor = {setColorCustom}
-                                                                    setIsDisableBtn = {setIsDisableBtn}
-                                                                    position = {'right'}
-                                                                />  
-                                                            }
-                                                            
-                                                        </Box>
-                                                    </Box>
+                                                    
                                                 </Box>
                                             }
-                                    </Box>
-
-                                    <Box mt={3} display="flex" alignItems='flex-start'>
-                                        <Button color='primary' variant='contained'>
-                                            <label htmlFor='image-input-label'>
-                                                Set image</label>
-                                            <input
-                                                id="image-input-label"
-                                                type="file"
-                                                onChange={(e) => {
-                                                handleImageUpload(e)
-                                            }}
-                                                style={{
-                                                display: "none"
-                                            }}/>
-                                        </Button>
-                                        <Box ml={1} maxWidth={300}>
-                                            <img src={imageUrl} alt='main' width={'100%'}/>
-                                        </Box>
-                                    </Box>
+                                    </Box> 
 
                                     <Box className={classes.btnSave}>
                                         <Button

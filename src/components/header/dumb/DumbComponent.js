@@ -23,7 +23,7 @@ function DumbComponent() {
     const {categories, logo, modal,  settings} = React.useContext(CategoryContext)    
   
     const [headerHeight, setHeaderHeight] = useState(0)
- 
+   
     let backgroundHeader = settings.classes.backgroundColor
     let colorHeader 
     let hoverActiveLinkColor
@@ -158,7 +158,8 @@ function DumbComponent() {
         const setResponsiveness = () => {
             const headHeight =  document.querySelector('#header').clientHeight
             
-            setHeaderHeight(headHeight)
+            // console.log(headHeight)
+            setHeaderHeight(headHeight + 5)
             
             return window.innerWidth < widthMobile ? setMobileView(true)  : setMobileView(false) 
         }; 
