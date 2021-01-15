@@ -63,9 +63,9 @@ function StyledComponent(props) {
             btnDrawerItem: btnDrawerItem,
             containerWrapper: containerWrapper,
             menu: {...menu, ...{
-                left: 50,
-                maxWidth: '100% ',
-                width: 'calc( 100% - 100px )',
+                left: 'calc( 50% - 400px )',
+                maxWidth: 800,
+                width: '100%',
             }}, 
             menuTitle: menuTitle,
             btnSetting: btnSetting,  
@@ -206,7 +206,7 @@ function StyledComponent(props) {
                                         className={classes.menuTitle}
                                         id="draggable-dialog-title"
                                     >
-                                        Настройки банера <OpenWithIcon/>
+                                        Main banner settings <OpenWithIcon/>
                                     </Typography> 
                                     <Box mt={2}>  
                                         <TextField  
@@ -254,11 +254,9 @@ function StyledComponent(props) {
                                         />
                                     </Box> 
                                     <Typography 
-                                        component='p' 
-                                        className={classes.menuTitle}
-                                        id="draggable-dialog-title"
+                                        component='h6'  
                                     >
-                                        Форма
+                                        Form Settings
                                     </Typography> 
                                     <Box display='flex' mt={2}>
                                         <Box mr={1} flexGrow='1' >   

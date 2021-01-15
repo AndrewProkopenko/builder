@@ -55,9 +55,9 @@ function StyledComponent(props) {
             btnDrawerItem: btnDrawerItem,
             containerWrapper: containerWrapper,
             menu: {...menu, ...{
-                left: 50,
-                maxWidth: '100% ',
-                width: 'calc( 100% - 100px )',
+                left: 'calc( 50% - 400px )',
+                maxWidth: 800,
+                width: '100%',
             }}, 
             menuTitle: menuTitle,
             btnSetting: btnSetting,  

@@ -25,8 +25,11 @@ function DumbComponent(props) {
         return ({
             button: {
                 textTransform: 'inherit',  
-                paddingLeft: theme.spacing(5),
-                paddingRight: theme.spacing(5),
+                fontSize: headingSize > 50 ? headingSize/3 : 18, 
+                paddingLeft: "2.5em",
+                paddingRight: "2.5em",
+                paddingTop: ".8em",
+                paddingBottom: ".8em",
                 backgroundColor: colorMain,
                 border: `1px solid ${colorMain}`, 
                 color: theme.palette.getContrastText(colorMain), 
@@ -58,7 +61,7 @@ function DumbComponent(props) {
             },
             containerColored: { 
                 backgroundColor: colorTheme, 
-                padding: theme.spacing(3, 0), 
+                padding: theme.spacing(2, 0), 
                 margin: theme.spacing(6, 0), 
                 [`@media (max-width: ${theme.breakpoints.values.md}px)`]: { 
                     padding: theme.spacing(2, 0), 

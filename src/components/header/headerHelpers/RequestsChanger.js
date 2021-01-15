@@ -76,7 +76,8 @@ function RequestsChanger() {
                 display: 'inline-block', 
                 width: 'calc( 50% - 20px)',
                 marginBottom: 20,
-                marginRight: 20
+                marginRight: 20, 
+                border: `1px solid ${theme.palette.divider}`
             },
             checkbox: {
                 display: 'flex',
@@ -102,6 +103,7 @@ function RequestsChanger() {
         const newReq = localRequests.slice()
         newReq.map(item => {
             if(item.time === id) item.isCheck = !item.isCheck
+            return false
         })
 
         setLocalRequests(newReq)
@@ -123,81 +125,48 @@ function RequestsChanger() {
             localRequests.map( (request, index) => { 
                 if(!isOnlyUncheked) {
                     return (
-                        <Card key={index} className={classes.cardRoot} >
-                            <CardContent>
-                                {
-                                    Object.keys(request).map((item, innerIndex) => { 
-    
-                                        return(
-                                            <Typography key={innerIndex} component='h6' gutterBottom>
-                                                {item} &nbsp;  -  &nbsp;
-                                                <Typography component='span' color="textSecondary">
-                                                     { String(request[item]) }
-                                                </Typography> 
-                                            </Typography>
-                                        )
-                                    })
-                                }
-                                
-                            </CardContent>
-                            <CardActions>
-                                <Button variant='outlined' size="small" onClick={() => {handleOnceCheck(request.time)}}>
-                                    { 
-                                        request.isCheck &&
-                                        <span>Uncheck</span>
-                                    }
-                                    { 
-                                        !request.isCheck &&
-                                        <span>Check</span>
-                                    }
-                                </Button>
-                                <Button variant='contained' color={'secondary'} size="small" onClick={() => {handleRemove(request.time)}}>
-                                    Remove
-                                </Button>
-                            </CardActions>
-                        </Card>
+                        OnceCard(request, index) 
                     )
                 }
                 if(isOnlyUncheked) {
                     if(!request.isCheck) return (
-                        <Card key={index} className={classes.cardRoot} >
-                            <CardContent>
-                                {
-                                    Object.keys(request).map((item, innerIndex) => { 
-    
-                                        return(
-                                            <Typography key={innerIndex} component='h6' gutterBottom>
-                                                {item} &nbsp;  -  &nbsp;
-                                                <Typography component='span' color="textSecondary">
-                                                     { String(request[item]) }
-                                                </Typography> 
-                                            </Typography>
-                                        )
-                                    })
-                                }
-                                
-                            </CardContent>
-                            <CardActions>
-                                <Button variant='outlined' size="small" onClick={() => {handleOnceCheck(request.time)}}>
-                                    { 
-                                        request.isCheck &&
-                                        <span>Uncheck</span>
-                                    }
-                                    { 
-                                        !request.isCheck &&
-                                        <span>Check</span>
-                                    }
-                                </Button>
-                                <Button variant='contained' color={'secondary'} size="small" onClick={() => {handleRemove(request.time)}}>
-                                    Remove
-                                </Button>
-                            </CardActions>
-                        </Card>
+                        OnceCard(request, index) 
                     )
                 }
+                return false
             })
         )
     }
+
+    const OnceCard = (card, index) => (
+        <Card key={index} className={classes.cardRoot} >
+            <CardContent>
+                {
+                    Object.keys(card).map((item, innerIndex) => {  
+                        return(
+                            <Typography key={innerIndex} component='h6' gutterBottom>
+                                {item} &nbsp;  -  &nbsp;
+                                <Typography component='span' color="textSecondary">
+                                        { String(card[item]) }
+                                </Typography> 
+                            </Typography>
+                        )
+                    })
+                }
+                
+            </CardContent>
+            <CardActions>
+                <Button variant='outlined'  size="small" onClick={() => { handleOnceCheck(card.time) }}>
+                    { 
+                        card.isCheck ? <span>Uncheck</span> : <span>Check</span>
+                    }
+                </Button>
+                <Button variant='contained' color={'secondary'} size="small" onClick={() => { handleRemove(card.time) }}>
+                    Remove
+                </Button>
+            </CardActions>
+        </Card>
+    )
      
      
     return (

@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
 
-import "../../../assets/header.scss"
+import "../../../assets/style/header.scss"
  
 
 const Desktop = (props) => { 
@@ -99,7 +99,7 @@ const Desktop = (props) => {
             
         })
     });
-    const { toolbar, menuButton , menuButtonInnerLi , menuButtonLink,  menuLink , menuInnerLink,  listUnstyle, buttonModal  } = useStyles();
+    const { toolbar, menuButton , menuButtonInnerLi , menuButtonLink,  menuLink , menuInnerLink,  listUnstyle } = useStyles();
  
     return (
       <Toolbar disableGutters={true} className={toolbar}>

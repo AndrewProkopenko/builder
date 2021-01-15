@@ -16,6 +16,7 @@ import AccordionElement from '../library/accordion/ElementCreator'
 import ContactMapElement from '../library/contactMap/ElementCreator'  
 import AboutElement from '../library/about/ElementCreator'  
 import ActionLineElement from '../library/actionLine/ElementCreator'  
+import TableElement from '../library/table/ElementCreator'  
 
 import SkeletonPage from '../placeholders/SkeletonPage'
 import Breadcrumbs from '../placeholders/Breadcrumbs'
@@ -42,6 +43,7 @@ function SinglePage(props) {
   const СontactMapLayout = layouts.contactMap 
   const AboutLayout = layouts.about 
   const ActionLineLayout = layouts.actionLine 
+  const TableLayout = layouts.table 
 
   const [data, setData] = React.useState({})
   const [items, setItems] = React.useState([]) 
@@ -196,6 +198,7 @@ function SinglePage(props) {
     if(type === 'contactMap') newCont = Object.assign({}, СontactMapLayout) 
     if(type === 'about') newCont = Object.assign({}, AboutLayout) 
     if(type === 'actionLine') newCont = Object.assign({}, ActionLineLayout) 
+    if(type === 'table') newCont = Object.assign({}, TableLayout) 
 
     newCont.id = uuid()
   
@@ -384,6 +387,19 @@ function SinglePage(props) {
               />
           )
         } 
+        if(items[key].type === 'table') { 
+          return(
+              <TableElement
+                key={items[key].id} 
+                data={items[key]} 
+                swapContainer={swapContainer}
+                removeContainer={removeContainer}
+                reSaveItem={reSaveItem}
+                isFirst={orderFirst}
+                isLast={orderLast}
+              />
+          )
+        } 
         return false
       })
     }
@@ -462,6 +478,11 @@ function SinglePage(props) {
                             <Box m={1}>
                               <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('actionLine') }}>
                                   Add Colored Action Line 
+                              </Button> 
+                            </Box>
+                            <Box m={1}>
+                              <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('table') }}>
+                                  Add Table 
                               </Button> 
                             </Box>
                             <Box m={1}>

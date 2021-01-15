@@ -244,5 +244,26 @@
         "textButton": "buy",
         "targetButton": "", 
         "colorMain": "primary"
+    }, 
+    "table": {
+        "type": "table",
+        "id": 1,   
+        "heading": "Price",  
+        "color": "primary", 
+        "rows": [
+            {
+                "name": "Frozen yoghurt", 
+                "price": 159 
+            },
+            {
+                "name": "Ice cream sandwich", 
+                "price": 180
+            } 
+        ],
+        "tableRow": ["Service", "Price"], 
+        "buttonText": "Buy",
+        "visibleRows": 5, 
+        "visibleBottonText": "Show all",
+        "visibleBottonTextClick": "Show less"
     }
 }

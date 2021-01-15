@@ -11,7 +11,7 @@ import ModalProvider from './context/modalContext/ModalProvider'
 import ThemeComponent from './theme/ThemeComponent' 
 
 
-import './assets/style.scss'
+import './assets/style/style.scss'
  
 const App = () => {   
 

@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core'
 import { Alert } from '@material-ui/lab'
 
 
-function AlertComponent(props) {
+const  AlertComponent = (props) => {
     const useStyles = makeStyles( (theme) => { 
         return {
             alertContainer: {
@@ -44,11 +44,9 @@ function AlertComponent(props) {
         if(props.severity === 'success') return "Your request was accepted successfully"
         if(props.severity === 'info') return "Your request is being processed"
         if(props.severity === 'error') return "An error has occurred :("
+        if(props.severity === 'warning') return "Warning!"
     }
-    const severityText = () => { 
-        return props.severity
-    }
-
+      
     return (
         <div className={classes.alertContainer}>
             <Alert 

@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Container, Grid, makeStyles, Box, Button } from '@material-ui/core'
 
-import '../../../assets/about.scss'
+import '../../../assets/style/about.scss'
 
 import ModalContext from '../../../context/modalContext/ModalContext'
 

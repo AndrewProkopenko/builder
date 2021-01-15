@@ -4,7 +4,7 @@ import SendFormContext from '../../../context/sendFormContext/SendFormContext'
 
 import { Container, Grid, makeStyles, Button, Box } from '@material-ui/core'
 
-import '../../../assets/contactMap.scss' 
+import '../../../assets/style/contactMap.scss' 
 
 function DumbComponent(props) {
     const { sendRequests } = React.useContext(SendFormContext)

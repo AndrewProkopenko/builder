@@ -12,7 +12,7 @@ import {
 import { darken } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 
-import '../../assets/modal.scss'
+import '../../assets/style/modal.scss'
 
 import SendFormContext from '../../context/sendFormContext/SendFormContext'
 import ModalContext from '../../context/modalContext/ModalContext'

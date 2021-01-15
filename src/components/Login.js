@@ -8,7 +8,9 @@ import { Avatar, Button, TextField, Typography, Container } from '@material-ui/c
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'; 
 import { makeStyles } from '@material-ui/core/styles';  
 import { Alert } from '@material-ui/lab';
- 
+
+import Dumb from '../components/library/table/DumbComponent'
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -61,6 +63,7 @@ function Login() {
  
     return ( 
         <React.Fragment> 
+            <Dumb/>
             <Container component="main" maxWidth="xs">
                 
                 {/* Redirect при авторизации */}

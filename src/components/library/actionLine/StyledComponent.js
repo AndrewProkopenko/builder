@@ -54,7 +54,7 @@ function StyledComponent(props) {
     };
     const handleChange = () => {
         setIsButton(!isButton)
-        setIsDisableBtn(!isDisableBtn)
+        setIsDisableBtn(false)
     }
     React.useEffect(() => {
         if(props.data.colorMain !== 'primary' && props.data.colorMain !== 'secondary' ) {  
@@ -72,9 +72,9 @@ function StyledComponent(props) {
             btnDrawerItem: btnDrawerItem,
             containerWrapper: containerWrapper,
             menu: {...menu, ...{
-                left: 50,
-                maxWidth: '100% ',
-                width: 'calc( 100% - 100px )',
+                left: 'calc( 50% - 350px )',
+                maxWidth: 700,
+                width: '100%',
             }}, 
             menuTitle: menuTitle,
             btnSetting: btnSetting,  
@@ -89,7 +89,7 @@ function StyledComponent(props) {
     const handleSave = () => {
         const newData = Object.assign({}, props.data)
         newData.heading = heading  
-        newData.headingSize = headingSize  
+        newData.headingSize = Number(headingSize)  
         newData.isButton = isButton
         newData.textButton = textButton
         newData.targetButton = targetButton

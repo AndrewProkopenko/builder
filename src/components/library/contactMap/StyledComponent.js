@@ -3,7 +3,7 @@ import StylesChangers from '../../../styles/changers'
 import Draggable from 'react-draggable';  
  
 import { 
-    Button, Box, Tooltip, TextField, Typography, ButtonGroup, makeStyles, Modal, DialogContent
+    Button, Box, Tooltip, TextField, Typography, ButtonGroup, makeStyles, Modal, DialogContent, Switch, FormControlLabel
 } from '@material-ui/core'
 
 import OpenWithIcon from '@material-ui/icons/OpenWith';
@@ -30,6 +30,8 @@ function StyledComponent(props) {
     const [policy, setPolicy] = React.useState(props.data.policy || '')
 
     const [mapFrame, setMapFrame] = React.useState(props.data.mapFrame) 
+    
+    const [isButton, setIsButton] = React.useState(props.data.mapFrame === null ? false : true)
 
 
     
@@ -39,6 +41,10 @@ function StyledComponent(props) {
     const handleClose = () => {
         setOpen(false);
     };
+    const handleChange = () => {
+        setIsButton(!isButton)
+        setIsDisableBtn(false)
+    }
 
     const useStyles = makeStyles((theme) => {
         const classesRef = StylesChangers()
@@ -50,9 +56,9 @@ function StyledComponent(props) {
             btnDrawerItem: btnDrawerItem,
             containerWrapper: containerWrapper,
             menu: {...menu, ...{
-                left: 50,
-                maxWidth: '100% ',
-                width: 'calc( 100% - 100px )',
+                left: 'calc( 50% - 250px )',
+                maxWidth: 500,
+                width: '100%',
             }}, 
             menuTitle: menuTitle,
             btnSetting: btnSetting,  
@@ -73,7 +79,7 @@ function StyledComponent(props) {
         newData.inputComment = inputComment 
         newData.buttonText = buttonText 
         newData.policy = policy 
-        newData.mapFrame = mapFrame === '' ? null : mapFrame 
+        newData.mapFrame = !isButton ? null : mapFrame 
   
         props.reSaveItem(props.data.id, newData) 
         handleClose()
@@ -261,23 +267,35 @@ function StyledComponent(props) {
                                             onChange={ (e) => { setIsDisableBtn(false);  setPolicy(e.target.value)  } }     
                                         />
                                     </Box> 
-                                    <Box mt={2} mb={2}>   
-                                        <TextField  
-                                            multiline
-                                            fullWidth
-                                            type='text'
-                                            label="Map Frame" 
-                                            variant="outlined"  
-                                            value={mapFrame}
-                                            onChange={ (e) => { setIsDisableBtn(false);  setMapFrame(e.target.value)  } }     
-                                        />
-                                    </Box> 
-                                    { 
-                                        !mapFrame && 
-                                        <Typography color='secondary'>
-                                            If <b>Map Frame</b> is null layout have another view!
-                                        </Typography>
-                                    } 
+                                    <Box   mt={2} mb={2}>
+                                        <FormControlLabel
+                                            control={
+                                                < Switch checked = { isButton }
+                                                        onChange = { handleChange }
+                                                            name = "checkedB" 
+                                                            color = "primary" />
+                                            }
+                                            label="Add Map Frame"/> 
+                                            {
+                                                isButton ?   
+                                                <Box mt={2} mb={2}>   
+                                                    <TextField  
+                                                        multiline
+                                                        fullWidth
+                                                        type='text'
+                                                        label="Map Frame" 
+                                                        variant="outlined"  
+                                                        value={mapFrame}
+                                                        onChange={ (e) => { setIsDisableBtn(false);  setMapFrame(e.target.value)  } }     
+                                                    />
+                                                </Box>  
+                                                :
+                                                <Typography color='secondary'>
+                                                    If <b>Map Frame</b> is null layout have another view!
+                                                </Typography>
+                                            }
+                                    </Box>
+  
                                     <Box className={classes.btnSave}>
                                         <Button
                                             disabled={isDisableBtn}

@@ -4,7 +4,7 @@ import SendFormContext from '../../../context/sendFormContext/SendFormContext'
 
 import { Container, Grid, makeStyles, Button } from '@material-ui/core'
 
-import '../../../assets/main-banner.scss'
+import '../../../assets/style/main-banner.scss'
 
 
 function DumbComponent(props) {

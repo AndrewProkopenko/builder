@@ -4,7 +4,7 @@ import { Container, Accordion, AccordionSummary, makeStyles } from '@material-ui
 
 import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
 
-import '../../../assets/accordion.scss'
+import '../../../assets/style/accordion.scss'
 
 function DumbComponent(props) { 
     let color = props.data.color
