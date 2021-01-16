@@ -110,7 +110,7 @@ function RequestsChanger() {
       
     return (
         <div className={classes.dumbWrapper}>
-            <Tooltip title='Requests List' placement='bottom'>
+            <Tooltip title='Modal Settings' placement='bottom'>
                 <Button  
                     onClick={handleInputFocus} 
                     size='medium'
@@ -136,7 +136,7 @@ function RequestsChanger() {
                                 className={classes.menuTitle}
                                 id="draggable-dialog-title"
                             >
-                                Requests from form  <OpenWithIcon/>
+                                Modal Settings <OpenWithIcon/>
                             </Typography>
                              
                             <Box my={2}>

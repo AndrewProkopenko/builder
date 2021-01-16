@@ -30,8 +30,6 @@ export default function CustomizedTables(props) {
       
     const StyledTableRow = withStyles((theme) => ({
         root: {
-            // display: 'flex', 
-            // width: "100%",  
             transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeInOut}`
         },
     }))(TableRow);
@@ -43,22 +41,32 @@ export default function CustomizedTables(props) {
             table: {
                 minWidth: 200,
             },
-            tableNameCell: {
-                flexGrow: 2
+            
+            tableCell: {
+                paddingTop: theme.spacing(2), 
+                paddingBottom: theme.spacing(2),  
+                [theme.breakpoints.down('md')]: { 
+                    paddingTop: theme.spacing(1), 
+                    paddingBottom: theme.spacing(1), 
+                },
             },
-            tablePriceCell: {
-                flexGrow: 2
-            },
-            tableButtonCell: {
+            tableButtonCell: { 
                 maxWidth: 300,
                 width: 300,
+                [theme.breakpoints.down('md')]: {
+                    width: 'auto', 
+                },
             },
-            tableButton: {
-                // maxWidth: 120,
+            tableButton: { 
                 padding: theme.spacing(1, 3), 
                 textTransform: 'inherit', 
                 backgroundColor: mainColor, 
                 color: theme.palette.getContrastText(mainColor),
+                fontSize: 14, 
+                lineHeight: 1.2, 
+                [theme.breakpoints.down('sm')] : {
+                    padding: theme.spacing(1), 
+                },
                 "&:hover": { 
                     backgroundColor: darken(mainColor, 0.3), 
                 }
@@ -111,12 +119,14 @@ export default function CustomizedTables(props) {
         )
     }
     const OnceRow = (row, index) => (
-        <StyledTableRow key={index} hover={true} >
-            <TableCell component="th" scope="row" className={classes.tableNameCell}>
+        <StyledTableRow key={index} hover={true}  >
+            <TableCell component="th" scope="row" className={classes.tableCell}>
                 {row.name}
             </TableCell>
-            <TableCell align="center" className={classes.tablePriceCell}>{row.price}</TableCell> 
-            <TableCell align="right" className={classes.tableButtonCell}> 
+            <TableCell align="center" className={classes.tableCell}>
+                {row.price}
+            </TableCell> 
+            <TableCell align="right" className={`${classes.tableButtonCell} ${classes.tableCell}`}> 
                 <Button 
                     variant='contained'   
                     className={classes.tableButton}
@@ -149,12 +159,12 @@ export default function CustomizedTables(props) {
                                 <TableCell 
                                     key={index} 
                                     align={index === 0 ? 'left' : 'center'}
-                                    className={classes.tableHeader}
+                                    className={`${classes.tableHeader} ${classes.tableCell}` }
                                 >
                                     {item}
                                 </TableCell>
                             ))} 
-                            <TableCell align="right" className={classes.tableHeader} ></TableCell>
+                            <TableCell align="right" className={`${classes.tableHeader} ${classes.tableCell}` } ></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
