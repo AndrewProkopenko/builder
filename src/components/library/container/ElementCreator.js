@@ -13,11 +13,13 @@ import StyledComponent from "./StyledComponent"
 import DumbComponent from "./DumbComponent"
  
 import ModeContext from '../../../context/modeContext/ModeContext'
+import ImageContext from '../../../context/imageContext/ImageContext'
 
  
 function ElementCreator(props) {
 
     const {modeDev} = React.useContext(ModeContext)   
+    const {removeImage} = React.useContext(ImageContext)   
 
     const [open, setOpen] = React.useState(false)
     
@@ -99,16 +101,12 @@ function ElementCreator(props) {
  
     }
 
-    const removeItem = async (id) => {
-        let conf = window.confirm("Delete ?");
- 
-        if(conf) { 
-            let filtered = props.data.children.filter((item) => (item.id !== id))  
-            // setChildren(filtered) 
-  
-            // save in firestore 
-            props.reSaveContainer(props.data.id, filtered)  
-        }
+    const removeItem = async (id) => { 
+
+        let filtered = props.data.children.filter((item) => (item.id !== id))  
+        console.log(props.data.children, filtered)
+        // save in firestore 
+        props.reSaveContainer(props.data.id, filtered)   
     }
 
     const toggleDrawer =  () => {  
@@ -117,9 +115,25 @@ function ElementCreator(props) {
      
     const removeContainer = () => { 
         const conf = window.confirm('Delete? ')
-        if(conf) props.removeContainer(props.data.id)
+        if(conf) {
+            let images = createArrayImages() 
+            images.forEach( imageName => {
+                removeImage(imageName)
+            })
+            props.removeContainer(props.data.id)
+        }
     }
     
+    const createArrayImages = () => {
+        let images = []
+        props.data.children.forEach( item => {
+            if(item.type === 'paragraphImage') {
+                images.push(item.image.imageName)
+            }
+        })
+        return images
+    }
+    createArrayImages()
     return (    
         <React.Fragment>   
             { 

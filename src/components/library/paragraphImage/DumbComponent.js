@@ -3,16 +3,36 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Tooltip } from '@material-ui/core';  
 
-function DumbComponent(props) {
+function DumbComponent(props) { 
   
     const useStyles = makeStyles((theme) => ({
         myClassName: props.className , 
         imageStyle: props.imageClassName ? props.imageClassName : {},
+        imageStabilization: {
+            maxWidth: '100%', 
+            maxHeight: '100%',  
+            [`@media (max-width: ${props.imageClassName.width}px)`]: {
+                height: 'auto'
+            }, 
+            // [theme.breakpoints.down('md')]: { 
+            // }
+        },
         mobileClass: {
             [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
                 display: "flex !important",
                 flexDirection: 'column', 
-                alignItems: 'center'
+                alignItems: 'center', 
+                textAlign: 'center', 
+                '& span': {
+                    marginTop: theme.spacing(1)
+                }
+            }, 
+            [`@media (max-width: ${props.imageClassName.width}px)`]: {
+                display: "flex !important",
+                flexDirection: 'column', 
+                '& span': {
+                    marginTop: theme.spacing(1)
+                }
             }, 
         }
       })); 
@@ -27,7 +47,7 @@ function DumbComponent(props) {
                 {
                     props.imageUrl &&
                     <Tooltip title={title} placement={props.data.image.placement}>
-                         <img src={props.imageUrl} className={classes.imageStyle} alt={title} /> 
+                         <img src={props.imageUrl} className={`${classes.imageStyle} ${classes.imageStabilization}`}  alt={title} /> 
                     </Tooltip> 
                 } 
                 

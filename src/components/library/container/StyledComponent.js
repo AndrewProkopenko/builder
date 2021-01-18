@@ -24,6 +24,7 @@ function ContainerElement(props) {
     const libraryHeading = layouts.heading
     const libraryParagraph = layouts.paragraph
     const libraryParagraphImage = layouts.paragraphImage
+
   
     const [padding, setPadding] = React.useState({ 
         top:  props.data.classes.paddingTop ,  
@@ -133,7 +134,7 @@ function ContainerElement(props) {
   
     const addHeading = async (variant, type) => { 
           
-        let newChildren = children.slice()
+        let newChildren = props.data.children.slice()
 
         let newItem = {}
         
@@ -150,15 +151,18 @@ function ContainerElement(props) {
                 newItem.id = uuid() 
                 break;
             case 'paragraphImage' :   
-                newItem = Object.assign({}, libraryParagraphImage)
-                newItem.id = uuid() 
+                newItem = JSON.parse(JSON.stringify(libraryParagraphImage));
+                // newItem = Object.assign({}, libraryParagraphImage)
+                newItem.id = uuid()  
                 break;
             default: break;
         }  
 
         newChildren.push(newItem) 
   
-        setChildren(newChildren) 
+        console.log(libraryParagraphImage, newItem)
+
+        // setChildren(newChildren) 
 
         props.toggleDrawer()
 

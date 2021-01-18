@@ -9,7 +9,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';  
 import { Alert } from '@material-ui/lab';
 
-import Dumb from '../components/library/table/DumbComponent'
+// import Dumb from '../components/library/table/DumbComponent'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -45,13 +45,35 @@ function Login() {
     const [error, setError] = React.useState(null)
     const [isRedirect, setIsRedirect] = React.useState(false)
     
+    const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
+    
     React.useEffect( () => {
         setIsLoading(false) 
         // eslint-disable-next-line
     }, [])
 
-    const hendlerSubmit = (e) => {
+    const disableCheck = () => {
+        if(name !== '' && password !== '') setIsDisableBtn(false)
+        else setIsDisableBtn(true)
+    }
+
+    const handleChange = (value, place) => {
+        switch(place) {
+            case ('name') : { 
+                setName(value)
+                break;
+            }
+            case ('password'): {
+                setPassword(value)
+                break;
+            }
+            default: break;
+        } 
+        disableCheck()
+    } 
+    const handleSubmit = (e) => {
         e.preventDefault() 
+        setIsDisableBtn(true)
         firebase.loginWithEmail(name, password).then( (res) => {
             setIsRedirect(true)
         }).catch(function(err) { 
@@ -62,8 +84,7 @@ function Login() {
  
  
     return ( 
-        <React.Fragment> 
-            <Dumb/>
+        <React.Fragment>  
             <Container component="main" maxWidth="xs">
                 
                 {/* Redirect при авторизации */}
@@ -76,7 +97,7 @@ function Login() {
                     <Typography component="h1" variant="h5">
                         Вход
                     </Typography>
-                    <form className={classes.form} onSubmit={hendlerSubmit}>
+                    <form className={classes.form} onSubmit={handleSubmit}>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -88,7 +109,7 @@ function Login() {
                             autoComplete='true'
                             autoFocus
                             value={name}
-                            onChange={ (e)=>{setName(e.target.value)} }
+                            onChange={  (e)=>{handleChange(e.target.value, "name")} }
                         />
                         <TextField
                             variant="outlined"
@@ -100,7 +121,7 @@ function Login() {
                             type="password"
                             id="password" 
                             value={password}
-                            onChange={(e)=>{setPassword(e.target.value)}}
+                            onChange={  (e)=>{handleChange(e.target.value, "password")} }
                         />
                         {
                             error && 
@@ -111,8 +132,10 @@ function Login() {
                             type="submit"
                             fullWidth
                             variant="contained"
+                            size='medium'
                             color="primary"
                             className={classes.submit}
+                            disabled={isDisableBtn} 
                         >
                             Войти
                         </Button>

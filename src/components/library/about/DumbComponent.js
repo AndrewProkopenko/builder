@@ -5,18 +5,23 @@ import { Container, Grid, makeStyles, Box, Button } from '@material-ui/core'
 import '../../../assets/style/about.scss'
 
 import ModalContext from '../../../context/modalContext/ModalContext'
+import ImageContext  from '../../../context/imageContext/ImageContext'
 
 function DumbComponent(props) {
 
     const { handleOpen  } = React.useContext(ModalContext)
+    const { imageList } = React.useContext(ImageContext)
+      
+    const imageUrl = props.data.image
 
     const heading = props.data.heading
     const paragraph = props.data.paragraph
-    const imageUrl = props.data.image
+    let imageName = props.data.imageName
     const isButton = props.data.isButton
     const textButton = props.data.textButton
     const targetButton = props.data.targetButton  
     let colorButton = props.data.colorButton || '#f00'
+ 
 
     const useStyles = makeStyles((theme) => {   
         if(colorButton === 'primary')  colorButton = theme.palette.primary.main

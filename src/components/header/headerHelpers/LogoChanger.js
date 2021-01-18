@@ -115,7 +115,6 @@ function LogoChanger() {
         uploadHandler(event.target.files[0])
         removeImage(logo.imageName) 
 
-        setIsDisableBtn(false)
         setIsLoading(true)
     }
     
@@ -134,6 +133,8 @@ function LogoChanger() {
               .then( url => {
                 setImage(url) 
                 setImageName(imageData.name)
+                
+                setIsDisableBtn(false)
               })
           }
         ) 
@@ -273,6 +274,7 @@ function LogoChanger() {
                                                         changeColor = {setColorCustom}
                                                         setIsDisableBtn = {setIsDisableBtn}
                                                         position = {'right'}
+                                                        noInherit={true} 
                                                     /> 
                                                 }
                                                 

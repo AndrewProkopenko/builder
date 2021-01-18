@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useState, useEffect } from "react";
 import { ChromePicker } from "react-color";
 import { IconButton, Box, makeStyles, Button, Tooltip } from "@material-ui/core"
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
@@ -19,6 +19,10 @@ export const ColorPicker = memo(({ initialColor, changeColor, setIsDisableBtn, p
         setColor('inherit')
         setIsDisableBtn(false)
     }
+
+    useEffect( () => {
+        if(initialColor === 'inherit' ) setColor('#000')
+    }, [initialColor])
 
     const useStyles = makeStyles( theme => {
         const contrastColor = ( color !== 'transparent' && 

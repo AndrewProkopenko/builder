@@ -64,6 +64,13 @@ const StylesChangers = () => {
                 paddingRight: 40
             }
         },
+        btnWithLabel: {
+            padding: 0, 
+            '& label': {
+                padding: theme.spacing(1, 2), 
+                cursor: 'pointer'
+            }
+        },
 
         btnDrawerStyle: {
             position: 'absolute',

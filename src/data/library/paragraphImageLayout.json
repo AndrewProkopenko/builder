@@ -4,6 +4,7 @@
     "variant": "p", 
     "image": {
         "url": "https://panor.ru/img/default/category.png",
+        "imageName": "",
         "title": "",
         "placement": "top",
         "classes": {

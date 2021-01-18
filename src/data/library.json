@@ -12,7 +12,7 @@
         "slug": "slug_for_page", 
         "title": "title_for_page",
         "type": "page"
-    },
+    }, 
     "container": {
         "id": 1,
         "type": "container",  
@@ -72,8 +72,8 @@
         "classes" : {  
             "paddingTop": 0 ,
             "paddingBottom": 0, 
-            "marginTop": 0,
-            "marginBottom": 8, 
+            "marginTop": 50,
+            "marginBottom": 50, 
             "color": "inherit",
             "backgroundColor": "transparent",
             "borderWitdh": 0, 
@@ -142,6 +142,7 @@
         "variant": "p", 
         "image": {
             "url": "https://panor.ru/img/default/category.png",
+            "imageName": "",
             "title": "",
             "placement": "top",
             "classes": {
@@ -186,18 +187,20 @@
         "type": "mainBanner",
         "id": 1, 
         "color": "primary", 
-        "heading": "Ремонт Macbook в Санкт-Петербурге", 
+        "heading": "Main banner Heading", 
         "headingIcon": {
-            "title": "С Бесплатным выездом к вам",
-            "icon": ""
+            "title": "Main banner subheading",
+            "icon": "",
+            "iconName": ""
         }, 
-        "paragraph": "Ноутбуки Apple устроены сложнее, чем устройства других брендов, поэтому их ремонтом должны заниматься специально обученные люди. Наш штат сотрудникам специализируется на МакБуках разных моделей. Ремонтирует их, заменяет SSD-диски и память, а также проводит чистку с заменой термопасты.",
+        "paragraph": "main banner sometimes, using CSS isn't enough. You might want to change the React rendering tree based on the breakpoint value, in JavaScript",
         "form": {
-            "inputLabel": "Ваш телефон",
-            "buttonLabel": "Вызвать мастера",
-            "policy": "Нажимая кнопку 'Вызвать мастера' Вы соглашаетесь на обработку Ваших персональных данных"
+            "inputLabel": "Your phone",
+            "buttonLabel": "Send Request",
+            "policy": "By clicking the 'Send Request' button you agree to the processing of your personal data"
         },
-        "image": ""
+        "image": "",
+        "imageName": ""
     },
     "accordion" : {
         "type": "accordion",
@@ -230,6 +233,7 @@
         "heading": "About Header",  
         "paragraph": "Lorem ipsum dolor set ami ", 
         "image": "", 
+        "imageName": "",
         "isButton": false, 
         "textButton": "",
         "targetButton": "", 

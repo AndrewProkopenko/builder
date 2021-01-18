@@ -1,8 +1,8 @@
 import React from 'react'
+import firebase from "../../../firebase/firebase"
 
 import StylesChangers from '../../../styles/changers'  
-
-import firebase from '../../../firebase/firebase'
+ 
 import Draggable from 'react-draggable';
 import {ColorPicker} from '../colorPicker/ColorPicker'
 
@@ -33,8 +33,12 @@ import {DeleteOutline} from '@material-ui/icons';
 
 import DumbComponent from "./DumbComponent"
 
-function StyledComponent(props) {
+import ImageContext  from '../../../context/imageContext/ImageContext'
 
+function StyledComponent(props) {
+ 
+    const { removeImage } = React.useContext(ImageContext)
+      
     const [isDisableBtn, setIsDisableBtn] = React.useState(true)
     const [open, setOpen] = React.useState(false)
 
@@ -42,6 +46,7 @@ function StyledComponent(props) {
     const [paragraph, setParagraph] = React.useState(props.data.paragraph)
 
     const [imageUrl, setImageUrl] = React.useState(props.data.image)
+    const [imageName, setImageName] = React.useState(props.data.imageName || '')
 
     const [isButton, setIsButton] = React.useState(props.data.isButton || false)
     const [textButton,  setTextButton] = React.useState(props.data.textButton || '')
@@ -63,14 +68,14 @@ function StyledComponent(props) {
     React.useEffect(() => {
         if(props.data.colorButton !== 'primary' && props.data.colorButton !== 'secondary' ) {  
             setColorSelect('custom')
-        }
+        }  
     }, [props.data.colorButton])  
 
     const useStyles = makeStyles((theme) => {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { menu, menuTitle, btnSetting, btnSave, btnDrawerStyle, btnDrawerItem, containerWrapper } = commonClasses 
+        const { menu, menuTitle, btnSetting, btnSave, btnDrawerStyle, btnDrawerItem, containerWrapper, btnWithLabel } = commonClasses 
         return ({
             btnDrawerStyle: btnDrawerStyle,
             btnDrawerItem: btnDrawerItem,
@@ -82,32 +87,26 @@ function StyledComponent(props) {
             }}, 
             menuTitle: menuTitle,
             btnSetting: btnSetting,  
-            btnSave: btnSave,
-             
+            btnSave: btnSave, 
+            btnWithLabel: btnWithLabel
         })
     })
 
     const classes = useStyles();
+  
+    const handleImageUpload = async (e) => {
+  
+        removeImage(imageName)
 
-    const handleImageUpload = async(e) => {
         const imageData = e.target.files[0]
-        const storageRef = firebase
-            .storage
-            .ref(`${imageData.name}`)
-            .put(imageData)
-        storageRef.on('state-changed', snapshot => {
-            console.log(snapshot)
-        }, error => {
-            console.log(error.message)
-        }, () => {
-            storageRef
-                .snapshot
-                .ref
-                .getDownloadURL()
-                .then(url => {
-                    setImageUrl(url)
-                })
-        })
+        const generateImageName = `${imageData.name}-${props.data.id}`
+
+        const storageRef = await firebase.storage.ref(generateImageName).put(imageData)
+        const downloadURL = await storageRef.ref.getDownloadURL();
+ 
+        setImageName(generateImageName)
+        setImageUrl(downloadURL)  
+         
         setIsDisableBtn(false)
     }
     const handleSave = () => {
@@ -115,6 +114,7 @@ function StyledComponent(props) {
         newData.heading = heading
         newData.paragraph = paragraph
         newData.image = imageUrl
+        newData.imageName = imageName
         newData.isButton = isButton
         newData.textButton = textButton
         newData.targetButton = targetButton
@@ -130,8 +130,11 @@ function StyledComponent(props) {
     }
     const removeItem = () => {
         const conf = window.confirm('Delete? ')
-        if (conf) 
+        if (conf)  {
+            removeImage(imageName)
             props.removeContainer(props.data.id)
+        }
+           
     }
     
 
@@ -329,7 +332,7 @@ function StyledComponent(props) {
                                     </Box>
 
                                     <Box mt={3} display="flex" alignItems='flex-start'>
-                                        <Button color='primary' variant='contained'>
+                                        <Button color='primary' variant='contained' className={classes.btnWithLabel}  >
                                             <label htmlFor='image-input-label'>
                                                 Set image</label>
                                             <input
@@ -343,7 +346,7 @@ function StyledComponent(props) {
                                             }}/>
                                         </Button>
                                         <Box ml={1} maxWidth={300}>
-                                            <img src={imageUrl} alt='main' width={'100%'}/>
+                                            { imageUrl && <img src={imageUrl} alt='main' width={'100%'}/>}
                                         </Box>
                                     </Box>
 

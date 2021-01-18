@@ -51,8 +51,7 @@ function CategoriesChanger() {
 
     const [newPageTitle, setNewPageTitle] = React.useState('')
     const [newPageSlug, setNewPageSlug] = React.useState('')
-
-     
+ 
     const handleInputFocus = () => {  
       setOpen(true);
     }
@@ -181,8 +180,7 @@ function CategoriesChanger() {
         newPage.slug = newPageSlug
 
         newCategories.map( (item) => { 
-            if(item.id === id) { 
-                console.log(newPage)
+            if(item.id === id) {  
                 item.pages.push(newPage)
             }
             return 0 
@@ -200,8 +198,7 @@ function CategoriesChanger() {
         if(type === 'title') setNewPageTitle(value)
         if(type === 'slug') setNewPageSlug(value)
     }
-    const handleUpdateCategory = (value, id) => { 
-        console.log('update')
+    const handleUpdateCategory = (value, id) => {  
         let newCategories = localCategories.slice() 
         newCategories.map( (item) => { 
             if(item.id === id ) { 
@@ -286,8 +283,7 @@ function CategoriesChanger() {
   
         if(direction === 'up' && activeIndex === 0) return  
         if(direction === 'down' && activeIndex === activeCategory.pages.length - 1 ) return
-         
-        console.log(activeIndex)
+          
         if(direction === 'up') { 
           const movedItem = activeCategory.pages[activeIndex]
           const placeItem = activeCategory.pages[activeIndex - 1]
@@ -309,8 +305,7 @@ function CategoriesChanger() {
                 item = activeCategory  
             }
             return 0 
-        }) 
-        console.log(newCategories)
+        })  
 
         setCategories(newCategories)
     }
@@ -422,17 +417,31 @@ function CategoriesChanger() {
                                         categories.map( (item, index) => {  
                                             return (
                                                 <Box  key={index} className={classes.accordionContainer} >
-                                                    <Tooltip title='Delete Category' placement='top'>
-                                                        <Button
-                                                            variant='contained'
-                                                            color="default"
-                                                            disableElevation={true}
-                                                            className={classes.deleteBtn}
-                                                            onClick={() => { deleteCategory(item.id) }}
-                                                        > 
-                                                            <DeleteOutlineIcon style={{ color: '#fff' }} fontSize='small'/>
-                                                        </Button>
-                                                    </Tooltip>
+                                                    {
+                                                        item.slug === '/' ?
+                                                        <Tooltip title="You can't remove Home  Category" placement='top'>
+                                                            <Button
+                                                                variant='contained'
+                                                                color="default"
+                                                                disableElevation={true}
+                                                                className={classes.deleteBtn}  
+                                                            > 
+                                                                <InfoOutlined style={{ color: '#fff' }} fontSize='small'/>
+                                                            </Button> 
+                                                        </Tooltip>
+                                                        :
+                                                        <Tooltip title='Delete Category' placement='top'>
+                                                            <Button
+                                                                variant='contained'
+                                                                color="default"
+                                                                disableElevation={true}
+                                                                className={classes.deleteBtn}
+                                                                onClick={() => { deleteCategory(item.id) }}
+                                                            > 
+                                                                <DeleteOutlineIcon style={{ color: '#fff' }} fontSize='small'/>
+                                                            </Button>
+                                                        </Tooltip>
+                                                    }
 
                                                     <ButtonGroup
                                                         orientation="vertical"

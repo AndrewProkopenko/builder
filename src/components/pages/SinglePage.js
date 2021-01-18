@@ -25,7 +25,7 @@ import firebase from '../../firebase/firebase'
   
 import ModeContext from '../../context/modeContext/ModeContext'
 import LoadingContext from '../../context/loadingContext/LoadingContext'
-import LibraryContext from '../../context/libraryContext/LibraryContext'
+import LibraryContext from '../../context/libraryContext/LibraryContext' 
 
 function SinglePage(props) {
 
@@ -36,6 +36,7 @@ function SinglePage(props) {
   const { modeDev } = React.useContext(ModeContext)
   const { setIsLoading } = React.useContext(LoadingContext)
   const { layouts } = React.useContext(LibraryContext)
+
   const pageLayout = layouts.page
   const ContainerLayout = layouts.container 
   const MainBannerLayout = layouts.mainBanner 
@@ -137,7 +138,7 @@ function SinglePage(props) {
   const reSaveContainer = async (id, childrenContainer) => {  
   
     let newData = Object.assign({}, data)
-    newData.items = items
+    // newData.items = items
 
     Object.keys(newData.items).map( (elem) => { 
       if(newData.items[elem].id === id) {
@@ -145,7 +146,7 @@ function SinglePage(props) {
       }
       return 0 
     })
-  
+   
     setData(newData)
     setItems(newData.items) 
     setIsLoading(true)
@@ -226,12 +227,13 @@ function SinglePage(props) {
     setData(newData)
     setItems(filtered)  
     setIsLoading(true)
-      
+        
     await firebase.db.collection("site1").doc(pageSlug).update({
       items: filtered
     }).then(() => { 
       setIsLoading(false)
     }); 
+    
   }
 
   const swapContainer = async (direction, id) => { 
@@ -454,7 +456,7 @@ function SinglePage(props) {
                               <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('container') }}>
                                   Add new container
                               </Button> 
-                            </Box>
+                            </Box> 
                             <Box m={1}>
                               <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('mainBanner') }}>
                                   Add Main Banner

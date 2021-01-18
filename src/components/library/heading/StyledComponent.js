@@ -181,7 +181,10 @@ const StyledComponent = (props) => {
         handleClose()
     }
     const removeItem = () => {  
-        props.removeItem(props.data.id)
+        let conf = window.confirm("Delete ?");
+        if(conf) {  
+            props.removeItem(props.data.id)
+        }
     };
     
     const handleInputFocus = (event) => {  

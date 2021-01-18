@@ -4,7 +4,9 @@ import StylesChangers from '../../../styles/changers'
 import StyledInputs from '../../../styles/inputs'   
 
 import firebase from '../../../firebase/firebase'
+
 import LoadingContext from '../../../context/loadingContext/LoadingContext' 
+import ImageContext  from '../../../context/imageContext/ImageContext'
 
 import Draggable from 'react-draggable';
 import {ColorPicker} from '../colorPicker/ColorPicker'
@@ -42,6 +44,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 const StyledComponent = (props) => {  
     console.log("styled paragraph image")
     const { setIsLoading } = React.useContext(LoadingContext)
+    const { removeImage } = React.useContext(ImageContext)
  
     const [padding, setPadding] = React.useState({ 
         top:  props.data.classes.paddingTop || 0, 
@@ -58,6 +61,7 @@ const StyledComponent = (props) => {
     
     const [image, setImage] = React.useState(props.data.image || {})
     const [imageUrl, setImageUrl] = React.useState(props.data.image.url || '')
+    const [imageName, setImageName] = React.useState(props.data.image.imageName || '')
     const [imageTitle, setImageTitle] = React.useState(props.data.image.title || '')
     const [imagePlacement, setImagePlacement] = React.useState(props.data.image.imagePlacement || 'top')
     
@@ -251,10 +255,7 @@ const StyledComponent = (props) => {
     
     const classes = useStyles();
 
-    //const dataNew - props for Dumb Component
-    // const dataNew = {...props.data, ...{
-    //     classes: myClassName,
-    // }} 
+   
  
     const handlePadding = (e, direction) => {  
         let newPadding = Object.assign({}, padding)
@@ -286,7 +287,8 @@ const StyledComponent = (props) => {
             title: imageTitle, 
             placement: imagePlacement,
             classes: imageClassName, 
-            url: imageUrl
+            url: imageUrl,
+            imageName: imageName
         })
         sentData.text = textInDumb
 
@@ -295,7 +297,11 @@ const StyledComponent = (props) => {
         handleClose()
     }
     const removeItem = () => {  
-        props.removeItem(props.data.id)
+        let conf = window.confirm("Delete ?");
+        if(conf) { 
+            removeImage(imageName)
+            props.removeItem(props.data.id)
+        }
     };
     
     const handleInputFocus = () => {  
@@ -304,29 +310,26 @@ const StyledComponent = (props) => {
     const handleClose = () => {
         setOpen(false);
     }
-    const handleImageSetting = (event) => {    
-        uploadHandler(event.target.files[0])
-        setIsDisableBtn(false)
-        setIsLoading(true)
-    }
+    // const handleImageSetting = (event) => {    
+    //     uploadHandler(event.target.files[0])
+    //     setIsLoading(true)
+    // }
     
-    const uploadHandler = (imageData) => { 
-        const storageRef = firebase.storage.ref(`${imageData.name}`).put(imageData)
-        storageRef.on('state-changed', 
-          snapshot => {
-            console.log( snapshot )
-          }, 
-          error => {
-            console.log(error.message)
-          },
-          () => {
-            setIsLoading(false)
-            storageRef.snapshot.ref.getDownloadURL()
-              .then( url => {
-                setImageUrl(url) 
-              })
-          }
-        )
+    const handleImageUpload = async (e) => { 
+        removeImage(imageName)
+
+        const imageData = e.target.files[0]
+        const generateImageName = `${imageData.name}-${props.data.id}`
+
+        const storageRef = await firebase.storage.ref(generateImageName).put(imageData)
+        const downloadURL = await storageRef.ref.getDownloadURL();
+ 
+        setImageName(generateImageName)
+        setImageUrl(downloadURL)  
+         
+        setIsDisableBtn(false)
+        
+        setIsLoading(false) 
     }
     
 
@@ -378,7 +381,7 @@ const StyledComponent = (props) => {
                                                 <input 
                                                     id="image-input-label"
                                                     type="file" 
-                                                    onChange={handleImageSetting} 
+                                                    onChange={handleImageUpload} 
                                                     style={{ display: "none" }}
                                                 />
                                             </Button>
