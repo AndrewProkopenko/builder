@@ -8,8 +8,7 @@ function DumbComponent(props) {
     console.log('dumb paragraph')
   
     const useStyles = makeStyles((theme) => ({
-        myClassName: props.className , 
-        imageStyle: props.data.image ? props.data.image.classes : {}
+        myClassName: props.className ,  
       }));
     const classes = useStyles();
  

@@ -14,13 +14,20 @@ function DumbComponent(props) {
                 marginTop: props.className.marginTop*0.8,
                 marginBottom: props.className.marginBottom*0.8
             },
-            [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
-                fontSize: props.className.fontSize*0.6,
+            [theme.breakpoints.down('sm')]: {
+                fontSize: props.className.fontSize > 40 ? props.className.fontSize*0.6 : 20,
                 lineHeight : 1.2, 
                 marginTop: props.className.marginTop*0.5, 
                 marginBottom: props.className.marginBottom*0.5, 
                 textAlign: 'center'
             },
+        },
+        mobileClass: {
+            [theme.breakpoints.down('sm')]: {
+                marginTop: props.className.marginTop > 30 ? props.className.marginTop * 0.6 : 15,
+                marginBottom: props.className.marginBottom > 30 ? props.className.marginBottom * 0.6 : 15,
+                paddingLeft: props.className.paddingLeft > 30 ? props.className.paddingLeft * 0.6 : 15
+            } 
         }
       }
     ));

@@ -41,7 +41,7 @@
                     "fontWeight": 700,
                     "lineHeight": 1.43
                 }, 
-                "text": "Heading of Container" , 
+                "text": "Remove this heading H1 and do something yourself" , 
                 "prop": {},
                 "responseFont": false
             },
@@ -65,7 +65,7 @@
                     "fontWeight": 400,
                     "lineHeight": 1.43
                 }, 
-                "text": "first paragraph of container" , 
+                "text": "Remove this paragraph and do something yourself" , 
                 "prop": {}
             }
         ], 
@@ -104,10 +104,28 @@
             "fontWeight": 700,
             "lineHeight": 1.43
         }, 
-        "text": "heading Default" , 
+        "text": "Heading variant " , 
         "prop": {}, 
         "responseFont": false
     }, 
+    "list": {
+        "id": 1,
+        "type": "list",  
+        "classes" : {  
+            "marginTop": 30,
+            "marginBottom": 30, 
+            "paddingLeft":  30, 
+            "color": "inherit",   
+            "fontSize": 14,
+            "fontWeight": 400,
+            "lineHeight": 1.4
+        }, 
+        "itemsStyle": {
+            "paddingBottom": 5, 
+            "listStyle": "decimal"
+        }, 
+        "items": ["Computer system analysis is like child-rearing; you can do grievous damage, but you cannot ensure success.", "I don't care if it works on your machine! We are not shipping your machine!"]
+    },
     "paragraph": {
         "id": 1,
         "type": "paragraph", 
@@ -147,7 +165,7 @@
             "placement": "top",
             "classes": {
                 "width": 100, 
-                "height": 100,
+                "height": "auto",
                 "borderWitdh": 0, 
                 "borderRadius": 0, 
                 "borderColor": "inherit", 
@@ -187,13 +205,13 @@
         "type": "mainBanner",
         "id": 1, 
         "color": "primary", 
-        "heading": "Main banner Heading", 
+        "heading": "Beware of bugs in the above code", 
         "headingIcon": {
-            "title": "Main banner subheading",
+            "title": "I have only proved it correct, not tried it.",
             "icon": "",
             "iconName": ""
         }, 
-        "paragraph": "main banner sometimes, using CSS isn't enough. You might want to change the React rendering tree based on the breakpoint value, in JavaScript",
+        "paragraph": "Sometimes it’s better to stay at home on Monday than spend an entire week debugging code written on Monday.",
         "form": {
             "inputLabel": "Your phone",
             "buttonLabel": "Send Request",
@@ -205,12 +223,20 @@
     "accordion" : {
         "type": "accordion",
         "id": 1,  
-        "heading": "Accordion Header",  
+        "heading": "Stages",  
         "color": "primary", 
         "items": [
             {
-                "head": "heading",
-                "body": "body"
+                "head": "Booking",
+                "body": "In good design, adding something costs less than the thing itself."
+            },
+            {
+                "head": "Payment",
+                "body": "In theory, theory and practice are inseparable. In practice, this is not the case."
+            },
+            {
+                "head": "Delivery",
+                "body": "Learning to program has no more to do with designing interactive software than learning to touch type has to do with writing poetry."
             }
         ]
     },
@@ -220,18 +246,29 @@
         "location": "City, street, number", 
         "phone": "+711 111 111 11" , 
         "mapFrame": null, 
-        "paragraph": "paragraph", 
-        "inputName": "Name",
-        "inputPhone": "Phone",
-        "inputComment": "Comment",
-        "buttonText": "Button",
-        "policy": " you agree with policy" 
+        "paragraph": "Have any quections?", 
+        "inputName": "Your Name",
+        "inputPhone": "Your Phone",
+        "inputComment": "Your Comment",
+        "buttonText": "Send",
+        "policy": "By clicking the \"Send\" button you agree to the processing of your personal data" 
+    },
+    "formLine": {
+        "type": "formLine",
+        "id": 1,   
+        "heading": "Have any quections?", 
+        "paragraph": "Contact us and we call you in next 10 minutes", 
+        "inputName": "Your Name",
+        "inputPhone": "Your Phone", 
+        "buttonText": "Send",
+        "policy": "By clicking the \"Send\" button you agree to the processing of your personal data" ,
+        "color": "primary"
     },
     "about": {
         "type": "about", 
         "id": 1,  
-        "heading": "About Header",  
-        "paragraph": "Lorem ipsum dolor set ami ", 
+        "heading": "To iterate is human, to recurse divine",  
+        "paragraph": "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.", 
         "image": "", 
         "imageName": "",
         "isButton": false, 
@@ -245,7 +282,7 @@
         "heading": "Action Colored Line with Button",  
         "headingSize": 40,  
         "isButton": true, 
-        "textButton": "buy",
+        "textButton": "Buy",
         "targetButton": "", 
         "colorMain": "primary"
     }, 

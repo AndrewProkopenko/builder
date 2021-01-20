@@ -506,6 +506,9 @@ const StyledComponent = (props) => {
 
                                 {/* width height*/}
                                 <Box className={classes.inputGroup}>
+                                    <Typography variant={'caption'} display='block' align={"center"} color={'error'}>
+                                        !! set only width, height will set auto
+                                    </Typography>
                                     <Box display="flex" flexDirection="row"  > 
                                         <TextField 
                                             className={classes.inputNumber}

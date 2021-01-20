@@ -150,7 +150,10 @@ export default function CustomizedTables(props) {
     }
     return (
         <Container maxWidth='lg' className={`${classes.tableContainer} heading`} >
-            <h3>{heading}</h3>
+            {
+                heading.length > 0 &&
+                <h3> { heading } </h3> 
+            }
             <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="customized table">
                     <TableHead>

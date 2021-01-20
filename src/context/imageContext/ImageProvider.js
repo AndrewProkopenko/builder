@@ -6,110 +6,136 @@ import ImageContext from './ImageContext'
 
 export default class ImageProvider extends React.Component { 
 
-    state = { 
-        imageAnswerUrl: '', 
-        imageList: [ ], 
-    } 
+    // state = {  
+    //     imageList: [], 
+    // } 
 
-    async componentDidMount() { 
-        //   this.fetchListFromStorage()
-          this.fetchListFromFirestore()
-    }
+    // async componentDidMount() { 
+    //       this.fetchListFromStorage()
+    //     //   this.fetchListFromFirestore()
+    // }
 
     // async fetchListFromStorage() {
     //     const listRef = firebase.storage.ref(); 
         
     //     let imagesArray = []
 
-    //     await listRef.listAll().then(function(res) {
-    //         res.items.forEach(function(itemRef) { 
-    //             imagesArray.push(itemRef.fullPath) 
-    //         });
-    //       }).catch(function(error) {
-    //           console.log(error) 
-    //       });
-    //       this.setState({
+    //     await listRef.listAll()
+    //     .then( 
+    //         function(res) {
+    //             res.items.forEach(function(itemRef) { 
+    //                 imagesArray.push(itemRef.fullPath)
+    //             }) 
+    //         }
+    //     )
+    //     .catch(function(error) {
+    //         console.log(error) 
+    //     });
+
+
+    //     this.setState({
     //         imageList: imagesArray
-    //       }) 
+    //     }) 
+
+    //     setTimeout(() => {
+    //         console.log(this.state.imageList, imagesArray)
+    //     }, 500);
+        
     // }
 
-    async addImageToList(newImage, oldName) {
-        const newList = this.state.imageList.slice()
-        let newItem
-        let isNew = true
-        let isNeedUpdate = newImage.name === oldName ? false : true 
-        if(isNeedUpdate) { 
-            for(let i = 0; i < newList.length; i++) {
-                if(newList[i].name === newImage.name) {
-                    //уже было загружено
-                    newList[i].quantity++ 
-                    isNew = false
-                }
-                if(newList[i].name === oldName) {
-                    //уже было загружено
-                    newList[i].quantity--  
-                    if( newList[i].quantity === 0 ) { 
-                        this.removeImage(oldName) 
-                        newList.splice(i, 1)
-                    }
-                }
-            }
-            if(isNew) {
-                newItem = {
-                    name: newImage.name, 
-                    url: newImage.url, 
-                    quantity: 1
-                }
-                newList.push(newItem)
-            }
-        }
-        else { 
-            console.log(newImage, oldName)
-        }
+    // async addImageToList(newImage, oldName) {
+    //     const newList = this.state.imageList.slice()
+    //     let newItem
+    //     let isNew = true
+    //     let isNeedUpdate = newImage.name === oldName ? false : true 
+    //     if(isNeedUpdate) { 
+    //         for(let i = 0; i < newList.length; i++) {
+    //             if(newList[i].name === newImage.name) {
+    //                 //уже было загружено
+    //                 newList[i].quantity++ 
+    //                 isNew = false
+    //             }
+    //             if(newList[i].name === oldName) {
+    //                 //уже было загружено
+    //                 newList[i].quantity--  
+    //                 if( newList[i].quantity === 0 ) { 
+    //                     this.removeImage(oldName) 
+    //                     newList.splice(i, 1)
+    //                 }
+    //             }
+    //         }
+    //         if(isNew) {
+    //             newItem = {
+    //                 name: newImage.name, 
+    //                 url: newImage.url, 
+    //                 quantity: 1
+    //             }
+    //             newList.push(newItem)
+    //         }
+    //     }
+    //     else { 
+    //         console.log(newImage, oldName)
+    //     }
          
-        this.setState({
-            imageList: newList
-        })
+    //     this.setState({
+    //         imageList: newList
+    //     })
  
-        console.log(this.state.imageList, oldName)
+    //     console.log(this.state.imageList, oldName)
 
-        this.updateList(newList)
-    }
+    //     this.updateList(newList)
+    // }
 
-    async fetchListFromFirestore() {
-        const listRef = firebase.db.collection("site1category").doc('imageList')
-        const doc = await listRef.get();
+    // async fetchListFromFirestore() {
+    //     const listRef = firebase.db.collection("site1category").doc('imageList')
+    //     const doc = await listRef.get();
       
-        if (!doc.exists) {
-            console.log('No such page!');  
+    //     if (!doc.exists) {
+    //         console.log('No such page!');  
 
-        } else { 
-            this.setState({
-                imageList: doc.data().list
-            }) 
-        }
-    }
-    async uploadImage(imageData, oldName) { 
-        const storageRef = await firebase.storage.ref(`${imageData.name}`).put(imageData)
-        const downloadURL = await storageRef.ref.getDownloadURL();
+    //     } else { 
+    //         this.setState({
+    //             imageList: doc.data().list
+    //         }) 
+    //     }
+    // }
+    // async uploadImage(imageData, oldName) { 
+    //     const storageRef = await firebase.storage.ref(`${imageData.name}`).put(imageData)
+    //     const downloadURL = await storageRef.ref.getDownloadURL();
  
-        const newImage = {
-            url: downloadURL, 
-            name: imageData.name, 
-            quantity: 1
-        }
-        this.addImageToList(newImage, oldName)
+    //     const newImage = {
+    //         url: downloadURL, 
+    //         name: imageData.name, 
+    //         quantity: 1
+    //     }
+    //     this.addImageToList(newImage, oldName)
   
-    }
-    async updateList(newList) {
-        await firebase.db.collection("site1category").doc("imageList").update({
-            list: newList, 
-        }).then(() => { 
-            this.setState({
-                imageList: newList
-            })
-        })
-    }
+    // }
+    // async updateList(newList) {
+    //     await firebase.db.collection("site1category").doc("imageList").update({
+    //         list: newList, 
+    //     }).then(() => { 
+    //         this.setState({
+    //             imageList: newList
+    //         })
+    //     })
+    // }
+ 
+    // removeImageFromStoreAndList(name) {
+    //     console.log(name)
+    //     const newList = this.state.imageList.slice()
+    //     newList.map( (item, index) => {
+    //         if(item.name === name) {
+    //             item.quantity--
+    //             if(item.quantity === 0) newList.splice(index, 1)
+    //         }
+    //     })
+    //     this.setState({
+    //         imageList: newList
+    //     })  
+    //     this.removeImage(name)
+    //     this.updateList(newList)
+    // }
 
     async removeImage(name) { 
         if(name !== '') {
@@ -128,20 +154,8 @@ export default class ImageProvider extends React.Component {
             }
         }
     }
-    removeImageFromStoreAndList(name) {
-        console.log(name)
-        const newList = this.state.imageList.slice()
-        newList.map( (item, index) => {
-            if(item.name === name) {
-                item.quantity--
-                if(item.quantity === 0) newList.splice(index, 1)
-            }
-        })
-        this.setState({
-            imageList: newList
-        })  
-        this.removeImage(name)
-        this.updateList(newList)
+    removeImagesFromArray(images) {
+        console.log(images)
     }
    
 
@@ -149,18 +163,21 @@ export default class ImageProvider extends React.Component {
         return(
             <ImageContext.Provider
                 value={{
-                    imageList: this.state.imageList, 
-                    nameList: this.state.nameList ,
+                    // imageList: this.state.imageList, 
+                    // nameList: this.state.nameList ,
                     
                     removeImage: (name) => {
                         this.removeImage(name)
                     },
-                    removeImageFromStoreAndList: (name) => {
-                        this.removeImageFromStoreAndList(name)
+                    removeImagesFromArray: (array) => {
+                        this.removeImagesFromArray(array)
                     },
-                    uploadImage: (data, name) => {
-                        this.uploadImage(data, name)
-                    }
+                    // removeImageFromStoreAndList: (name) => {
+                    //     this.removeImageFromStoreAndList(name)
+                    // },
+                    // uploadImage: (data, name) => {
+                    //     this.uploadImage(data, name)
+                    // }
                 }}
             >
                 {this.props.children}

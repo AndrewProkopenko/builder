@@ -68,10 +68,7 @@ function DumbComponent(props) {
                 border: `2px solid ${theme.palette.primary.main}`, 
                 color: '#fff',
                 '&:hover' : {
-                    background: 'none',
-                    '&>span': { 
-                        color: theme.palette.primary.main
-                    }
+                    background: 'none', 
                 }
             }, 
             link: { 

@@ -88,14 +88,7 @@ function ElementCreator(props) {
    
     const reSaveChildren = (id, data) => {   
         const newArr =  props.data.children.map((item) => item.id === id ? { ...data} : item);
-        // let slicedChild = props.data.children.slice()
-        // slicedChild.forEach((item) => {
-        //     if(item.id === id) {
-        //         for( let key in item) { 
-        //             item[key] = data[key]
-        //         } 
-        //     }
-        // })  
+        
         // save in firestore
         props.reSaveContainer(props.data.id, newArr)
  
@@ -103,13 +96,12 @@ function ElementCreator(props) {
 
     const removeItem = async (id) => { 
 
-        let filtered = props.data.children.filter((item) => (item.id !== id))  
-        console.log(props.data.children, filtered)
+        let filtered = props.data.children.filter((item) => (item.id !== id))   
         // save in firestore 
         props.reSaveContainer(props.data.id, filtered)   
     }
 
-    const toggleDrawer =  () => {  
+    const handleClose =  () => {  
         setOpen(!open)
     }; 
      
@@ -161,7 +153,7 @@ function ElementCreator(props) {
                         > 
                             <Tooltip title='Container Settings' placement='right'>
                                 <Button  
-                                    onClick={toggleDrawer} 
+                                    onClick={handleClose} 
                                     size='medium'
                                     variant='contained' 
                                     className={classes.btnDrawerItem}
@@ -221,7 +213,7 @@ function ElementCreator(props) {
                         swapContainer={props.swapContainer}
                         propsSettings={propsSettings}
                         open={open}
-                        toggleDrawer={toggleDrawer}
+                        handleClose={handleClose}
                     />
                     <DumbComponent 
                         data={props.data}  

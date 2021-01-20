@@ -47,7 +47,11 @@ function DumbComponent(props) {
         <div className="mac-accordion heading">
             <Container maxWidth={'lg'} className={classes.disableMobileGutters}>
 
-                <h3> { heading } </h3> 
+                {
+                    heading.length > 0 &&
+                    <h3> { heading } </h3> 
+                }
+                
 
                 {
                     items.map( (item, index) => { 

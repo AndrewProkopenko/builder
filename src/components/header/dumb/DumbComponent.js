@@ -65,7 +65,7 @@ function DumbComponent() {
             backgroundHeader !== 'primary' && 
             backgroundHeader !== 'secondary' ) {  
                 colorHeader = theme.palette.getContrastText(backgroundHeader)
-                hoverActiveLinkColor = darken(backgroundHeader, 0.3) 
+                hoverActiveLinkColor = darken(backgroundHeader, 0.5) 
         }   
         if(backgroundHeader === 'paper') { 
             backgroundHeader = theme.palette.background.paper

@@ -3,6 +3,7 @@ import uuid from 'react-uuid'
 
 import CategoryContext from '../../../context/headerContext/CategoryContext'
 import LibraryContext from '../../../context/libraryContext/LibraryContext'
+import ImageContext from '../../../context/imageContext/ImageContext'
 
 import StylesChangers from '../../../styles/changers'  
 
@@ -37,6 +38,7 @@ import Draggable from 'react-draggable';
 
 function CategoriesChanger() { 
     
+    const { removeImagesFromArray } = React.useContext(ImageContext)    
     const {categories, setCategories, deletePageFromFirebase, deleteCategoryFromFirebase} = React.useContext(CategoryContext)    
     const {layouts} = React.useContext(LibraryContext)
     const pageLayout = layouts.page
@@ -337,6 +339,7 @@ function CategoriesChanger() {
         setCategories(categories)  
 
         deletePageFromFirebase(slug)
+ 
     }
 
     return (

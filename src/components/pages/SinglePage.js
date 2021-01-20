@@ -4,7 +4,7 @@ import Draggable from 'react-draggable';
 import { useLocation } from 'react-router-dom';
 import uuid from 'react-uuid' 
 
-import { Typography, Button, Box, Tooltip,  Modal, DialogContent  } from "@material-ui/core"; 
+import { Typography, Button, Box, Tooltip,  Modal, DialogContent, Divider } from "@material-ui/core"; 
  
 import { makeStyles } from '@material-ui/core/styles';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -17,6 +17,7 @@ import ContactMapElement from '../library/contactMap/ElementCreator'
 import AboutElement from '../library/about/ElementCreator'  
 import ActionLineElement from '../library/actionLine/ElementCreator'  
 import TableElement from '../library/table/ElementCreator'  
+import FormLineElement from '../library/formLine/ElementCreator'  
 
 import SkeletonPage from '../placeholders/SkeletonPage'
 import Breadcrumbs from '../placeholders/Breadcrumbs'
@@ -45,6 +46,7 @@ function SinglePage(props) {
   const AboutLayout = layouts.about 
   const ActionLineLayout = layouts.actionLine 
   const TableLayout = layouts.table 
+  const FormLineLayout = layouts.formLine 
 
   const [data, setData] = React.useState({})
   const [items, setItems] = React.useState([]) 
@@ -90,10 +92,19 @@ function SinglePage(props) {
           }
       }, 
       menu: {...menu, ...{ 
-        width: 400, 
-        left: "calc(50% - 200px)",
+        width: 600, 
+        left: "calc(50% - 300px)",
       }},     
-      menuTitle: menuTitle
+      menuTitle: menuTitle,
+      tooltip: {
+        fontSize: 14
+      }, 
+      boxMenuItem : { 
+        display: 'inline-block',
+        paddingRight: theme.spacing(1),
+        paddingBottom: theme.spacing(1),
+      }
+
   
     })
   })
@@ -200,6 +211,7 @@ function SinglePage(props) {
     if(type === 'about') newCont = Object.assign({}, AboutLayout) 
     if(type === 'actionLine') newCont = Object.assign({}, ActionLineLayout) 
     if(type === 'table') newCont = Object.assign({}, TableLayout) 
+    if(type === 'formLine') newCont = Object.assign({}, FormLineLayout) 
 
     newCont.id = uuid()
   
@@ -402,6 +414,19 @@ function SinglePage(props) {
               />
           )
         } 
+        if(items[key].type === 'formLine') { 
+          return(
+              <FormLineElement
+                key={items[key].id} 
+                data={items[key]} 
+                swapContainer={swapContainer}
+                removeContainer={removeContainer}
+                reSaveItem={reSaveItem}
+                isFirst={orderFirst}
+                isLast={orderLast}
+              />
+          )
+        } 
         return false
       })
     }
@@ -445,49 +470,93 @@ function SinglePage(props) {
                 <DialogContent> 
                     <Draggable  handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'} >
                         <div className={classes.menu}>
-                          <Typography 
+                            <Typography 
                                 component='p' 
                                 className={classes.menuTitle}
                                 id="draggable-dialog-title"
                             >
-                                Действия для страницы  <OpenWithIcon/>
+                                Add Block for Page <OpenWithIcon/>
                             </Typography> 
-                            <Box m={1}>
-                              <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('container') }}>
-                                  Add new container
-                              </Button> 
+                            
+                            
+                            <Box className={classes.boxMenuItem}>
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Container for heading, paragraph, image-paragraph, list' placement='top'>
+                                <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('container') }}>
+                                    Container
+                                </Button> 
+                              </Tooltip>
                             </Box> 
-                            <Box m={1}>
-                              <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('mainBanner') }}>
-                                  Add Main Banner
-                              </Button> 
+
+                            <Divider style={{margin: '15px 0'}} />
+
+                            <Typography variant='caption' component="h6" gutterBottom>
+                              With form
+                            </Typography>
+                            <Box className={classes.boxMenuItem}>
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Block to start the page. Contain: text, form, image(desktop only)' placement='top'>
+                                <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('mainBanner') }}>
+                                    Main Banner
+                                </Button> 
+                              </Tooltip>
                             </Box>
-                            <Box m={1}>
-                              <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('accordion') }}>
-                                  Add Accordion
-                              </Button> 
+                           
+                            <Box className={classes.boxMenuItem}>
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Contain: location and phone view, contact form, map. Has two different displays, with and without a map' placement='top'>
+                                <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('contactMap') }}>
+                                    Contacts with Map
+                                </Button>  
+                              </Tooltip>
                             </Box>
-                            <Box m={1}>
-                              <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('contactMap') }}>
-                                  Add Contacts with Map
-                              </Button> 
+
+                            <Box className={classes.boxMenuItem}>
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Small contact form with optional heading and paragrapher' placement='top'>
+                                <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('formLine') }}>
+                                    Add Form Line 
+                                </Button> 
+                              </Tooltip>
                             </Box>
-                            <Box m={1}>
-                              <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('about') }}>
-                                  Add About
-                              </Button> 
+
+                            <Divider style={{margin: '15px 0'}} />
+
+                            <Box className={classes.boxMenuItem}>
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Accordion with heading on top' placement='top'>
+                                <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('accordion') }}>
+                                    Accordion
+                                </Button> 
+                              </Tooltip>
                             </Box>
-                            <Box m={1}>
-                              <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('actionLine') }}>
-                                  Add Colored Action Line 
-                              </Button> 
+                            
+                            <Box className={classes.boxMenuItem}> 
+                              <Tooltip title='Line for small text paragrapher with ability to add a button modal  ' placement='top'>
+                                <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('actionLine') }}>
+                                    Colored Action Line 
+                                </Button> 
+                              </Tooltip>
                             </Box>
-                            <Box m={1}>
-                              <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('table') }}>
-                                  Add Table 
-                              </Button> 
+                            <Box className={classes.boxMenuItem}>
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Table with heading on top. Has ability to add "Show More Botton " on bottom' placement='top'>
+                                <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('table') }}>
+                                    Add Table 
+                                </Button> 
+                              </Tooltip>
                             </Box>
-                            <Box m={1}>
+                            
+                            <Divider style={{margin: '15px 0'}} />
+
+                            <Typography variant='caption' component="h6" gutterBottom>
+                              With image
+                            </Typography>
+                            <Box className={classes.boxMenuItem}>
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Block with heading, paragraph and image. Image on desktop - 50% vieport width. Image on mobile - 50% vieport width . Has the ability to add a button modal' placement='top'>
+                                <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('about') }}>
+                                    About
+                                </Button> 
+                              </Tooltip>
+                            </Box>
+
+                            <Divider style={{margin: '15px 0'}} />
+ 
+                            <Box className={classes.boxMenuItem}>
                               <Button color={'primary'} variant={'outlined'} disabled={true} >
                                   More settings
                               </Button> 

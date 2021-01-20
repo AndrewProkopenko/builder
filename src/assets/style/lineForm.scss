@@ -1,0 +1,125 @@
+.line {  
+    h3 { 
+        text-align: center;
+        padding-top: 30px;
+        padding-bottom: 40px;
+    } 
+    &-form { 
+
+        padding-top: 40px;
+        padding-bottom: 40px;   
+        padding-left: 50px;
+        padding-right: 50px; 
+        
+        margin-top: 50px;
+        margin-bottom: 50px;
+        
+        border-radius: 4px; 
+ 
+        h5 { 
+            position: relative;
+            z-index: 2; 
+            margin-bottom: 20px;
+            margin-top: 0;
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 32px;
+        }
+        p {  
+            position: relative;
+            z-index: 2; 
+            max-width: 630px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 40px; 
+            font-weight: 300;
+            font-size: 16px;
+            line-height: 17px; 
+            text-align: center;
+            opacity: 0.8;
+        }
+ 
+ 
+    } 
+}
+ 
+
+@media screen and (max-width: 960px) {
+    
+    .line {  
+        &-form { 
+            margin-top: 50px;
+            &_content { 
+               flex-direction: column;
+               max-width: 500px;
+               margin-left: auto;
+               margin-right: auto;
+                >* {  
+                    margin-right: 0; 
+                }
+                input { 
+                    width: 100%;
+                    margin-bottom: 10px;
+                }
+                .bt-main_content__btn { 
+                    width: 100%;
+                    button { 
+                        width: 100%;
+                    }
+                } 
+            } 
+        }
+    }
+ 
+}
+
+
+@media screen and (max-width: 767px) {
+     
+ 
+    .line {  
+        &-form { 
+            margin-top: 30px;
+            margin-bottom: 30px;
+            padding: 38px;
+            p { 
+                margin-bottom: 15px;
+                font-size: 14px;
+                line-height: 15px;
+            }
+             
+        } 
+    }
+
+}
+
+@media screen and (max-width: 600px) {
+      
+    .line { 
+        h3 { 
+            padding-top: 30px;
+            padding-bottom: 20px;
+        } 
+        &-form { 
+            padding-left: 15px;
+            padding-right: 15px; 
+            h5 { 
+                margin-bottom: 10px;
+            }
+     
+        } 
+    }
+ 
+}
+  
+ 
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)   { 
+    
+    .line-form_content .bt-main_content__btn { 
+        min-width: 200px;
+    } 
+}
+ 
+  
