@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Container, Grid, makeStyles, Box, Button, Typography } from '@material-ui/core' 
-import { fade } from '@material-ui/core/styles/colorManipulator';
+import { darken, fade } from '@material-ui/core/styles/colorManipulator';
  
 import ModalContext from '../../../context/modalContext/ModalContext'
 
@@ -35,13 +35,23 @@ function DumbComponent(props) {
                 color: theme.palette.getContrastText(colorMain), 
                 transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeInOut}`, 
                 whiteSpace: 'nowrap', 
-                '&:hover' : { 
-                    background: 'none',
-                    color: theme.palette.text.primary
+
+                  
+                '&:active' : {
+                    backgroundColor: darken(colorMain, 0.4) , 
                 },
-                [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
+                [theme.breakpoints.down('sm')]: {
                     width: "100%", 
-                    maxWidth: 400
+                    maxWidth: 400,
+                    '&:hover' : {
+                        backgroundColor: colorMain , 
+                    },
+                },
+                [theme.breakpoints.up('sm')]: {
+                    '&:hover' : {
+                        background: 'none',
+                        color: theme.palette.text.primary
+                    }
                 }, 
             },
             heading: { 

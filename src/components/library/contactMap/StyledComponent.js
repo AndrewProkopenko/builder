@@ -1,9 +1,12 @@
 import React from 'react'
 import StylesChangers from '../../../styles/changers'   
+import {ColorPicker} from '../colorPicker/ColorPicker'
 import Draggable from 'react-draggable';  
  
 import { 
-    Button, Box, Tooltip, TextField, Typography, ButtonGroup, makeStyles, Modal, DialogContent, Switch, FormControlLabel
+    Button, Box, Tooltip, TextField, Typography, 
+    ButtonGroup, makeStyles, Modal, DialogContent, Switch, 
+    FormControlLabel, FormControl, InputLabel, Select, MenuItem
 } from '@material-ui/core'
 
 import OpenWithIcon from '@material-ui/icons/OpenWith';
@@ -32,7 +35,15 @@ function StyledComponent(props) {
     const [mapFrame, setMapFrame] = React.useState(props.data.mapFrame) 
     
     const [isButton, setIsButton] = React.useState(props.data.mapFrame === null ? false : true)
-
+    
+    const [colorSelect,  setColorSelect] = React.useState(props.data.color || 'primary')
+    const [colorCustom, setColorCustom] = React.useState(props.data.color || 'primary')
+     
+    React.useEffect(() => {
+        if(props.data.color !== 'primary' && props.data.color !== 'secondary' ) {  
+            setColorSelect('custom')
+        }  
+    }, [props.data.color])
 
     
     const handleOpen = () => {  
@@ -80,6 +91,11 @@ function StyledComponent(props) {
         newData.buttonText = buttonText 
         newData.policy = policy 
         newData.mapFrame = !isButton ? null : mapFrame 
+        if (colorSelect === 'custom') {
+            newData.color = colorCustom
+        } else {
+            newData.color = colorSelect 
+        }
   
         props.reSaveItem(props.data.id, newData) 
         handleClose()
@@ -294,6 +310,34 @@ function StyledComponent(props) {
                                                     If <b>Map Frame</b> is null layout have another view!
                                                 </Typography>
                                             }
+                                    </Box>
+                                    <Box mt={2} display="flex" >
+                                        <FormControl variant='filled' style={{minWidth: '250px' }}>
+                                            <InputLabel id="color-select-label">Color for Button</InputLabel>
+                                            <Select
+                                                labelId="color-select-label"
+                                                id="color-select"
+                                                value={colorSelect}
+                                                onChange={(e) => {setIsDisableBtn(false); setColorSelect(e.target.value)   }}
+                                            >
+                                                <MenuItem value={'primary'}>Primary</MenuItem>
+                                                <MenuItem value={'secondary'}>Secondary</MenuItem>
+                                                <MenuItem value={'custom'}>Custom</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                        <Box ml={1} >
+                                            {
+                                                colorSelect === 'custom' &&
+                                                <ColorPicker
+                                                    initialColor = {colorCustom}
+                                                    changeColor = {setColorCustom}
+                                                    setIsDisableBtn = {setIsDisableBtn}
+                                                    position = {'right'}
+                                                    noInherit={true}
+                                                />  
+                                            }
+                                            
+                                        </Box>
                                     </Box>
   
                                     <Box className={classes.btnSave}>

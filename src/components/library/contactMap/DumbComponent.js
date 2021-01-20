@@ -2,7 +2,7 @@ import React from 'react'
 
 import SendFormContext from '../../../context/sendFormContext/SendFormContext'
 
-import { Container, Grid, makeStyles, Button, Box } from '@material-ui/core'
+import { Container, Grid, makeStyles, Button, Box, darken } from '@material-ui/core'
 
 import '../../../assets/style/contactMap.scss' 
 
@@ -23,9 +23,22 @@ function DumbComponent(props) {
     const policy = props.data.policy
      
     let colorMapOnload 
+    let color = props.data.color || 'primary'
+    let colorFocusInput
 
     const useStyles = makeStyles((theme) => {  
         colorMapOnload = theme.palette.primary.dark
+        if(color === 'primary') { 
+            color = theme.palette.primary.main
+            colorFocusInput = theme.palette.secondary.main
+        }
+        if(color === 'secondary') {
+            color = theme.palette.secondary.main 
+            colorFocusInput = theme.palette.primary.main
+        }
+        if(color === 'custom') { 
+            colorFocusInput = theme.palette.primary.main
+        }
         return ({
             svg: {
                 fill: theme.palette.secondary.main
@@ -43,7 +56,7 @@ function DumbComponent(props) {
             },
             input: {
                 fontFamily: 'inherit', 
-                border: `1px solid ${theme.palette.primary.main}`, 
+                border: `1px solid ${color}`, 
                 backgroundColor: theme.palette.background.paper,
                 color: theme.palette.text.primary,
                 boxShadow: 'none', 
@@ -60,20 +73,32 @@ function DumbComponent(props) {
                     color: theme.palette.text.primary,
                 }, 
                 '&:focus': {
-                    borderColor: theme.palette.secondary.light
+                    borderColor: colorFocusInput
                 }
             },
             button: {
-                backgroundColor: theme.palette.primary.main ,
-                border: `2px solid ${theme.palette.primary.main}`, 
+                backgroundColor: color ,
+                border: `2px solid ${color}`, 
                 color: '#fff',
-                '&:hover' : {
-                    background: 'none', 
-                }
+                 
+                '&:active' : {
+                    backgroundColor: darken(color, 0.4) , 
+                },
+                [theme.breakpoints.down('sm')]: { 
+                    '&:hover' : {
+                        backgroundColor: color , 
+                    },
+                },
+                [theme.breakpoints.up('sm')]: {
+                    '&:hover' : {
+                        background: 'none',
+                        color: theme.palette.text.primary
+                    }
+                }, 
             }, 
             link: { 
                 '&:hover': { 
-                    color: `${theme.palette.primary.main} !important`,
+                    color: `${color} !important`,
                 }
             },
             boxForFlex: { 

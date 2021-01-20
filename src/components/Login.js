@@ -9,7 +9,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';  
 import { Alert } from '@material-ui/lab';
 
-// import Dumb from '../components/library/table/DumbComponent'
+import Dumb from '../components/library/swiper/DumbComponent'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -85,6 +85,7 @@ function Login() {
  
     return ( 
         <React.Fragment>  
+            <Dumb/>
             <Container component="main" maxWidth="xs">
                 
                 {/* Redirect при авторизации */}

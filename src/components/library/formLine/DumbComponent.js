@@ -2,7 +2,7 @@ import React from 'react'
 
 import SendFormContext from '../../../context/sendFormContext/SendFormContext'
 
-import { Container, makeStyles, Button, Box, Grid, fade } from '@material-ui/core'
+import { Container, makeStyles, Button, Box, Grid, fade, darken } from '@material-ui/core'
 
 import '../../../assets/style/lineForm.scss' 
 
@@ -10,8 +10,7 @@ function DumbComponent(props) {
     const { sendRequests } = React.useContext(SendFormContext)
     const [formPhone, setFormPhone] = React.useState('')
     const [formName, setFormName] = React.useState('') 
-  
-    console.log(props)
+   
     const heading = props.data.heading
     const paragraph = props.data.paragraph
     const inputName = props.data.inputName
@@ -74,7 +73,9 @@ function DumbComponent(props) {
                     borderColor: colorFocusInput
                 },
                 [theme.breakpoints.down('sm')]: {
-                    textAlign: 'center' 
+                    textAlign: 'center' ,
+                    paddingLeft: 20,
+                    paddingRight: 20, 
                 }
             },
             button: {
@@ -85,16 +86,21 @@ function DumbComponent(props) {
                 textTransform: 'inherit', 
                 
                 color: theme.palette.getContrastText(color),
-                '&:hover' : {
-                    background: 'none',
-                    color: theme.palette.getContrastText(theme.palette.background.paper),
-                },
-                [theme.breakpoints.down('md')]: {
-                    // marginTop: 10,  
+                '&:active' : {
+                    backgroundColor: darken(color, 0.4) , 
                 },
                 [theme.breakpoints.down('sm')]: {
                     marginTop: 0,  
-                }
+                    '&:hover' : {
+                        backgroundColor: color , 
+                    },
+                },
+                [theme.breakpoints.up('sm')]: {
+                    '&:hover' : {
+                        background: 'none',
+                        color: theme.palette.getContrastText(theme.palette.background.paper),
+                    }
+                }, 
             }, 
             gridItem: {
                 paddingRight: theme.spacing(1),

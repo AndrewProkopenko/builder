@@ -322,6 +322,7 @@ function StyledComponent(props) {
                                                                     changeColor = {setColorCustom}
                                                                     setIsDisableBtn = {setIsDisableBtn}
                                                                     position = {'right'}
+                                                                    noInherit={true}
                                                                 />  
                                                             }
                                                             

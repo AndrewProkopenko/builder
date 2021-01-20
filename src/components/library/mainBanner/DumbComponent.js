@@ -2,7 +2,7 @@ import React from 'react'
 
 import SendFormContext from '../../../context/sendFormContext/SendFormContext'
 
-import { Container, Grid, makeStyles, Button } from '@material-ui/core'
+import { Container, Grid, makeStyles, Button, darken } from '@material-ui/core'
 
 import '../../../assets/style/main-banner.scss'
 
@@ -60,10 +60,21 @@ function DumbComponent(props) {
                 backgroundColor: color, 
                 transition: `${theme.transitions.easing.easeInOut} ${theme.transitions.duration.shorter}ms`, 
                 textTransform: 'inherit', 
-                '&:hover' : {
-                    background: 'none', 
-                    color: theme.palette.text.primary
-                }
+                  
+                '&:active' : {
+                    backgroundColor: darken(color, 0.4) , 
+                },
+                [theme.breakpoints.down('sm')]: { 
+                    '&:hover' : {
+                        backgroundColor: color , 
+                    },
+                },
+                [theme.breakpoints.up('sm')]: {
+                    '&:hover' : {
+                        background: 'none', 
+                        color: theme.palette.text.primary
+                    }
+                }, 
             },
             icon: {
                 width: 512, 

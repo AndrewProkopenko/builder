@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Container, Grid, makeStyles, Box, Button } from '@material-ui/core'
+import { Container, Grid, makeStyles, Box, Button, darken } from '@material-ui/core'
 
 import '../../../assets/style/about.scss'
 
@@ -36,13 +36,22 @@ function DumbComponent(props) {
                 border: `1px solid ${colorButton}`, 
                 color: theme.palette.getContrastText(colorButton), 
                 transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeInOut}`, 
-                '&:hover' : { 
-                    background: 'none',
-                    color: theme.palette.text.primary
+ 
+                '&:active' : {
+                    backgroundColor: darken(colorButton, 0.4) , 
                 },
-                [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
+                [theme.breakpoints.down('sm')]: { 
                     width: "100%", 
-                    maxWidth: 400
+                    maxWidth: 400,
+                    '&:hover' : {
+                        backgroundColor: colorButton , 
+                    },
+                },
+                [theme.breakpoints.up('sm')]: {
+                    '&:hover' : {
+                        background: 'none',
+                        color: theme.palette.text.primary
+                    }
                 }, 
             }
         })
