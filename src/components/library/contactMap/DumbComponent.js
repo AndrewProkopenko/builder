@@ -160,10 +160,10 @@ function DumbComponent(props) {
     return ( 
         <div style={{position: 'relative'}}> 
             <Container maxWidth={maxWidthContainer}>
-                <div className={`ln-contact ${classes.styleClass}`}> 
+                <div className={`bulder-contact ${classes.styleClass}`}> 
                     <Grid container>  
                         <Grid item xs={12} md={ mapHtml !== null ? 6 : 12 } className={classes.itemBackground} >  
-                            <div className={`ln-contact_item ${classes.heightRegular}`} >
+                            <div className={`bulder-contact_item ${classes.heightRegular}`} >
                                 <Box className={classes.boxForFlex}>
                                     <Box className={classes.linksContainer}>
                                         <div className="loc">
@@ -233,7 +233,7 @@ function DumbComponent(props) {
                                                 onChange={e => {setFormComment(e.target.value)}}
                                             />
                                         </div>
-                                        <div className="ln-contact_item-btn">
+                                        <div className="bulder-contact_item-btn">
                                             <div className="btn-custom">
                                                 <Button type="submit" className={classes.button}>
                                                     <span> { buttonText } </span>

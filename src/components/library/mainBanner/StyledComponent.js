@@ -53,6 +53,11 @@ function StyledComponent(props) {
     const [marginBottom, setMarginBottom] = React.useState(props.data.marginBottom || 51)
     const [maxWidthContainer, setMaxWidthContainer] = React.useState(props.data.maxWidthContainer || 'lg') 
     
+    const mobileMarginTopComputed = marginTop === 0 ? 0 : (marginTop > 120 ? marginTop*0.25 : 40)
+    const mobileMarginBottomComputed = marginBottom === 0 ? 0 : (marginBottom > 120 ? marginBottom*0.25 : 40)
+    const tabletMarginTopComputed = marginTop === 0 ? 0 : (marginTop > 80 ? marginTop*0.8 : 50)
+    const tabletMarginBottomComputed = marginBottom === 0 ? 0 : (marginBottom > 80 ? marginBottom*0.8 : 50)
+
     const handleOpen = () => {  
         setOpen(true);
     }
@@ -113,13 +118,29 @@ function StyledComponent(props) {
             tabletTooltip: tabletTooltip, 
 
             mtView: { ...mtView, ...{
-                top: `-${marginTop}px`,  
-                height: `${marginTop}px`
+                    top: `-${marginTop}px`,  
+                    height: `${marginTop}px`,
+                    [theme.breakpoints.down('md')]: {
+                        top: `-${tabletMarginTopComputed}px`,  
+                        height: `${tabletMarginTopComputed}px`,
+                    },
+                    [theme.breakpoints.down('sm')]: {
+                        top: `-${mobileMarginTopComputed}px `,  
+                        height: `${mobileMarginTopComputed}px `,
+                    }
                 } 
             },
             mbView: { ...mbView, ...{
-                bottom: `-${marginBottom}px`,
-                height: `${marginBottom}px`,  
+                    bottom: `-${marginBottom}px`,
+                    height: `${marginBottom}px`,  
+                    [theme.breakpoints.down('md')]: {
+                        bottom: `-${tabletMarginBottomComputed}px`,  
+                        height: `${tabletMarginBottomComputed}px`,
+                    },
+                    [theme.breakpoints.down('sm')]: {
+                        bottom: `-${mobileMarginBottomComputed}px `,  
+                        height: `${mobileMarginBottomComputed}px `,
+                    }
                 } 
             }
         })
@@ -336,8 +357,8 @@ function StyledComponent(props) {
                                                 <TabletMacIcon/>
                                                 <Box>   
                                                     <p> 
-                                                        MarginTop: <b>{marginTop === 0 ? 0 : (marginTop > 80 ? marginTop*0.8 : 50)}</b>; 
-                                                        MarginBottom: <b>{marginBottom === 0 ? 0 : (marginBottom > 80 ? marginBottom*0.8 : 50)}</b> 
+                                                        MarginTop: <b>{tabletMarginTopComputed}</b>; 
+                                                        MarginBottom: <b>{tabletMarginBottomComputed}</b> 
                                                     </p>     
                                                 </Box>
                                             </Box>
@@ -348,8 +369,8 @@ function StyledComponent(props) {
                                                 <PhoneIphoneIcon/>
                                                 <Box>  
                                                     <p> 
-                                                        MarginTop: <b>{marginTop === 0 ? 0 : (marginTop > 120 ? marginTop*0.25 : 40)}</b>; 
-                                                        MarginBottom: <b>{ marginBottom === 0 ? 0 : (marginBottom > 120 ? marginBottom*0.25 : 30)}</b> ;  
+                                                        MarginTop: <b>{mobileMarginTopComputed}</b>; 
+                                                        MarginBottom: <b>{mobileMarginBottomComputed}</b> ;  
                                                     </p>        
                                                 </Box>
                                             </Box>

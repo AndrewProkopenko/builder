@@ -55,7 +55,7 @@ function DumbComponent(props) {
     const classes  = useStyles();
     
     return ( 
-        <div className={`${classes.styleClass} mac-accordion heading`}>
+        <div className={`${classes.styleClass} bulder-accordion heading`}>
             <Container maxWidth={maxWidthContainer} className={classes.disableMobileGutters}>
 
                 {
@@ -70,14 +70,14 @@ function DumbComponent(props) {
                         return (
                             <Accordion key={index} classes={{root: classes.accordionReset}}>
                                 <AccordionSummary expandIcon={ <ExpandMoreOutlinedIcon style={{color: color}} />}> 
-                                    <div className="mac-accordion_card-header_btn  ">
+                                    <div className="bulder-accordion_card-header_btn  ">
                                         <span>
                                             <b className={classes.colorNumber}>{indexForDisplay}</b> 
                                             { item.head }
                                         </span> 
                                     </div> 
                                 </AccordionSummary>
-                                <div className="mac-accordion_card-body">
+                                <div className="bulder-accordion_card-body">
                                     { item.body }
                                 </div>
                             </Accordion>  

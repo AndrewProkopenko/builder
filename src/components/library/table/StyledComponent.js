@@ -55,6 +55,8 @@ function StyledComponent(props) {
     const [marginBottom, setMarginBottom] = React.useState(props.data.marginBottom || 51)
     const [maxWidthContainer, setMaxWidthContainer] = React.useState(props.data.maxWidthContainer || 'lg') 
     
+    const mobileMarginTopComputed = marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30)
+    const mobileMarginBottomComputed = marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30)
 
     const handleOpen = () => {
         setOpen(true);
@@ -109,17 +111,14 @@ function StyledComponent(props) {
 
             responseValues: responseValues,  
             responseMobile: responseMobile,
-            mobileTooltip: mobileTooltip, 
-
-            // MarginTop: <b>{marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30)}</b>; 
-            // MarginBottom: <b>{ marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30)}</b> ; 
+            mobileTooltip: mobileTooltip,  
 
             mtView: { ...mtView, ...{
                     top: `-${marginTop}px`,  
                     height: `${marginTop}px`,
                     [theme.breakpoints.down('sm')]: {
-                        top: `-${marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30)}px`,  
-                        height: `${marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30)}px`,
+                        top: `-${mobileMarginTopComputed}px`,  
+                        height: `${mobileMarginTopComputed}px`,
                     }
                 } 
             },
@@ -127,8 +126,8 @@ function StyledComponent(props) {
                     bottom: `-${marginBottom}px`,
                     height: `${marginBottom}px`, 
                     [theme.breakpoints.down('sm')]: {
-                        bottom: `-${ marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30)}px`,
-                        height: `${ marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30)}px`,
+                        bottom: `-${mobileMarginBottomComputed}px`,
+                        height: `${mobileMarginBottomComputed}px`,
                     }
                 } 
             }
@@ -394,8 +393,8 @@ function StyledComponent(props) {
                                                 <PhoneIphoneIcon/>
                                                 <Box>  
                                                     <p> 
-                                                        MarginTop: <b>{marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30)}</b>; 
-                                                        MarginBottom: <b>{ marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30)}</b> ;  
+                                                        MarginTop: <b>{mobileMarginTopComputed}</b>; 
+                                                        MarginBottom: <b>{mobileMarginBottomComputed}</b> ;  
                                                     </p>        
                                                 </Box>
                                             </Box>

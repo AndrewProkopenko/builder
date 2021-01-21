@@ -51,9 +51,11 @@ const StyledComponent = (props) => {
     const [items, setItems] = React.useState(props.data.items || [])
     const [itemsPadding, setItemsPadding] = React.useState(props.data.itemsStyle.paddingBottom || [])
     const [itemsListStyle, setItemsListStyle] = React.useState(props.data.itemsStyle.listStyle || 'decimal')
-    const [newItem, setNewItem] = React.useState('')
+    const [newItem, setNewItem] = React.useState('') 
 
- 
+    const mobileMarginTopComputed = margin.top === 0 ? 0 : (margin.top > 30 ? margin.top*0.6 : 15)
+    const mobileMarginBottomComputed = margin.bottom === 0 ? 0 : (margin.bottom > 30 ? margin.bottom*0.6 : 15)
+
     const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
  
     const [open, setOpen] = React.useState(false);
@@ -88,13 +90,21 @@ const StyledComponent = (props) => {
                 }
             }},
             mtView: { ...mtView, ...{
-                top: `-${margin.top}px`, 
-                height: `${margin.top}px`, 
+                    top: `-${margin.top}px`, 
+                    height: `${margin.top}px`, 
+                    [theme.breakpoints.down('sm')]: {
+                        top: `-${mobileMarginTopComputed}px`,  
+                        height: `${mobileMarginTopComputed}px`,
+                    }
                 } 
             }, 
             mbView: { ...mbView, ...{
-                bottom: `-${margin.bottom}px`, 
-                height: `${margin.bottom}px`, 
+                    bottom: `-${margin.bottom}px`, 
+                    height: `${margin.bottom}px`, 
+                    [theme.breakpoints.down('sm')]: {
+                        bottom: `-${mobileMarginBottomComputed}px`,
+                        height: `${mobileMarginBottomComputed}px`,
+                    }
                 } 
             },  
             dumbItem: dumbItem, 
@@ -240,8 +250,8 @@ const StyledComponent = (props) => {
                                     <PhoneIphoneIcon/>
                                     <Box>
                                         <p>
-                                            MarginTop: <b>{margin.top === 0 ? 0 : (margin.top > 30 ? margin.top*0.6 : 15)}</b>; 
-                                            MarginBottom: <b>{margin.bottom === 0 ? 0 : (margin.bottom > 30 ? margin.bottom*0.6 : 15)}</b> 
+                                            MarginTop: <b>{mobileMarginTopComputed}</b>; 
+                                            MarginBottom: <b>{mobileMarginBottomComputed}</b> 
                                         </p> 
                                         <p>PaddingLeft:  <b>{paddingLeft === 0 ? 0 : (paddingLeft > 30 ? paddingLeft*0.6 : 15)}</b></p>
                                     </Box>

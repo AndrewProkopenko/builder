@@ -65,6 +65,10 @@ function StyledComponent(props) {
     const [marginBottom, setMarginBottom] = React.useState(props.data.marginBottom || 0)
     const [maxWidthContainer, setMaxWidthContainer] = React.useState(props.data.maxWidthContainer || 'lg') 
 
+    const mobileMarginTopComputed = marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30)
+    const mobileMarginBottomComputed = marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30)
+    const paddingVerticalComputed = paddingVertical === 0 ? 0 : (paddingVertical > 50 ? paddingVertical*0.6 : 20)
+
     const handleChange = () => {
         setIsButton(!isButton)
         setIsDisableBtn(false)
@@ -133,20 +137,34 @@ function StyledComponent(props) {
             responseMobile: responseMobile,
             mobileTooltip: mobileTooltip,
             mtView: { ...mtView, ...{
-                top: `-${marginTop}px`,  
-                height: `${marginTop}px`
+                    top: `-${marginTop}px`,  
+                    height: `${marginTop}px`,
+                    [theme.breakpoints.down('sm')]: {
+                        top: `-${mobileMarginTopComputed}px`,  
+                        height: `${mobileMarginTopComputed}px`,
+                    }
                 } 
             },
             mbView: { ...mbView, ...{
-                bottom: `-${marginBottom}px`,
-                height: `${marginBottom}px`,  
+                    bottom: `-${marginBottom}px`,
+                    height: `${marginBottom}px`, 
+                    [theme.breakpoints.down('sm')]: {
+                        bottom: `-${mobileMarginBottomComputed}px`,
+                        height: `${mobileMarginBottomComputed}px`,
+                    }
                 } 
-            },
+            }, 
             ptView: { ...ptView, ...{
-                height: `${paddingVertical}px`} 
+                height: `${paddingVertical}px`} ,
+                [theme.breakpoints.down('sm')]: {   
+                    height: `${paddingVerticalComputed}px`,
+                }
             }, 
             pbView: { ...pbView, ...{
-                height: `${paddingVertical}px`} 
+                height: `${paddingVertical}px`} ,
+                [theme.breakpoints.down('sm')]: {   
+                    height: `${paddingVerticalComputed}px`,
+                }
             }
                   
         })
@@ -399,9 +417,9 @@ function StyledComponent(props) {
                                                 <PhoneIphoneIcon/>
                                                 <Box>  
                                                     <p> 
-                                                        MarginTop: <b>{marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30)}</b>; 
-                                                        MarginBottom: <b>{ marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30)}</b> ; 
-                                                        Padding Top/Bottom: <b>{ paddingVertical === 0 ? 0 : (paddingVertical > 50 ? paddingVertical*0.6 : 20)}</b> ; MinHeight: <b>{minHeight}</b>
+                                                        MarginTop: <b>{mobileMarginTopComputed}</b>; 
+                                                        MarginBottom: <b>{ mobileMarginBottomComputed}</b> ; 
+                                                        Padding Top/Bottom: <b>{paddingVerticalComputed }</b> ; MinHeight: <b>{minHeight}</b>
                                                     </p>        
                                                 </Box>
                                             </Box>

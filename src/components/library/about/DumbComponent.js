@@ -78,10 +78,10 @@ function DumbComponent(props) {
     return (
         <div className="container-fluid position-relative"> 
             <Container maxWidth={maxWidthContainer} >
-                <div className={`${classes.styleClass} electro-about heading`}>
+                <div className={`${classes.styleClass} bulder-about heading`}>
                     <Grid container> 
-                        <Grid item md={6} >
-                            <div className="electro-about_item">
+                        <Grid item xs={12} md={6} >
+                            <div className="bulder-about_item">
                                 <h3>
                                     { heading }
                                 </h3>
@@ -104,7 +104,7 @@ function DumbComponent(props) {
                         </Grid>
                         <Grid item xs={12} md={6} >
                             <Box clone={true}>
-                                <div className="electro-about_image" style={{backgroundImage: `url(${imageUrl})`}} />
+                                <div className="bulder-about_image" style={{backgroundImage: `url(${imageUrl})`}} />
                             </Box> 
                         </Grid>
                     </Grid>

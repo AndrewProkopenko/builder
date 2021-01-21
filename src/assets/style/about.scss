@@ -1,4 +1,4 @@
-.electro-about_image{ 
+.bulder-about_image{ 
     position: absolute;
     right: 0;
     top: 0;
@@ -9,7 +9,7 @@
     background-size: cover; 
 }  
 
-.electro-about{  
+.bulder-about{  
 
 
     &_item { 
@@ -38,7 +38,7 @@
 
 @media screen and (max-width: 960px) { 
     
-    .electro-about {  
+    .bulder-about {  
         &_item { 
             min-height: auto; 
             margin-bottom: 20px;
@@ -63,7 +63,7 @@
     
  
  @media screen and (max-width: 600px) {  
-    .electro-about {  
+    .bulder-about {  
          &_item { 
             min-height: auto; 
             h3 {  
@@ -82,7 +82,7 @@
 }
  
  @media screen and (max-width: 400px) {   
-    .electro-about {  
+    .bulder-about {  
         &_image { 
             height: 220px;  
         }

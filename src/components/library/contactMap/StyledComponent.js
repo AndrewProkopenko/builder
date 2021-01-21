@@ -45,6 +45,9 @@ function StyledComponent(props) {
     const [marginTop, setMarginTop] = React.useState(props.data.marginTop || 50)
     const [marginBottom, setMarginBottom] = React.useState(props.data.marginBottom || 0)
     const [maxWidthContainer, setMaxWidthContainer] = React.useState(props.data.maxWidthContainer || 'lg') 
+ 
+    const mobileMarginTopComputed = marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30)
+    const mobileMarginBottomComputed = marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30)
      
     React.useEffect(() => {
         if(props.data.color !== 'primary' && props.data.color !== 'secondary' ) {  
@@ -105,13 +108,21 @@ function StyledComponent(props) {
             responseMobile: responseMobile,
             mobileTooltip: mobileTooltip,
             mtView: { ...mtView, ...{
-                top: `-${marginTop}px`,  
-                height: `${marginTop}px`
+                    top: `-${marginTop}px`,  
+                    height: `${marginTop}px`,
+                    [theme.breakpoints.down('sm')]: {
+                        top: `-${mobileMarginTopComputed}px`,  
+                        height: `${mobileMarginTopComputed}px`,
+                    }
                 } 
             },
             mbView: { ...mbView, ...{
-                bottom: `-${marginBottom}px`,
-                height: `${marginBottom}px`,  
+                    bottom: `-${marginBottom}px`,
+                    height: `${marginBottom}px`, 
+                    [theme.breakpoints.down('sm')]: {
+                        bottom: `-${mobileMarginBottomComputed}px`,
+                        height: `${mobileMarginBottomComputed}px`,
+                    }
                 } 
             }
                   
@@ -292,9 +303,9 @@ function StyledComponent(props) {
                                             <Box className={`${classes.responseValues} ${classes.responseMobile}`}>
                                                 <PhoneIphoneIcon/>
                                                 <Box>  
-                                                    <p> 
-                                                        MarginTop: <b>{marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30)}</b>; 
-                                                        MarginBottom: <b>{ marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30)}</b> ; 
+                                                    <p>  
+                                                        MarginTop: <b>{mobileMarginTopComputed}</b>; 
+                                                        MarginBottom: <b>{ mobileMarginBottomComputed}</b> ; 
                                                          
                                                     </p>        
                                                 </Box>

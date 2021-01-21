@@ -95,18 +95,19 @@ function DumbComponent(props) {
                 marginTop: `${marginTop}px`,
                 marginBottom: `${marginBottom}px`,
                 [theme.breakpoints.down('md')]: { 
-                    marginTop: marginTop === 0 ? 0 : (marginTop > 100 ? marginTop*0.8 : 50),
-                    marginBottom: marginBottom === 0 ? 0 : (marginBottom > 100 ? marginBottom*0.8 : 50),
+                    marginTop: marginTop === 0 ? 0 : (marginTop > 80 ? marginTop*0.8 : 50),
+                    marginBottom: marginBottom === 0 ? 0 : (marginBottom > 80 ? marginBottom*0.8 : 50),
                     textAlign: 'auto'
                 },
                 [theme.breakpoints.down('sm')]: { 
-                    marginTop: marginTop === 0 ? 0 : (marginTop > 100 ? marginTop*0.25 : 40),
-                    marginBottom: marginBottom === 0 ? 0 : (marginBottom > 100 ? marginBottom*0.25 : 30),
+                    marginTop: marginTop === 0 ? 0 : (marginTop > 120 ? marginTop*0.25 : 40),
+                    marginBottom: marginBottom === 0 ? 0 : (marginBottom > 120 ? marginBottom*0.25 : 30),
                 }
             }
         } )
     })
-
+ 
+    
     const classes = useStyles()
 
     const handleSubmit = (event) => {
@@ -126,11 +127,11 @@ function DumbComponent(props) {
     }
 
     return (
-        <div className={`mac-main-banner ${classes.styleClass}`}>
+        <div className={`bulder-main-banner ${classes.styleClass}`}>
             <Container maxWidth={maxWidthContainer}>
                 <Grid container spacing={2}>
                     <Grid item md={7} className="col-12 col-lg-7">
-                        <div className="mac-main-banner_content">
+                        <div className="bulder-main-banner_content">
                             <h1>
                                 {
                                     titleMain
@@ -152,9 +153,9 @@ function DumbComponent(props) {
                             <p>
                                 { paragraph }
                             </p>
-                            <div className="mac-main-banner_content-form">
+                            <div className="bulder-main-banner_content-form">
                                 <form onSubmit={handleSubmit}>
-                                    <div className="mac-main-banner_content-form__group">
+                                    <div className="bulder-main-banner_content-form__group">
                                         <span>
                                             <input 
                                                 type="tel" 
@@ -184,7 +185,7 @@ function DumbComponent(props) {
                         </div>
                     </Grid>
                     <Grid item md={5} className="col-lg-5"> 
-                        <div className="mac-main-banner-image d-none d-lg-block">
+                        <div className="bulder-main-banner-image d-none d-lg-block">
                         <div className="image" style={{ backgroundImage: `url(${imageUrl})` }} />
                         </div>
                     </Grid>

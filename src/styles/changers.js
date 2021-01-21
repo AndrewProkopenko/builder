@@ -90,6 +90,7 @@ const StylesChangers = () => {
         containerWrapper: {
             position: 'relative',
             outline: "1px solid #ffffff00",
+            outlineOffset: 0, 
             transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeIn} outline`,
             '&:hover': {
                 // outlineColor: `${theme.palette.error.main}`,

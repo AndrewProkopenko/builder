@@ -139,17 +139,25 @@ const StyledComponent = (props) => {
                 }
             }},
             mtView: { ...mtView, ...{
-                top: `-${margin.top}px`, 
-                height: `${margin.top}px`, 
+                    top: `-${margin.top}px`, 
+                    height: `${margin.top}px`, 
+                    [theme.breakpoints.down('sm')]: {
+                        top: `-${margin.top * 0.5}px`,  
+                        height: `${margin.top * 0.5}px`,
+                    }
                 } 
             }, 
             mbView: { ...mbView, ...{
-                bottom: `-${margin.bottom}px`, 
-                height: `${margin.bottom}px`, 
+                    bottom: `-${margin.bottom}px`, 
+                    height: `${margin.bottom}px`, 
+                    [theme.breakpoints.down('sm')]: {
+                        top: `-${margin.bottom * 0.5}px`,  
+                        height: `${margin.bottom * 0.5}px`,
+                    }
                 } 
             }, 
             ptView: { ...ptView, ...{
-                height: `${padding.top}px`,  
+                height: `${padding.top}px`,   
                 } 
             }, 
             pbView: { ...pbView, ...{

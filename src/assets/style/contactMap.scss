@@ -10,7 +10,7 @@
     height: 430px;   
 }  
 
-.ln-contact {   
+.bulder-contact {   
      
      
 
@@ -149,7 +149,7 @@
             }
            
             
-            .ln-contact_item-btn { 
+            .bulder-contact_item-btn { 
                 display: flex;
                 align-items: center;
                 .btn-custom {  
@@ -183,7 +183,7 @@
 @media screen and (max-width: 960px) {
      
 
-    .ln-contact { 
+    .bulder-contact { 
         box-shadow: none ;
         .map { 
             position: absolute;
@@ -218,7 +218,7 @@
 
 @media screen and (max-width: 767px) {
     
-    .ln-contact {   
+    .bulder-contact {   
         &_item { 
             width: 100%; 
             padding-left: 10px;
@@ -264,7 +264,7 @@
         textarea { 
             text-align: center;
         }
-        .ln-contact_item-btn { 
+        .bulder-contact_item-btn { 
             flex-direction: column;
             .btn-custom {
                 width: 100%;
@@ -279,7 +279,7 @@
 }
 @media screen and (max-width: 600px) {
      
-    .ln-contact {  
+    .bulder-contact {  
         
         .map { 
             height: 250px;

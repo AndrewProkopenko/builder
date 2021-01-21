@@ -1,4 +1,4 @@
-.mac-accordion { 
+.bulder-accordion { 
      
     h3 {   
         padding-bottom: 25px;
@@ -37,7 +37,7 @@
 
 @media screen and (max-width: 767px) {
       
-    .mac-accordion {  
+    .bulder-accordion {  
         &_card { 
             &-header { 
                 &_btn { 
@@ -61,7 +61,7 @@
 @media screen and (max-width: 600px) {
     
     
-    .mac-accordion { 
+    .bulder-accordion { 
         
         &_card { 
             margin-bottom: 0; 

@@ -1,10 +1,11 @@
-.mac-main-banner {  
+.bulder-main-banner {  
     &_content { 
         h1 { 
             font-size: 36px;
             line-height: 36px;
             font-weight: 700; 
             margin-bottom: 10px; 
+            margin-top: 0;
             // white-space: nowrap;
         }
         h5 { 
@@ -102,7 +103,7 @@
 
 @media screen and (min-width: 960px) {
     
-    .mac-main-banner {  
+    .bulder-main-banner {  
         &-image { 
             position: relative;
             background: rgb(189, 189, 189);
@@ -125,7 +126,7 @@
 @media screen and (min-width: 1200px) {
     
      
-    .mac-main-banner { 
+    .bulder-main-banner { 
         &-image {  
             .image {  
                 width: 515px;
@@ -136,12 +137,14 @@
     } 
 }
 
-  
+ 
+ 
 
 
 @media screen and (max-width: 770px) {
      
-    .mac-main-banner {  
+    .bulder-main-banner { 
+        
         &_content { 
             text-align: center;
             h1 { 
@@ -184,7 +187,7 @@
 }
 @media screen and (max-width: 600px) {
     
-    .mac-main-banner {   
+    .bulder-main-banner {   
         &_content {  
             h1 { 
                 font-size: 28px;
