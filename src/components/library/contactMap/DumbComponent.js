@@ -22,9 +22,13 @@ function DumbComponent(props) {
     const buttonText = props.data.buttonText
     const policy = props.data.policy
      
-    let colorMapOnload 
+    let colorMapOnload  
     let color = props.data.color || 'primary'
     let colorFocusInput
+
+    const marginTop = props.data.marginTop  
+    const marginBottom = props.data.marginBottom  
+    const maxWidthContainer = props.data.maxWidthContainer 
 
     const useStyles = makeStyles((theme) => {  
         colorMapOnload = theme.palette.primary.dark
@@ -121,6 +125,14 @@ function DumbComponent(props) {
                 justifyContent: 'center',
                 flexDirection: 'column', 
                 alignItems: 'center'
+            }, 
+            styleClass: {
+                marginTop: marginTop, 
+                marginBottom: marginBottom, 
+                [theme.breakpoints.down('sm')]: { 
+                    marginTop: marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30),  
+                    marginBottom: marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30),  
+                }
             }
         })
     });
@@ -147,8 +159,8 @@ function DumbComponent(props) {
     }
     return ( 
         <div style={{position: 'relative'}}> 
-            <Container maxWidth='lg'>
-                <div className="ln-contact"> 
+            <Container maxWidth={maxWidthContainer}>
+                <div className={`ln-contact ${classes.styleClass}`}> 
                     <Grid container>  
                         <Grid item xs={12} md={ mapHtml !== null ? 6 : 12 } className={classes.itemBackground} >  
                             <div className={`ln-contact_item ${classes.heightRegular}`} >

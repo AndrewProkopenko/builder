@@ -31,6 +31,7 @@ import {ColorPicker} from '../colorPicker/ColorPicker'
 
 import OpenWithIcon from '@material-ui/icons/OpenWith';
 import DeleteOutline  from '@material-ui/icons/DeleteOutline';  
+import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 
 const StyledComponent = (props) => {  
 
@@ -75,7 +76,7 @@ const StyledComponent = (props) => {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { btnSave, menu, menuTitle } = commonClasses 
+        const { btnSave, menu, menuTitle, responseValues, responseMobile } = commonClasses 
         const { mtView, mbView, ptView, pbView, inputNumber, inputGroup, dumbItemContainer, dumbItem, dumbItemDelete } = commonStyle
         return ({
      
@@ -130,6 +131,9 @@ const StyledComponent = (props) => {
             } },
              
             menuTitle: menuTitle,
+
+            responseValues: responseValues,  
+            responseMobile: responseMobile
              
           })
     });
@@ -220,7 +224,7 @@ const StyledComponent = (props) => {
                                 className={classes.menuTitle}
                                 id="draggable-dialog-title"
                             >
-                                Задать параграфу текст и стили <OpenWithIcon/>
+                                Paragraph Settings <OpenWithIcon/>
                             </Typography>
                             <Box mb={3} >
                                 <TextField 
@@ -234,6 +238,12 @@ const StyledComponent = (props) => {
                                         onChange={(e) => { setIsDisableBtn(false); setTextInDumb(e.target.value) }}
                                 />    
                             </Box>  
+                            <Box className={`${classes.responseValues} ${classes.responseMobile}`}>
+                                <PhoneIphoneIcon/>
+                                <Box>   
+                                    <p>Paragraph don`t have any response values</p>   
+                                </Box>
+                            </Box>
 
                             
                             {/* display */}

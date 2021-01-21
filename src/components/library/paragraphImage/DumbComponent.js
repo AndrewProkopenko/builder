@@ -23,6 +23,8 @@ function DumbComponent(props) {
                 flexDirection: 'column', 
                 alignItems: 'center', 
                 textAlign: 'center', 
+                marginTop: props.className.marginTop*0.5, 
+                marginBottom: props.className.marginBottom*0.5,
                 '& span': {
                     marginTop: theme.spacing(1)
                 }

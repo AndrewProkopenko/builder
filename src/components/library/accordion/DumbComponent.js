@@ -10,6 +10,9 @@ function DumbComponent(props) {
     let color = props.data.color
     const heading = props.data.heading
     const items = props.data.items 
+    const marginTop = props.data.marginTop  
+    const marginBottom = props.data.marginBottom  
+    const maxWidthContainer = props.data.maxWidthContainer  
 
     const useStyles = makeStyles((theme) => { 
 
@@ -36,6 +39,14 @@ function DumbComponent(props) {
             },
             colorNumber: {
                 color: color
+            },
+            styleClass: {
+                marginTop: `${marginTop}px`,
+                marginBottom: `${marginBottom}px`,
+                [theme.breakpoints.down('sm')]: { 
+                    marginTop: marginTop > 50 ? marginTop*0.6 : 30,
+                    marginBottom: marginBottom > 50 ? marginBottom*0.6 : 30,
+                }
             }
             
         })
@@ -44,8 +55,8 @@ function DumbComponent(props) {
     const classes  = useStyles();
     
     return ( 
-        <div className="mac-accordion heading">
-            <Container maxWidth={'lg'} className={classes.disableMobileGutters}>
+        <div className={`${classes.styleClass} mac-accordion heading`}>
+            <Container maxWidth={maxWidthContainer} className={classes.disableMobileGutters}>
 
                 {
                     heading.length > 0 &&

@@ -21,6 +21,8 @@ import LibraryContext from '../../../context/libraryContext/LibraryContext'
 import { makeStyles } from '@material-ui/core/styles';  
 import { InfoOutlined } from '@material-ui/icons';
 import OpenWithIcon from '@material-ui/icons/OpenWith';
+import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
+import TabletMacIcon from '@material-ui/icons/TabletMac';
 
 function ContainerElement(props) { 
     console.log('styled Container work')
@@ -79,8 +81,8 @@ function ContainerElement(props) {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { btnSave, menu, menuTitle } = commonClasses 
-        const { inputNumber, inputGroup , settingsItem } = commonStyle 
+        const { btnSave, menu, menuTitle,  responseValues ,responseMobile , mobileTooltip, responseTablets, tabletTooltip  } = commonClasses 
+        const { inputNumber, inputGroup , settingsItem  } = commonStyle 
  
 
         return ({   
@@ -95,6 +97,12 @@ function ContainerElement(props) {
                 width: 600, 
             } },
             menuTitle: menuTitle,
+
+            responseValues: responseValues, 
+            responseTablets: responseTablets,
+            responseMobile: responseMobile,
+            mobileTooltip: mobileTooltip,
+            tabletTooltip: tabletTooltip,
         })
     })
     
@@ -377,6 +385,29 @@ function ContainerElement(props) {
                         Styles 
                     </Typography>
                     <React.Fragment>
+                        <Tooltip classes={{tooltip: classes.tabletTooltip}} title='Calculated styles for Tablets (>960px)' placement={'top'}>
+                            <Box className={`${classes.responseValues} ${classes.responseTablets}`}>
+                                <TabletMacIcon/>
+                                <Box>   
+                                    <p> 
+                                        MarginTop: <b> { margin.top*0.8 }</b>; 
+                                        MarginBottom: <b>{margin.bottom * 0.8 }</b> 
+                                    </p>     
+                                </Box>
+                            </Box>
+                        </Tooltip>
+
+                        <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (>600px)' placement={'top'}>
+                            <Box className={`${classes.responseValues} ${classes.responseMobile}`}>
+                                <PhoneIphoneIcon/>
+                                <Box>  
+                                    <p> 
+                                        MarginTop: <b> { margin.top*0.5 }</b>; 
+                                        MarginBottom: <b>{margin.bottom * 0.5 }</b> 
+                                    </p>        
+                                </Box>
+                            </Box>
+                        </Tooltip>
                         {/* display */}
                         <Box className={classes.inputGroup}>
 

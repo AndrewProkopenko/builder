@@ -158,7 +158,7 @@ function DumbComponent() {
         const setResponsiveness = () => {
             const headHeight =  document.querySelector('#header').clientHeight
             
-            // console.log(headHeight)
+            console.log('resize header')
             setHeaderHeight(headHeight + 5)
             
             return window.innerWidth < widthMobile ? setMobileView(true)  : setMobileView(false) 
@@ -194,7 +194,7 @@ function DumbComponent() {
 
     const createModalBtn = ( 
         <Button
-            onClick={openModal}
+            onClick={openModal} 
             variant="contained"
             size='small' 
             className={buttonModal}

@@ -9,9 +9,7 @@
     background-size: cover; 
 }  
 
-.electro-about{ 
-    margin-top: 50px;
-    margin-bottom: 50px; 
+.electro-about{  
 
 
     &_item { 
@@ -45,7 +43,13 @@
             min-height: auto; 
             margin-bottom: 20px;
             padding-right: 0;
-
+            align-items: center;
+            h3 { 
+                text-align: center !important; 
+            }
+            p { 
+                text-align: center;  
+            }
         }
         &_image { 
             position: static;
@@ -59,21 +63,16 @@
     
  
  @media screen and (max-width: 600px) {  
-    .electro-about { 
-         margin-top: 30px;
-         margin-bottom: 30px; 
+    .electro-about {  
          &_item { 
-             min-height: auto;
-             align-items: center;
-             h3 { 
-                 text-align: center !important;
-                 padding-bottom: 20px !important;
-                 margin-bottom: 0;
-             }
-             p { 
-                 text-align: center; 
-                 font-size: 1rem;
-             }
+            min-height: auto; 
+            h3 {  
+                padding-bottom: 20px !important;
+                margin-bottom: 0;
+            }
+            p {  
+                font-size: 1rem;
+            }
         }
         &_image { 
             height: 300px;  

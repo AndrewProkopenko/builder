@@ -33,6 +33,9 @@ import {ColorPicker} from '../colorPicker/ColorPicker'
 import OpenWithIcon from '@material-ui/icons/OpenWith';
 import { DeleteOutline, InfoOutlined } from '@material-ui/icons';
 
+import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
+import TabletMacIcon from '@material-ui/icons/TabletMac';
+
 const StyledComponent = (props) => {  
 
     console.log('styled heading work')
@@ -75,7 +78,7 @@ const StyledComponent = (props) => {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { btnSave, menu, menuTitle } = commonClasses 
+        const { btnSave, menu, menuTitle, responseValues, responseTablets, responseMobile, mobileTooltip, tabletTooltip } = commonClasses 
         const { mtView, mbView, ptView, pbView, inputNumber, inputGroup, dumbItemContainer, dumbItem, dumbItemDelete } = commonStyle 
         return ({
             inputNumber: inputNumber, 
@@ -128,6 +131,12 @@ const StyledComponent = (props) => {
                 width: 400, 
             } },    
             menuTitle: menuTitle,  
+
+            responseValues: responseValues, 
+            responseTablets: responseTablets,
+            responseMobile: responseMobile,
+            mobileTooltip: mobileTooltip,
+            tabletTooltip: tabletTooltip
           })
     });
     
@@ -150,10 +159,7 @@ const StyledComponent = (props) => {
     } 
     const classes = useStyles();
 
-    //const dataNew - props for Dumb Component
-    // const dataNew = {...props.data, ...{
-    //     classes: myClassName
-    // }}  
+    
 
     const handlePadding = (e, direction) => {  
         let newPadding = Object.assign({}, padding)
@@ -244,6 +250,44 @@ const StyledComponent = (props) => {
                                             </IconButton>
                                         </Tooltip>
                                 </Box>
+                                <Tooltip classes={{tooltip: classes.tabletTooltip}} title='Calculated styles for Tablets (>960px)' placement={'top'}>
+                                    <Box className={`${classes.responseValues} ${classes.responseTablets}`}>
+                                        <TabletMacIcon/>
+                                        <Box> 
+                                            {
+                                                isResponsiveFont ?
+                                                <React.Fragment> 
+                                                    <p>MarginTop: <b>{margin.top * 0.8 }</b>; MarginBottom: <b>{margin.bottom * 0.8 }</b> </p>   
+                                                    <p>FontSize: <b>{ fontSize * 0.8 }</b> </p>   
+                                                </React.Fragment>
+                                                :
+                                                <Typography variant='caption'>
+                                                    Turn on the "button" at the top for auto-calculated responsive values
+                                                </Typography>
+                                            }
+                                        </Box>
+                                    </Box>
+                                </Tooltip>
+                                <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (>600px)' placement={'top'}>
+                                    <Box className={`${classes.responseValues} ${classes.responseMobile}`}>
+                                        <PhoneIphoneIcon/>
+                                        <Box> 
+                                            {
+                                                isResponsiveFont ?
+                                                <React.Fragment> 
+                                                    <p>MarginTop: <b>{margin.top * 0.5 }</b>; MarginBottom: <b>{margin.bottom * 0.5 }</b> </p>  
+                                                    <p>FontSize: <b>{ fontSize > 40 ? fontSize*0.6 : 20 }</b>  LineHeight: <b>{1.2} </b> </p>   
+                                                    <p>TextAlign:  <b>center</b> </p>
+  
+                                                </React.Fragment>
+                                                :
+                                                <Typography variant='caption'>
+                                                    Turn on the "button" at the top for auto-calculated responsive values
+                                                </Typography>
+                                            }
+                                        </Box>
+                                    </Box>
+                                </Tooltip>
 
                                 {/* margin */}
                                 <Box className={classes.inputGroup}>

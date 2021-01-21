@@ -20,6 +20,10 @@ function DumbComponent(props) {
     const isButton = props.data.isButton
     const textButton = props.data.textButton
     const targetButton = props.data.targetButton  
+    const marginTop = props.data.marginTop  
+    const marginBottom = props.data.marginBottom  
+    const maxWidthContainer = props.data.maxWidthContainer  
+
     let colorButton = props.data.colorButton || '#f00'
  
 
@@ -53,6 +57,14 @@ function DumbComponent(props) {
                         color: theme.palette.text.primary
                     }
                 }, 
+            }, 
+            styleClass: {
+                marginTop: `${marginTop}px`,
+                marginBottom: `${marginBottom}px`,
+                [theme.breakpoints.down('sm')]: { 
+                    marginTop: marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30),
+                    marginBottom: marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30),
+                }
             }
         })
     });
@@ -65,8 +77,8 @@ function DumbComponent(props) {
 
     return (
         <div className="container-fluid position-relative"> 
-            <Container maxWidth="lg" >
-                <div className="electro-about heading">
+            <Container maxWidth={maxWidthContainer} >
+                <div className={`${classes.styleClass} electro-about heading`}>
                     <Grid container> 
                         <Grid item md={6} >
                             <div className="electro-about_item">

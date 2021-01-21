@@ -43,6 +43,16 @@ textarea:focus {
     position: relative
 }
 
+::selection {
+    background: #5a6770;
+    color: #e1e1e1;
+  }
+  
+  ::-moz-selection {
+    background: #5a6770;
+    color: #e1e1e1;
+  }
+
 .heading { 
     h3 { 
         font-size: 32px; 

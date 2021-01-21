@@ -18,15 +18,15 @@ function DumbComponent(props) {
     console.log('dumb container work')
   
     const useStyles = makeStyles((theme) => ({
-        myClassName: props.classes ,  
+        myClassName: props.classes ,   
         resposiveFontSize: { 
             [`@media (max-width: 960px)`]: { 
                 marginTop: props.classes.marginTop*0.8,
                 marginBottom: props.classes.marginBottom*0.8
             },
             [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: { 
-                marginTop: props.classes.marginTop*0.45,
-                marginBottom: props.classes.marginBottom*0.45
+                marginTop: props.classes.marginTop*0.5,
+                marginBottom: props.classes.marginBottom*0.5
             },
         }
       }));

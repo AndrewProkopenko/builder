@@ -26,6 +26,10 @@ function DumbComponent(props) {
     let colorFocusInput
   
     
+    const marginTop = props.data.marginTop  
+    const marginBottom = props.data.marginBottom  
+    const maxWidthContainer = props.data.maxWidthContainer  
+    
     const useStyles = makeStyles( (theme) => {
 
         if(color === 'primary') { 
@@ -86,7 +90,20 @@ function DumbComponent(props) {
                 mask: `url(${titleSubIcon}) no-repeat 100% 100% `,
                 webkitMaskSize: 'cover',
                 maskSize: 'cover'
-            } 
+            } ,
+            styleClass: {
+                marginTop: `${marginTop}px`,
+                marginBottom: `${marginBottom}px`,
+                [theme.breakpoints.down('md')]: { 
+                    marginTop: marginTop === 0 ? 0 : (marginTop > 100 ? marginTop*0.8 : 50),
+                    marginBottom: marginBottom === 0 ? 0 : (marginBottom > 100 ? marginBottom*0.8 : 50),
+                    textAlign: 'auto'
+                },
+                [theme.breakpoints.down('sm')]: { 
+                    marginTop: marginTop === 0 ? 0 : (marginTop > 100 ? marginTop*0.25 : 40),
+                    marginBottom: marginBottom === 0 ? 0 : (marginBottom > 100 ? marginBottom*0.25 : 30),
+                }
+            }
         } )
     })
 
@@ -109,8 +126,8 @@ function DumbComponent(props) {
     }
 
     return (
-        <div className="mac-main-banner">
-            <Container maxWidth='lg'>
+        <div className={`mac-main-banner ${classes.styleClass}`}>
+            <Container maxWidth={maxWidthContainer}>
                 <Grid container spacing={2}>
                     <Grid item md={7} className="col-12 col-lg-7">
                         <div className="mac-main-banner_content">

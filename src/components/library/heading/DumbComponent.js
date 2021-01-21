@@ -22,13 +22,13 @@ function DumbComponent(props) {
                 textAlign: 'center'
             },
         },
-        mobileClass: {
-            [theme.breakpoints.down('sm')]: {
-                marginTop: props.className.marginTop > 30 ? props.className.marginTop * 0.6 : 15,
-                marginBottom: props.className.marginBottom > 30 ? props.className.marginBottom * 0.6 : 15,
-                paddingLeft: props.className.paddingLeft > 30 ? props.className.paddingLeft * 0.6 : 15
-            } 
-        }
+        // mobileClass: {
+        //     [theme.breakpoints.down('sm')]: {
+        //         marginTop: props.className.marginTop > 30 ? props.className.marginTop * 0.6 : 15,
+        //         marginBottom: props.className.marginBottom > 30 ? props.className.marginBottom * 0.6 : 15,
+        //         paddingLeft: props.className.paddingLeft > 30 ? props.className.paddingLeft * 0.6 : 15
+        //     } 
+        // }
       }
     ));
     const classes = useStyles();

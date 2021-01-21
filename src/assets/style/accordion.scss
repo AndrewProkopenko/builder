@@ -1,6 +1,5 @@
 .mac-accordion { 
-    margin-top: 50px;
-    margin-bottom: 50px; 
+     
     h3 {   
         padding-bottom: 25px;
     }
@@ -38,9 +37,7 @@
 
 @media screen and (max-width: 767px) {
       
-    .mac-accordion { 
-        margin-top: 30px;
-        margin-bottom: 30px; 
+    .mac-accordion {  
         &_card { 
             &-header { 
                 &_btn { 

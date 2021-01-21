@@ -32,6 +32,7 @@ import OpenWithIcon from '@material-ui/icons/OpenWith';
 import DeleteOutline  from '@material-ui/icons/DeleteOutline';   
 import ExpandLessOutlinedIcon from '@material-ui/icons/ExpandLessOutlined';
 import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
+import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 
 const StyledComponent = (props) => {  
 
@@ -64,7 +65,7 @@ const StyledComponent = (props) => {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { btnSave, menu, menuTitle } = commonClasses 
+        const { btnSave, menu, menuTitle,  responseValues, responseMobile, mobileTooltip  } = commonClasses 
         const { mtView, mbView, inputNumber, inputGroup, dumbItemContainer, dumbItem, dumbItemDelete } = commonStyle
         return ({ 
             inputNumber: inputNumber, 
@@ -110,7 +111,10 @@ const StyledComponent = (props) => {
                     paddingRight: 3,
                     minWidth: 22
                 }
-            }
+            },
+            responseValues: responseValues,  
+            responseMobile: responseMobile,
+            mobileTooltip: mobileTooltip,
              
           })
     });
@@ -231,6 +235,18 @@ const StyledComponent = (props) => {
                             >
                                 List Settings <OpenWithIcon/>
                             </Typography>
+                            <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (>600px)' placement={'top'}>
+                                <Box className={`${classes.responseValues} ${classes.responseMobile}`}>
+                                    <PhoneIphoneIcon/>
+                                    <Box>
+                                        <p>
+                                            MarginTop: <b>{margin.top === 0 ? 0 : (margin.top > 30 ? margin.top*0.6 : 15)}</b>; 
+                                            MarginBottom: <b>{margin.bottom === 0 ? 0 : (margin.bottom > 30 ? margin.bottom*0.6 : 15)}</b> 
+                                        </p> 
+                                        <p>PaddingLeft:  <b>{paddingLeft === 0 ? 0 : (paddingLeft > 30 ? paddingLeft*0.6 : 15)}</b></p>
+                                    </Box>
+                                </Box> 
+                            </Tooltip> 
                                
                             {/* margin */}
                             <Box className={classes.inputGroup}>
@@ -440,6 +456,7 @@ const StyledComponent = (props) => {
                                         onClick={handleAddItem}
                                         variant='contained'
                                         color='primary'
+                                        disabled={newItem.length > 0 ? false : true}
                                     >
                                         Add new item
                                     </Button>

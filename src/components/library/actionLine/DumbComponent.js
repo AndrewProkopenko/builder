@@ -15,6 +15,11 @@ function DumbComponent(props) {
     const isButton = props.data.isButton
     const textButton = props.data.textButton
     const targetButton = props.data.targetButton   
+
+    const marginTop = props.data.marginTop  
+    const marginBottom = props.data.marginBottom  
+    const maxWidthContainer = props.data.maxWidthContainer 
+  
     let colorMain = props.data.colorMain || '#f00'
     let colorTheme
 
@@ -43,6 +48,8 @@ function DumbComponent(props) {
                 [theme.breakpoints.down('sm')]: {
                     width: "100%", 
                     maxWidth: 400,
+                    paddingTop: ".4em",
+                    paddingBottom: ".4em",
                     '&:hover' : {
                         backgroundColor: colorMain , 
                     },
@@ -71,8 +78,7 @@ function DumbComponent(props) {
             },
             containerColored: { 
                 backgroundColor: colorTheme, 
-                padding: theme.spacing(2, 0), 
-                margin: theme.spacing(6, 0), 
+                padding: theme.spacing(2, 0),  
                 [`@media (max-width: ${theme.breakpoints.values.md}px)`]: { 
                     padding: theme.spacing(2, 0), 
                     margin: theme.spacing(3, 0),
@@ -88,6 +94,14 @@ function DumbComponent(props) {
                     alignItems: 'center', 
                     justifyContent: 'flex-start'
                 },
+            },
+            styleClass: {
+                marginTop: marginTop,
+                marginBottom: marginBottom,
+                [theme.breakpoints.down('sm')]: { 
+                    marginTop: marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30), 
+                    marginBottom: marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30),
+                }
             }
         })
     });
@@ -99,8 +113,8 @@ function DumbComponent(props) {
     }
 
     return (
-        <Box className={classes.containerColored}> 
-            <Container maxWidth="lg" > 
+        <Box className={`${classes.containerColored} ${classes.styleClass}`}> 
+            <Container maxWidth={maxWidthContainer} > 
                     <Grid container> 
                         <Box className={classes.containerFlexed}> 
                             <Typography variant={'h3'} className={classes.heading}>

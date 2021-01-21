@@ -1,6 +1,4 @@
-.mac-main-banner { 
-    margin-top: 140px;
-    margin-bottom: 140px;
+.mac-main-banner {  
     &_content { 
         h1 { 
             font-size: 36px;
@@ -138,22 +136,12 @@
     } 
 }
 
- 
-
-@media screen and (max-width: 960px) { 
-    .mac-main-banner { 
-        margin-top: 80px;
-        margin-bottom: 80px;
-    }
-     
-}
+  
 
 
 @media screen and (max-width: 770px) {
      
-    .mac-main-banner { 
-        margin-top: 50px;
-        margin-bottom: 50px;
+    .mac-main-banner {  
         &_content { 
             text-align: center;
             h1 { 
@@ -196,9 +184,7 @@
 }
 @media screen and (max-width: 600px) {
     
-    .mac-main-banner {  
-        margin-top: 40px; 
-        margin-bottom: 30px;
+    .mac-main-banner {   
         &_content {  
             h1 { 
                 font-size: 28px;

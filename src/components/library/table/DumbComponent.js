@@ -27,6 +27,10 @@ export default function CustomizedTables(props) {
      
     const isBotton = rows.length - visibleRows > 0 ? true : false  
     const [isBottonClick, setIsBottonClick] = useState(false)
+
+    const marginTop = props.data.marginTop  
+    const marginBottom = props.data.marginBottom  
+    const maxWidthContainer = props.data.maxWidthContainer 
       
     const StyledTableRow = withStyles((theme) => ({
         root: {
@@ -72,12 +76,11 @@ export default function CustomizedTables(props) {
                 }
             },
             tableContainer: {
-                marginTop: 50, 
-                marginBottom: 50, 
-                [theme.breakpoints.down('sm')] : {
-                    marginTop: 30, 
-                    marginBottom: 30, 
-
+                marginTop: marginTop, 
+                marginBottom: marginBottom, 
+                [theme.breakpoints.down('sm')]: { 
+                    marginTop: marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30), 
+                    marginBottom: marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30),
                 }
             }, 
             tableHeader: {
@@ -149,7 +152,7 @@ export default function CustomizedTables(props) {
         )
     }
     return (
-        <Container maxWidth='lg' className={`${classes.tableContainer} heading`} >
+        <Container maxWidth={maxWidthContainer} className={`${classes.tableContainer} heading`} >
             {
                 heading.length > 0 &&
                 <h3> { heading } </h3> 

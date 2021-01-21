@@ -18,6 +18,8 @@ import AboutElement from '../library/about/ElementCreator'
 import ActionLineElement from '../library/actionLine/ElementCreator'  
 import TableElement from '../library/table/ElementCreator'  
 import FormLineElement from '../library/formLine/ElementCreator'  
+import SwiperElement from '../library/swiper/ElementCreator'  
+import BannerElement from '../library/banner/ElementCreator'  
 
 import SkeletonPage from '../placeholders/SkeletonPage'
 import Breadcrumbs from '../placeholders/Breadcrumbs'
@@ -47,6 +49,8 @@ function SinglePage(props) {
   const ActionLineLayout = layouts.actionLine 
   const TableLayout = layouts.table 
   const FormLineLayout = layouts.formLine 
+  const SwiperLayout = layouts.swiper 
+  const BannerLayout = layouts.banner 
 
   const [data, setData] = React.useState({})
   const [items, setItems] = React.useState([]) 
@@ -212,6 +216,8 @@ function SinglePage(props) {
     if(type === 'actionLine') newCont = Object.assign({}, ActionLineLayout) 
     if(type === 'table') newCont = Object.assign({}, TableLayout) 
     if(type === 'formLine') newCont = Object.assign({}, FormLineLayout) 
+    if(type === 'swiper') newCont = Object.assign({}, SwiperLayout) 
+    if(type === 'banner') newCont = Object.assign({}, BannerLayout) 
 
     newCont.id = uuid()
   
@@ -427,6 +433,32 @@ function SinglePage(props) {
               />
           )
         } 
+        if(items[key].type === 'swiper') { 
+          return(
+              <SwiperElement
+                key={items[key].id} 
+                data={items[key]} 
+                swapContainer={swapContainer}
+                removeContainer={removeContainer}
+                reSaveItem={reSaveItem}
+                isFirst={orderFirst}
+                isLast={orderLast}
+              />
+          )
+        } 
+        if(items[key].type === 'banner') { 
+          return(
+              <BannerElement
+                key={items[key].id} 
+                data={items[key]} 
+                swapContainer={swapContainer}
+                removeContainer={removeContainer}
+                reSaveItem={reSaveItem}
+                isFirst={orderFirst}
+                isLast={orderLast}
+              />
+          )
+        } 
         return false
       })
     }
@@ -550,6 +582,20 @@ function SinglePage(props) {
                               <Tooltip classes={{tooltip: classes.tooltip}} title='Block with heading, paragraph and image. Image on desktop - 50% vieport width. Image on mobile - 50% vieport width . Has the ability to add a button modal' placement='top'>
                                 <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('about') }}>
                                     About
+                                </Button> 
+                              </Tooltip>
+                            </Box>
+                            <Box className={classes.boxMenuItem}>
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Simple slider with square images' placement='top'>
+                                <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('swiper') }}>
+                                    Swiper
+                                </Button> 
+                              </Tooltip>
+                            </Box>
+                            <Box className={classes.boxMenuItem}>
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Banner with background image, heading, paragraph and modal button (optional)' placement='top'>
+                                <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('banner') }}>
+                                    Banner
                                 </Button> 
                               </Tooltip>
                             </Box>

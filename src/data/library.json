@@ -218,13 +218,19 @@
             "policy": "By clicking the 'Send Request' button you agree to the processing of your personal data"
         },
         "image": "",
-        "imageName": ""
+        "imageName": "",
+        "marginTop": 120, 
+        "marginBottom": 120, 
+        "maxWidthContainer": "lg"
     },
     "accordion" : {
         "type": "accordion",
         "id": 1,  
         "heading": "Stages",  
         "color": "primary", 
+        "marginTop": 50, 
+        "marginBottom": 50, 
+        "maxWidthContainer": "lg",
         "items": [
             {
                 "head": "Booking",
@@ -251,7 +257,10 @@
         "inputPhone": "Your Phone",
         "inputComment": "Your Comment",
         "buttonText": "Send",
-        "policy": "By clicking the \"Send\" button you agree to the processing of your personal data" 
+        "policy": "By clicking the \"Send\" button you agree to the processing of your personal data" ,
+        "marginTop": 50, 
+        "marginBottom": 0, 
+        "maxWidthContainer": "lg"
     },
     "formLine": {
         "type": "formLine",
@@ -262,7 +271,10 @@
         "inputPhone": "Your Phone", 
         "buttonText": "Send",
         "policy": "By clicking the \"Send\" button you agree to the processing of your personal data" ,
-        "color": "primary"
+        "color": "primary",
+        "marginTop": 50, 
+        "marginBottom": 0, 
+        "maxWidthContainer": "lg"
     },
     "about": {
         "type": "about", 
@@ -274,7 +286,10 @@
         "isButton": false, 
         "textButton": "",
         "targetButton": "", 
-        "colorButton": "primary"
+        "colorButton": "primary",
+        "marginTop": 50, 
+        "marginBottom": 50, 
+        "maxWidthContainer": "lg"
     }, 
     "actionLine" : {
         "type": "actionLine", 
@@ -284,7 +299,10 @@
         "isButton": true, 
         "textButton": "Buy",
         "targetButton": "", 
-        "colorMain": "primary"
+        "colorMain": "primary", 
+        "marginTop": 50, 
+        "marginBottom": 50, 
+        "maxWidthContainer": "lg"
     }, 
     "table": {
         "type": "table",
@@ -305,6 +323,32 @@
         "buttonText": "Buy",
         "visibleRows": 5, 
         "visibleBottonText": "Show all",
-        "visibleBottonTextClick": "Show less"
+        "visibleBottonTextClick": "Show less", 
+        "marginTop": 50, 
+        "marginBottom": 50, 
+        "maxWidthContainer": "lg"
+    },
+    "swiper": {
+        "type": "swiper", 
+        "id": 1,  
+        "heading": "Swiper"
+    },
+    "banner": {
+        "type": "banner", 
+        "id": 1,  
+        "heading": "Work Process",
+        "paragraph": "Aenean nec tempor metus. Maecenas ligula dolor, commodo in imperdiet interdum, vehicula ut ex. Donec ante diam.", 
+        "image": "", 
+        "imageName": "",
+        "isButton": false, 
+        "textButton": "",
+        "targetButton": "", 
+        "colorButton": "primary",
+        "colorText": "inherit",
+        "minHeight": 350, 
+        "paddingVertical": 80, 
+        "marginTop": 0, 
+        "marginBottom": 0, 
+        "maxWidthContainer": "lg"
     }
 }

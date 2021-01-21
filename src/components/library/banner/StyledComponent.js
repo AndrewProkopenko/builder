@@ -1,4 +1,6 @@
 import React from 'react' 
+import firebase from "../../../firebase/firebase"
+
 import StylesChangers from '../../../styles/changers'  
 import StyledInputs from '../../../styles/inputs'    
 
@@ -33,39 +35,54 @@ import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 
 import DumbComponent from "./DumbComponent"
 
+import ImageContext  from '../../../context/imageContext/ImageContext'
+
 function StyledComponent(props) {
+    
+    const { removeImage } = React.useContext(ImageContext)
 
     const [isDisableBtn, setIsDisableBtn] = React.useState(true)
     const [open, setOpen] = React.useState(false)
 
-    const [heading, setHeading] = React.useState(props.data.heading) 
-    const [headingSize, setHeadingSize] = React.useState(props.data.headingSize) 
+    const [heading, setHeading] = React.useState(props.data.heading)  
+    const [paragraph, setParagraph] = React.useState(props.data.paragraph)  
+    const [minHeight, setMinHeight] = React.useState(props.data.minHeight)  
  
     const [isButton, setIsButton] = React.useState(props.data.isButton || false)
     const [textButton,  setTextButton] = React.useState(props.data.textButton || '')
     const [targetButton, setTargetButton] = React.useState(props.data.targetButton || '')
+    const [imageUrl, setImageUrl] = React.useState(props.data.image)
+    const [imageName, setImageName] = React.useState(props.data.imageName || '')
 
-    const [colorSelect,  setColorSelect] = React.useState(props.data.colorMain || '')
-    const [colorCustom, setColorCustom] = React.useState(props.data.colorMain || '')
-    const [marginTop, setMarginTop] = React.useState(props.data.marginTop || 51)
-    const [marginBottom, setMarginBottom] = React.useState(props.data.marginBottom || 51)
+    const [colorSelect,  setColorSelect] = React.useState(props.data.colorButton || '')
+    const [colorCustom, setColorCustom] = React.useState(props.data.colorButton || '')
+
+    const [colorTextSelect,  setColorTextSelect] = React.useState(props.data.colorText || 'inherit')
+    const [colorTextCustom, setColorTextCustom] = React.useState(props.data.colorText || 'inherit') 
+
+    const [paddingVertical, setPaddingVertical] = React.useState(props.data.paddingVertical || 80)
+    const [marginTop, setMarginTop] = React.useState(props.data.marginTop || 0)
+    const [marginBottom, setMarginBottom] = React.useState(props.data.marginBottom || 0)
     const [maxWidthContainer, setMaxWidthContainer] = React.useState(props.data.maxWidthContainer || 'lg') 
 
+    const handleChange = () => {
+        setIsButton(!isButton)
+        setIsDisableBtn(false)
+    } 
     const handleOpen = () => {
         setOpen(true);
     }
     const handleClose = () => {
         setOpen(false);
-    };
-    const handleChange = () => {
-        setIsButton(!isButton)
-        setIsDisableBtn(false)
-    }
+    }; 
     React.useEffect(() => {
-        if(props.data.colorMain !== 'primary' && props.data.colorMain !== 'secondary' ) {  
+        if(props.data.colorButton !== 'primary' && props.data.colorButton !== 'secondary' ) {  
             setColorSelect('custom')
         }
-    }, [props.data.colorMain]) 
+        if(props.data.colorText !== 'primary' && props.data.colorText !== 'secondary' ) {  
+            setColorTextSelect('custom')
+        }
+    }, [props.data.colorButton, props.data.colorText ]) 
 
     const useStyles = makeStyles((theme) => {
         const styleRef = StyledInputs()
@@ -73,26 +90,33 @@ function StyledComponent(props) {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { menu, menuTitle, btnSetting, btnSave, btnDrawerStyle, 
-            btnDrawerItem, containerWrapper , responseValues ,responseMobile , mobileTooltip } = commonClasses 
-        const { mtView, mbView } = commonStyle 
+        const { menu, menuTitle, btnSetting, btnSave, btnDrawerStyle, btnDrawerItem, containerWrapper, btnWithLabel , 
+             responseValues ,responseMobile , mobileTooltip} = commonClasses 
+        
+        const { mtView, mbView, ptView, pbView  } = commonStyle 
         return ({
             btnDrawerStyle: btnDrawerStyle,
             btnDrawerItem: btnDrawerItem,
             containerWrapper: {
                 ...containerWrapper, ...{
                '&:hover' : {
-                    zIndex: 25,
-                    outlineColor: `${theme.palette.error.main}`,
-                    '& $mtView' : { 
-                        opacity: 1
-                    },
-                    '& $mbView' : { 
-                        opacity: 1
-                    },
-                    '& $btnDrawerStyle' : { 
-                        opacity: 1
-                    }
+                   outlineColor: `${theme.palette.error.main}`,
+                   zIndex: 25,
+                   '& $mtView' : { 
+                       opacity: 1
+                   },
+                   '& $mbView' : { 
+                       opacity: 1
+                   },
+                   '& $ptView' : { 
+                       opacity: 1
+                   },
+                   '& $pbView' : { 
+                       opacity: 1
+                   },
+                   '& $btnDrawerStyle' : { 
+                       opacity: 1
+                   }
                }}    
            },
             menu: {...menu, ...{
@@ -103,6 +127,8 @@ function StyledComponent(props) {
             menuTitle: menuTitle,
             btnSetting: btnSetting,  
             btnSave: btnSave,
+            btnWithLabel: btnWithLabel,
+
             responseValues: responseValues,  
             responseMobile: responseMobile,
             mobileTooltip: mobileTooltip,
@@ -115,6 +141,12 @@ function StyledComponent(props) {
                 bottom: `-${marginBottom}px`,
                 height: `${marginBottom}px`,  
                 } 
+            },
+            ptView: { ...ptView, ...{
+                height: `${paddingVertical}px`} 
+            }, 
+            pbView: { ...pbView, ...{
+                height: `${paddingVertical}px`} 
             }
                   
         })
@@ -122,17 +154,41 @@ function StyledComponent(props) {
     
     const classes = useStyles();
 
+    const handleImageUpload = async (e) => {
   
+        removeImage(imageName)
+
+        const imageData = e.target.files[0]
+        const generateImageName = `${imageData.name}-${props.data.id}`
+
+        const storageRef = await firebase.storage.ref(generateImageName).put(imageData)
+        const downloadURL = await storageRef.ref.getDownloadURL();
+ 
+        setImageName(generateImageName)
+        setImageUrl(downloadURL)  
+         
+        setIsDisableBtn(false)
+    }
     const handleSave = () => {
         const newData = Object.assign({}, props.data)
-        newData.heading = heading  
-        newData.headingSize = Number(headingSize)  
-        newData.isButton = isButton
-        newData.textButton = textButton
-        newData.targetButton = targetButton
+        newData.heading = heading   
+        newData.paragraph = paragraph   
+        newData.minHeight = minHeight   
+        newData.isButton = isButton   
+        newData.textButton = textButton   
+        newData.targetButton = targetButton   
+        newData.imageUrl = imageUrl   
+        newData.imageName = imageName
+        newData.paddingVertical = paddingVertical
         newData.marginTop = marginTop
         newData.marginBottom = marginBottom
         newData.maxWidthContainer = maxWidthContainer
+        
+        if (colorSelect === 'custom') {
+            newData.colorButton = colorCustom
+        } else {
+            newData.colorButton = colorSelect
+        }
 
         if (colorSelect === 'custom') {
             newData.colorMain = colorCustom
@@ -145,27 +201,34 @@ function StyledComponent(props) {
     }
     const removeItem = () => {
         const conf = window.confirm('Delete? ')
-        if (conf) 
+        if (conf) { 
+            removeImage(imageName)
             props.removeContainer(props.data.id)
+        }
     }
     
 
     return (
         <div className={classes.containerWrapper}>
-            <Tooltip  title={`Action Line margin top`}  placement={'top'}>
+            <Tooltip  title={`banner margin top`}  placement={'top'}>
                 <div className={classes.mtView}></div>
             </Tooltip>
-            <Tooltip  title={`Action Line margin bottom`}  placement={'top'}>
+            <Tooltip  title={`banner margin bottom`}  placement={'top'}>
                 <div className={classes.mbView}></div>
             </Tooltip>
-
+            <Tooltip  title={` banner padding top`}  placement={'top'}>
+                <div className={classes.ptView}></div>
+            </Tooltip> 
+            <Tooltip  title={` banner padding bottom`}  placement={'top'}>
+                <div className={classes.pbView}></div>
+            </Tooltip>
             <Box style={{
                 position: 'relative'
             }}>
                 <Box className={classes.btnDrawerStyle}>
                     <Box display="flex" flexDirection="column">
                         <Box mb={1}>
-                            <Tooltip title='Action Line Settings' placement='right'>
+                            <Tooltip title='Example Settings' placement='right'>
                                 <Button
                                     onClick={handleOpen}
                                     size='medium'
@@ -255,14 +318,14 @@ function StyledComponent(props) {
                                         component='p'
                                         className={classes.menuTitle}
                                         id="draggable-dialog-title">
-                                        Settings Action Line
+                                        Settings Banner
                                         <OpenWithIcon/>
                                     </Typography>
                                     <Box>
                                         <Typography variant='h6' gutterBottom>
                                             Styles
                                         </Typography>
-                                        <Box mr={1} mb={1} display='inline-block' >
+                                        <Box mr={1} mb={2} display='inline-block' >
                                             <TextField 
                                                 type='number'
                                                 size='small'
@@ -274,7 +337,7 @@ function StyledComponent(props) {
                                                     setMarginTop(Number(e.target.value))
                                             }}/>
                                         </Box>
-                                        <Box mr={1} mb={1} display='inline-block' >
+                                        <Box mr={1} mb={2} display='inline-block' >
                                             <TextField 
                                                 type='number'
                                                 size='small'
@@ -286,16 +349,29 @@ function StyledComponent(props) {
                                                     setMarginBottom(Number(e.target.value))
                                             }}/>
                                         </Box>
+                                        <Box mr={1} display='inline-block'>
+                                            <TextField
+                                                fullWidth
+                                                type='number'
+                                                size='small'
+                                                label="Min Height for block"
+                                                variant="outlined"
+                                                value={minHeight}
+                                                onChange={(e) => {
+                                                setIsDisableBtn(false);
+                                                setMinHeight(e.target.value)
+                                            }}/>
+                                        </Box>
                                         <Box mr={1} display='inline-block' >
                                             <TextField 
                                                 type='number'
                                                 size='small'
-                                                label="Heading Size"
+                                                label="Padding Top/Bottom"
                                                 variant="outlined"
-                                                value={headingSize}
+                                                value={paddingVertical}
                                                 onChange={(e) => {
-                                                setIsDisableBtn(false);
-                                                setHeadingSize(Number(e.target.value))
+                                                    setIsDisableBtn(false);
+                                                    setPaddingVertical(Number(e.target.value))
                                             }}/>
                                         </Box>
                                         <FormControl 
@@ -323,9 +399,9 @@ function StyledComponent(props) {
                                                 <PhoneIphoneIcon/>
                                                 <Box>  
                                                     <p> 
-                                                        MarginTop: <b>{ marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30)}</b>; 
-                                                        MarginBottom: <b>{marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30)}</b> ; 
-                                                        FontSize Heading: <b>{ headingSize*0.65 }</b> 
+                                                        MarginTop: <b>{marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30)}</b>; 
+                                                        MarginBottom: <b>{ marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30)}</b> ; 
+                                                        Padding Top/Bottom: <b>{ paddingVertical === 0 ? 0 : (paddingVertical > 50 ? paddingVertical*0.6 : 20)}</b> ; MinHeight: <b>{minHeight}</b>
                                                     </p>        
                                                 </Box>
                                             </Box>
@@ -346,15 +422,26 @@ function StyledComponent(props) {
                                             setHeading(e.target.value)
                                         }}/>
                                     </Box>
-                                   
+                                    <Box mt={2}>
+                                        <TextField
+                                            fullWidth
+                                            type='text'
+                                            label="Paragraph"
+                                            variant="outlined"
+                                            value={paragraph}
+                                            onChange={(e) => {
+                                            setIsDisableBtn(false);
+                                            setParagraph(e.target.value)
+                                        }}/>
+                                    </Box>
                                     <Box mt={2} display="flex" >
                                         <FormControl variant='filled' style={{minWidth: '250px' }}>
-                                            <InputLabel id="color-select-label">Color for Block</InputLabel>
+                                            <InputLabel id="color-select-label">Color for Text</InputLabel>
                                             <Select
                                                 labelId="color-select-label"
                                                 id="color-select"
-                                                value={colorSelect}
-                                                onChange={(e) => {setIsDisableBtn(false); setColorSelect(e.target.value)   }}
+                                                value={colorTextSelect}
+                                                onChange={(e) => {setIsDisableBtn(false); setColorTextSelect(e.target.value)   }}
                                             >
                                                 <MenuItem value={'primary'}>Primary</MenuItem>
                                                 <MenuItem value={'secondary'}>Secondary</MenuItem>
@@ -363,19 +450,19 @@ function StyledComponent(props) {
                                         </FormControl>
                                         <Box ml={1} >
                                             {
-                                                colorSelect === 'custom' &&
+                                                colorTextSelect === 'custom' &&
                                                 <ColorPicker
-                                                    initialColor = {colorCustom}
-                                                    changeColor = {setColorCustom}
+                                                    initialColor = {colorTextCustom}
+                                                    changeColor = {setColorTextCustom}
                                                     setIsDisableBtn = {setIsDisableBtn}
                                                     position = {'top'}
-                                                    noInherit={true}
+                                                    noInherit={false}
                                                 />  
                                             }
                                             
                                         </Box>
                                     </Box>
-  
+                                   
                                     <Box display='flex' mt={3} mb={3}>
                                         <FormControlLabel
                                             control={
@@ -409,11 +496,59 @@ function StyledComponent(props) {
                                                                 onChange={(e) => { setIsDisableBtn(false); setTargetButton(e.target.value) }}
                                                             />
                                                         </Box>
+                                                    </Box> 
+                                                    <Box mt={2} display="flex" >
+                                                        <FormControl variant='filled' style={{minWidth: '250px' }}>
+                                                            <InputLabel id="color-select-label">Color for Botton</InputLabel>
+                                                            <Select
+                                                                labelId="color-select-label"
+                                                                id="color-select"
+                                                                value={colorSelect}
+                                                                onChange={(e) => {setIsDisableBtn(false); setColorSelect(e.target.value)   }}
+                                                            >
+                                                                <MenuItem value={'primary'}>Primary</MenuItem>
+                                                                <MenuItem value={'secondary'}>Secondary</MenuItem>
+                                                                <MenuItem value={'custom'}>Custom</MenuItem>
+                                                            </Select>
+                                                        </FormControl>
+                                                        <Box ml={1} >
+                                                            {
+                                                                colorSelect === 'custom' &&
+                                                                <ColorPicker
+                                                                    initialColor = {colorCustom}
+                                                                    changeColor = {setColorCustom}
+                                                                    setIsDisableBtn = {setIsDisableBtn}
+                                                                    position = {'top'}
+                                                                    noInherit={true}
+                                                                />  
+                                                            }
+                                                            
+                                                        </Box>
                                                     </Box>
-                                                    
                                                 </Box>
                                             }
                                     </Box> 
+                                    <Box mt={3} display="flex" alignItems='flex-start'>
+                                        <Button color='primary' variant='contained' className={classes.btnWithLabel}  >
+                                            <label htmlFor='image-input-label'>
+                                                Set image</label>
+                                            <input
+                                                id="image-input-label"
+                                                type="file"
+                                                onChange={(e) => {
+                                                handleImageUpload(e)
+                                            }}
+                                                style={{
+                                                display: "none"
+                                            }}/>
+                                        </Button>
+                                        <Box ml={1} maxWidth={300}>
+                                            { imageUrl && <img src={imageUrl} alt='main' width={'100%'}/>}
+                                        </Box>
+                                    </Box>
+ 
+                                   
+   
 
                                     <Box className={classes.btnSave}>
                                         <Button

@@ -40,6 +40,7 @@ import OpenWithIcon from '@material-ui/icons/OpenWith';
 import DeleteOutline  from '@material-ui/icons/DeleteOutline'; 
 import ImageIcon from '@material-ui/icons/Image';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 
 const StyledComponent = (props) => {  
     console.log("styled paragraph image")
@@ -108,7 +109,7 @@ const StyledComponent = (props) => {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { btnSave, menu, menuTitle } = commonClasses 
+        const { btnSave, menu, menuTitle,  responseValues, responseMobile, mobileTooltip  } = commonClasses 
         const { mtView, mbView, ptView, pbView, inputNumber, inputGroup, dumbItemContainer, dumbItem, dumbItemDelete } = commonStyle
 
         return ({
@@ -213,7 +214,10 @@ const StyledComponent = (props) => {
                 height: "100%", 
                 maxHeight: "100%", 
                 cursor: 'pointer'
-            }
+            }, 
+            responseValues: responseValues,  
+            responseMobile: responseMobile,
+            mobileTooltip: mobileTooltip,
           })
     });
     
@@ -361,7 +365,18 @@ const StyledComponent = (props) => {
                                         variant="filled"
                                         onChange={(e) => { setIsDisableBtn(false); setTextInDumb(e.target.value) }}
                                 />    
-                            </Box>  
+                            </Box> 
+
+                            <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (>600px)' placement={'top'}>
+                                <Box className={`${classes.responseValues} ${classes.responseMobile}`}>
+                                    <PhoneIphoneIcon/>
+                                    <Box>   
+                                        <p>MarginTop: <b>{margin.top * 0.5 }</b>; MarginBottom: <b>{margin.bottom * 0.5 }</b> </p> 
+                                        <p>flexDirection: <b> column</b>; alignItems: <b>center</b> </p>  
+                                        <p>TextAlign:  <b>center</b> </p>     
+                                    </Box>
+                                </Box>
+                            </Tooltip> 
  
                             <Accordion className={classes.imageAccordion}  >
                                 <AccordionSummary

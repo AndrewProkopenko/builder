@@ -1,6 +1,7 @@
 import React from 'react' 
 
 import StylesChangers from '../../../styles/changers'  
+import StyledInputs from '../../../styles/inputs'   
 
 import Draggable from 'react-draggable';  
 import {ColorPicker} from '../colorPicker/ColorPicker'
@@ -16,7 +17,8 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import ExpandLessOutlinedIcon from '@material-ui/icons/ExpandLessOutlined';
 import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined'; 
 import { DeleteOutline } from '@material-ui/icons'; 
-
+import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
+ 
 import DumbComponent from "./DumbComponent"
 
 function StyledComponent(props) {
@@ -30,7 +32,10 @@ function StyledComponent(props) {
 
     const [colorSelect, setColorSelect] = React.useState(props.data.color)
     const [colorCustom, setColorCustom] = React.useState(props.data.color)
- 
+
+    const [marginTop, setMarginTop] = React.useState(props.data.marginTop || 51)
+    const [marginBottom, setMarginBottom] = React.useState(props.data.marginBottom || 51)
+    const [maxWidthContainer, setMaxWidthContainer] = React.useState(props.data.maxWidthContainer || 'lg')
  
     const handleOpen = () => {  
         setOpen(true);
@@ -46,14 +51,35 @@ function StyledComponent(props) {
     }, [props.data.color]) 
 
     const useStyles = makeStyles((theme) => {
+        const styleRef = StyledInputs()
+        const commonStyle = styleRef(theme)
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { menu, menuTitle, btnSetting, btnSave, btnDrawerStyle, btnDrawerItem, containerWrapper } = commonClasses 
+        const { menu, menuTitle, btnSetting, btnSave, btnDrawerStyle, btnDrawerItem, 
+            containerWrapper, responseValues ,responseMobile , mobileTooltip 
+        } = commonClasses 
+        
+        const { mtView, mbView } = commonStyle 
         return ({
             btnDrawerStyle: btnDrawerStyle,
             btnDrawerItem: btnDrawerItem,
-            containerWrapper: containerWrapper,
+            containerWrapper: {
+                ...containerWrapper, ...{
+               '&:hover' : {
+                    zIndex: 25,
+                   outlineColor: `${theme.palette.error.main}`,
+                   '& $mtView' : { 
+                       opacity: 1
+                   },
+                   '& $mbView' : { 
+                       opacity: 1
+                   } ,
+                   '& $btnDrawerStyle' : { 
+                       opacity: 1
+                   }
+               }}    
+           },
             menu: {...menu, ...{
                 left: 'calc( 50% - 400px )',
                 maxWidth: 800,
@@ -62,7 +88,19 @@ function StyledComponent(props) {
             menuTitle: menuTitle,
             btnSetting: btnSetting,  
             btnSave: btnSave,
-                  
+            responseValues: responseValues,  
+            responseMobile: responseMobile,
+            mobileTooltip: mobileTooltip,
+            mtView: { ...mtView, ...{
+                top: `-${marginTop}px`,  
+                height: `${marginTop}px`
+                } 
+            },
+            mbView: { ...mbView, ...{
+                bottom: `-${marginBottom}px`,
+                height: `${marginBottom}px`,  
+                } 
+            } 
         })
     })
     
@@ -73,7 +111,9 @@ function StyledComponent(props) {
  
         newData.heading = heading
         newData.items = items
-        
+        newData.marginTop = marginTop
+        newData.marginBottom = marginBottom
+        newData.maxWidthContainer = maxWidthContainer
 
         if(colorSelect === 'custom') {
             newData.color = colorCustom
@@ -149,9 +189,16 @@ function StyledComponent(props) {
     }
 
     return (
-        <div className={classes.containerWrapper}>
-            <Box style={{position: 'relative'}} >  
+        <div className={classes.containerWrapper}> 
+            <Tooltip  title={`accordion margin top`}  placement={'top'}>
+                <div className={classes.mtView}></div>
+            </Tooltip>
+            <Tooltip  title={`accordion margin bottom`}  placement={'top'}>
+                <div className={classes.mbView}></div>
+            </Tooltip>
+            <Box style={{position: 'relative'}} >   
                 <Box className={classes.btnDrawerStyle}> 
+
                     <Box display="flex" flexDirection="column"> 
                         <Box mb={1}>
                             <Tooltip title='Accordion Settings' placement='right'>
@@ -228,9 +275,75 @@ function StyledComponent(props) {
                                         className={classes.menuTitle}
                                         id="draggable-dialog-title"
                                     >
-                                        Настройки аккордиона  <OpenWithIcon/>
+                                        Accordion Settings <OpenWithIcon/>
                                     </Typography> 
+
+                                    <Box>
+                                        <Typography variant='h6' gutterBottom>
+                                            Styles
+                                        </Typography>
+                                        <Box mr={1} display='inline-block' >
+                                            <TextField 
+                                                type='number'
+                                                size='small'
+                                                label="Margin Top"
+                                                variant="outlined"
+                                                value={marginTop}
+                                                onChange={(e) => {
+                                                    setIsDisableBtn(false);
+                                                    setMarginTop(Number(e.target.value))
+                                            }}/>
+                                        </Box>
+                                        <Box mr={1} display='inline-block' >
+                                            <TextField 
+                                                type='number'
+                                                size='small'
+                                                label="Margin Bottom"
+                                                variant="outlined"
+                                                value={marginBottom}
+                                                onChange={(e) => {
+                                                    setIsDisableBtn(false);
+                                                    setMarginBottom(Number(e.target.value))
+                                            }}/>
+                                        </Box>
+                                        <FormControl 
+                                            variant='filled' 
+                                            size='small'    
+                                        >
+                                            <InputLabel id="maxWidth-style-label">Max-Width for Container</InputLabel>
+                                            <Select
+                                                labelId="maxWidth-label"
+                                                id="maxWidth-style"
+                                                value={maxWidthContainer}
+                                                style={{minWidth: 180}}
+                                                onChange={(e) => {setIsDisableBtn(false); setMaxWidthContainer(e.target.value) }}
+                                            >
+                                                <MenuItem value={false}>False</MenuItem>
+                                                <MenuItem value={'xl'}>xl - 1920 </MenuItem> 
+                                                <MenuItem value={'lg'}>lg - 1280 </MenuItem> 
+                                                <MenuItem value={'md'}>md - 960 </MenuItem> 
+                                                <MenuItem value={'sm'}>sm - 600 </MenuItem> 
+                                                <MenuItem value={'xs'}>xs - 0 </MenuItem> 
+                                            </Select>
+                                        </FormControl>
+                                        <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (>600px)' placement={'top'}>
+                                            <Box className={`${classes.responseValues} ${classes.responseMobile}`}>
+                                                <PhoneIphoneIcon/>
+                                                <Box>  
+                                                    <p> 
+                                                        MarginTop: <b>{marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30)}</b>; 
+                                                        MarginBottom: <b>{ marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30)}</b> ; 
+                                                        FontSize Heading: <b>25</b> 
+                                                    </p>        
+                                                </Box>
+                                            </Box>
+                                        </Tooltip>
+                                    </Box>
+
                                     <Box mt={2}>  
+                                        <Typography variant='h6' gutterBottom>
+                                            Texts
+                                        </Typography>
                                         <TextField  
                                             fullWidth
                                             type='text'

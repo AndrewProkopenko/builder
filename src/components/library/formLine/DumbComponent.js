@@ -17,7 +17,11 @@ function DumbComponent(props) {
     const inputPhone = props.data.inputPhone 
     const buttonText = props.data.buttonText
     const policy = props.data.policy
-     
+      
+    const marginTop = props.data.marginTop  
+    const marginBottom = props.data.marginBottom  
+    const maxWidthContainer = props.data.maxWidthContainer 
+
     let color = props.data.color
     let colorFocusInput
 
@@ -37,6 +41,12 @@ function DumbComponent(props) {
         return ({ 
             itemBackground: {  
                 backgroundColor: theme.palette.background.paper,  
+                marginTop: marginTop, 
+                marginBottom: marginBottom, 
+                [theme.breakpoints.down('sm')]: { 
+                    marginTop: marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30), 
+                    marginBottom: marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30),
+                }
             },
             lineDecor: {
                 position: "absolute",
@@ -145,7 +155,7 @@ function DumbComponent(props) {
     }
     return ( 
         <div className={classes.itemBackground}> 
-            <Container maxWidth='lg'>
+            <Container maxWidth={maxWidthContainer}>
                 <div className="line-form"> 
                     <Box className={classes.lineDecor} ></Box>
                     {
@@ -202,36 +212,7 @@ function DumbComponent(props) {
                             </Grid>
 
                         </Grid>
-                        {/* <div className="line-form_content form-styled"> 
-                            <span className="input-container">
-                                <input 
-                                    type="text" 
-                                    name={`name-${props.data.id}`} 
-                                    required 
-                                    placeholder={inputName} 
-                                    value={formName}
-                                    onChange={(e) => {setFormName(e.target.value)}}
-                                    className={classes.input}
-                                /> 
-                            </span>
-                            <span className="input-container">
-                                <input 
-                                    type="tel" 
-                                    name={`phone-${props.data.id}`} 
-                                    required 
-                                    placeholder={inputPhone} 
-                                    value={formPhone}
-                                    onChange={(e) => {setFormPhone(e.target.value)}}
-                                    className={classes.input}
-                                />  
-                            </span> 
-                            <div className="bt-main_content__btn">
-                                
-                            </div>
-                            <span className="info">
-                                { policy }
-                            </span> 
-                        </div> */}
+                        
                     </form>
                 </div> 
             </Container>

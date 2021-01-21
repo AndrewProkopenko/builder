@@ -12,7 +12,7 @@ function ElementCreator(props) {
     return (    
         <React.Fragment>  
             {
-                modeDev && 
+                modeDev ?
                 <StyledComponent 
                     data={props.data}
                     swapContainer={props.swapContainer}
@@ -21,10 +21,7 @@ function ElementCreator(props) {
                     isFirst={props.isFirst}
                     isLast={props.isLast}
                 />
-            }
- 
-            {
-                !modeDev && 
+                : 
                 <DumbComponent 
                     data={props.data}
                 />

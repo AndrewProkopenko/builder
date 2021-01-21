@@ -152,7 +152,7 @@ const Mobile = (props) => {
                     }
 
                     <Box px={2}>
-                        <Box  my={4} width={'100%'} clone={true}>
+                        <Box my={4} width={'100%'} clone={true} >
                             {props.modalBtn}
                         </Box>
                     </Box>

@@ -40,10 +40,12 @@ function ElementCreator(props) {
         const { containerWrapper, btnDrawerItem, btnDrawerStyle } = commonClasses 
         const { mtView, mbView, ptView, pbView } = commonStyle 
         return ({
+             
             containerWrapper: {
                  ...containerWrapper, ...{
                 '&:hover' : {
                     outlineColor: `${theme.palette.error.main}`,
+                    zIndex: 25,
                     '& $mtView' : { 
                         opacity: 1
                     },
@@ -63,6 +65,9 @@ function ElementCreator(props) {
             },
             btnDrawerStyle : btnDrawerStyle, 
             btnDrawerItem: btnDrawerItem,
+
+            
+
             mtView: { ...mtView, ...{
                 top: `-${props.data.classes.marginTop}px`,  
                 height: `${props.data.classes.marginTop}px`

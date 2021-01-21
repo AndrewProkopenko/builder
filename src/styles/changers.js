@@ -92,13 +92,52 @@ const StylesChangers = () => {
             outline: "1px solid #ffffff00",
             transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeIn} outline`,
             '&:hover': {
-                outlineColor: `${theme.palette.error.main}`,
+                // outlineColor: `${theme.palette.error.main}`,
+                // zIndex: 100, 
                  
-                '& $btnDrawerStyle': {
-                    opacity: 1
-                }
+                // '& $mtView' : { 
+                //     opacity: 1
+                // },
+                // '& $mbView' : { 
+                //     opacity: 1
+                // },
+                // '& $btnDrawerStyle' : { 
+                //     opacity: 1
+                // }
             }
         },
+        responseValues: {
+            display: 'flex', 
+            alignItems: 'center', 
+            padding: theme.spacing(1, 2),
+            margin: theme.spacing(1, 0), 
+            '& p': {
+                margin: 0
+            },
+            '& svg': {
+                marginRight: 8, 
+            }
+        }, 
+        responseTablets: { 
+            border: `1px solid ${theme.palette.success.dark}`, 
+            '& svg': {
+                fill: theme.palette.success.dark 
+            }
+        },
+        responseMobile: { 
+            border: `1px solid ${theme.palette.success.light}`, 
+            '& svg': {
+                fill: theme.palette.success.light 
+            }
+        },
+        mobileTooltip: {
+            fontSize: 13, 
+            backgroundColor: theme.palette.success.light
+        },
+        tabletTooltip: {
+            fontSize: 13, 
+            backgroundColor: theme.palette.success.dark
+        }
     })
  
     return changers 
