@@ -2,10 +2,14 @@ import React from 'react'
 import uuid from 'react-uuid'
 
 import CategoryContext from '../../../context/headerContext/CategoryContext'
-import LibraryContext from '../../../context/libraryContext/LibraryContext'
-import ImageContext from '../../../context/imageContext/ImageContext'
+import LibraryContext from '../../../context/libraryContext/LibraryContext' 
 
 import StylesChangers from '../../../styles/changers'  
+
+import AddCategory from './category/AddCategory'
+import AddPage from './category/AddPage'
+import ChangeCategory from './category/ChangeCategory'
+import ChangePage from './category/ChangePage'
 
 import { 
     Tooltip,
@@ -19,9 +23,8 @@ import {
     Box,
     makeStyles,  
     ButtonGroup, 
-    Grid, 
-    FormGroup,
-    IconButton, 
+    Grid,
+    fade,  
 } from '@material-ui/core' 
  
 import SaveIcon from '@material-ui/icons/Save';
@@ -37,8 +40,9 @@ import InfoOutlined from '@material-ui/icons/InfoOutlined';
 import Draggable from 'react-draggable';  
 
 function CategoriesChanger() { 
-    
-    const { removeImagesFromArray } = React.useContext(ImageContext)    
+
+    console.log('CategoriesChanger')
+     
     const {categories, setCategories, deletePageFromFirebase, deleteCategoryFromFirebase} = React.useContext(CategoryContext)    
     const {layouts} = React.useContext(LibraryContext)
     const pageLayout = layouts.page
@@ -48,11 +52,7 @@ function CategoriesChanger() {
     const [open, setOpen] = React.useState(false)
     const [isDisableBtn, setIsDisableBtn] = React.useState(true)
 
-    const [newCategoryTitle, setNewCategoryTitle] = React.useState('')
-    const [newCategorySlug, setNewCategorySlug] = React.useState('')
-
-    const [newPageTitle, setNewPageTitle] = React.useState('')
-    const [newPageSlug, setNewPageSlug] = React.useState('')
+    
  
     const handleInputFocus = () => {  
       setOpen(true);
@@ -62,9 +62,7 @@ function CategoriesChanger() {
     }; 
 
 
-    const useStyles = makeStyles((theme) => {
-        
-    
+    const useStyles = makeStyles((theme) => { 
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
@@ -72,8 +70,8 @@ function CategoriesChanger() {
        
         return( { 
             menu: {...menu, ...{
-                left: "calc(50% - 350px)",
-                maxWidth: 700,   
+                left: "calc(50% - 400px)",
+                maxWidth: 800,   
             }}, 
             menuTitle: menuTitle,
             btnSetting: btnSetting, 
@@ -90,7 +88,7 @@ function CategoriesChanger() {
             titlePages: {
                 fontSize: 14, 
                 fontWeight: 600, 
-                borderBottom: `1px solid #eee`,
+                borderBottom: `1px solid ${theme.palette.divider}`,
                 marginBottom: 12
             }, 
             accordionContainer: {
@@ -151,6 +149,17 @@ function CategoriesChanger() {
                     paddingRight: 3,
                     minWidth: 22
                 }
+            }, 
+            pageBox: {
+                display: 'flex',  
+                justifyContent: 'space-between', 
+                alignItems: 'center', 
+                marginBottom: theme.spacing(2), 
+            }, 
+            pageBoxLi: {
+                padding: 5, 
+                border: `1px solid ${fade(theme.palette.success.light, 0.3)}`
+
             }
         
         } )
@@ -158,28 +167,25 @@ function CategoriesChanger() {
     
     const classes = useStyles();
 
-    const addCategory = (e) => {
-        e.preventDefault()
-        let newList = categories.slice()
-        let newCategory = Object.assign({}, categoryLayout)
+    const addCategory = (newTitle, newSlug) => {
+        let newList = categories.slice() 
+        let newCategory = JSON.parse(JSON.stringify(categoryLayout)); 
+
         newCategory.id = uuid()
-        newCategory.title = newCategoryTitle
-        newCategory.slug = newCategorySlug
+        newCategory.title = newTitle
+        newCategory.slug = newSlug
         newList.push(newCategory)
  
-        setCategories(newList)
-        
-        setNewCategoryTitle('') 
-        setNewCategorySlug('')
+        setCategories(newList) 
     }
-    const addPage = (e, id) => { 
-        e.preventDefault()
+    const addPage = (newTitle, newSlug, id) => {  
         
         let newCategories = categories.slice()
-        let newPage = Object.assign({}, pageLayout)
+        
+        let newPage = JSON.parse(JSON.stringify(pageLayout));  
         newPage.id = uuid()
-        newPage.title = newPageTitle
-        newPage.slug = newPageSlug
+        newPage.title = newTitle
+        newPage.slug = newSlug
 
         newCategories.map( (item) => { 
             if(item.id === id) {  
@@ -189,17 +195,8 @@ function CategoriesChanger() {
         })
 
         setCategories(newCategories)  
-        setNewPageTitle('')
-        setNewPageSlug('')
     } 
-    const handleNewCategory = (type, value) => {
-        if(type === 'title') setNewCategoryTitle(value)
-        if(type === 'slug') setNewCategorySlug(value)
-    }
-    const handleNewPage = (type, value) => {
-        if(type === 'title') setNewPageTitle(value)
-        if(type === 'slug') setNewPageSlug(value)
-    }
+     
     const handleUpdateCategory = (value, id) => {  
         let newCategories = localCategories.slice() 
         newCategories.map( (item) => { 
@@ -312,34 +309,38 @@ function CategoriesChanger() {
         setCategories(newCategories)
     }
     const deleteCategory = (id) => { 
-        let filtered = categories.filter((item) => (item.id !== id))  
-        const deleted = categories.filter( (item) => (item.id === id))
-        let arrayOfPagesForDelete = [] 
+        const conf = window.confirm('Delete category?')
+        if(conf) {
+            let filtered = categories.filter((item) => (item.id !== id))  
+            const deleted = categories.filter( (item) => (item.id === id))
+            let arrayOfPagesForDelete = [] 
 
-        arrayOfPagesForDelete.push(deleted[0].slug)
-        if(deleted[0].pages.length > 0) {
-            deleted[0].pages.map((item) => {
-                arrayOfPagesForDelete.push(item.slug)
-                return 0
-            })
-        }
+            arrayOfPagesForDelete.push(deleted[0].slug)
+            if(deleted[0].pages.length > 0) {
+                deleted[0].pages.map((item) => {
+                    arrayOfPagesForDelete.push(item.slug)
+                    return 0
+                })
+            }
 
-        setCategories(filtered)  
-        deleteCategoryFromFirebase(arrayOfPagesForDelete)
-        
+            setCategories(filtered)  
+            deleteCategoryFromFirebase(arrayOfPagesForDelete)
+        }  
     } 
     const deletePage = ( categoryId, pageId, slug) => {
-        categories.map( category => {
-            if(category.id === categoryId) {  
-                let filtered = category.pages.filter((item) => (item.id !== pageId))  
-                category.pages = filtered
-            }
-            return 0 
-        }) 
-        setCategories(categories)  
+        const conf = window.confirm('Delete page?')
+            if(conf) {
+            categories.map( category => {
+                if(category.id === categoryId) {  
+                    let filtered = category.pages.filter((item) => (item.id !== pageId))  
+                    category.pages = filtered
+                }
+                return 0 
+            }) 
+            setCategories(categories)  
 
-        deletePageFromFirebase(slug)
- 
+            deletePageFromFirebase(slug)
+        }
     }
 
     return (
@@ -374,46 +375,7 @@ function CategoriesChanger() {
                             </Typography>
                             <Grid container direction="row" spacing={1}>
                                 <Grid item xs={4} >
-                                    <form onSubmit={addCategory}>
-                                        <FormGroup>
-                                            <Box mb={1}>
-                                                <TextField
-                                                    required
-                                                    label="Category title" 
-                                                    variant="outlined" 
-                                                    value={newCategoryTitle}
-                                                    onChange={(e) => { handleNewCategory('title', e.target.value)}}
-                                                />
-                                            </Box>
-                                            <Box mb={1} style={{position: 'relative'}}>
-                                                <TextField
-                                                    required
-                                                    label="Category slug" 
-                                                    variant="outlined" 
-                                                    value={newCategorySlug}
-                                                    onChange={(e) => { handleNewCategory('slug', e.target.value)}}
-                                                     
-                                                />
-                                                <Tooltip title="You can't rewrite slug in future" placement='left'  >
-                                                    <IconButton style={{position: 'absolute', top: 3, right: 3}}>
-                                                        <InfoOutlined color={'secondary'}/>
-                                                    </IconButton>
-                                                </Tooltip> 
-                                            </Box>
-                                            <Box mb={1}>
-                                                <Button 
-                                                    type='submit'
-                                                    color={'primary'} 
-                                                    variant="contained"
-                                                    fullWidth
-                                                >
-                                                    Add New Category
-                                                </Button> 
-                                            </Box>
-                                        </FormGroup>
-
-                                        
-                                    </form> 
+                                    <AddCategory addCategory={addCategory} />
                                 </Grid>
                                 <Grid item xs={8} >
                                     {
@@ -422,7 +384,7 @@ function CategoriesChanger() {
                                                 <Box  key={index} className={classes.accordionContainer} >
                                                     {
                                                         item.slug === '/' ?
-                                                        <Tooltip title="You can't remove Home  Category" placement='top'>
+                                                        <Tooltip title="You can't remove Home Category" placement='top'>
                                                             <Button
                                                                 variant='contained'
                                                                 color="default"
@@ -514,27 +476,9 @@ function CategoriesChanger() {
                                                             
                                                         </AccordionSummary>
                                                         <Box p={2}  > 
-                                                            <Box mb={1}>
-                                                                <TextField 
-                                                                    required
-                                                                    type='text' 
-                                                                    label="Category title"
-                                                                    fullWidth
-                                                                    variant='filled'
-                                                                    value={item.title} 
-                                                                    onChange={(e) => { handleUpdateCategory(e.target.value, item.id)}}
-                                                                />    
-                                                            </Box>
-                                                            <Box mb={1}>
-                                                                <TextField 
-                                                                    type='text' 
-                                                                    label="Category slug (read only)"
-                                                                    fullWidth
-                                                                    variant='filled'
-                                                                    value={item.slug} 
-                                                                    disabled={true} 
-                                                                />  
-                                                            </Box>
+                                                            
+                                                            <ChangeCategory item={item} handleUpdateCategory={handleUpdateCategory}  />
+
                                                             <ul className={classes.listPages}>  
                                                                 <Typography className={classes.titlePages}>
                                                                     Pages List:
@@ -542,8 +486,8 @@ function CategoriesChanger() {
                                                                 {
                                                                     item.pages.length > 0 &&
                                                                     item.pages.map((itemPages, indexPages) => (
-                                                                        <li key={indexPages} >
-                                                                            <Box mb={1} display='flex' justifyContent='space-between' alignItems='center' >
+                                                                        <li key={indexPages}  className={classes.pageBoxLi}  >
+                                                                            <Box className={classes.pageBox}  >
                                                                                 <Typography >Page: { itemPages.title } </Typography>
                                                                                 <ButtonGroup 
                                                                                     color="primary"
@@ -593,27 +537,8 @@ function CategoriesChanger() {
                                                                                     </Tooltip>  
                                                                                 </ButtonGroup>
                                                                             </Box>
-                                                                            <Box mb={1}>
-                                                                                <TextField 
-                                                                                    required
-                                                                                    type='text' 
-                                                                                    label="Page title"
-                                                                                    fullWidth
-                                                                                    variant='filled'
-                                                                                    value={itemPages.title} 
-                                                                                    onChange={(e) => {handleUpdatePage( e.target.value, item.id, itemPages.id )}}
-                                                                                />    
-                                                                            </Box>
-                                                                            <Box mb={1}>
-                                                                                <TextField  
-                                                                                    type='text' 
-                                                                                    label="Page slug"
-                                                                                    fullWidth
-                                                                                    variant='filled'
-                                                                                    value={itemPages.slug} 
-                                                                                    disabled={true}
-                                                                                />  
-                                                                            </Box>
+                                                                            
+                                                                            <ChangePage handleUpdatePage={handleUpdatePage} item={item} itemPages={itemPages} /> 
                                                                         </li>
                                                                     ))
                                                                 }
@@ -622,46 +547,9 @@ function CategoriesChanger() {
                                                                     <Typography gutterBottom >No Pages </Typography>
                                                                 }
                                                                 <li>
-                                                                <form onSubmit={(e) => { addPage(e, item.id) }}>
-                                                                    <FormGroup>
-                                                                        <Box mb={1}>
-                                                                            <TextField
-                                                                                required
-                                                                                label="Page title" 
-                                                                                variant="outlined" 
-                                                                                value={newPageTitle}
-                                                                                onChange={(e) => { handleNewPage('title', e.target.value)}}
-                                                                            />
-                                                                        </Box>
-                                                                        <Box mb={1} style={{position: 'relative'}}>
-                                                                            <TextField
-                                                                                required
-                                                                                label="Page slug" 
-                                                                                variant="outlined" 
-                                                                                value={newPageSlug}
-                                                                                onChange={(e) => { handleNewPage('slug', e.target.value)}}
-                                                                                
-                                                                            />
-                                                                            <Tooltip title="You can't rewrite slug in future" placement='left'  >
-                                                                                <IconButton style={{position: 'absolute', top: 3, right: 3}}>
-                                                                                    <InfoOutlined color={'secondary'}/>
-                                                                                </IconButton>
-                                                                            </Tooltip> 
-                                                                        </Box>
-                                                                        <Box mt={2}> 
-                                                                            <Button 
-                                                                                type={'submit'}
-                                                                                color={'primary'} 
-                                                                                variant="contained" 
-                                                                            >
-                                                                                Add New Page
-                                                                            </Button>
-                                                                        </Box>
-                                                                    </FormGroup>
 
-                                                                    
-                                                                </form> 
-                                                                    
+                                                                    <AddPage addPage={addPage} id={item.id} />    
+                                                                 
                                                                 </li>
                                                             </ul>
                                                         </Box>

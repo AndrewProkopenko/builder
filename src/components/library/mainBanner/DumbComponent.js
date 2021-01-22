@@ -6,6 +6,7 @@ import { Container, Grid, makeStyles, Button, darken } from '@material-ui/core'
 
 import '../../../assets/style/main-banner.scss'
 
+import {getColorByPalette, getColorByPaletteReverse} from '../colorPicker/ColorCalculation'
 
 function DumbComponent(props) {
 
@@ -30,20 +31,11 @@ function DumbComponent(props) {
     const marginBottom = props.data.marginBottom  
     const maxWidthContainer = props.data.maxWidthContainer  
     
-    const useStyles = makeStyles( (theme) => {
+    const useStyles = makeStyles( (theme) => { 
 
-        if(color === 'primary') { 
-            color = theme.palette.primary.main
-            colorFocusInput = theme.palette.secondary.main
-        }
-        if(color === 'secondary') {
-            color = theme.palette.secondary.main 
-            colorFocusInput = theme.palette.primary.main
-        }
-        if(color === 'custom') { 
-            colorFocusInput = theme.palette.secondary.main
-        }
- 
+        color = getColorByPalette(theme, color)
+        colorFocusInput = getColorByPaletteReverse(theme, props.data.color) 
+          
         return( {
             subHeading: {  
                 color: `${color}` ,

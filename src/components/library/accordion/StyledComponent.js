@@ -4,7 +4,7 @@ import StylesChangers from '../../../styles/changers'
 import StyledInputs from '../../../styles/inputs'   
 
 import Draggable from 'react-draggable';  
-import {ColorPicker} from '../colorPicker/ColorPicker'
+import ColorSelecter from '../colorPicker/ColorSelecter'
 
 import { 
     MenuItem,Button, Box, Tooltip, TextField, FormControl, InputLabel,
@@ -20,6 +20,8 @@ import { DeleteOutline } from '@material-ui/icons';
 import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
  
 import DumbComponent from "./DumbComponent"
+import AddItem from "./AddItem"
+import ChangeItem from "./ChangeItem"
 
 function StyledComponent(props) {
 
@@ -48,7 +50,14 @@ function StyledComponent(props) {
     };
 
     React.useEffect(() => {
-        if(props.data.color !== 'primary' && props.data.color !== 'secondary' ) {  
+        if(
+            props.data.color !== 'primary' && 
+            props.data.color !== 'secondary' &&
+            props.data.color !== 'warning' &&
+            props.data.color !== 'error' &&
+            props.data.color !== 'info' &&
+            props.data.color !== 'success' 
+        ) {  
             setColorSelect('custom')
         }
     }, [props.data.color]) 
@@ -140,9 +149,10 @@ function StyledComponent(props) {
         if(conf) props.removeContainer(props.data.id)
     }
 
-    const handleUpdateItem = (index, value, place) => { 
+    const handleUpdateItem = (index, head, body) => { 
         const newItems = items.slice()
-        newItems[index][place] = value
+        newItems[index].head = head
+        newItems[index].body = body
 
         setItems(newItems)
         setIsDisableBtn(false); 
@@ -180,11 +190,11 @@ function StyledComponent(props) {
         setItems(newItems) 
         setIsDisableBtn(false); 
     }
-    const addItem = () => {
+    const addItem = (head, body) => {
         const newItems = items.slice()
         const itemLayout = {
-            head: "heading",
-            body: "body"
+            head: head,
+            body: body
         }
         newItems.push(itemLayout)
 
@@ -373,7 +383,7 @@ function StyledComponent(props) {
                                         {
                                             items.map( (item, index) => { 
                                                 return(
-                                                    <Box key={index} mt={3}>
+                                                    <Box key={index} mt={2}>
                                                         <Box display='flex' alignItems='center'>
                                                             <Box component='p' mr={2}>
                                                                 Item № {index + 1}
@@ -424,72 +434,29 @@ function StyledComponent(props) {
                                                             </ButtonGroup>
                                                         </Box>
 
-
-                                                        <Box mt={1}>
-                                                            <TextField  
-                                                                fullWidth
-                                                                type='text'
-                                                                label="Head" 
-                                                                variant="outlined"  
-                                                                value={item.head}
-                                                                onChange={ (e) => {  handleUpdateItem(index, e.target.value, 'head') } }     
-                                                            /> 
-                                                        </Box>
+                                                        <ChangeItem index={index} item={item} handleUpdateItem={handleUpdateItem} /> 
                                                         
-                                                        <Box mt={1}>
-                                                            <TextField  
-                                                                fullWidth
-                                                                type='text'
-                                                                label="Body" 
-                                                                variant="outlined"  
-                                                                value={item.body}
-                                                                onChange={ (e) => {  handleUpdateItem(index, e.target.value, 'body') } }     
-                                                            />
-                                                        </Box>
                                                     </Box>
                                                 )
                                             })
                                         }
 
-                                        <Box my={2}>
-                                            <Button 
-                                                variant='contained' 
-                                                color='primary'
-                                                onClick={addItem}
-                                            >
-                                                Add item
-                                            </Button>
-                                        </Box>
+                                        <AddItem addItem={addItem} />
                                          
                                         <Divider/>
                                     </Box> 
 
                                     <Box mt={2} display="flex" >
-                                        <FormControl variant='filled' style={{minWidth: '250px' }}>
-                                            <InputLabel id="color-select-label">Color for Form and SubHeading</InputLabel>
-                                            <Select
-                                                labelId="color-select-label"
-                                                id="color-select"
-                                                value={colorSelect}
-                                                onChange={(e) => {setIsDisableBtn(false); setColorSelect(e.target.value)   }}
-                                            >
-                                                <MenuItem value={'primary'}>Primary</MenuItem>
-                                                <MenuItem value={'secondary'}>Secondary</MenuItem>
-                                                <MenuItem value={'custom'}>Custom</MenuItem>
-                                            </Select>
-                                        </FormControl>
-                                        <Box ml={1} >
-                                            {
-                                                colorSelect === 'custom' &&
-                                                <ColorPicker
-                                                    initialColor = {colorCustom}
-                                                    changeColor = {setColorCustom}
-                                                    setIsDisableBtn = {setIsDisableBtn}
-                                                    position = {'right'}
-                                                />   
-                                            }
-                                            
-                                        </Box>
+                                        <ColorSelecter
+                                            label={'Color for Accordion'}
+                                            colorSelect={colorSelect} 
+                                            setColorSelect={setColorSelect}
+                                            colorCustom={colorCustom}
+                                            setColorCustom={setColorCustom}
+                                            setIsDisableBtn={setIsDisableBtn} 
+                                            position = {'right'}
+                                            noInherit={false}
+                                        />
                                     </Box>
 
                                     <Box className={classes.btnSave}>

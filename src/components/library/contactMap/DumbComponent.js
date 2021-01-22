@@ -5,6 +5,7 @@ import SendFormContext from '../../../context/sendFormContext/SendFormContext'
 import { Container, Grid, makeStyles, Button, Box, darken } from '@material-ui/core'
 
 import '../../../assets/style/contactMap.scss' 
+import {getColorByPalette, getColorByPaletteReverse} from '../colorPicker/ColorCalculation'
 
 function DumbComponent(props) {
     const { sendRequests } = React.useContext(SendFormContext)
@@ -32,20 +33,13 @@ function DumbComponent(props) {
 
     const useStyles = makeStyles((theme) => {  
         colorMapOnload = theme.palette.primary.dark
-        if(color === 'primary') { 
-            color = theme.palette.primary.main
-            colorFocusInput = theme.palette.secondary.main
-        }
-        if(color === 'secondary') {
-            color = theme.palette.secondary.main 
-            colorFocusInput = theme.palette.primary.main
-        }
-        if(color === 'custom') { 
-            colorFocusInput = theme.palette.primary.main
-        }
+
+        color = getColorByPalette(theme, color)
+        colorFocusInput = getColorByPaletteReverse(theme, props.data.color) 
+ 
         return ({
             svg: {
-                fill: theme.palette.secondary.main
+                fill: colorFocusInput
             }, 
             itemBackground: {  
                 backgroundColor: theme.palette.background.paper, 

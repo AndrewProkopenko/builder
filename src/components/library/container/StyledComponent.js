@@ -6,7 +6,8 @@ import StyledInputs from '../../../styles/inputs'
 import Draggable from 'react-draggable'; 
 
 import uuid from 'react-uuid' 
-import {ColorPicker} from '../colorPicker/ColorPicker'
+import ColorSelecter from '../colorPicker/ColorSelecter' 
+import {ColorPicker} from '../colorPicker/ColorPicker' 
   
 import { 
     MenuItem,   FormGroup,  Button,
@@ -45,14 +46,24 @@ function ContainerElement(props) {
     const [display, setDisplay] = React.useState(props.data.classes.display || 'flex')
     const [flexDirection, setFlexDirection] = React.useState(props.data.classes.flexDirection || 'column')
 
+    // const [colorSelect,  setColorSelect] = React.useState(props.data.classes.color || 'inherit')
+    // const [colorCustom, setColorCustom] = React.useState(props.data.classes.color || 'inherit')
+
+    // const [colorBackgroundSelect,  setColorBackgroundSelect] = React.useState(props.data.classes.backgroundColor || 'inherit')
+    // const [colorBackgroundCustom, setColorBackgroundCustom] = React.useState(props.data.classes.backgroundColor || 'inherit')
+
+    // const [colorBorderSelect,  setColorBorderSelect] = React.useState(props.data.classes.borderColor || 'inherit')
+    // const [colorBorderCustom, setColorBorderCustom] = React.useState(props.data.classes.borderColor || 'inherit')
+
     const [color, setColor] = React.useState(props.data.classes.color || 'inherit')
     const [backgroundColor, setBackgroundColor] = React.useState(props.data.classes.backgroundColor ||  'transparent')
+
     const [shadow, setShadow] = React.useState(props.data.classes.boxShadow || 'none')
 
     const [borderColor, setBorderColor] = React.useState(props.data.classes.borderColor ||  'transperent')
     const [borderStyle, setBorderStyle] = React.useState(props.data.classes.borderStyle ||  'solid')
-    const [borderWidth, setBorderWidth] = React.useState(props.data.classes.borderWidth ||  '0px')
-    const [borderRadius, setBorderRadius] = React.useState(props.data.classes.borderRadius ||  '0px')
+    const [borderWidth, setBorderWidth] = React.useState(props.data.classes.borderWidth ||  0)
+    const [borderRadius, setBorderRadius] = React.useState(props.data.classes.borderRadius ||  0)
 
     const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
   
@@ -121,9 +132,9 @@ function ContainerElement(props) {
         borderWidth: borderWidth,
         boxShadow: shadow, 
         display: display, 
-        flexDirection: flexDirection
-    } 
-  
+        flexDirection: flexDirection  
+    }  
+     
 
     const handlePadding = (e, direction) => {  
         let newPadding = Object.assign({}, padding)
@@ -159,13 +170,13 @@ function ContainerElement(props) {
 
         switch(type) { 
             case 'heading' :  
-                newItem = Object.assign({}, libraryHeading) 
+                newItem = JSON.parse(JSON.stringify(libraryHeading)); 
                 newItem.id = uuid()
                 newItem.variant = newItem.variant[variant] 
                 newItem.text += " - " + newItem.variant 
                 break;
             case 'paragraph' :   
-                newItem = Object.assign({}, libraryParagraph)
+                newItem = JSON.parse(JSON.stringify(libraryParagraph)); 
                 newItem.id = uuid() 
                 break;
             case 'paragraphImage' :   
@@ -391,7 +402,9 @@ function ContainerElement(props) {
                                 <Box>   
                                     <p> 
                                         MarginTop: <b> { margin.top*0.8 }</b>; 
-                                        MarginBottom: <b>{margin.bottom * 0.8 }</b> 
+                                        MarginBottom: <b>{margin.bottom * 0.8 }</b> ; 
+                                        PaddingTop: <b>{padding.top * 0.8 }</b>  ; 
+                                        PaddingBottom: <b>{padding.bottom * 0.8 }</b> 
                                     </p>     
                                 </Box>
                             </Box>
@@ -403,7 +416,9 @@ function ContainerElement(props) {
                                 <Box>  
                                     <p> 
                                         MarginTop: <b> { margin.top*0.5 }</b>; 
-                                        MarginBottom: <b>{margin.bottom * 0.5 }</b> 
+                                        MarginBottom: <b>{margin.bottom * 0.5 }</b> ; 
+                                        PaddingTop: <b>{padding.top * 0.5 }</b>  ; 
+                                        PaddingBottom: <b>{padding.bottom * 0.5 }</b> 
                                     </p>        
                                 </Box>
                             </Box>
@@ -516,6 +531,7 @@ function ContainerElement(props) {
                                 <Typography  component={'p'} gutterBottom  >
                                     Background  -  { backgroundColor }
                                 </Typography> 
+                                
                                 <ColorPicker 
                                     initialColor={backgroundColor} 
                                     changeColor={setBackgroundColor} 

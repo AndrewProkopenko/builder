@@ -14,25 +14,54 @@ import ParagraphImageCreator from '../paragraphImage/ElementCreator'
 function DumbComponent(props) {
  
     const {modeDev} = React.useContext(ModeContext)
-
+ 
     console.log('dumb container work')
   
     const useStyles = makeStyles((theme) => ({
         myClassName: props.classes ,   
-        resposiveFontSize: { 
+        styleClass: { 
             [`@media (max-width: 960px)`]: { 
                 marginTop: props.classes.marginTop*0.8,
-                marginBottom: props.classes.marginBottom*0.8
+                marginBottom: props.classes.marginBottom*0.8, 
             },
             [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: { 
                 marginTop: props.classes.marginTop*0.5,
-                marginBottom: props.classes.marginBottom*0.5
+                marginBottom: props.classes.marginBottom*0.5,  
             },
+        },
+        noPadding : { 
+            paddingTop: 0,  
+            paddingBottom: 0,
+            [`@media (max-width: 960px)`]: {  
+                paddingTop: 0,
+                paddingBottom: 0,
+            },
+            [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {  
+                paddingTop: 0,
+                paddingBottom: 0,
+            },
+        },
+        yesPadding : { 
+            paddingTop: props.classes.paddingTop,  
+            paddingBottom: props.classes.paddingBottom,
+            [`@media (max-width: 960px)`]: {  
+                paddingTop: props.classes.paddingTop*0.8,
+                paddingBottom: props.classes.paddingBottom*0.8,
+            },
+            [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {  
+                paddingTop: props.classes.paddingTop*0.5,
+                paddingBottom: props.classes.paddingBottom*0.5,
+            },
+        },
+        noPaper: {
+
         }
       }));
     const classes = useStyles(); 
-  
-    const classForResp = classes.resposiveFontSize 
+
+    const isPaperClassForContainer = props.settings.isPaper ? classes.noPadding : classes.yesPadding
+    const isPaperClassForPaper = props.settings.isPaper ? classes.yesPadding : classes.noPadding
+   
  
     const renderItems = () => ( 
         modeDev ?
@@ -123,9 +152,9 @@ function DumbComponent(props) {
                     maxWidth={props.settings.maxWidth} 
                     fixed={props.settings.fixed} 
                     disableGutters={props.settings.disableGutters} 
-                    className={`${classes.myClassName} ${classForResp}`}
+                    className={`${classes.myClassName} ${classes.styleClass} ${isPaperClassForContainer}`}
                 > 
-                    <Paper style={{padding: '0 15px'}}>
+                    <Paper style={{paddingLeft: 15, paddingRight: 15}} className={isPaperClassForPaper}>
                         {  
                             props.settings.innerContainer && 
                             <Container
@@ -152,7 +181,7 @@ function DumbComponent(props) {
                         maxWidth={props.settings.maxWidth} 
                         fixed={props.settings.fixed} 
                         disableGutters={props.settings.disableGutters} 
-                        className={`${classes.myClassName} ${classForResp}`}
+                        className={`${classes.myClassName} ${classes.styleClass} ${isPaperClassForContainer}`}
                     > 
                         {  
                             props.settings.innerContainer && 

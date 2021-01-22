@@ -5,7 +5,7 @@ import StylesChangers from '../../../styles/changers'
 import StyledInputs from '../../../styles/inputs'    
  
 import Draggable from 'react-draggable';
-import {ColorPicker} from '../colorPicker/ColorPicker'
+import ColorSelecter from '../colorPicker/ColorSelecter'
 
 import {
     Select, 
@@ -75,7 +75,14 @@ function StyledComponent(props) {
         setIsDisableBtn(false)
     }
     React.useEffect(() => {
-        if(props.data.colorButton !== 'primary' && props.data.colorButton !== 'secondary' ) {  
+        if(
+            props.data.colorButton !== 'primary' && 
+            props.data.colorButton !== 'secondary' &&
+            props.data.colorButton !== 'warning' &&
+            props.data.colorButton !== 'error' &&
+            props.data.colorButton !== 'info' &&
+            props.data.colorButton !== 'success' 
+        ) {  
             setColorSelect('custom')
         }  
     }, [props.data.colorButton])  
@@ -430,32 +437,16 @@ function StyledComponent(props) {
                                                         </Box>
                                                     </Box>
                                                     <Box mt={2} display="flex" >
-                                                        <FormControl variant='filled' style={{minWidth: '250px' }}>
-                                                            <InputLabel id="color-select-label">Color for Button</InputLabel>
-                                                            <Select
-                                                                labelId="color-select-label"
-                                                                id="color-select"
-                                                                value={colorSelect}
-                                                                onChange={(e) => {setIsDisableBtn(false); setColorSelect(e.target.value)   }}
-                                                            >
-                                                                <MenuItem value={'primary'}>Primary</MenuItem>
-                                                                <MenuItem value={'secondary'}>Secondary</MenuItem>
-                                                                <MenuItem value={'custom'}>Custom</MenuItem>
-                                                            </Select>
-                                                        </FormControl>
-                                                        <Box ml={1} >
-                                                            {
-                                                                colorSelect === 'custom' &&
-                                                                <ColorPicker
-                                                                    initialColor = {colorCustom}
-                                                                    changeColor = {setColorCustom}
-                                                                    setIsDisableBtn = {setIsDisableBtn}
-                                                                    position = {'right'}
-                                                                    noInherit={true}
-                                                                />  
-                                                            }
-                                                            
-                                                        </Box>
+                                                        <ColorSelecter
+                                                            label={'Color for Button'}
+                                                            colorSelect={colorSelect} 
+                                                            setColorSelect={setColorSelect}
+                                                            colorCustom={colorCustom}
+                                                            setColorCustom={setColorCustom}
+                                                            setIsDisableBtn={setIsDisableBtn} 
+                                                            position = {'right'}
+                                                            noInherit={true}
+                                                        /> 
                                                     </Box>
                                                 </Box>
                                             }

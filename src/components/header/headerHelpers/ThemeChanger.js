@@ -40,7 +40,21 @@ function ThemeChanger() {
     const [lightSecondary, setLightSecondary] = React.useState(themeLight.palette.secondary.main) 
     const [darkSecondary, setDarkSecondary] = React.useState(themeDark.palette.secondary.main) 
 
+    const [lightError, setLightError] = React.useState(themeLight.palette.error.main) 
+    const [darkError, setDarkError] = React.useState(themeDark.palette.error.main) 
 
+    const [lightWarning, setLightWarning] = React.useState(themeLight.palette.warning.main) 
+    const [darkWarning, setDarkWarning] = React.useState(themeDark.palette.warning.main) 
+
+    const [lightInfo, setLightInfo] = React.useState(themeLight.palette.info.main) 
+    const [darkInfo, setDarkInfo] = React.useState(themeDark.palette.info.main) 
+
+    const [lightSuccess, setLightSuccess] = React.useState(themeLight.palette.success.main) 
+    const [darkSuccess, setDarkSuccess] = React.useState(themeDark.palette.success.main) 
+ 
+    // text.primary
+    // text.secondary
+    // text.disabled
  
     const handleInputFocus = () => {  
       setOpen(true);
@@ -50,6 +64,7 @@ function ThemeChanger() {
     }; 
 
     const useStyles = makeStyles((theme) => {
+        console.log(theme.palette.success)
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
@@ -81,7 +96,9 @@ function ThemeChanger() {
     
     const classes = useStyles();
  
+
     const handleSave = () => {  
+ 
         const newLightTheme = {   
             palette: {
                 type: "light",
@@ -94,6 +111,18 @@ function ThemeChanger() {
                 },
                 primary: {
                     main: lightPrimary
+                },
+                error: {
+                    main: lightError
+                },
+                warning: {
+                    main: lightWarning
+                },
+                info: {
+                    main: lightInfo
+                },
+                success: {
+                    main: lightSuccess
                 }
             } 
         }
@@ -109,6 +138,18 @@ function ThemeChanger() {
                 },
                 primary: {
                     main: darkPrimary
+                },
+                error: {
+                    main: darkError
+                },
+                warning: {
+                    main: darkWarning
+                },
+                info: {
+                    main: darkInfo
+                },
+                success: {
+                    main: darkSuccess
                 }
             } 
         }
@@ -155,7 +196,8 @@ function ThemeChanger() {
                             >
                                 Light Theme
                             </Typography>
-                            <Box display='flex' flexWrap='nowrap'  mt={1} mb={3}>
+
+                            <Box display='flex' flexWrap='nowrap'  mt={1} mb={2}>
                                 <Box className={classes.colorItem}> 
                                     <Typography variant='caption' >
                                         Light Background Default - { lightBackgroundDefault }
@@ -199,6 +241,57 @@ function ThemeChanger() {
                                     <ColorPicker
                                         initialColor = {lightSecondary}
                                         changeColor = {setLightSecondary}
+                                        setIsDisableBtn = {setIsDisableBtn}
+                                        position = {'top'}
+                                        noInherit={true}
+                                    /> 
+                                </Box>  
+                                 
+                            </Box>
+                            <Box display='flex' flexWrap='nowrap'  mt={1} mb={3}>
+                                <Box className={classes.colorItem}> 
+                                    <Typography variant='caption' >
+                                        Light Warning - { lightWarning }
+                                    </Typography>
+                                    <ColorPicker
+                                        initialColor = {lightWarning}
+                                        changeColor = {setLightWarning}
+                                        setIsDisableBtn = {setIsDisableBtn}
+                                        position = {'top'}
+                                        noInherit={true}
+                                    /> 
+                                </Box> 
+                                <Box className={classes.colorItem}> 
+                                    <Typography variant='caption' >
+                                        Light Error - { lightError }
+                                    </Typography>
+                                    <ColorPicker
+                                        initialColor = {lightError}
+                                        changeColor = {setLightError}
+                                        setIsDisableBtn = {setIsDisableBtn}
+                                        position = {'top'}
+                                        noInherit={true}
+                                    /> 
+                                </Box> 
+                                <Box className={classes.colorItem}> 
+                                    <Typography variant='caption' >
+                                        Light Info - { lightInfo }
+                                    </Typography>
+                                    <ColorPicker
+                                        initialColor = {lightInfo}
+                                        changeColor = {setLightInfo}
+                                        setIsDisableBtn = {setIsDisableBtn}
+                                        position = {'top'}
+                                        noInherit={true}
+                                    /> 
+                                </Box>  
+                                <Box className={classes.colorItem}> 
+                                    <Typography variant='caption' >
+                                        Light Success - { lightSuccess }
+                                    </Typography>
+                                    <ColorPicker
+                                        initialColor = {lightSuccess}
+                                        changeColor = {setLightSuccess}
                                         setIsDisableBtn = {setIsDisableBtn}
                                         position = {'top'}
                                         noInherit={true}
@@ -260,6 +353,56 @@ function ThemeChanger() {
                                     <ColorPicker
                                         initialColor = {darkSecondary}
                                         changeColor = {setDarkSecondary}
+                                        setIsDisableBtn = {setIsDisableBtn}
+                                        position = {'right'}
+                                        noInherit={true}
+                                    /> 
+                                </Box> 
+                            </Box>
+                            <Box display='flex' flexWrap='nowrap'  mt={1}>
+                                <Box className={classes.colorItem}> 
+                                    <Typography variant='caption' >
+                                        Dark Warning- { darkWarning }
+                                    </Typography>
+                                    <ColorPicker
+                                        initialColor = {darkWarning}
+                                        changeColor = {setDarkWarning}
+                                        setIsDisableBtn = {setIsDisableBtn}
+                                        position = {'left'}
+                                        noInherit={true}
+                                    /> 
+                                </Box>
+                                <Box className={classes.colorItem}> 
+                                    <Typography variant='caption' >
+                                        Dark Error - { darkError }
+                                    </Typography>
+                                    <ColorPicker
+                                        initialColor = {darkError}
+                                        changeColor = {setDarkError}
+                                        setIsDisableBtn = {setIsDisableBtn}
+                                        position = {'left'}
+                                        noInherit={true}
+                                    /> 
+                                </Box>
+                                <Box className={classes.colorItem}> 
+                                    <Typography variant='caption' >
+                                        Dark Info - { darkInfo}
+                                    </Typography>
+                                    <ColorPicker
+                                        initialColor = {darkInfo}
+                                        changeColor = {setDarkInfo}
+                                        setIsDisableBtn = {setIsDisableBtn}
+                                        position = {'left'}
+                                        noInherit={true}
+                                    /> 
+                                </Box>
+                                <Box className={classes.colorItem}> 
+                                    <Typography variant='caption' >
+                                        Dark Succwss - { darkSuccess }
+                                    </Typography>
+                                    <ColorPicker
+                                        initialColor = {darkSuccess}
+                                        changeColor = {setDarkSuccess}
                                         setIsDisableBtn = {setIsDisableBtn}
                                         position = {'right'}
                                         noInherit={true}

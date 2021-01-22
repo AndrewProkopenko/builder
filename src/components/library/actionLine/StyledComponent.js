@@ -3,7 +3,7 @@ import StylesChangers from '../../../styles/changers'
 import StyledInputs from '../../../styles/inputs'    
 
 import Draggable from 'react-draggable';
-import {ColorPicker} from '../colorPicker/ColorPicker'
+import ColorSelecter from '../colorPicker/ColorSelecter'
 
 import {
     Select, 
@@ -65,7 +65,14 @@ function StyledComponent(props) {
         setIsDisableBtn(false)
     }
     React.useEffect(() => {
-        if(props.data.colorMain !== 'primary' && props.data.colorMain !== 'secondary' ) {  
+        if(
+            props.data.colorMain !== 'primary' && 
+            props.data.colorMain !== 'secondary' &&
+            props.data.colorMain !== 'warning' &&
+            props.data.colorMain !== 'error' &&
+            props.data.colorMain !== 'info' &&
+            props.data.colorMain !== 'success' 
+        ) {  
             setColorSelect('custom')
         }
     }, [props.data.colorMain]) 
@@ -359,32 +366,16 @@ function StyledComponent(props) {
                                     </Box>
                                    
                                     <Box mt={2} display="flex" >
-                                        <FormControl variant='filled' style={{minWidth: '250px' }}>
-                                            <InputLabel id="color-select-label">Color for Block</InputLabel>
-                                            <Select
-                                                labelId="color-select-label"
-                                                id="color-select"
-                                                value={colorSelect}
-                                                onChange={(e) => {setIsDisableBtn(false); setColorSelect(e.target.value)   }}
-                                            >
-                                                <MenuItem value={'primary'}>Primary</MenuItem>
-                                                <MenuItem value={'secondary'}>Secondary</MenuItem>
-                                                <MenuItem value={'custom'}>Custom</MenuItem>
-                                            </Select>
-                                        </FormControl>
-                                        <Box ml={1} >
-                                            {
-                                                colorSelect === 'custom' &&
-                                                <ColorPicker
-                                                    initialColor = {colorCustom}
-                                                    changeColor = {setColorCustom}
-                                                    setIsDisableBtn = {setIsDisableBtn}
-                                                    position = {'top'}
-                                                    noInherit={true}
-                                                />  
-                                            }
-                                            
-                                        </Box>
+                                            <ColorSelecter
+                                                label={'Color for Block'}
+                                                colorSelect={colorSelect} 
+                                                setColorSelect={setColorSelect}
+                                                colorCustom={colorCustom}
+                                                setColorCustom={setColorCustom}
+                                                setIsDisableBtn={setIsDisableBtn} 
+                                                position = {'top'}
+                                                noInherit={true}
+                                            />
                                     </Box>
   
                                     <Box display='flex' mt={3} mb={3}>

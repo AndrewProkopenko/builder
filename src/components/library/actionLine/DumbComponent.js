@@ -5,6 +5,8 @@ import { darken, fade } from '@material-ui/core/styles/colorManipulator';
  
 import ModalContext from '../../../context/modalContext/ModalContext'
 
+import {getColorByPalette} from '../colorPicker/ColorCalculation'
+
 function DumbComponent(props) {
 
     const { handleOpen } = React.useContext(ModalContext) 
@@ -24,8 +26,9 @@ function DumbComponent(props) {
     let colorTheme
 
     const useStyles = makeStyles((theme) => {   
-        if(colorMain === 'primary')  colorMain = theme.palette.primary.main
-        if(colorMain === 'secondary') colorMain = theme.palette.secondary.main  
+        
+        colorMain = getColorByPalette(theme, colorMain) 
+ 
         colorTheme = theme.palette.type === 'dark' ? fade(colorMain, 0.65) : fade(colorMain, 0.2) 
         return ({
             button: {

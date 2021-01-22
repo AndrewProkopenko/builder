@@ -14,6 +14,8 @@ import {
 } from '@material-ui/core'; 
 
 import ModalContext from '../../../context/modalContext/ModalContext'
+
+import {getColorByPalette} from '../colorPicker/ColorCalculation'
  
 export default function CustomizedTables(props) {
     let mainColor = props.data.color
@@ -39,8 +41,9 @@ export default function CustomizedTables(props) {
     }))(TableRow);
         
     const useStyles = makeStyles(theme => {
-        if(mainColor === 'primary')  mainColor = theme.palette.primary.main
-        if(mainColor === 'secondary') mainColor = theme.palette.secondary.main  
+        
+        mainColor = getColorByPalette(theme, mainColor)
+ 
         return ({
             table: {
                 minWidth: 200,

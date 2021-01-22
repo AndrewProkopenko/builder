@@ -19,6 +19,7 @@
         "maxWidth": "lg", 
         "fixed": false, 
         "innerContainer": false, 
+        "isPaper": false, 
         "disableGutters": false,
         "children": [
             {

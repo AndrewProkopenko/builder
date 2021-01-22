@@ -7,27 +7,41 @@ import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 export const ColorPicker = memo(({ initialColor, changeColor, setIsDisableBtn, position, noInherit }) => { 
     const [color, setColor] = useState(initialColor);
     const [isOpen, setIsOpen] = useState(false); 
+    const [isDisableSaveIcon, setIsDisableSaveIcon] = useState(true); 
+ 
 
-    const togglePicker = () => setIsOpen(prevOpen => !prevOpen);
-    const handleChange = (newColor) => setColor(newColor.hex);
+    const togglePicker = () => {
+        setIsOpen(prevOpen => !prevOpen)
+        setColor(initialColor)
+        setIsDisableSaveIcon(true)
+    };
+    const handleChange = (newColor) => {
+        setColor(newColor.hex)
+        setIsDisableSaveIcon(false)
+    }
     const save = () => {
         changeColor(color)
         setIsOpen(false)
         setIsDisableBtn(false)
+        setIsDisableSaveIcon(true)
     };
     const setDefault = () => {
-        setColor('inherit')
-        setIsDisableBtn(false)
+        setColor('inherit') 
+        setIsDisableSaveIcon(false)
     }
 
     useEffect( () => {
-        if(initialColor === 'inherit' ) setColor('#000')
+        if(initialColor === 'inherit' ) setColor('#0000')
     }, [initialColor])
 
-    const useStyles = makeStyles( theme => {
+    const useStyles = makeStyles( theme => { 
         const contrastColor = ( color !== 'transparent' && 
             color !== 'primary' && 
             color !== 'secondary' && 
+            color !== 'warning' && 
+            color !== 'error' && 
+            color !== 'info' && 
+            color !== 'success' && 
             color !== 'inherit' && 
             color !== 'transperent' && 
             color !== 'custom' && 
@@ -60,6 +74,9 @@ export const ColorPicker = memo(({ initialColor, changeColor, setIsDisableBtn, p
                 top: position === 'top' ? 100 : -250, 
                 left: position === 'left' ? 0 : 'auto',
                 right: position === 'right' ? 0 : 'auto',
+            }, 
+            iconButton: {
+                padding: theme.spacing(1)
             }
         })
     })
@@ -82,13 +99,13 @@ export const ColorPicker = memo(({ initialColor, changeColor, setIsDisableBtn, p
                     
                 }
                 {
-                    initialColor === color ? 
-                    <IconButton onClick={save} disabled={initialColor === color} color={'primary'} >
-                        <CheckCircleOutlineIcon />
+                    isDisableSaveIcon ? 
+                    <IconButton disabled={true} className={classes.iconButton} >
+                        {/* <CheckCircleOutlineIcon /> */}
                     </IconButton> 
                     :
                     <Tooltip title="Save color" placement='top'>
-                        <IconButton onClick={save} disabled={initialColor === color} color={'primary'} >
+                        <IconButton onClick={save}  color={'primary'} className={classes.iconButton} >
                             <CheckCircleOutlineIcon />
                         </IconButton> 
                     </Tooltip>

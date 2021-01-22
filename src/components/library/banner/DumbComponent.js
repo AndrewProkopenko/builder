@@ -2,6 +2,7 @@ import React from 'react'
 
 import { makeStyles, Container, Grid, Box, Button, darken } from '@material-ui/core'  
 import ModalContext from '../../../context/modalContext/ModalContext'
+import {getColorByPalette} from '../colorPicker/ColorCalculation'
 
 function DumbComponent(props) {
 
@@ -12,11 +13,7 @@ function DumbComponent(props) {
      
     const minHeight =  props.data.minHeight 
     const imageUrl =  props.data.imageUrl  
-
-    // const isButton = true
-    // const textButton = "Buy"
-    // const targetButton = "Image"   
-    // let colorButton = 'primary'
+ 
     const isButton = props.data.isButton
     const textButton = props.data.textButton
     const targetButton = props.data.targetButton   
@@ -29,10 +26,9 @@ function DumbComponent(props) {
     const maxWidthContainer = props.data.maxWidthContainer 
 
     const useStyles = makeStyles((theme) => {   
-        if(colorButton === 'primary')  colorButton = theme.palette.primary.main
-        if(colorButton === 'secondary') colorButton = theme.palette.secondary.main   
-        if(colorText === 'primary')  colorText = theme.palette.primary.main
-        if(colorText === 'secondary') colorText = theme.palette.secondary.main   
+        colorButton = getColorByPalette(theme, colorButton) 
+        colorText = getColorByPalette(theme, colorText) 
+             
         return ({ 
             bannerBackground: {
                 backgroundImage: `url(${imageUrl})`, 
@@ -72,7 +68,8 @@ function DumbComponent(props) {
                 fontSize: 15 , 
                 color: colorText,
                 [theme.breakpoints.down('sm')]: { 
-                    marginTop: 0
+                    marginTop: 0, 
+                    lineHeight: 1.1
                 }
             },
             button: {

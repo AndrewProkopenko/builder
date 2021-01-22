@@ -2,6 +2,8 @@ import React from 'react'
 
 import { Container, Grid, makeStyles, Box, Button, darken } from '@material-ui/core'
 
+import {getColorByPalette} from '../colorPicker/ColorCalculation'
+
 import '../../../assets/style/about.scss'
 
 import ModalContext from '../../../context/modalContext/ModalContext'
@@ -25,11 +27,11 @@ function DumbComponent(props) {
     const maxWidthContainer = props.data.maxWidthContainer  
 
     let colorButton = props.data.colorButton || '#f00'
- 
-
+   
     const useStyles = makeStyles((theme) => {   
-        if(colorButton === 'primary')  colorButton = theme.palette.primary.main
-        if(colorButton === 'secondary') colorButton = theme.palette.secondary.main  
+
+        colorButton = getColorByPalette(theme, colorButton) 
+
         return ({
             button: {
                 textTransform: 'inherit', 

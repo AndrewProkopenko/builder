@@ -5,7 +5,7 @@ import StylesChangers from '../../../styles/changers'
 import StyledInputs from '../../../styles/inputs'    
 
 import Draggable from 'react-draggable';
-import {ColorPicker} from '../colorPicker/ColorPicker'
+import ColorSelecter from '../colorPicker/ColorSelecter'
 
 import {
     Select, 
@@ -38,6 +38,8 @@ import DumbComponent from "./DumbComponent"
 import ImageContext  from '../../../context/imageContext/ImageContext'
 
 function StyledComponent(props) {
+
+    console.log(props)
     
     const { removeImage } = React.useContext(ImageContext)
 
@@ -51,7 +53,7 @@ function StyledComponent(props) {
     const [isButton, setIsButton] = React.useState(props.data.isButton || false)
     const [textButton,  setTextButton] = React.useState(props.data.textButton || '')
     const [targetButton, setTargetButton] = React.useState(props.data.targetButton || '')
-    const [imageUrl, setImageUrl] = React.useState(props.data.image)
+    const [imageUrl, setImageUrl] = React.useState(props.data.imageUrl)
     const [imageName, setImageName] = React.useState(props.data.imageName || '')
 
     const [colorSelect,  setColorSelect] = React.useState(props.data.colorButton || '')
@@ -80,10 +82,24 @@ function StyledComponent(props) {
         setOpen(false);
     }; 
     React.useEffect(() => {
-        if(props.data.colorButton !== 'primary' && props.data.colorButton !== 'secondary' ) {  
+        if(
+            props.data.colorButton !== 'primary' && 
+            props.data.colorButton !== 'secondary' &&
+            props.data.colorButton !== 'warning' &&
+            props.data.colorButton !== 'error' &&
+            props.data.colorButton !== 'info' &&
+            props.data.colorButton !== 'success' 
+        ) {  
             setColorSelect('custom')
         }
-        if(props.data.colorText !== 'primary' && props.data.colorText !== 'secondary' ) {  
+        if( 
+            props.data.colorText !== 'primary' && 
+            props.data.colorText !== 'secondary' &&
+            props.data.colorText !== 'warning' &&
+            props.data.colorText !== 'error' &&
+            props.data.colorText !== 'info' &&
+            props.data.colorText !== 'success' 
+         ) {  
             setColorTextSelect('custom')
         }
     }, [props.data.colorButton, props.data.colorText ]) 
@@ -194,7 +210,7 @@ function StyledComponent(props) {
         newData.minHeight = minHeight   
         newData.isButton = isButton   
         newData.textButton = textButton   
-        newData.targetButton = targetButton   
+        newData.targetButton = targetButton     
         newData.imageUrl = imageUrl   
         newData.imageName = imageName
         newData.paddingVertical = paddingVertical
@@ -209,9 +225,9 @@ function StyledComponent(props) {
         }
 
         if (colorSelect === 'custom') {
-            newData.colorMain = colorCustom
+            newData.colorText = colorTextCustom
         } else {
-            newData.colorMain = colorSelect
+            newData.colorText = colorTextSelect
         }
 
         props.reSaveItem(props.data.id, newData)
@@ -453,32 +469,16 @@ function StyledComponent(props) {
                                         }}/>
                                     </Box>
                                     <Box mt={2} display="flex" >
-                                        <FormControl variant='filled' style={{minWidth: '250px' }}>
-                                            <InputLabel id="color-select-label">Color for Text</InputLabel>
-                                            <Select
-                                                labelId="color-select-label"
-                                                id="color-select"
-                                                value={colorTextSelect}
-                                                onChange={(e) => {setIsDisableBtn(false); setColorTextSelect(e.target.value)   }}
-                                            >
-                                                <MenuItem value={'primary'}>Primary</MenuItem>
-                                                <MenuItem value={'secondary'}>Secondary</MenuItem>
-                                                <MenuItem value={'custom'}>Custom</MenuItem>
-                                            </Select>
-                                        </FormControl>
-                                        <Box ml={1} >
-                                            {
-                                                colorTextSelect === 'custom' &&
-                                                <ColorPicker
-                                                    initialColor = {colorTextCustom}
-                                                    changeColor = {setColorTextCustom}
-                                                    setIsDisableBtn = {setIsDisableBtn}
-                                                    position = {'top'}
-                                                    noInherit={false}
-                                                />  
-                                            }
-                                            
-                                        </Box>
+                                        <ColorSelecter
+                                            label={'Color for Text'}
+                                            colorSelect={colorTextSelect} 
+                                            setColorSelect={setColorTextSelect}
+                                            colorCustom={colorTextCustom}
+                                            setColorCustom={setColorTextCustom}
+                                            setIsDisableBtn={setIsDisableBtn} 
+                                            position = {'top'}
+                                            noInherit={false}
+                                        /> 
                                     </Box>
                                    
                                     <Box display='flex' mt={3} mb={3}>
@@ -516,32 +516,16 @@ function StyledComponent(props) {
                                                         </Box>
                                                     </Box> 
                                                     <Box mt={2} display="flex" >
-                                                        <FormControl variant='filled' style={{minWidth: '250px' }}>
-                                                            <InputLabel id="color-select-label">Color for Botton</InputLabel>
-                                                            <Select
-                                                                labelId="color-select-label"
-                                                                id="color-select"
-                                                                value={colorSelect}
-                                                                onChange={(e) => {setIsDisableBtn(false); setColorSelect(e.target.value)   }}
-                                                            >
-                                                                <MenuItem value={'primary'}>Primary</MenuItem>
-                                                                <MenuItem value={'secondary'}>Secondary</MenuItem>
-                                                                <MenuItem value={'custom'}>Custom</MenuItem>
-                                                            </Select>
-                                                        </FormControl>
-                                                        <Box ml={1} >
-                                                            {
-                                                                colorSelect === 'custom' &&
-                                                                <ColorPicker
-                                                                    initialColor = {colorCustom}
-                                                                    changeColor = {setColorCustom}
-                                                                    setIsDisableBtn = {setIsDisableBtn}
-                                                                    position = {'top'}
-                                                                    noInherit={true}
-                                                                />  
-                                                            }
-                                                            
-                                                        </Box>
+                                                        <ColorSelecter
+                                                            label={'Color for Button'}
+                                                            colorSelect={colorSelect} 
+                                                            setColorSelect={setColorSelect}
+                                                            colorCustom={colorCustom}
+                                                            setColorCustom={setColorCustom}
+                                                            setIsDisableBtn={setIsDisableBtn} 
+                                                            position = {'top'}
+                                                            noInherit={true}
+                                                        /> 
                                                     </Box>
                                                 </Box>
                                             }

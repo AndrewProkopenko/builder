@@ -4,9 +4,11 @@ import SendFormContext from '../../../context/sendFormContext/SendFormContext'
 
 import { Container, makeStyles, Button, Box, Grid, fade, darken } from '@material-ui/core'
 
+import {getColorByPalette, getColorByPaletteReverse} from '../colorPicker/ColorCalculation'
+
 import '../../../assets/style/lineForm.scss' 
 
-function DumbComponent(props) { 
+function DumbComponent(props) {  
     const { sendRequests } = React.useContext(SendFormContext)
     const [formPhone, setFormPhone] = React.useState('')
     const [formName, setFormName] = React.useState('') 
@@ -24,19 +26,11 @@ function DumbComponent(props) {
 
     let color = props.data.color
     let colorFocusInput
+  
+    const useStyles = makeStyles((theme) => {    
 
-    const useStyles = makeStyles((theme) => {  
-        if(color === 'primary') { 
-            color = theme.palette.primary.main
-            colorFocusInput = theme.palette.secondary.main
-        }
-        if(color === 'secondary') {
-            color = theme.palette.secondary.main 
-            colorFocusInput = theme.palette.primary.main
-        }
-        if(color === 'custom') { 
-            colorFocusInput = theme.palette.primary.main
-        }
+        color = getColorByPalette(theme, color)
+        colorFocusInput = getColorByPaletteReverse(theme, props.data.color) 
 
         return ({ 
             itemBackground: {  

@@ -1,6 +1,6 @@
 import React from 'react'
-
-import {ColorPicker} from '../colorPicker/ColorPicker'
+ 
+import ColorSelecter from '../colorPicker/ColorSelecter'
 
 import StylesChangers from '../../../styles/changers'   
 import StyledInputs from '../../../styles/inputs'    
@@ -37,14 +37,21 @@ function StyledComponent(props) {
     const [colorCustom, setColorCustom] = React.useState(props.data.color || '')
     
     const [marginTop, setMarginTop] = React.useState(props.data.marginTop || 51)
-    const [marginBottom, setMarginBottom] = React.useState(props.data.marginBottom || 51)
+    const [marginBottom, setMarginBottom] = React.useState(props.data.marginBottom )
     const [maxWidthContainer, setMaxWidthContainer] = React.useState(props.data.maxWidthContainer || 'lg') 
 
     const mobileMarginTopComputed = marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30)
     const mobileMarginBottomComputed = marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30)
      
     React.useEffect(() => {
-        if(props.data.color !== 'primary' && props.data.color !== 'secondary' ) {  
+        if ( 
+            props.data.color !== 'primary' && 
+            props.data.color !== 'secondary' &&
+            props.data.color !== 'warning' &&
+            props.data.color !== 'error' &&
+            props.data.color !== 'info' &&
+            props.data.color !== 'success' 
+        ) {  
             setColorSelect('custom')
         }  
     }, [props.data.color])
@@ -376,32 +383,17 @@ function StyledComponent(props) {
                                         />
                                     </Box> 
                                     <Box mt={2} display="flex" >
-                                        <FormControl variant='filled' style={{minWidth: '250px' }}>
-                                            <InputLabel id="color-select-label">Color for Button</InputLabel>
-                                            <Select
-                                                labelId="color-select-label"
-                                                id="color-select"
-                                                value={colorSelect}
-                                                onChange={(e) => {setIsDisableBtn(false); setColorSelect(e.target.value)   }}
-                                            >
-                                                <MenuItem value={'primary'}>Primary</MenuItem>
-                                                <MenuItem value={'secondary'}>Secondary</MenuItem>
-                                                <MenuItem value={'custom'}>Custom</MenuItem>
-                                            </Select>
-                                        </FormControl>
-                                        <Box ml={1} >
-                                            {
-                                                colorSelect === 'custom' &&
-                                                <ColorPicker
-                                                    initialColor = {colorCustom}
-                                                    changeColor = {setColorCustom}
-                                                    setIsDisableBtn = {setIsDisableBtn}
-                                                    position = {'right'}
-                                                    noInherit={true}
-                                                />  
-                                            }
-                                            
-                                        </Box>
+                                        <ColorSelecter
+                                            label={'Color for Button'}
+                                            colorSelect={colorSelect} 
+                                            setColorSelect={setColorSelect}
+                                            colorCustom={colorCustom}
+                                            setColorCustom={setColorCustom}
+                                            setIsDisableBtn={setIsDisableBtn} 
+                                            position="right"
+                                            noInherit={true}
+                                        />
+                                        
                                     </Box>
 
                                     <Box className={classes.btnSave}>

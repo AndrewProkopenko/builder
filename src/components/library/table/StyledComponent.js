@@ -4,7 +4,7 @@ import StylesChangers from '../../../styles/changers'
 import StyledInputs from '../../../styles/inputs'    
  
 import Draggable from 'react-draggable';
-import {ColorPicker} from '../colorPicker/ColorPicker'
+import ColorSelecter from '../colorPicker/ColorSelecter'
 
 import {
     Select, 
@@ -32,6 +32,8 @@ import {DeleteOutline} from '@material-ui/icons';
 import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 
 import DumbComponent from "./DumbComponent"
+import AddItem from "./AddItem"
+import ChangeItem from "./ChangeItem"
 
 function StyledComponent(props) {
 
@@ -66,7 +68,14 @@ function StyledComponent(props) {
     };
      
     React.useEffect(() => {
-        if(props.data.color !== 'primary' && props.data.color !== 'secondary' ) {  
+        if(
+            props.data.color !== 'primary' && 
+            props.data.color !== 'secondary' &&
+            props.data.color !== 'warning' &&
+            props.data.color !== 'error' &&
+            props.data.color !== 'info' &&
+            props.data.color !== 'success' 
+        ) {  
             setColorSelect('custom')
         }
     }, [props.data.color])  
@@ -171,9 +180,11 @@ function StyledComponent(props) {
         newRow[index] = value
         setTableRow(newRow)
     }
-    const handleRowChange = (index, place, value) => {
+    const handleRowChange = (index, name, price) => {
         const newRows = rows.slice()
-        newRows[index][place] = value
+
+        newRows[index].name = name
+        newRows[index].price = price
 
         setRows(newRows)
         setIsDisableBtn(false); 
@@ -210,11 +221,11 @@ function StyledComponent(props) {
         setRows(newRows) 
         setIsDisableBtn(false); 
     }
-    const addRow = () => {
+    const addRow = (title, body) => {
         const newRows = rows.slice()
         const rowLayout = {
-            name: "Table Row", 
-            price: 100 
+            name: title, 
+            price: body 
         }
         newRows.push(rowLayout)
 
@@ -405,6 +416,7 @@ function StyledComponent(props) {
                                         <TextField
                                             fullWidth
                                             type='text'
+                                            size='small'
                                             label="Main Heading"
                                             variant="outlined"
                                             value={heading}
@@ -415,9 +427,9 @@ function StyledComponent(props) {
                                     </Box>
 
                                     <Box mt={3} mb={3}>
-                                        <TextField
-                                            multiline
+                                        <TextField 
                                             fullWidth
+                                            size='small'
                                             type='text'
                                             label="Text Button"
                                             variant="outlined"
@@ -440,6 +452,7 @@ function StyledComponent(props) {
                                                         <TextField 
                                                             fullWidth
                                                             type='text'
+                                                            size='small'
                                                             label={`Table Head Row ${index + 1}`}
                                                             variant="outlined"
                                                             value={item}
@@ -466,13 +479,7 @@ function StyledComponent(props) {
                                                 return (
                                                     <Box key={index} my={2} display='flex' alignItems='center' >
                                                         <Box mr={1} display='flex' alignItems='center'>
-
-                                                            <Box mr={0.5}>
-                                                                <Typography variant='caption'>
-                                                                    Row {index + 1}
-                                                                </Typography>
-                                                            </Box>
-
+  
                                                             <ButtonGroup 
                                                                 color="primary"
                                                                 aria-label="contained primary button group"
@@ -518,77 +525,31 @@ function StyledComponent(props) {
                                                                 </Tooltip>  
                                                             </ButtonGroup>
                                                         </Box>
-                                                        <Box mr={1} flexGrow={1}>
-                                                            <TextField 
-                                                                fullWidth
-                                                                type='text'
-                                                                label={`Table Row Name ${index + 1}`}
-                                                                variant="outlined"
-                                                                value={item.name}
-                                                                onChange={(e) => {
-                                                                    setIsDisableBtn(false);
-                                                                    handleRowChange(index, 'name', e.target.value)
-                                                                }}
-                                                            />
-                                                        </Box>
-                                                        <Box >
-                                                            <TextField 
-                                                                fullWidth
-                                                                type='text'
-                                                                label={`Table Row Price ${index + 1}`}
-                                                                variant="outlined"
-                                                                value={item.price}
-                                                                onChange={(e) => {
-                                                                    setIsDisableBtn(false);
-                                                                    handleRowChange(index, 'price', e.target.value)
-                                                                }}
-                                                            />
-                                                        </Box>
+                                                                
+                                                        <ChangeItem handleRowChange={handleRowChange} item={item} index={index} />
+
                                                     </Box>
                                                 )
                                             })
                                         } 
                                     </Box>
-
-                                    <Button
-                                        variant='contained'
-                                        color='primary'
-                                        onClick={addRow}
-                                    >
-                                        Add Row
-                                    </Button>
+                                    
+                                    <AddItem addItem={addRow} />
+                                     
 
                                     <Divider style={{margin: "12px 0"}}/>
 
                                     <Box display='flex' mt={3} mb={3}> 
-                                        <Box  display="flex" >
-                                            <FormControl variant='filled' style={{minWidth: '250px' }}>
-                                                <InputLabel id="color-select-label">Color for Table</InputLabel>
-                                                <Select
-                                                    labelId="color-select-label"
-                                                    id="color-select"
-                                                    value={colorSelect}
-                                                    onChange={(e) => {setIsDisableBtn(false); setColorSelect(e.target.value)   }}
-                                                >
-                                                    <MenuItem value={'primary'}>Primary</MenuItem>
-                                                    <MenuItem value={'secondary'}>Secondary</MenuItem>
-                                                    <MenuItem value={'custom'}>Custom</MenuItem>
-                                                </Select>
-                                            </FormControl>
-                                            <Box ml={1} >
-                                                {
-                                                    colorSelect === 'custom' &&
-                                                    <ColorPicker
-                                                        initialColor = {colorCustom}
-                                                        changeColor = {setColorCustom}
-                                                        setIsDisableBtn = {setIsDisableBtn}
-                                                        noInherit={true}
-                                                        position = {'right'}
-                                                    />  
-                                                }
-                                                
-                                            </Box>
-                                        </Box>  
+                                        <ColorSelecter
+                                            label={'Color for Table'}
+                                            colorSelect={colorSelect} 
+                                            setColorSelect={setColorSelect}
+                                            colorCustom={colorCustom}
+                                            setColorCustom={setColorCustom}
+                                            setIsDisableBtn={setIsDisableBtn} 
+                                            position="right"
+                                            noInherit={true}
+                                        /> 
                                     </Box>
 
                                     <Box mt={3} mb={3}>

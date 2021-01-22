@@ -208,16 +208,17 @@ function SinglePage(props) {
     let newItems = items.slice()
 
     let newCont
-    if(type === 'container') newCont = Object.assign({}, ContainerLayout) 
-    if(type === 'mainBanner') newCont = Object.assign({}, MainBannerLayout) 
-    if(type === 'accordion') newCont = Object.assign({}, AccordionLayout) 
-    if(type === 'contactMap') newCont = Object.assign({}, СontactMapLayout) 
-    if(type === 'about') newCont = Object.assign({}, AboutLayout) 
-    if(type === 'actionLine') newCont = Object.assign({}, ActionLineLayout) 
-    if(type === 'table') newCont = Object.assign({}, TableLayout) 
-    if(type === 'formLine') newCont = Object.assign({}, FormLineLayout) 
-    if(type === 'swiper') newCont = Object.assign({}, SwiperLayout) 
-    if(type === 'banner') newCont = Object.assign({}, BannerLayout) 
+    if(type === 'container')  newCont = JSON.parse(JSON.stringify(ContainerLayout))
+    if(type === 'mainBanner') newCont = JSON.parse(JSON.stringify(MainBannerLayout))
+    if(type === 'accordion')  newCont = JSON.parse(JSON.stringify(AccordionLayout))
+    if(type === 'contactMap') newCont = JSON.parse(JSON.stringify(СontactMapLayout))
+    if(type === 'about')      newCont = JSON.parse(JSON.stringify(AboutLayout))
+    if(type === 'actionLine') newCont = JSON.parse(JSON.stringify(ActionLineLayout))
+    if(type === 'table')      newCont = JSON.parse(JSON.stringify(TableLayout))
+    if(type === 'formLine')   newCont = JSON.parse(JSON.stringify(FormLineLayout))
+    if(type === 'swiper')     newCont = JSON.parse(JSON.stringify(SwiperLayout))
+    if(type === 'banner')     newCont = JSON.parse(JSON.stringify(BannerLayout))
+  
 
     newCont.id = uuid()
   
@@ -229,6 +230,11 @@ function SinglePage(props) {
     setItems(newItems) 
     setIsLoading(true)
     handleClose()
+
+    window.scrollTo({
+      top: window.innerHeight 
+    })
+
     await firebase.db.collection("site1").doc(pageSlug).update({
       items: newItems
     }).then(() => { 

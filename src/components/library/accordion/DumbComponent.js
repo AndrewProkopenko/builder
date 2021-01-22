@@ -6,6 +6,8 @@ import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
 
 import '../../../assets/style/accordion.scss'
 
+import {getColorByPalette} from '../colorPicker/ColorCalculation'
+
 function DumbComponent(props) { 
     let color = props.data.color
     const heading = props.data.heading
@@ -15,9 +17,8 @@ function DumbComponent(props) {
     const maxWidthContainer = props.data.maxWidthContainer  
 
     const useStyles = makeStyles((theme) => { 
-
-        if(color === 'primary')  color = theme.palette.primary.main
-        if(color === 'secondary') color = theme.palette.secondary.main 
+  
+        color = getColorByPalette(theme, color) 
 
         return ({
              
