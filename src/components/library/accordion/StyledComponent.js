@@ -143,6 +143,7 @@ function StyledComponent(props) {
    
         props.reSaveItem(props.data.id, newData) 
         handleClose()
+        setIsDisableBtn(true)
     }
     const removeAccordion = () => {
         const conf = window.confirm('Delete? ')

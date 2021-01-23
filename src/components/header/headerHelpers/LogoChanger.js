@@ -6,8 +6,8 @@ import LoadingContext from '../../../context/loadingContext/LoadingContext'
 import ImageContext from '../../../context/imageContext/ImageContext' 
 
 import StylesChangers from '../../../styles/changers'  
-
-import { ColorPicker } from '../../library/colorPicker/ColorPicker'
+ 
+import ColorSelecter from '../../library/colorPicker/ColorSelecter'
 
 import { 
     Tooltip,
@@ -41,6 +41,8 @@ function LogoChanger() {
     const { setIsLoading } = React.useContext(LoadingContext)
     const { logo, modal, updateLogo } = React.useContext(CategoryContext)     
 
+    console.log(modal.color )
+
     const { removeImage  } = React.useContext(ImageContext)     
   
     const [open, setOpen] = React.useState(false)
@@ -59,7 +61,14 @@ function LogoChanger() {
     const [colorCustom, setColorCustom] = React.useState(modal.color)
 
     React.useEffect(() => {
-        if(modal.color !== 'primary' && modal.color !== 'secondary' ) {  
+        if(
+            modal.color !== 'primary' && 
+            modal.color !== 'secondary' &&
+            modal.color !== 'warning' &&
+            modal.color !== 'error' &&
+            modal.color !== 'info' &&
+            modal.color !== 'success' 
+        ) {  
             setColorSelect('custom')
         }
     }, [modal])
@@ -75,7 +84,7 @@ function LogoChanger() {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { menu, menuTitle, btnSetting, btnSave } = commonClasses
+        const { menu, menuTitle, btnSetting, btnSave, btnWithLabel } = commonClasses
 
         return ({  
             menu: {...menu, ...{
@@ -84,7 +93,14 @@ function LogoChanger() {
             }},
             menuTitle: menuTitle,
             btnSetting: btnSetting, 
-            btnSave: btnSave, 
+            btnSave: btnSave,  
+            btnWithLabel: {...btnWithLabel, ...{
+                '& label': {
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    padding: theme.spacing(1, 2)
+                }
+            }},
         })
     })
     
@@ -183,10 +199,10 @@ function LogoChanger() {
                                 <Grid item xs={5}>
                                     <Button 
                                         color='primary'
-                                        variant='contained'
-                                        startIcon={<ImageIcon color="action" />}
+                                        variant='contained' 
+                                        className={classes.btnWithLabel}
                                     >  
-                                        <label htmlFor='image-input-label'> Set Logo </label>
+                                        <label htmlFor='image-input-label'> <ImageIcon color="action" /> Set Logo </label>
                                         <input 
                                             id="image-input-label"
                                             type="file" 
@@ -253,32 +269,16 @@ function LogoChanger() {
                                                 }}/>   
                                         </Box>
                                         <Box mt={2} display="flex" flexDirection='column'>
-                                            <FormControl variant='filled' style={{minWidth: '250px' }}>
-                                                <InputLabel id="color-select-label">Color for Button</InputLabel>
-                                                <Select
-                                                    labelId="color-select-label"
-                                                    id="color-select"
-                                                    value={colorSelect}
-                                                    onChange={(e) => {setIsDisableBtn(false); setColorSelect(e.target.value)   }}
-                                                >
-                                                    <MenuItem value={'primary'}>Primary</MenuItem>
-                                                    <MenuItem value={'secondary'}>Secondary</MenuItem>
-                                                    <MenuItem value={'custom'}>Custom</MenuItem>
-                                                </Select>
-                                            </FormControl>
-                                            <Box mt={2} >
-                                                {
-                                                    colorSelect === 'custom' &&
-                                                    <ColorPicker
-                                                        initialColor = {colorCustom}
-                                                        changeColor = {setColorCustom}
-                                                        setIsDisableBtn = {setIsDisableBtn}
-                                                        position = {'right'}
-                                                        noInherit={true} 
-                                                    /> 
-                                                }
-                                                
-                                            </Box>
+                                            <ColorSelecter
+                                                label={'Color for Button'}
+                                                colorSelect={colorSelect} 
+                                                setColorSelect={setColorSelect}
+                                                colorCustom={colorCustom}
+                                                setColorCustom={setColorCustom}
+                                                setIsDisableBtn={setIsDisableBtn} 
+                                                position = {'right'}
+                                                noInherit={true}
+                                            /> 
                                         </Box>
                                     </Box>
                                 }

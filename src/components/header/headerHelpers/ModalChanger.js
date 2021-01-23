@@ -1,8 +1,8 @@
 import React from 'react'  
 
 import StylesChangers from '../../../styles/changers'  
- 
-import { ColorPicker } from '../../library/colorPicker/ColorPicker'
+  
+import ColorSelecter from '../../library/colorPicker/ColorSelecter'
 
 import LoadingContext from '../../../context/loadingContext/LoadingContext' 
 import SendFormContext from '../../../context/sendFormContext/SendFormContext'  
@@ -14,11 +14,7 @@ import {
     Typography,  
     Box,
     makeStyles,   
-    TextField,  
-    FormControl, 
-    Select,
-    MenuItem, 
-    InputLabel
+    TextField,   
 } from '@material-ui/core' 
 
 import { amber } from '@material-ui/core/colors'
@@ -56,7 +52,18 @@ function RequestsChanger() {
         setOpen(false);
     }; 
      
-   
+    React.useEffect(() => {
+        if(
+            modalSettings.colorButton !== 'primary' && 
+            modalSettings.colorButton !== 'secondary' &&
+            modalSettings.colorButton !== 'warning' &&
+            modalSettings.colorButton !== 'error' &&
+            modalSettings.colorButton !== 'info' &&
+            modalSettings.colorButton !== 'success' 
+        ) {  
+            setColorSelect('custom')
+        }  
+    }, [modalSettings.colorButton])
     
 
     const useStyles = makeStyles((theme) => {
@@ -217,31 +224,16 @@ function RequestsChanger() {
                                 />
                             </Box>
                             <Box display="flex" >
-                                <FormControl variant='filled' style={{minWidth: '250px' }}>
-                                    <InputLabel id="color-select-label">Color for Button</InputLabel>
-                                    <Select
-                                        labelId="color-select-label"
-                                        id="color-select"
-                                        value={colorSelect}
-                                        onChange={(e) => {setIsDisableBtn(false); setColorSelect(e.target.value)   }}
-                                    >
-                                        <MenuItem value={'primary'}>Primary</MenuItem>
-                                        <MenuItem value={'secondary'}>Secondary</MenuItem>
-                                        <MenuItem value={'custom'}>Custom</MenuItem>
-                                    </Select>
-                                </FormControl>
-                                <Box ml={1} >
-                                    {
-                                        colorSelect === 'custom' &&
-                                        <ColorPicker
-                                            initialColor = {colorCustom}
-                                            changeColor = {setColorCustom}
-                                            setIsDisableBtn = {setIsDisableBtn}
-                                            position = {'right'}
-                                        /> 
-                                    }
-                                    
-                                </Box>
+                                <ColorSelecter
+                                    label={'Color for Button'}
+                                    colorSelect={colorSelect} 
+                                    setColorSelect={setColorSelect}
+                                    colorCustom={colorCustom}
+                                    setColorCustom={setColorCustom}
+                                    setIsDisableBtn={setIsDisableBtn} 
+                                    position = {'right'}
+                                    noInherit={true}
+                                /> 
                             </Box>
                             
                              

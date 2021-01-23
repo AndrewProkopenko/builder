@@ -88,8 +88,7 @@ function DumbComponent(props) {
                 marginBottom: `${marginBottom}px`,
                 [theme.breakpoints.down('md')]: { 
                     marginTop: marginTop === 0 ? 0 : (marginTop > 80 ? marginTop*0.8 : 50),
-                    marginBottom: marginBottom === 0 ? 0 : (marginBottom > 80 ? marginBottom*0.8 : 50),
-                    textAlign: 'auto'
+                    marginBottom: marginBottom === 0 ? 0 : (marginBottom > 80 ? marginBottom*0.8 : 50)
                 },
                 [theme.breakpoints.down('sm')]: { 
                     marginTop: marginTop === 0 ? 0 : (marginTop > 120 ? marginTop*0.25 : 40),
@@ -122,7 +121,7 @@ function DumbComponent(props) {
         <div className={`bulder-main-banner ${classes.styleClass}`}>
             <Container maxWidth={maxWidthContainer}>
                 <Grid container spacing={2}>
-                    <Grid item md={7} className="col-12 col-lg-7">
+                    <Grid item xs={12} md={7} >
                         <div className="bulder-main-banner_content">
                             <h1>
                                 {
@@ -176,7 +175,7 @@ function DumbComponent(props) {
                             </div>
                         </div>
                     </Grid>
-                    <Grid item md={5} className="col-lg-5"> 
+                    <Grid item md={5} > 
                         <div className="bulder-main-banner-image d-none d-lg-block">
                         <div className="image" style={{ backgroundImage: `url(${imageUrl})` }} />
                         </div>

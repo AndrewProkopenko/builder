@@ -128,6 +128,7 @@ function DumbComponent(props) {
  
     React.useEffect(() => {  
         const getWidthViewport = () => {  
+            console.log('swiper resize')
             let actualWidth = window.innerWidth
             let quantity = Math.floor(actualWidth/slideWidth)
             if(quantity !== 0) setSlideForView(quantity)
@@ -136,14 +137,7 @@ function DumbComponent(props) {
             try {
                 setTimeout(() => {
                     let slideHeightCalc = slideRef.current.clientWidth
-                    setSlideHeight(slideHeightCalc)
-                    // if(actualWidth > slideWidth ) {
-                    //     setSlideHeight(slideHeightCalc)
-                    // }
-                    // else {
-                    //     setSlideHeight(300)
-                    //     setSlideWidth(300)
-                    // } 
+                    setSlideHeight(slideHeightCalc) 
                 }, 300)
             }
             catch (error) {

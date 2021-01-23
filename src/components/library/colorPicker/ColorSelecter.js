@@ -6,6 +6,7 @@ import { FormControl, InputLabel, Select , MenuItem, Box, makeStyles } from '@ma
 
 function ColorSelecter({label, colorSelect, setColorSelect, colorCustom , setColorCustom, setIsDisableBtn, position, noInherit }) {
    
+    console.log(colorSelect, colorCustom)
 
     const useStyles = makeStyles(theme => ({
         block: {
@@ -35,6 +36,8 @@ function ColorSelecter({label, colorSelect, setColorSelect, colorCustom , setCol
         } 
     }))
     const { block, primary , secondary , warning , error , info, success } = useStyles()
+    const colorCustomText = (colorCustom !== 'primary' && colorCustom !== 'secondary' &&  colorCustom !== 'warning' &&
+                            colorCustom !== 'error' && colorCustom !== 'info' && colorCustom !== 'success' ) ? ` - ${colorCustom}` : " "
     return (
         <Box display="flex" alignItems='center'>
             <FormControl variant='filled' style={{minWidth: '250px' }}>
@@ -70,7 +73,7 @@ function ColorSelecter({label, colorSelect, setColorSelect, colorCustom , setCol
                         <Box className={`${block} ${success}`} />
                     </MenuItem>
                     <MenuItem value={'custom'}>
-                        Custom - {colorCustom}
+                        Custom  {colorCustomText}
                     </MenuItem>
                 </Select>
             </FormControl>

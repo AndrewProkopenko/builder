@@ -23,7 +23,7 @@ export default class SendFormProvider extends React.Component {
             this.setState({
                 requests: doc.data().list, 
                 modalSettings: doc.data().modalSettings, 
-            }) 
+            })  
         } 
     }
     getCurrentDate() { 

@@ -89,6 +89,7 @@ function StyledComponent(props) {
 
         props.reSaveItem(props.data.id, newData)
         handleClose()
+        setIsDisableBtn(true)
     }
     const removeItem = () => {
         const conf = window.confirm('Delete? ')

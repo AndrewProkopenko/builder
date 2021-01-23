@@ -37,9 +37,7 @@ import DumbComponent from "./DumbComponent"
 
 import ImageContext  from '../../../context/imageContext/ImageContext'
 
-function StyledComponent(props) {
-
-    console.log(props)
+function StyledComponent(props) { 
     
     const { removeImage } = React.useContext(ImageContext)
 
@@ -70,7 +68,7 @@ function StyledComponent(props) {
     const mobileMarginTopComputed = marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30)
     const mobileMarginBottomComputed = marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30)
     const paddingVerticalComputed = paddingVertical === 0 ? 0 : (paddingVertical > 50 ? paddingVertical*0.6 : 20)
-
+ 
     const handleChange = () => {
         setIsButton(!isButton)
         setIsDisableBtn(false)
@@ -92,6 +90,9 @@ function StyledComponent(props) {
         ) {  
             setColorSelect('custom')
         }
+         
+    }, [props.data.colorButton])  
+    React.useEffect(() => { 
         if( 
             props.data.colorText !== 'primary' && 
             props.data.colorText !== 'secondary' &&
@@ -102,7 +103,7 @@ function StyledComponent(props) {
          ) {  
             setColorTextSelect('custom')
         }
-    }, [props.data.colorButton, props.data.colorText ]) 
+    }, [props.data.colorText ]) 
 
     const useStyles = makeStyles((theme) => {
         const styleRef = StyledInputs()
@@ -224,14 +225,15 @@ function StyledComponent(props) {
             newData.colorButton = colorSelect
         }
 
-        if (colorSelect === 'custom') {
+        if (colorTextSelect === 'custom') {
             newData.colorText = colorTextCustom
         } else {
             newData.colorText = colorTextSelect
         }
-
+        
         props.reSaveItem(props.data.id, newData)
         handleClose()
+        setIsDisableBtn(true)
     }
     const removeItem = () => {
         const conf = window.confirm('Delete? ')
@@ -393,7 +395,7 @@ function StyledComponent(props) {
                                                 value={minHeight}
                                                 onChange={(e) => {
                                                 setIsDisableBtn(false);
-                                                setMinHeight(e.target.value)
+                                                setMinHeight(Number(e.target.value))
                                             }}/>
                                         </Box>
                                         <Box mr={1} display='inline-block' >

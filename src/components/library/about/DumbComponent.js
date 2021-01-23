@@ -6,13 +6,11 @@ import {getColorByPalette} from '../colorPicker/ColorCalculation'
 
 import '../../../assets/style/about.scss'
 
-import ModalContext from '../../../context/modalContext/ModalContext'
-import ImageContext  from '../../../context/imageContext/ImageContext'
+import ModalContext from '../../../context/modalContext/ModalContext' 
 
 function DumbComponent(props) {
 
-    const { handleOpen  } = React.useContext(ModalContext)
-    const { imageList } = React.useContext(ImageContext)
+    const { handleOpen  } = React.useContext(ModalContext) 
       
     const imageUrl = props.data.image
 

@@ -169,6 +169,7 @@ function StyledComponent(props) {
 
         props.reSaveItem(props.data.id, newData)
         handleClose()
+        setIsDisableBtn(true)
     }
     const removeTable = () => {
         const conf = window.confirm('Delete? ')

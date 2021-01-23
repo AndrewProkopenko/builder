@@ -77,6 +77,9 @@ export const ColorPicker = memo(({ initialColor, changeColor, setIsDisableBtn, p
             }, 
             iconButton: {
                 padding: theme.spacing(1)
+            }, 
+            iconButtonDisabled: {
+                opacity: 0
             }
         })
     })
@@ -100,8 +103,8 @@ export const ColorPicker = memo(({ initialColor, changeColor, setIsDisableBtn, p
                 }
                 {
                     isDisableSaveIcon ? 
-                    <IconButton disabled={true} className={classes.iconButton} >
-                        {/* <CheckCircleOutlineIcon /> */}
+                    <IconButton disabled={true} className={`${classes.iconButton} ${classes.iconButtonDisabled}`} >
+                        <CheckCircleOutlineIcon />
                     </IconButton> 
                     :
                     <Tooltip title="Save color" placement='top'>

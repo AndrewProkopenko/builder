@@ -9,7 +9,7 @@ import {
     Box,
     IconButton
 } from '@material-ui/core'; 
-import { darken } from '@material-ui/core/styles';
+import { darken, lighten } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 
 import '../../assets/style/modal.scss'
@@ -17,6 +17,7 @@ import '../../assets/style/modal.scss'
 import SendFormContext from '../../context/sendFormContext/SendFormContext'
 import ModalContext from '../../context/modalContext/ModalContext'
 
+import {getColorByPaletteForGradient} from '../library/colorPicker/ColorCalculation'
 
 
 export default function TransitionsModal() {
@@ -40,21 +41,14 @@ export default function TransitionsModal() {
   let colorGradient1, colorGradient2  
  
   const useStyles = makeStyles((theme) => {
-
-    if(colorButton === 'primary') {
-        colorGradient1 = theme.palette.primary.main
-        colorGradient2 = theme.palette.primary.dark
-    }
-    if(colorButton === 'secondary') {
-        colorGradient1 = theme.palette.secondary.main
-        colorGradient2 = theme.palette.secondary.dark
-    }
-    if(colorButton !== 'primary' && colorButton !== 'secondary' ) {
-      if(modalSettings.colorButton) {
-        colorGradient1 = modalSettings.colorButton
-        colorGradient2 = darken(modalSettings.colorButton, 0.4)
-      } 
-    } 
+   
+    // const currentColor = getColorByPalette(theme, modalSettings.colorButton)
+  
+    colorGradient1 = getColorByPaletteForGradient(theme, modalSettings.colorButton)[0]
+    colorGradient2 = getColorByPaletteForGradient(theme, modalSettings.colorButton)[1]
+    // colorGradient1 = lighten(currentColor, 0.2)
+    // colorGradient2 = darken(currentColor, 0.2) 
+     
 
     return ({
       modal: {

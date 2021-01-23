@@ -45,12 +45,18 @@ function StyleChanger() {
     const [settingPosition, setSettingPosition] = React.useState(settings.classes.position)
     const [settingBackgroundSelect, setSettingBackgroundSelect] = React.useState(settings.classes.backgroundColor ||  'transparent')
     const [settingBackgroundCustom, setSettingBackgroundCustom] = React.useState(settings.classes.backgroundColor ||  'transparent')
- 
+
     React.useEffect(() => {
-        if( settings.classes.backgroundColor !== 'default' && 
+        if( 
+            settings.classes.backgroundColor !== 'default' && 
             settings.classes.backgroundColor !== 'paper' && 
             settings.classes.backgroundColor !== 'primary' &&  
-            settings.classes.backgroundColor !== 'secondary' ) {  
+            settings.classes.backgroundColor !== 'secondary' &&
+            settings.classes.backgroundColor !== 'warning' &&
+            settings.classes.backgroundColor !== 'error' &&
+            settings.classes.backgroundColor !== 'info' &&
+            settings.classes.backgroundColor !== 'success'  
+        ) {  
             setSettingBackgroundSelect('custom')
         }
     }, [settings])
@@ -281,7 +287,11 @@ function StyleChanger() {
                                                     onChange={(e) => {setIsDisableBtn(false); setSettingBackgroundSelect(e.target.value)   }}
                                                 >
                                                     <MenuItem value={'primary'}>Theme Primary</MenuItem>
-                                                    <MenuItem value={'secondary'}>Theme Secondary</MenuItem>
+                                                    <MenuItem value={'secondary'}>Theme Secondary</MenuItem> 
+                                                    <MenuItem value={'warning'}>Theme Warning</MenuItem>
+                                                    <MenuItem value={'error'}>Theme Error</MenuItem>
+                                                    <MenuItem value={'info'}>Theme Info</MenuItem>
+                                                    <MenuItem value={'success'}>Theme Success</MenuItem>
                                                     <MenuItem value={'default'}>Theme BG default</MenuItem>
                                                     <MenuItem value={'paper'}>Theme BG paper</MenuItem>
                                                     <MenuItem value={'custom'}>Custom</MenuItem>

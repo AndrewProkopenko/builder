@@ -25,9 +25,11 @@ function DumbComponent(props) {
     const marginBottom = props.data.marginBottom  
     const maxWidthContainer = props.data.maxWidthContainer 
 
+    console.log(colorText)
     const useStyles = makeStyles((theme) => {   
         colorButton = getColorByPalette(theme, colorButton) 
         colorText = getColorByPalette(theme, colorText) 
+
              
         return ({ 
             bannerBackground: {
@@ -61,6 +63,7 @@ function DumbComponent(props) {
                 color: colorText
             },
             paragraph: {  
+                marginTop: -10, 
                 marginBottom: 20,  
                 lineHeight: 1.5, 
                 fontWeight: 400, 

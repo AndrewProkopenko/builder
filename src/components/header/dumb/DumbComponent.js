@@ -13,42 +13,50 @@ import {
     makeStyles, 
     Container, 
     Box, 
-    Button
+    Button,
+    FormControlLabel, 
+    Switch
 } from "@material-ui/core"; 
 import { darken } from '@material-ui/core/styles';
 
-function DumbComponent() {
+import {getColorByPaletteForGradient, getColorByPalette } from '../../library/colorPicker/ColorCalculation'
+
+function DumbComponent() { 
+
+    console.log('dumb header')
 
     const { handleOpen  } = React.useContext(ModalContext)
-    const {categories, logo, modal,  settings} = React.useContext(CategoryContext)    
+    const {categories, logo, modal,  settings, setThemeMode, themeMode} = React.useContext(CategoryContext)    
   
+    const checked = themeMode === 'dark' ? true : false
+
     const [headerHeight, setHeaderHeight] = useState(0)
+
+    const [mobileView, setMobileView] = useState(false); 
    
     let backgroundHeader = settings.classes.backgroundColor
     let colorHeader 
     let hoverActiveLinkColor
-
-
-    let modalBtnColor = modal.color
-    let modalBtnColor1 
-    let modalBtnColor2 
+  
+    let modalBtnColor1 = modal.color
+    let modalBtnColor2 = modal.color
 
     let widthMobile 
     
+    
+    const headerRef = React.useRef(null);
+    const topHeaderRef = React.useRef(null);
+
+
     const useStyles = makeStyles((theme) => {
         widthMobile = theme.breakpoints.values[`${settings.breakpoint}`]
-        if(modalBtnColor === 'primary') {
-            modalBtnColor1 = theme.palette.primary.main
-            modalBtnColor2 = theme.palette.primary.dark
-        }
-        if(modalBtnColor === 'secondary') {
-            modalBtnColor1 = theme.palette.secondary.main
-            modalBtnColor2 = theme.palette.secondary.dark
-        }
-        if(modalBtnColor !== 'primary' && modalBtnColor !== 'secondary' ) {
-            modalBtnColor1 = modal.color
-            modalBtnColor2 = darken(modal.color, 0.4) 
-        } 
+        
+        modalBtnColor1= getColorByPaletteForGradient(theme, modal.color)[0]
+        modalBtnColor2= getColorByPaletteForGradient(theme, modal.color)[1]
+ 
+        backgroundHeader = getColorByPalette(theme, backgroundHeader)
+ 
+
         if(backgroundHeader === 'primary') {
             backgroundHeader = theme.palette.primary.main
             colorHeader = theme.palette.getContrastText(theme.palette.primary.main)
@@ -59,11 +67,18 @@ function DumbComponent() {
             colorHeader = theme.palette.getContrastText(theme.palette.secondary.main)
             hoverActiveLinkColor = darken(theme.palette.secondary.main, 0.3)
         }
-        
-        if( backgroundHeader !== 'default' && 
+          
+
+        if( 
+            backgroundHeader !== 'default' && 
             backgroundHeader !== 'paper' && 
             backgroundHeader !== 'primary' && 
-            backgroundHeader !== 'secondary' ) {  
+            backgroundHeader !== 'secondary' &&
+            backgroundHeader !== 'warning' &&
+            backgroundHeader !== 'error' &&
+            backgroundHeader !== 'info' &&
+            backgroundHeader !== 'success' 
+        ) {  
                 colorHeader = theme.palette.getContrastText(backgroundHeader)
                 hoverActiveLinkColor = darken(backgroundHeader, 0.5) 
         }   
@@ -85,13 +100,14 @@ function DumbComponent() {
 
                 backgroundColor: backgroundHeader, 
                 color: `${colorHeader} !important`,  
-
+  
                 position: settings.classes.position,   
                 boxShadow: settings.classes.boxShadow, 
 
+               
                 top: 0, 
-                left: 0,
-                right: 0,
+                // left: 0,
+                // right: 0,
                 zIndex: 1000,
 
                 [`@media (max-width: ${widthMobile}px)`]: {
@@ -102,11 +118,21 @@ function DumbComponent() {
             fixedPadding: { 
                 minHeight: headerHeight
             },
+            topHeader: {   
+                height: 35, 
+                backgroundColor: theme.palette.background.default, 
+                transition: `200ms ${theme.transitions.easing.easeInOut} `, 
+                '&.sticky' : {
+                    // transform: 'scaleY(0)',
+                    // transformOrigin: 'top', 
+                    height: 0, 
+                    opacity: 0
+                }
+            },
             logoMain: { 
                 fontWeight: 600,
                 fontSize: 24,
-                color: colorHeader ,
-                // color: theme.palette.text.primary,
+                color: colorHeader , 
                 textDecoration: 'none',
                 textAlign: "left",
                 whiteSpace: 'nowrap',
@@ -152,28 +178,66 @@ function DumbComponent() {
             }
         })
     });
-    const { header, logoImage ,logoMain , logoSub, fixedPadding, buttonModal } = useStyles();
+    const { header, logoImage ,logoMain , logoSub, fixedPadding, buttonModal, topHeader} = useStyles();
   
     useEffect(() => {  
         const setResponsiveness = () => {
-            const headHeight =  document.querySelector('#header').clientHeight
+            const headHeight =  headerRef.current.clientHeight
             
             console.log('resize header')
             setHeaderHeight(headHeight + 5)
             
             return window.innerWidth < widthMobile ? setMobileView(true)  : setMobileView(false) 
         }; 
+        const setScrollHeader = () => { 
+            const headerTop =  window.pageYOffset
+            try {
+                if( headerTop > 1 ) {
+                    topHeaderRef.current.classList.add('sticky')
+                } else {
+                    topHeaderRef.current.classList.remove('sticky')
+                }
+            }
+            catch (err) {
+                console.log(err)
+            }
+            console.log(headerTop)
+        }
+        // setScrollHeader()
         setResponsiveness(); 
         window.removeEventListener('resize', setResponsiveness)
         window.addEventListener("resize", () => setResponsiveness());
+
+        window.removeEventListener('scroll', setScrollHeader)
+        window.addEventListener("scroll", () => setScrollHeader());
         // eslint-disable-next-line
     }, []);
      
-    const [mobileView, setMobileView] = useState(false); 
 
     const openModal = () => {
         handleOpen('')
     }
+
+    const handleChange = () => {
+        let newMode = themeMode === 'dark' ? 'light' : 'dark' 
+        setThemeMode(newMode)
+    }
+
+    const themeSwitch = () => (
+        <Box>
+            <FormControlLabel
+                control={
+                    <Switch
+                        checked={checked}
+                        onChange={handleChange}
+                        name="checkedB"
+                        color="primary"
+                    />
+                }
+                label="Dark Theme"
+            />
+        </Box>
+    )
 
     const createLogo = (
         <NavLink to={'/'} style={{textDecoration: 'none'}} >
@@ -208,11 +272,34 @@ function DumbComponent() {
 
     return (
         <React.Fragment>
+            
+                 
             {
                 settings.classes.position === 'fixed' &&
                 <div className={fixedPadding}></div>
-            }
-            <AppBar className={header}  id='header'>
+            } 
+            <AppBar className={header} ref={headerRef}  id='header'>
+                
+                    <Box className={topHeader} ref={topHeaderRef} >
+                        <Container 
+                            disableGutters={settings.disableGutters}
+                            fixed={settings.fixed} 
+                            maxWidth={settings.maxWidth}  
+                        > 
+                            <Box display='flex' alignItems='center'>
+                                {themeSwitch()} 
+                                <NavLink to='/login'>
+                                    <Button 
+                                        color='default' 
+                                        variant="outlined"
+                                        size='small'
+                                    >
+                                        Login
+                                    </Button>
+                                </NavLink>
+                            </Box>
+                        </Container>
+                    </Box>
                 <Container 
                     disableGutters={settings.disableGutters}
                     fixed={settings.fixed} 
@@ -221,6 +308,7 @@ function DumbComponent() {
                 > 
                     {   !mobileView ? 
                         <Desktop 
+                            themeSwitch={themeSwitch}
                             modalBtn={renderModal}
                             logo={createLogo}  
                             categories={categories} 
@@ -231,6 +319,7 @@ function DumbComponent() {
                         /> 
                         : 
                         <Mobile 
+                            themeSwitch={themeSwitch}
                             modalBtn={renderModal}
                             logo={createLogo}  
                             categories={categories}  
