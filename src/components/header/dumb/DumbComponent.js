@@ -1,7 +1,11 @@
 import React, {useState, useEffect} from 'react'
+import { NavLink } from "react-router-dom";
+
+import firebase from '../../../firebase/firebase'
+
+import ModeContext from '../../../context/modeContext/ModeContext'  
 import ModalContext from '../../../context/modalContext/ModalContext'  
 import CategoryContext from '../../../context/headerContext/CategoryContext'
-import { NavLink } from "react-router-dom";
 
 import Desktop from './desktop'
 import Mobile from './mobile'
@@ -25,6 +29,7 @@ function DumbComponent() {
 
     console.log('dumb header')
 
+    const { user } = React.useContext(ModeContext)
     const { handleOpen  } = React.useContext(ModalContext)
     const {categories, logo, modal,  settings, setThemeMode, themeMode} = React.useContext(CategoryContext)    
   
@@ -37,6 +42,7 @@ function DumbComponent() {
     let backgroundHeader = settings.classes.backgroundColor
     let colorHeader 
     let hoverActiveLinkColor
+    let iconMobileDrawerColor
   
     let modalBtnColor1 = modal.color
     let modalBtnColor2 = modal.color
@@ -47,15 +53,14 @@ function DumbComponent() {
     const headerRef = React.useRef(null);
     const topHeaderRef = React.useRef(null);
 
+    
 
     const useStyles = makeStyles((theme) => {
-        widthMobile = theme.breakpoints.values[`${settings.breakpoint}`]
-        
+        widthMobile = theme.breakpoints.values[`${settings.breakpoint}`] 
         modalBtnColor1= getColorByPaletteForGradient(theme, modal.color)[0]
-        modalBtnColor2= getColorByPaletteForGradient(theme, modal.color)[1]
- 
-        backgroundHeader = getColorByPalette(theme, backgroundHeader)
- 
+        modalBtnColor2= getColorByPaletteForGradient(theme, modal.color)[1] 
+        backgroundHeader = getColorByPalette(theme, backgroundHeader) 
+        iconMobileDrawerColor = theme.palette.getContrastText(backgroundHeader)
 
         if(backgroundHeader === 'primary') {
             backgroundHeader = theme.palette.primary.main
@@ -66,9 +71,7 @@ function DumbComponent() {
             backgroundHeader = theme.palette.secondary.main
             colorHeader = theme.palette.getContrastText(theme.palette.secondary.main)
             hoverActiveLinkColor = darken(theme.palette.secondary.main, 0.3)
-        }
-          
-
+        } 
         if( 
             backgroundHeader !== 'default' && 
             backgroundHeader !== 'paper' && 
@@ -104,6 +107,7 @@ function DumbComponent() {
                 position: settings.classes.position,   
                 boxShadow: settings.classes.boxShadow, 
 
+                transition: `200ms ${theme.transitions.easing.easeInOut} `, 
                
                 top: 0, 
                 // left: 0,
@@ -114,14 +118,21 @@ function DumbComponent() {
                     paddingTop: settings.classes.paddingY * 0.5,  
                     paddingBottom: settings.classes.paddingY * 0.5,  
                 }, 
+                '&.sticky' : {
+                    transform: "translateY(-38px)",
+                    [`@media (max-width: ${widthMobile}px)`]: {
+                        transform: "translateY(0px)",
+                    }
+                }
             },
             fixedPadding: { 
                 minHeight: headerHeight
             },
             topHeader: {   
-                height: 35, 
+                height: '100%', 
                 backgroundColor: theme.palette.background.default, 
                 transition: `200ms ${theme.transitions.easing.easeInOut} `, 
+                color: theme.palette.text.primary, 
                 '&.sticky' : {
                     // transform: 'scaleY(0)',
                     // transformOrigin: 'top', 
@@ -175,33 +186,39 @@ function DumbComponent() {
                     color: theme.palette.getContrastText(modalBtnColor2) ,
                     backgroundImage: `linear-gradient(200deg, ${modalBtnColor1} 0%, ${modalBtnColor2} 100%)`, 
                 }
+            }, 
+            linkModal: {  
+                position: 'relative', 
+                textDecoration: 'underline', 
+                '&:hover': {
+                    textDecoration: 'none', 
+                    cursor: 'pointer'
+                }
             }
         })
     });
-    const { header, logoImage ,logoMain , logoSub, fixedPadding, buttonModal, topHeader} = useStyles();
+    const { header, logoImage ,logoMain , logoSub, fixedPadding, buttonModal, linkModal, topHeader} = useStyles();
   
     useEffect(() => {  
         const setResponsiveness = () => {
-            const headHeight =  headerRef.current.clientHeight
-            
-            console.log('resize header')
-            setHeaderHeight(headHeight + 5)
-            
+            const headHeight =  headerRef.current.clientHeight 
+            setHeaderHeight(headHeight + 5) 
             return window.innerWidth < widthMobile ? setMobileView(true)  : setMobileView(false) 
         }; 
         const setScrollHeader = () => { 
-            const headerTop =  window.pageYOffset
-            try {
-                if( headerTop > 1 ) {
-                    topHeaderRef.current.classList.add('sticky')
-                } else {
-                    topHeaderRef.current.classList.remove('sticky')
+            if(!mobileView) {
+                const headerTop =  window.pageYOffset
+                try {
+                    if( headerTop > 1 ) {
+                        headerRef.current.classList.add('sticky')
+                    } else {
+                        headerRef.current.classList.remove('sticky')
+                    }
                 }
+                catch (err) {
+                    console.log(err)
+                } 
             }
-            catch (err) {
-                console.log(err)
-            }
-            console.log(headerTop)
         }
         // setScrollHeader()
         setResponsiveness(); 
@@ -214,13 +231,16 @@ function DumbComponent() {
     }, []);
      
 
-    const openModal = () => {
-        handleOpen('')
+    const openModal = (target) => {
+        handleOpen(target)
     }
 
     const handleChange = () => {
         let newMode = themeMode === 'dark' ? 'light' : 'dark' 
         setThemeMode(newMode)
+    }
+    const handleSignOut = () => {
+        firebase.logout()
     }
 
     const themeSwitch = () => (
@@ -258,13 +278,21 @@ function DumbComponent() {
 
     const createModalBtn = ( 
         <Button
-            onClick={openModal} 
+            onClick={() => { openModal(modal.target) }} 
             variant="contained"
             size='small' 
             className={buttonModal}
         >
             { modal.text }
         </Button>
+    ) 
+    const topHeaderModalBtn = () => ( 
+        <Typography
+            onClick={() => { openModal(modal.target) }} 
+            className={linkModal}
+        >
+            Quick Contact
+        </Typography>
     ) 
         
     const renderModal = modal.isModal ? createModalBtn : ( <span></span> )
@@ -279,27 +307,45 @@ function DumbComponent() {
                 <div className={fixedPadding}></div>
             } 
             <AppBar className={header} ref={headerRef}  id='header'>
-                
-                    <Box className={topHeader} ref={topHeaderRef} >
-                        <Container 
-                            disableGutters={settings.disableGutters}
-                            fixed={settings.fixed} 
-                            maxWidth={settings.maxWidth}  
-                        > 
-                            <Box display='flex' alignItems='center'>
-                                {themeSwitch()} 
-                                <NavLink to='/login'>
-                                    <Button 
-                                        color='default' 
-                                        variant="outlined"
-                                        size='small'
-                                    >
-                                        Login
-                                    </Button>
-                                </NavLink>
-                            </Box>
-                        </Container>
-                    </Box>
+                    { 
+                        !mobileView &&
+                        <Box className={topHeader} ref={topHeaderRef} >
+                            <Container 
+                                disableGutters={settings.disableGutters}
+                                fixed={settings.fixed} 
+                                maxWidth={settings.maxWidth}  
+                            > 
+                                <Box display='flex' alignItems='center' justifyContent='space-between'>
+                                    {  modal.isModal ? topHeaderModalBtn() : ( <span></span> ) }
+                                    <Box display='flex' alignItems='center' >
+                                        { themeSwitch() } 
+                                        {
+                                            user ?
+                                            <Button 
+                                                size='small'
+                                                color='secondary' 
+                                                variant={'contained'} 
+                                                onClick={handleSignOut}
+                                            >
+                                                Sign Out
+                                            </Button>
+                                            :
+                                            <NavLink to='/login'>
+                                                <Button 
+                                                    color='default' 
+                                                    variant="outlined"
+                                                    size='small'
+                                                >
+                                                    Login
+                                                </Button>
+                                            </NavLink>
+                                        }
+                                        
+                                    </Box>
+                                </Box>
+                            </Container>
+                        </Box>
+                    }
                 <Container 
                     disableGutters={settings.disableGutters}
                     fixed={settings.fixed} 
@@ -309,7 +355,7 @@ function DumbComponent() {
                     {   !mobileView ? 
                         <Desktop 
                             themeSwitch={themeSwitch}
-                            modalBtn={renderModal}
+                            // modalBtn={renderModal}
                             logo={createLogo}  
                             categories={categories} 
                             settings={settings}
@@ -319,10 +365,13 @@ function DumbComponent() {
                         /> 
                         : 
                         <Mobile 
+                            iconColor={iconMobileDrawerColor} 
                             themeSwitch={themeSwitch}
                             modalBtn={renderModal}
                             logo={createLogo}  
                             categories={categories}  
+                            user={user}
+                            handleSignOut={handleSignOut}
                         /> }
                 </Container>
             </AppBar> 

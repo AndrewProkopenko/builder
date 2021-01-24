@@ -249,7 +249,7 @@
     },
     "contactMap": {
         "type": "contactMap",
-        "id": 1,  
+        "id": 1,   
         "location": "City, street, number", 
         "phone": "+711 111 111 11" , 
         "mapFrame": null, 
@@ -261,7 +261,8 @@
         "policy": "By clicking the \"Send\" button you agree to the processing of your personal data" ,
         "marginTop": 50, 
         "marginBottom": 0, 
-        "maxWidthContainer": "lg"
+        "maxWidthContainer": "lg", 
+        "color": "primary"
     },
     "formLine": {
         "type": "formLine",

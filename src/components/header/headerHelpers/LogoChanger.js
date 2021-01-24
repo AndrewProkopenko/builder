@@ -40,9 +40,7 @@ function LogoChanger() {
     
     const { setIsLoading } = React.useContext(LoadingContext)
     const { logo, modal, updateLogo } = React.useContext(CategoryContext)     
-
-    console.log(modal.color )
-
+  
     const { removeImage  } = React.useContext(ImageContext)     
   
     const [open, setOpen] = React.useState(false)
@@ -56,6 +54,7 @@ function LogoChanger() {
     
     const [isModal, setIsModal] = React.useState(modal.isModal)  
     const [modalText, setModalText] = React.useState(modal.text) 
+    const [modalTarget, setModalTarget] = React.useState(modal.target || 'buy') 
 
     const [colorSelect,  setColorSelect] = React.useState(modal.color)
     const [colorCustom, setColorCustom] = React.useState(modal.color)
@@ -115,7 +114,8 @@ function LogoChanger() {
         }
         const newModal = { 
             isModal: isModal, 
-            text: modalText
+            text: modalText, 
+            target: modalTarget
         }
         if (colorSelect === 'custom') {
             newModal.color = colorCustom
@@ -219,7 +219,7 @@ function LogoChanger() {
                                         /> 
                                     </Box>
                                 </Grid>
-                                <Grid item xs={7}>
+                                <Grid item xs={7}> 
                                     <TextField
                                         type='text' 
                                         label="Text input"
@@ -227,7 +227,7 @@ function LogoChanger() {
                                         value={mainText}  
                                         variant="filled"
                                         onChange={(e) => { setIsDisableBtn(false); setMainText(e.target.value) }}
-                                    />
+                                    /> 
                                     <TextField
                                         type='text' 
                                         label="Text input"
@@ -258,14 +258,25 @@ function LogoChanger() {
                                     isModal && 
                                     <Box mt={1} >
                                         <Box mb={1}> 
+                                                <Box mr={1} display='inline'>
+                                                    <TextField
+                                                        type='text'
+                                                        label="Text for Button"
+                                                        variant="outlined"
+                                                        value={modalText}
+                                                        onChange={(e) => {
+                                                        setIsDisableBtn(false);
+                                                        setModalText(e.target.value)
+                                                    }}/>  
+                                                </Box> 
                                                 <TextField
                                                     type='text'
-                                                    label="Text for Button"
+                                                    label="Target for Button"
                                                     variant="outlined"
-                                                    value={modalText}
+                                                    value={modalTarget}
                                                     onChange={(e) => {
                                                     setIsDisableBtn(false);
-                                                    setModalText(e.target.value)
+                                                    setModalTarget(e.target.value)
                                                 }}/>   
                                         </Box>
                                         <Box mt={2} display="flex" flexDirection='column'>

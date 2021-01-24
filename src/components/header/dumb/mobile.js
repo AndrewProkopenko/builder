@@ -9,6 +9,7 @@ import {
     Box,
     AccordionSummary,
     Accordion, 
+    Button
 } from "@material-ui/core";
  
 import MenuIcon from "@material-ui/icons/Menu"; 
@@ -60,11 +61,20 @@ const Mobile = (props) => {
                padding: 0, 
                '& li': {}
                 
+            },
+            drawerHeader: {
+                margin: theme.spacing(1, 2), 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'space-between', 
+                '& .log-button': {
+                    minWidth: 100
+                }
             }
             
         })
     });
-    const { drawerContainer, mobileLink , accordionReset } = useStyles();
+    const { drawerContainer, mobileLink , accordionReset, drawerHeader } = useStyles();
    
     const [drawerOpen, setDrawerOpen] = React.useState(false); 
       
@@ -85,13 +95,37 @@ const Mobile = (props) => {
                 }}
             >
                 <div className={drawerContainer}>
-                    <Box mx={2} my={1}  > 
+                    <Box className={drawerHeader}  > 
                         <IconButton 
                             aria-label="close" 
                             onClick={handleDrawerClose}   
                         >
                             <CloseIcon />
                         </IconButton>
+                        {
+                            props.user ? 
+                            <Button 
+                                size='medium'
+                                color='secondary' 
+                                variant={'contained'} 
+                                onClick={ () => { props.handleSignOut(); handleDrawerClose()  } }
+                                className={'log-button'}
+                            >
+                                Sign Out
+                            </Button>
+                            :
+                            <NavLink to='/login' onClick={handleDrawerClose}>
+                                <Button  
+                                    color='primary' 
+                                    variant="contained"
+                                    size='medium'
+                                    className={'log-button'} 
+                                >
+                                    Login
+                                </Button>
+                            </NavLink>
+                        }
+                        
                     </Box>
                     
                     {
@@ -152,8 +186,14 @@ const Mobile = (props) => {
                     }
 
                     <Box px={2}>
-                        <Box my={4} width={'100%'} clone={true} >
+                        <Box my={3} width={'100%'} clone={true} >
                             {props.modalBtn}
+                        </Box>
+                    </Box>
+                    
+                    <Box px={2}>
+                        <Box my={2} width={'100%'} clone={true} >
+                            {props.themeSwitch()}
                         </Box>
                     </Box>
                    
@@ -167,13 +207,13 @@ const Mobile = (props) => {
             <IconButton
                 {...{
                 edge: "start",
-                // color: "textPrimary",  
+                color: "default",  
                 "aria-label": "menu",
                 "aria-haspopup": "true",
                 onClick: handleDrawerOpen,
                 }}
             >
-                <MenuIcon />
+                <MenuIcon style={{color: props.iconColor}} />
             </IconButton>
         </Toolbar>
     );
