@@ -7,6 +7,8 @@ import ModeContext from '../../../context/modeContext/ModeContext'
 import ModalContext from '../../../context/modalContext/ModalContext'  
 import CategoryContext from '../../../context/headerContext/CategoryContext'
 
+import ThemeSwitcher from './ThemeSwitcher'
+
 import Desktop from './desktop'
 import Mobile from './mobile'
 
@@ -17,11 +19,10 @@ import {
     makeStyles, 
     Container, 
     Box, 
-    Button,
-    FormControlLabel, 
-    Switch
+    Button, 
 } from "@material-ui/core"; 
-import { darken } from '@material-ui/core/styles';
+import { darken, lighten } from '@material-ui/core/styles';
+
 
 import {getColorByPaletteForGradient, getColorByPalette } from '../../library/colorPicker/ColorCalculation'
 
@@ -31,7 +32,7 @@ function DumbComponent() {
 
     const { user } = React.useContext(ModeContext)
     const { handleOpen  } = React.useContext(ModalContext)
-    const {categories, logo, modal,  settings, setThemeMode, themeMode} = React.useContext(CategoryContext)    
+    const {categories, logo, modal,  settings, themeMode} = React.useContext(CategoryContext)    
   
     const checked = themeMode === 'dark' ? true : false
 
@@ -109,9 +110,7 @@ function DumbComponent() {
 
                 transition: `200ms ${theme.transitions.easing.easeInOut} `, 
                
-                top: 0, 
-                // left: 0,
-                // right: 0,
+                top: 0,  
                 zIndex: 1000,
 
                 [`@media (max-width: ${widthMobile}px)`]: {
@@ -119,18 +118,20 @@ function DumbComponent() {
                     paddingBottom: settings.classes.paddingY * 0.5,  
                 }, 
                 '&.sticky' : {
-                    transform: "translateY(-38px)",
+                    transform: "translateY(-41px)",
                     [`@media (max-width: ${widthMobile}px)`]: {
                         transform: "translateY(0px)",
                     }
                 }
             },
             fixedPadding: { 
-                minHeight: headerHeight
+                minHeight: headerHeight, 
             },
             topHeader: {   
                 height: '100%', 
-                backgroundColor: theme.palette.background.default, 
+                paddingTop: 5, 
+                paddingBottom: 5,  
+                backgroundColor:  checked ? darken(backgroundHeader , 0.7) : lighten(backgroundHeader, 0.85), 
                 transition: `200ms ${theme.transitions.easing.easeInOut} `, 
                 color: theme.palette.text.primary, 
                 '&.sticky' : {
@@ -141,14 +142,14 @@ function DumbComponent() {
                 }
             },
             logoMain: { 
-                fontWeight: 600,
-                fontSize: 24,
+                fontWeight: 700,
+                fontSize: 22,
                 color: colorHeader , 
                 textDecoration: 'none',
                 textAlign: "left",
                 whiteSpace: 'nowrap',
                 [`@media (max-width: ${widthMobile}px)`]: {
-                    fontSize: 18,
+                    fontSize: 16,
                     lineHeight: 1.2
                 },
             },
@@ -188,10 +189,11 @@ function DumbComponent() {
                 }
             }, 
             linkModal: {  
-                position: 'relative', 
-                textDecoration: 'underline', 
-                '&:hover': {
-                    textDecoration: 'none', 
+                textTransform: 'inherit', 
+                padding: theme.spacing(0.5, 1.2),
+                '&:hover': { 
+                    backgroundColor: modalBtnColor1, 
+                    color: theme.palette.getContrastText(modalBtnColor1), 
                     cursor: 'pointer'
                 }
             }
@@ -235,30 +237,10 @@ function DumbComponent() {
         handleOpen(target)
     }
 
-    const handleChange = () => {
-        let newMode = themeMode === 'dark' ? 'light' : 'dark' 
-        setThemeMode(newMode)
-    }
     const handleSignOut = () => {
         firebase.logout()
     }
-
-    const themeSwitch = () => (
-        <Box>
-            <FormControlLabel
-                control={
-                    <Switch
-                        checked={checked}
-                        onChange={handleChange}
-                        name="checkedB"
-                        color="primary"
-                    />
-                }
-                label="Dark Theme"
-            />
-        </Box>
-    )
-
+  
     const createLogo = (
         <NavLink to={'/'} style={{textDecoration: 'none'}} >
             <Box display="flex" alignItems="center">
@@ -287,12 +269,13 @@ function DumbComponent() {
         </Button>
     ) 
     const topHeaderModalBtn = () => ( 
-        <Typography
+        <Button
             onClick={() => { openModal(modal.target) }} 
             className={linkModal}
+            size='small' 
         >
-            Quick Contact
-        </Typography>
+            { modal.text }
+        </Button>
     ) 
         
     const renderModal = modal.isModal ? createModalBtn : ( <span></span> )
@@ -318,7 +301,9 @@ function DumbComponent() {
                                 <Box display='flex' alignItems='center' justifyContent='space-between'>
                                     {  modal.isModal ? topHeaderModalBtn() : ( <span></span> ) }
                                     <Box display='flex' alignItems='center' >
-                                        { themeSwitch() } 
+                                        
+                                        <ThemeSwitcher/>
+                                        
                                         {
                                             user ?
                                             <Button 
@@ -353,9 +338,7 @@ function DumbComponent() {
                     className='link-in-header' 
                 > 
                     {   !mobileView ? 
-                        <Desktop 
-                            themeSwitch={themeSwitch}
-                            // modalBtn={renderModal}
+                        <Desktop   
                             logo={createLogo}  
                             categories={categories} 
                             settings={settings}
@@ -365,8 +348,7 @@ function DumbComponent() {
                         /> 
                         : 
                         <Mobile 
-                            iconColor={iconMobileDrawerColor} 
-                            themeSwitch={themeSwitch}
+                            iconColor={iconMobileDrawerColor}  
                             modalBtn={renderModal}
                             logo={createLogo}  
                             categories={categories}  

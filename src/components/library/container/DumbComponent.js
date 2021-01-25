@@ -63,87 +63,107 @@ function DumbComponent(props) {
     const isPaperClassForPaper = props.settings.isPaper ? classes.yesPadding : classes.noPadding
    
  
-    const renderItems = () => ( 
-        modeDev ?
-        props.data.children.map((item) => {   
-            switch(item.type) { 
-                case 'heading' :  
-                    return ( 
-                        <HeadingCreator 
-                            key={item.id} 
-                            item={item}
-                            reSaveChildren={props.reSaveChildren}
-                            removeItem={props.removeItem}
-                        />
-                    ) 
-                case 'paragraph' :  
-                    return (
-                        <ParagraphCreator
-                            key={item.id} 
-                            item={item}
-                            reSaveChildren={props.reSaveChildren}
-                            removeItem={props.removeItem}
-                        />
-                    ) 
-                case 'paragraphImage' :  
-                    return (
-                        <ParagraphImageCreator
-                            key={item.id} 
-                            item={item}
-                            reSaveChildren={props.reSaveChildren}
-                            removeItem={props.removeItem}
-                        />
-                    )
-                case 'list' :  
-                    return (
-                        <ListCreator
-                            key={item.id} 
-                            item={item}
-                            reSaveChildren={props.reSaveChildren}
-                            removeItem={props.removeItem}
-                        />
-                    )  
-                default: break;
-            }  
-            return null
-        })
-        :
-        props.data.children.map((item) => {  
-            switch(item.type) { 
-                case 'heading' :  
-                    return ( 
-                        <HeadingCreator 
-                            key={item.id} 
-                            item={item} 
-                        />
-                    ) 
-                case 'paragraph' :  
-                    return (
-                        <ParagraphCreator
-                            key={item.id} 
-                            item={item} 
-                        />
-                    ) 
-                case 'paragraphImage' :  
-                    return (
-                        <ParagraphImageCreator
-                            key={item.id} 
-                            item={item} 
-                        />
-                    ) 
-                case 'list' :  
-                    return (
-                        <ListCreator
-                            key={item.id} 
-                            item={item} 
-                        />
-                    ) 
-                default: break;
-            }  
-            return null
-        })
-        
-    )
+      
+
+    const renderItems = () => { 
+        return (
+            modeDev ?
+            props.data.children.map((item) => {   
+                // eslint-disable-next-line
+                let orderFirst = props.data.children.indexOf(item) == 0 ? true : false
+                // eslint-disable-next-line
+                let orderLast = props.data.children.indexOf(item) == props.data.children.length - 1 ? true : false
+
+                switch(item.type) { 
+                    case 'heading' :  
+                        return ( 
+                            <HeadingCreator 
+                                key={item.id} 
+                                item={item}
+                                reSaveChildren={props.reSaveChildren}
+                                removeItem={props.removeItem}
+                                swapChildrens={props.swapChildrens} 
+                                isFirst={orderFirst}
+                                isLast={orderLast}
+                            />
+                        ) 
+                    case 'paragraph' :  
+                        return (
+                            <ParagraphCreator
+                                key={item.id} 
+                                item={item}
+                                reSaveChildren={props.reSaveChildren}
+                                removeItem={props.removeItem}
+                                swapChildrens={props.swapChildrens}
+                                isFirst={orderFirst}
+                                isLast={orderLast}
+                            />
+                        ) 
+                    case 'paragraphImage' :  
+                        return (
+                            <ParagraphImageCreator
+                                key={item.id} 
+                                item={item}
+                                reSaveChildren={props.reSaveChildren}
+                                removeItem={props.removeItem}
+                                swapChildrens={props.swapChildrens}
+                                isFirst={orderFirst}
+                                isLast={orderLast}
+                            />
+                        )
+                    case 'list' :  
+                        return (
+                            <ListCreator
+                                key={item.id} 
+                                item={item}
+                                reSaveChildren={props.reSaveChildren}
+                                removeItem={props.removeItem}
+                                swapChildrens={props.swapChildrens}
+                                isFirst={orderFirst}
+                                isLast={orderLast}
+                            />
+                        )  
+                    default: break;
+                }  
+                return null
+            })
+            :
+            props.data.children.map((item) => {  
+                switch(item.type) { 
+                    case 'heading' :  
+                        return ( 
+                            <HeadingCreator 
+                                key={item.id} 
+                                item={item} 
+                            />
+                        ) 
+                    case 'paragraph' :  
+                        return (
+                            <ParagraphCreator
+                                key={item.id} 
+                                item={item} 
+                            />
+                        ) 
+                    case 'paragraphImage' :  
+                        return (
+                            <ParagraphImageCreator
+                                key={item.id} 
+                                item={item} 
+                            />
+                        ) 
+                    case 'list' :  
+                        return (
+                            <ListCreator
+                                key={item.id} 
+                                item={item} 
+                            />
+                        ) 
+                    default: break;
+                }  
+                return null
+            }) 
+        )
+    }
     return (
         <React.Fragment>
             {

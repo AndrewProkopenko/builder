@@ -65,7 +65,7 @@ export const getColorByPaletteReverse = (theme, color) => {
             return theme.palette.primary.main
         } 
         case ('info') : {
-            return theme.palette.error.main
+            return theme.palette.warning.main
         } 
         case ('success') : {
             return theme.palette.info.main

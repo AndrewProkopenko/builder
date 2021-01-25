@@ -30,6 +30,10 @@ function DumbComponent(props) {
                         </li>
                     ))        
                 }
+                {
+                    props.data.items.length === 0 &&
+                    <li className={classes.liClass} >No items</li>
+                }
            </ul>
         </React.Fragment>
     )

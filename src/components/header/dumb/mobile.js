@@ -17,6 +17,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
  
 
+import ThemeSwitcher from './ThemeSwitcher'
 
 const Mobile = (props) => { 
 
@@ -191,9 +192,9 @@ const Mobile = (props) => {
                         </Box>
                     </Box>
                     
-                    <Box px={2}>
+                    <Box px={3}>
                         <Box my={2} width={'100%'} clone={true} >
-                            {props.themeSwitch()}
+                            <ThemeSwitcher/>
                         </Box>
                     </Box>
                    

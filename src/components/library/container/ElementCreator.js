@@ -120,7 +120,39 @@ function ElementCreator(props) {
             props.removeContainer(props.data.id)
         }
     }
+
+    const swapChildrens = (direction, id) => {  
+
+        let newChildren = props.data.children.slice() 
+        let activeIndex  
+        newChildren.map( (item) => { 
+            if(item.id === id) {
+              activeIndex = newChildren.indexOf(item) 
+            }
+            return 0 
+        }) 
+      
+        if(direction === 'up' && activeIndex === 0) return  
+        if(direction === 'down' && activeIndex === newChildren.length - 1 ) return
+        
+        if(direction === 'up') { 
+          const movedItem = newChildren[activeIndex]
+          const placeItem = newChildren[activeIndex - 1]
     
+          newChildren[activeIndex] = placeItem
+          newChildren[activeIndex - 1 ] = movedItem  
+        }
+        if(direction === 'down') {
+          const movedItem = newChildren[activeIndex]
+          const placeItem = newChildren[activeIndex + 1]
+    
+          newChildren[activeIndex] = placeItem
+          newChildren[activeIndex + 1 ] = movedItem  
+        } 
+ 
+        props.reSaveContainer(props.data.id, newChildren)
+    }
+
     const createArrayImages = () => {
         let images = []
         props.data.children.forEach( item => {
@@ -227,6 +259,7 @@ function ElementCreator(props) {
                         settings={propsSettings}
                         reSaveChildren={reSaveChildren}
                         removeItem={removeItem}   
+                        swapChildrens={swapChildrens}
                     />
                 </Box>
                 :

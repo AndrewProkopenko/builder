@@ -18,7 +18,7 @@ function DumbComponent(props) {
             
             <Typography component={props.data.variant} className={classes.myClassName} > 
                 { 
-                    props.textChildren
+                    props.textChildren.length !== 0 ? props.textChildren : '(No text - paragraph)'
                 } 
             </Typography> 
         </React.Fragment>

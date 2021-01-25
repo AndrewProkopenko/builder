@@ -5,9 +5,11 @@ import CategoriesChanger from './headerHelpers/CategoriesChanger'
 import LogoChanger from './headerHelpers/LogoChanger'
 import StyleChanger from './headerHelpers/StyleChanger'
 import ThemeChanger from './headerHelpers/ThemeChanger'
+import ModalChanger from './headerHelpers/ModalChanger'
+import RequestsChanger from './headerHelpers/RequestsChanger'
 
 import DumbComponent from './dumb/DumbComponent'
-import AdminHeader from './AdminHeader'
+
 import { Box, Button, makeStyles } from '@material-ui/core'
 import SettingsIcon from '@material-ui/icons/Settings';
  
@@ -30,15 +32,16 @@ function StyledComponent() {
             top: -5,  
         },
         btnSettings: { 
-            opacity: 0,
+            opacity: open ? 1 : 0,
             position: 'absolute', 
             zIndex: 1020, 
-            left: 35, 
+            left: 10, 
             top: 5, 
             width: 60, 
-            height: 40,
+            height: 60,
             backgroundColor: theme.palette.error.dark,   
             color: '#fff', 
+            textAlign: 'center' ,
             '&>span': {
                 display: 'flex', 
                 flexDirection: 'column', 
@@ -58,15 +61,14 @@ function StyledComponent() {
     
     const classes = useStyles();
     return (
-        <React.Fragment>
-
-            <AdminHeader/>
-
-            <div className={classes.headerContainer} >   
+        <Box className={classes.headerContainer}>
+  
+            <div>   
                 <Button 
                     className={classes.btnSettings}
                     onClick={() => { setOpen(!open) }}
-                >
+                >   
+                    open <br/>
                     settings
                     <SettingsIcon style={{ color: '#fff' }} fontSize='small'/>
                 </Button>
@@ -85,13 +87,20 @@ function StyledComponent() {
                         <Box className={classes.btnSettingsItem}>
                             <ThemeChanger/>
                         </Box>
+                        <Box className={classes.btnSettingsItem}>
+                            <RequestsChanger/>
+                        </Box>
+                        <Box className={classes.btnSettingsItem}>
+                            <ModalChanger/>
+                        </Box>
                     </div>
                 }
                  
             </div>
             
             <DumbComponent/>
-        </React.Fragment>
+
+        </Box>
     )
 }
 

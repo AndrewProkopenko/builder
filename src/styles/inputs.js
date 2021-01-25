@@ -26,20 +26,16 @@ const StyledInputs = () => {
         },
         dumbItem: { 
             position: 'relative',
-            transition: "300ms cubic-bezier(0.4, 0, 1, 1)",
-            
+            transition: "300ms cubic-bezier(0.4, 0, 1, 1)", 
         }, 
         dumbItemDelete : { 
             opacity: 0,
             position: 'absolute', 
             zIndex: 15, 
             top: 3, 
-            right: 5,
-            backgroundColor: theme.palette.secondary.dark,
-            transition: "100ms cubic-bezier(0.4, 0, 1, 1)",
-            '&:hover' : { 
-                backgroundColor: theme.palette.error.light
-            }
+            right: 5, 
+            display: 'flex', 
+            alignItems: 'center'
         },
         mtView: {  
             position: 'absolute',  

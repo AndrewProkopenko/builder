@@ -66,9 +66,10 @@ function SinglePage(props) {
   
   const useStyles = makeStyles((theme) => {
     const classesRef = StylesChangers()
-  const commonClasses = classesRef(theme)
+    const commonClasses = classesRef(theme)
 
-  const { menu, menuTitle } = commonClasses 
+    const { menu, menuTitle } = commonClasses 
+
     return ({ 
       btnContainer: {
         position: 'relative',
@@ -80,11 +81,12 @@ function SinglePage(props) {
           position: 'absolute', 
           zIndex: 1031, 
           top: 0, 
-          left: 80,
+          left: 10,
           backgroundColor: theme.palette.error.dark,   
           minWidth: 30, 
           maxWidth: 40, 
-          minHeight: 38, 
+          minHeight: 38,  
+          opacity: 0, 
           transition: `${theme.transitions.easing.easeInOut} ${theme.transitions.duration.shorter}ms `, 
           '&:hover': { 
             backgroundColor: theme.palette.secondary.dark,   
@@ -477,7 +479,7 @@ function SinglePage(props) {
   } 
 
   return (
-    <React.Fragment> 
+    <Box className={classes.btnContainer}> 
 
         <Breadcrumbs 
           breadcrumbs={props.breadcrumbs}
@@ -486,7 +488,7 @@ function SinglePage(props) {
 
         { 
           modeDev &&  
-          <Box className={classes.btnContainer}  >
+          <React.Fragment>
               
             <Tooltip title='Page Settings' placement='bottom'>
                 <Button  
@@ -561,11 +563,11 @@ function SinglePage(props) {
                                 <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('accordion') }}>
                                     Accordion
                                 </Button> 
-                              </Tooltip>
+                              </Tooltip>  
                             </Box>
                             
                             <Box className={classes.boxMenuItem}> 
-                              <Tooltip title='Line for small text paragrapher with ability to add a button modal  ' placement='top'>
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Line for small text paragrapher with ability to add a button modal' placement='top'>
                                 <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('actionLine') }}>
                                     Colored Action Line 
                                 </Button> 
@@ -617,13 +619,13 @@ function SinglePage(props) {
                     </Draggable>
                 </DialogContent> 
             </Modal>  
-          </Box>
+          </React.Fragment>
         }
   
         { 
           renderContainers()  
         } 
-      </React.Fragment>
+      </Box>
   )
 }
 

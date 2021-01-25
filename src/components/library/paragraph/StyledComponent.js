@@ -15,13 +15,13 @@ import {
     FormControl,
     InputLabel,
     Select, 
-    MenuItem,  
-    IconButton, 
+    MenuItem,   
     Typography,
     Modal,
     Box,
     DialogContent, 
-    Tooltip
+    Tooltip,
+    ButtonGroup
 
 } from '@material-ui/core'
 
@@ -32,6 +32,9 @@ import {ColorPicker} from '../colorPicker/ColorPicker'
 import OpenWithIcon from '@material-ui/icons/OpenWith';
 import DeleteOutline  from '@material-ui/icons/DeleteOutline';  
 import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
+
+import ExpandLessOutlinedIcon from '@material-ui/icons/ExpandLessOutlined';
+import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
 
 const StyledComponent = (props) => {  
 
@@ -88,7 +91,7 @@ const StyledComponent = (props) => {
                     boxShadow: theme.shadows[10], 
                     cursor: 'pointer',
                     outlineColor: `${theme.palette.error.light}`,  
-                    '&>button' : { 
+                    '& $dumbItemDelete' : { 
                         opacity: 1
                     }  ,
                     '& $mtView' : { 
@@ -199,6 +202,9 @@ const StyledComponent = (props) => {
             props.removeItem(props.data.id)
         } 
     };
+    const swapParagraph = (direction, id) => {
+        props.swapChildrens(direction, id)
+    }
     
     const handleInputFocus = (event) => {  
         setOpen(true);
@@ -557,16 +563,59 @@ const StyledComponent = (props) => {
                             /> 
                            
                         </div>  
-                        <Tooltip  title="Delete Paragraph"  placement={'top'}> 
-                            <IconButton 
-                                className={ classes.dumbItemDelete}
-                                size="small"
-                                aria-label="delete"
-                                onClick={removeItem}
-                            >
-                                <DeleteOutline style={{ color: '#fff'}}/>
-                            </IconButton> 
-                        </Tooltip>
+                        <Box className={ classes.dumbItemDelete} >
+                            <ButtonGroup
+                                orientation="horizontal"
+                                color="primary"
+                                aria-label="horizontal contained primary button group"
+                                variant="contained" 
+
+                            >  
+                                { 
+                                    !props.isFirst  && 
+                                    <Tooltip title='Get Up' placement='top'>
+                                        <Button   
+                                            onClick={() => { swapParagraph('up', props.data.id) }}
+                                            size='small'
+                                            variant='contained'
+                                            color='primary'  
+                                        >  
+                                            <ExpandLessOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>   
+                                        </Button>
+                                    </Tooltip> 
+                                }
+                                {
+                                    !props.isLast &&
+                                    <Tooltip title='Get Down' placement='top'>
+                                        <Button   
+                                            onClick={() => { swapParagraph('down', props.data.id) }} 
+                                            size='small'
+                                            variant='contained'
+                                            color='primary' 
+                                            // disabled={categories.indexOf(item) === categories.length - 1 ? true : false }
+                                        >     
+                                            <ExpandMoreOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>
+                                        </Button>
+                                    </Tooltip>  
+                                }
+ 
+
+                                <Tooltip  title="Delete Paragraph"  placement={'top'}> 
+                                    <Button 
+                                        size="small"
+                                        variant='contained'
+                                        color='secondary'
+                                        aria-label="delete"
+                                        onClick={removeItem}
+                                    >
+                                        <DeleteOutline style={{ color: '#fff'}}/>
+                                    </Button> 
+                                </Tooltip>
+                                    
+                            </ButtonGroup>
+                            
+                        </Box>
+                         
                 </Grid>
             </Grid>
            

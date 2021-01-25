@@ -19,6 +19,9 @@ function ElementCreator(props) {
                     data={props.item} 
                     reSaveChildren={props.reSaveChildren}
                     removeItem={props.removeItem}  
+                    swapChildrens={props.swapChildrens}
+                    isFirst={props.isFirst}
+                    isLast={props.isLast}
                 />
             }
  

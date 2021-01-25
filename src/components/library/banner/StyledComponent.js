@@ -51,7 +51,7 @@ function StyledComponent(props) {
     const [isButton, setIsButton] = React.useState(props.data.isButton || false)
     const [textButton,  setTextButton] = React.useState(props.data.textButton || '')
     const [targetButton, setTargetButton] = React.useState(props.data.targetButton || '')
-    const [imageUrl, setImageUrl] = React.useState(props.data.imageUrl)
+    const [imageUrl, setImageUrl] = React.useState(props.data.image)
     const [imageName, setImageName] = React.useState(props.data.imageName || '')
 
     const [colorSelect,  setColorSelect] = React.useState(props.data.colorButton || '')
@@ -212,7 +212,7 @@ function StyledComponent(props) {
         newData.isButton = isButton   
         newData.textButton = textButton   
         newData.targetButton = targetButton     
-        newData.imageUrl = imageUrl   
+        newData.image = imageUrl   
         newData.imageName = imageName
         newData.paddingVertical = paddingVertical
         newData.marginTop = marginTop
@@ -264,7 +264,7 @@ function StyledComponent(props) {
                 <Box className={classes.btnDrawerStyle}>
                     <Box display="flex" flexDirection="column">
                         <Box mb={1}>
-                            <Tooltip title='Example Settings' placement='right'>
+                            <Tooltip title='Banner Settings ' placement='right'>
                                 <Button
                                     onClick={handleOpen}
                                     size='medium'

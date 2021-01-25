@@ -44,7 +44,7 @@ const  AlertComponent = (props) => {
         if(props.severity === 'success') return "Your request was accepted successfully"
         if(props.severity === 'info') return "Your request is being processed"
         if(props.severity === 'error') return "An error has occurred :("
-        if(props.severity === 'warning') return "Warning!"
+        if(props.severity === 'warning') return "Warning!" 
     }
       
     return (

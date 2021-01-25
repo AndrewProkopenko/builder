@@ -15,8 +15,7 @@ import {
     FormControl,
     InputLabel,
     Select, 
-    MenuItem,  
-    IconButton, 
+    MenuItem,   
     Typography,
     Modal,
     Box,
@@ -78,7 +77,7 @@ const StyledComponent = (props) => {
                     boxShadow: theme.shadows[10], 
                     cursor: 'pointer',
                     outlineColor: `${theme.palette.error.light}`,  
-                    '&>button' : { 
+                    '& $dumbItemDelete' : { 
                         opacity: 1
                     }  ,
                     '& $mtView' : { 
@@ -110,8 +109,8 @@ const StyledComponent = (props) => {
             dumbItem: dumbItem, 
             dumbItemDelete : dumbItemDelete,  
             menu: {...menu, ...{
-                left: "calc(50% - 200px)",
-                width: 400, 
+                left: "calc(50% - 250px)",
+                width: 500, 
             } },
              
             menuTitle: menuTitle,
@@ -214,8 +213,7 @@ const StyledComponent = (props) => {
          
         setItems(newItems) 
         setIsDisableBtn(false)
-    }
-    
+    } 
     const handleAddItem = () => {
         let newItems = items.slice()
         
@@ -225,6 +223,9 @@ const StyledComponent = (props) => {
         
         setNewItem('') 
         setIsDisableBtn(false)
+    } 
+    const swapList = (direction, id) => {
+        props.swapChildrens(direction, id)
     }
     
 
@@ -495,10 +496,10 @@ const StyledComponent = (props) => {
                             onClick={handleInputFocus}
                             aria-controls="simple-menu" aria-haspopup="true"  
                         > 
-                            <Tooltip  title={` paragraph margin top`}  placement={'top'}>
+                            <Tooltip  title={` list margin top`}  placement={'top'}>
                                 <div className={classes.mtView}></div>
                             </Tooltip>
-                            <Tooltip  title={` paragraph margin bottom`}  placement={'top'}>
+                            <Tooltip  title={` list margin bottom`}  placement={'top'}>
                                 <div className={classes.mbView}></div>
                             </Tooltip> 
                                
@@ -508,16 +509,59 @@ const StyledComponent = (props) => {
                             /> 
                            
                         </div>  
-                        <Tooltip  title="Delete List"  placement={'top'}> 
-                            <IconButton 
-                                className={ classes.dumbItemDelete}
-                                size="small"
-                                aria-label="delete"
-                                onClick={removeItem}
-                            >
-                                <DeleteOutline style={{ color: '#fff'}}/>
-                            </IconButton> 
-                        </Tooltip>
+                        <Box className={ classes.dumbItemDelete} >
+                            <ButtonGroup
+                                orientation="horizontal"
+                                color="primary"
+                                aria-label="horizontal contained primary button group"
+                                variant="contained" 
+
+                            >  
+                            
+                                { 
+                                    !props.isFirst  && 
+                                    <Tooltip title='Get Up' placement='top'>
+                                        <Button   
+                                            onClick={() => { swapList('up', props.data.id) }}
+                                            size='small'
+                                            variant='contained'
+                                            color='primary'  
+                                        >  
+                                            <ExpandLessOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>   
+                                        </Button>
+                                    </Tooltip>
+                                }
+                                {
+                                    !props.isLast &&
+                                    <Tooltip title='Get Down' placement='top'>
+                                        <Button   
+                                            onClick={() => { swapList('down', props.data.id) }} 
+                                            size='small'
+                                            variant='contained'
+                                            color='primary'  
+                                        >     
+                                            <ExpandMoreOutlinedIcon style={{ color: '#fff' }} fontSize='small'/>
+                                        </Button>
+                                    </Tooltip>  
+                                }
+ 
+
+                                <Tooltip  title="Delete List"  placement={'top'}> 
+                                    <Button 
+                                        size="small"
+                                        variant='contained'
+                                        color='secondary'
+                                        aria-label="delete"
+                                        onClick={removeItem}
+                                    >
+                                        <DeleteOutline style={{ color: '#fff'}}/>
+                                    </Button> 
+                                </Tooltip>
+                                    
+                            </ButtonGroup>
+                            
+                        </Box>
+                        
                 </Grid>
             </Grid>
            

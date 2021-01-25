@@ -21,8 +21,7 @@ import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 
 import DumbComponent from "./DumbComponent"
 
-function StyledComponent(props) {
-    console.log(props.data)
+function StyledComponent(props) { 
  
     const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
     const [open, setOpen] = React.useState(false)

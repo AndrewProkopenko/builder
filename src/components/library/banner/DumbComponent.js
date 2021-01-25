@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { makeStyles, Container, Grid, Box, Button, darken } from '@material-ui/core'  
+import { makeStyles, Container, Grid, Box, Button, darken, fade } from '@material-ui/core'  
 import ModalContext from '../../../context/modalContext/ModalContext'
 import {getColorByPalette} from '../colorPicker/ColorCalculation'
 
-function DumbComponent(props) {
+function DumbComponent(props) { 
 
     const { handleOpen } = React.useContext(ModalContext) 
 
@@ -24,8 +24,7 @@ function DumbComponent(props) {
     const marginTop = props.data.marginTop  
     const marginBottom = props.data.marginBottom  
     const maxWidthContainer = props.data.maxWidthContainer 
-
-    console.log(colorText)
+ 
     const useStyles = makeStyles((theme) => {   
         colorButton = getColorByPalette(theme, colorButton) 
         colorText = getColorByPalette(theme, colorText) 
@@ -33,6 +32,7 @@ function DumbComponent(props) {
              
         return ({ 
             bannerBackground: {
+                backgroundColor: fade(theme.palette.primary.main, 0.3), 
                 backgroundImage: `url(${imageUrl})`, 
                 backgroundPosition: 'center', 
                 backgroundRepeat: 'no-repeat', 

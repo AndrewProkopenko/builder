@@ -37,8 +37,11 @@ function DumbComponent(props) {
     const classeForResp = props.data.responseFont ? classes.resposiveFontSize : '' 
 
     const renderText = () => {
-        if(props.textChildren) { 
+        if(props.textChildren.length > 0) { 
             return  <span dangerouslySetInnerHTML={{__html: props.textChildren}}></span>
+        }
+        else {
+            return `(No text - ${props.data.variant})`
         }
     }
     
