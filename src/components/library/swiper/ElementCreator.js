@@ -11,7 +11,7 @@ function ElementCreator(props) {
    
     return (    
         <React.Fragment>  
-            {/* {
+            {
                 modeDev ? 
                 <StyledComponent 
                     data={props.data}
@@ -21,11 +21,11 @@ function ElementCreator(props) {
                     isFirst={props.isFirst}
                     isLast={props.isLast}
                 />
-                : */}
+                :
                 <DumbComponent 
                     data={props.data}
                 />
-            {/* }  */}
+            }
         </React.Fragment> 
     )
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
-import { makeStyles, Box, Typography, Container, darken, IconButton, Tooltip } from '@material-ui/core'
+import { makeStyles, Box, Typography, Container, IconButton, Tooltip } from '@material-ui/core'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 import CategoryContext from '../../context/headerContext/CategoryContext'

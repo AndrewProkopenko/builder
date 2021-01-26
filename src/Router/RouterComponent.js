@@ -2,8 +2,7 @@ import React from 'react'
 
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
-import ScrollToTop from '../components/functions/ScrollToTop' 
-import ImageRemover from '../components/functions/ImageRemover' 
+import ScrollToTop from '../components/functions/ScrollToTop'  
     
 import LoadingProgress from '../components/placeholders/LoadingProgress'
 import Header from '../components/header/Header' 
@@ -18,7 +17,7 @@ import LoadingContext from '../context/loadingContext/LoadingContext'
 
 function RouterComponent() {
  
-    const {categories, idArrayForDelete, clearArrayForDelete } = React.useContext(CategoryContext) 
+    const {categories} = React.useContext(CategoryContext) 
     const {isLoading} = React.useContext(LoadingContext)  
 
     
@@ -28,10 +27,7 @@ function RouterComponent() {
         <Router basename="builder"> 
         
             <ScrollToTop/>
-            {/* <ImageRemover
-                idArrayForDelete={idArrayForDelete}
-                clearArrayForDelete={clearArrayForDelete}
-            /> */}
+             
             
             { isLoading && <LoadingProgress/> }
             

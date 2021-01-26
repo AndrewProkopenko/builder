@@ -24,7 +24,7 @@ function ThemeSwitcher() {
 
     const ThemeCustomSwitch = withStyles((theme) => ({
         root: {
-          width: 72,
+          width: 60,
           height: 28,
           padding: 0, 
           marginRight: 5
@@ -32,7 +32,7 @@ function ThemeSwitcher() {
         switchBase: {
           padding: 1,  
           '&$checked': {
-            transform: 'translateX(44px)',
+            transform: 'translateX(32px)',
             color: '#27536b',
             '& + $track': {
               backgroundColor: '#27536b',
@@ -84,7 +84,7 @@ function ThemeSwitcher() {
     return ( 
         <FormControlLabel
             control={<ThemeCustomSwitch checked={checked} onChange={handleChange} name="checkedB" />}
-            label="Night Mode"
+            label={checked ? 'Night Mode' : 'Light Mode'}
         /> 
     ) 
 }

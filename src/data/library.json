@@ -333,7 +333,25 @@
     "swiper": {
         "type": "swiper", 
         "id": 1,  
-        "heading": "Swiper"
+        "heading": "Slider square", 
+        "slidesPerView": 4, 
+        "slidesPerViewTablet": 3, 
+        "slidesPerViewMobile": 1, 
+        "spaceBetween": 30, 
+        "color": "primary", 
+        "speed": 200, 
+        "loop": true, 
+        "freeMode": false, 
+        "slides": [
+            {
+                "imageUrl": "https://via.placeholder.com/300", 
+                "imageName": "imageExample", 
+                "title": "Slide"
+            }
+        ],
+        "marginTop": 50, 
+        "marginBottom": 50, 
+        "maxWidthContainer": "lg"
     },
     "banner": {
         "type": "banner", 

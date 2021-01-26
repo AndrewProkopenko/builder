@@ -14,7 +14,7 @@ export default class ModeProvider extends React.Component {
     componentDidMount() {
         firebase.auth.onAuthStateChanged( (user) => {
             if(user) {  
-                if(window.innerWidth > 959) { 
+                if(window.innerWidth > 600) { 
                     this.setState({
                         isLogin: true,
                         user: user

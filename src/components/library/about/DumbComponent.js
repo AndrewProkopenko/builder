@@ -16,7 +16,7 @@ function DumbComponent(props) {
 
     const heading = props.data.heading
     const paragraph = props.data.paragraph
-    let imageName = props.data.imageName
+    // let imageName = props.data.imageName
     const isButton = props.data.isButton
     const textButton = props.data.textButton
     const targetButton = props.data.targetButton  

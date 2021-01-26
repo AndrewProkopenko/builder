@@ -5,8 +5,7 @@ import { ColorPicker } from './ColorPicker'
 import { FormControl, InputLabel, Select , MenuItem, Box, makeStyles } from '@material-ui/core'
 
 function ColorSelecter({label, colorSelect, setColorSelect, colorCustom , setColorCustom, setIsDisableBtn, position, noInherit }) {
-   
-    console.log(colorSelect, colorCustom)
+    
 
     const useStyles = makeStyles(theme => ({
         block: {

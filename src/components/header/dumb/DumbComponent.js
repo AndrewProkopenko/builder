@@ -35,10 +35,9 @@ function DumbComponent() {
     const {categories, logo, modal,  settings, themeMode} = React.useContext(CategoryContext)    
   
     const checked = themeMode === 'dark' ? true : false
+ 
 
-    const [headerHeight, setHeaderHeight] = useState(0)
-
-    const [mobileView, setMobileView] = useState(false); 
+    const [mobileView, setMobileView] = useState(true); 
    
     let backgroundHeader = settings.classes.backgroundColor
     let colorHeader 
@@ -125,7 +124,10 @@ function DumbComponent() {
                 }
             },
             fixedPadding: { 
-                minHeight: headerHeight, 
+                minHeight: 100 + settings.classes.paddingY*2 , 
+                [`@media (max-width: ${widthMobile}px)`]: {
+                    minHeight: 80 + settings.classes.paddingY , 
+                },
             },
             topHeader: {   
                 height: '100%', 
@@ -202,9 +204,7 @@ function DumbComponent() {
     const { header, logoImage ,logoMain , logoSub, fixedPadding, buttonModal, linkModal, topHeader} = useStyles();
   
     useEffect(() => {  
-        const setResponsiveness = () => {
-            const headHeight =  headerRef.current.clientHeight 
-            setHeaderHeight(headHeight + 5) 
+        const setResponsiveness = () => {  
             return window.innerWidth < widthMobile ? setMobileView(true)  : setMobileView(false) 
         }; 
         const setScrollHeader = () => { 
@@ -221,20 +221,23 @@ function DumbComponent() {
                     console.log(err)
                 } 
             }
-        }
-        // setScrollHeader()
+        } 
         setResponsiveness(); 
-        window.removeEventListener('resize', setResponsiveness)
-        window.addEventListener("resize", () => setResponsiveness());
+        setScrollHeader();
 
-        window.removeEventListener('scroll', setScrollHeader)
-        window.addEventListener("scroll", () => setScrollHeader());
-        // eslint-disable-next-line
+        window.addEventListener("resize", setResponsiveness);
+        window.addEventListener("scroll", setScrollHeader);
+
+        return function cleanupListener() { 
+            window.removeEventListener('resize', setResponsiveness) 
+            window.removeEventListener('scroll', setScrollHeader) 
+        }
+        // eslint-disable-next-line 
     }, []);
      
 
-    const openModal = (target) => {
-        handleOpen(target)
+    const openModal = (target) => { 
+        handleOpen(target) 
     }
 
     const handleSignOut = () => {

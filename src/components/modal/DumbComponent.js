@@ -8,8 +8,7 @@ import {
     Typography,  
     Box,
     IconButton
-} from '@material-ui/core'; 
-import { darken, lighten } from '@material-ui/core/styles';
+} from '@material-ui/core';  
 import CloseIcon from '@material-ui/icons/Close';
 
 import '../../assets/style/modal.scss'
@@ -37,7 +36,7 @@ export default function TransitionsModal() {
   const policy = modalSettings.policy
   const inputName = modalSettings.inputName
   const inputPhone = modalSettings.inputPhone
-  const colorButton = modalSettings.colorButton 
+  // const colorButton = modalSettings.colorButton 
   let colorGradient1, colorGradient2  
  
   const useStyles = makeStyles((theme) => {

@@ -4,58 +4,52 @@ import { makeStyles, Typography, Container, Box, fade } from '@material-ui/core'
 
 import SwiperCore, { Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
-
-// import '../../../assets/style/swiperCustom.scss';
+ 
 import 'swiper/swiper.scss';
-import 'swiper/components/navigation/navigation.scss';
-// import 'swiper/components/pagination/pagination.scss';
-import 'swiper/components/scrollbar/scrollbar.scss';
+import 'swiper/components/navigation/navigation.scss';  
+
+import {getColorByPalette} from '../colorPicker/ColorCalculation'
 
 SwiperCore.use([Navigation]);
-
-// import ModalContext from '../../../context/modalContext/ModalContext'
-
+  
 function DumbComponent(props) {
+   
+    console.log(props.data)
+    const heading = props.data.heading  
+    let color = props.data.color
 
-    // const { handleOpen } = React.useContext(ModalContext) 
-
-    const heading = "props.data.heading "
-
-    // const heading = props.data.heading 
-     
-    // let colorMain = props.data.colorMain || '#f00' 
-    // const openModal = () => {
-    //     handleOpen(targetButton)
-    // }
-    const slideWidth = 300 
-    const spaceBetween = 30
-
-    const [slideForView, setSlideForView] = React.useState(1)
-    // const [slideWidth, setSlideWidth] = React.useState(500)
-    const [slideHeight, setSlideHeight] = React.useState(slideWidth)
+    const slidesForView = props.data.slidesPerView 
+    const slidesForViewTablet = props.data.slidesPerViewTablet 
+    const slidesForViewMobile = props.data.slidesPerViewMobile 
+    const spaceBetween = props.data.spaceBetween
+    const speed = props.data.speed
+    const loop = props.data.loop
+    const freeMode = props.data.freeMode 
+    const items = props.data.slides
+    const marginTop = props.data.marginTop  
+    const marginBottom = props.data.marginBottom  
+    const maxWidthContainer = props.data.maxWidthContainer  
+ 
+    const [slideHeight, setSlideHeight] = React.useState(0)  
 
     const slideRef = React.useRef(null);
+    
 
     const useStyles = makeStyles((theme) => {   
-        // if(colorMain === 'primary')  colorMain = theme.palette.primary.main
-        // if(colorMain === 'secondary') colorMain = theme.palette.secondary.main   
-        return ({ 
-            heading: {  
-                marginRight: theme.spacing(3),
-                color: theme.palette.text.primary,
-                textAlign: 'center',  
-            },
+        
+        color = getColorByPalette(theme, color) 
+
+        return ({  
             swiper: {
-                marginTop: 50, 
-                marginBottom: 50, 
+                 
                 '& .swiper-button-prev': {
-                    color: theme.palette.secondary.main, 
+                    color: color, 
                     "&:after": { 
                         fontSize: `${25}px !important`
                     }
                 },
                 '& .swiper-button-next': {
-                    color: theme.palette.secondary.main, 
+                    color: color, 
                     "&:after": { 
                         fontSize: `${25}px !important`
                     }
@@ -67,16 +61,6 @@ function DumbComponent(props) {
                         paddingLeft: 0,
                         paddingRight: 0,
                     }
-                },
-                '& .swiper-pagination': { 
-
-                },
-                '& .swiper-pagination-bullet': {
-                    // width: 12, 
-                    // height: 12
-                },
-                '& .swiper-pagination-bullet-active': {
-                    backgroundColor: theme.palette.secondary.main
                 }, 
                 [theme.breakpoints.down('sm')]: {
                     '& .swiper-button-prev': {
@@ -85,15 +69,11 @@ function DumbComponent(props) {
                     '& .swiper-button-next': {
                         display: 'none'
                     }
-                },
-                [theme.breakpoints.down('sm')]: {
-                     
-                }
+                }, 
             },
             slide: {
                 position: 'relative',  
-                height: slideHeight,  
-                width: slideWidth, 
+                height: slideHeight,   
                 overflow: 'hidden',   
             },
             slideBox: {
@@ -117,87 +97,110 @@ function DumbComponent(props) {
                 fontSize: 14, 
                 lineHeight: 1.1, 
                 backgroundColor: fade(theme.palette.background.default, 0.7), 
-                padding: theme.spacing(1, 2)
-            }
-             
+                padding: theme.spacing(1, 2), 
+                borderBottom: `2px solid ${color}`
+            },
+            styleClass: {
+                marginTop: `${marginTop}px`,
+                marginBottom: `${marginBottom}px`,
+                [theme.breakpoints.down('sm')]: { 
+                    marginTop: marginTop > 50 ? marginTop*0.6 : 30,
+                    marginBottom: marginBottom > 50 ? marginBottom*0.6 : 30,
+                }
+            },  
         })
     });
-
+ 
 
     const classes  = useStyles();
+
+    
+    let actualWidth = window.innerWidth
  
     React.useEffect(() => {  
         const getWidthViewport = () => {  
-            console.log('swiper resize')
-            let actualWidth = window.innerWidth
-            let quantity = Math.floor(actualWidth/slideWidth)
-            if(quantity !== 0) setSlideForView(quantity)
-            else setSlideForView(1)
- 
+            console.log('swiper resize') 
+
             try {
                 setTimeout(() => {
                     let slideHeightCalc = slideRef.current.clientWidth
                     setSlideHeight(slideHeightCalc) 
-                }, 300)
+                }, 100)
             }
             catch (error) {
                 console.log(error)
             }
         }; 
         getWidthViewport(); 
-        window.removeEventListener('resize', getWidthViewport )
-        window.addEventListener("resize", () => getWidthViewport())
+
+        window.addEventListener("resize", getWidthViewport)
+
+        return function cleanupListener() { 
+            window.removeEventListener('resize', getWidthViewport)
+        }
         // eslint-disable-next-line
-    }, []);
+    }, [actualWidth]);
  
-    const items = [1, 2, 3, 4 ,5 , 6, 7, 8, 9]
+    
 
     const renderSlide = (slide) => (
-        <SwiperSlide key={slide} ref={slideRef} className={`${classes.slide} js-slide-height-computed `}>
+        <SwiperSlide key={slide.imageUrl} ref={slideRef} className={`${classes.slide}`}>
             <Box className={classes.slideBox}>
                 <Box 
-                    style={{backgroundImage: `url(https://c8.alamy.com/comp/2A27D1R/square-format-view-of-empty-ocean-and-sky-landscape-with-expressive-clouds-2A27D1R.jpg)`}}
+                    style={{backgroundImage: `url(${slide.imageUrl})`}}
                     className={classes.slideImg}
                 />
-                <Typography
-                    component='h6'
-                    className={classes.slideTitle}
-                >
-                    Slide Title "fade", "cube", "coverflow" or "flip" - {slide}  Slide Title "fade", "cube", "coverflow" or "flip"
-                </Typography>
+                {
+                    slide.title.length > 0 &&
+                    <Typography
+                        component='h6'
+                        className={classes.slideTitle}
+                    >
+                        {slide.title}
+                    </Typography>
+                }
+                
             </Box>
         </SwiperSlide>
     )
+ 
     return ( 
-        <Container className={`${classes.swiper} heading`}>
+        <Container className={`${classes.swiper} ${classes.styleClass} heading`} maxWidth={maxWidthContainer} >
             <Typography variant={'h3'} className={classes.heading}>
                 { heading }
             </Typography> 
             
-            <Swiper
-                // loop={false} 
-                // autoplay={}
-                // freeMode={true} 
-                // "fade", "cube", "coverflow" or "flip"
+                
+                <Swiper
+                    loop={loop}  
+                    freeMode={freeMode}  
 
-                height={slideHeight}
-                spaceBetween={spaceBetween}
-                speed={200}
-                slidesPerView={slideForView}
- 
-                navigation 
-                // pagination={{ clickable: true }}
-                // scrollbar={{ draggable: true }}
- 
-                onSlideChange={() => console.log('slide change')}
-                // onSwiper={(swiper) => console.log(swiper)}
-            >
-                {
-                    items.map( slide => {
-                        return renderSlide(slide)
-                    } )
-                }
-            </Swiper>
+                    height={slideHeight}
+                    spaceBetween={spaceBetween}
+                    speed={speed} 
+                    slidesPerView={slidesForViewMobile}
+                    breakpoints={{
+                        // when window width is >= 600px
+                        600: { 
+                          slidesPerView: slidesForViewTablet,
+                        },
+                        // when window width is >= 960px
+                        960: { 
+                          slidesPerView: slidesForView,
+                        },
+                    }}
+    
+                    navigation  
+    
+                    onSlideChange={() => console.log('slide change')} 
+                >
+                    {
+                        items.map( slide => {
+                            return renderSlide(slide)
+                        } )
+                    }
+                </Swiper> 
+            
         </Container>
        
     )
