@@ -38,7 +38,7 @@ import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 import DumbComponent from "./DumbComponent"
 
 import AddItem from './AddItem'
-import ChangeItem from './ChangeItem'
+import InputChange from '../../functions/InputChange';
 
 import ImageContext  from '../../../context/imageContext/ImageContext'
 
@@ -55,9 +55,9 @@ function StyledComponent(props) {
     const [slidesPerViewMobile, setSlidesPerViewMobile] = React.useState(props.data.slidesPerViewMobile || 1)
     const [spaceBetween, setSpaceBetween] = React.useState(props.data.spaceBetween || 30)
     const [speed, setSpeed] = React.useState(props.data.speed || 200)
-    const [loop, setLoop] = React.useState(props.data.loop || true)
+    const [loop, setLoop] = React.useState(props.data.loop || false)
     const [freeMode, setFreeMode] = React.useState(props.data.freeMode || false)
-    const [slides, setSlides] = React.useState(props.data.slides || [false]) 
+    const [slides, setSlides] = React.useState(props.data.slides || []) 
 
     const [colorSelect,  setColorSelect] = React.useState(props.data.color || 'primary')
     const [colorCustom, setColorCustom] = React.useState(props.data.color || 'primary')
@@ -101,6 +101,7 @@ function StyledComponent(props) {
         const { mtView, mbView } = commonStyle 
 
         return ({
+            btnWithLabel: btnWithLabel, 
             btnDrawerStyle: btnDrawerStyle,
             btnDrawerItem: btnDrawerItem,
             containerWrapper: {
@@ -163,7 +164,7 @@ function StyledComponent(props) {
                         opacity: 1
                     }
                 }
-            }, 
+            },  
             dumbSlideButtons: {
                 opacity: 0, 
                 position: 'absolute', 
@@ -185,6 +186,10 @@ function StyledComponent(props) {
                 padding: theme.spacing(1), 
                 margin: theme.spacing(2, 0),
                 border: `1px solid ${theme.palette.divider}`, 
+            }, 
+            tooltipReload: {
+                fontSize: 14, 
+                backgroundColor: theme.palette.warning.main
             }
         })
     })
@@ -226,14 +231,33 @@ function StyledComponent(props) {
         setImageForDelete([])
     }
     const removeItem = () => {
-        const conf = window.confirm('Delete? ')
-        if (conf) 
+        const conf = window.confirm('Delete? ') 
+
+        if (conf)  { 
+            let imgArray = []
+            slides.forEach( slide => {
+                if(slide.imageName !== 'ImageExample') imgArray.push(slide.imageName)
+            })
+            if(imgArray.length > 0) {
+                imgArray.forEach( name => {
+                    removeImage(name)
+                })
+            }
+
             props.removeContainer(props.data.id)
+        }
+            
     }
 
-    const handleSlideTitle = (index, title) => {
+    const handleSlideTitle = (title, index) => {
+        let newSlides = slides.slice()
 
+        newSlides[index].title = title 
+        
+        setSlides(newSlides) 
+        setIsDisableBtn(false)
     }
+
     const swipeSlide = (direction, index) => {
         let newSlides = slides.slice()
         let activeIndex = index  
@@ -288,6 +312,12 @@ function StyledComponent(props) {
       
     return (
         <div className={classes.containerWrapper}>
+            <Tooltip  title={`Swiper margin top`}  placement={'top'}>
+                <div className={classes.mtView}></div>
+            </Tooltip>
+            <Tooltip  title={`Swiper margin bottom`}  placement={'top'}>
+                <div className={classes.mbView}></div>
+            </Tooltip>
             <Box style={{
                 position: 'relative'
             }}>
@@ -388,16 +418,18 @@ function StyledComponent(props) {
                                         <OpenWithIcon/>
                                     </Typography>
                                     <Box mt={2}>
-                                        <TextField
-                                            fullWidth
+                                        <InputChange
+                                            id={null}
+                                            fullWidth={true}
                                             type='text'
-                                            label="Heading"
-                                            variant="outlined"
+                                            size="medium" 
+                                            label='Heading'
+                                            variant='outlined'
                                             value={heading}
-                                            onChange={(e) => {
-                                            setIsDisableBtn(false);
-                                            setHeading(e.target.value)
-                                        }}/>
+                                            setValue={setHeading}
+                                            setIsDisableBtn={setIsDisableBtn}
+                                            direction='row'
+                                        />
                                     </Box>
                                     <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (>600px)' placement={'top'}>
                                         <Box className={`${classes.responseValues} ${classes.responseMobile}`}>
@@ -411,99 +443,113 @@ function StyledComponent(props) {
                                         </Box>
                                     </Tooltip>
                                     <Box mr={1} my={2} display='inline-block' >
-                                        <TextField 
+                                        <InputChange
+                                            id={null}
+                                            fullWidth={false}
                                             type='number'
-                                            size='small'
-                                            label="Margin Top"
-                                            variant="outlined"
+                                            size="small" 
+                                            label='Margin Top'
+                                            variant='outlined'
                                             value={marginTop}
-                                            onChange={(e) => {
-                                                setIsDisableBtn(false);
-                                                setMarginTop(Number(e.target.value))
-                                        }}/>
+                                            setValue={setMarginTop}
+                                            setIsDisableBtn={setIsDisableBtn}
+                                            direction='row'
+                                        /> 
                                     </Box>
                                     <Box mr={1} my={2} display='inline-block' >
-                                        <TextField 
+                                        <InputChange
+                                            id={null}
+                                            fullWidth={false}
                                             type='number'
-                                            size='small'
-                                            label="Margin Bottom"
-                                            variant="outlined"
+                                            size="small" 
+                                            label='Margin Bottom'
+                                            variant='outlined'
                                             value={marginBottom}
-                                            onChange={(e) => {
-                                                setIsDisableBtn(false);
-                                                setMarginBottom(Number(e.target.value))
-                                        }}/>
+                                            setValue={setMarginBottom}
+                                            setIsDisableBtn={setIsDisableBtn}
+                                            direction='row'
+                                        />  
                                     </Box>
                                      
                                     <Box mb={2} display='flex'> 
                                         <Box mr={1}>
-                                            <TextField 
+                                            <InputChange
+                                                id={null}
+                                                fullWidth={false}
                                                 type='number'
-                                                size="small"
-                                                label="Slides Per View"
-                                                variant="outlined"
+                                                size="small" 
+                                                label="Slides Per View Desktop"
+                                                variant='outlined'
                                                 value={slidesPerView}
-                                                onChange={(e) => {
-                                                setIsDisableBtn(false);
-                                                setSlidesPerView(Number(e.target.value))
-                                            }}/>
+                                                setValue={setSlidesPerView}
+                                                setIsDisableBtn={setIsDisableBtn}
+                                                direction='row'
+                                            />  
                                         </Box>
                                         <Box mr={1}>
-                                            <TextField 
+                                            <InputChange
+                                                id={null}
+                                                fullWidth={false}
                                                 type='number'
-                                                size="small"
+                                                size="small" 
                                                 label="Slides Per View Tablet"
-                                                variant="outlined"
+                                                variant='outlined'
                                                 value={slidesPerViewTablet}
-                                                onChange={(e) => {
-                                                setIsDisableBtn(false);
-                                                setSlidesPerViewTablet(Number(e.target.value))
-                                            }}/>
+                                                setValue={setSlidesPerViewTablet}
+                                                setIsDisableBtn={setIsDisableBtn}
+                                                direction='row'
+                                            />   
                                         </Box>
                                         <Box mr={1}>
-                                            <TextField 
+                                            <InputChange
+                                                id={null}
+                                                fullWidth={false}
                                                 type='number'
-                                                size="small"
+                                                size="small" 
                                                 label="Slides Per View Mobile"
-                                                variant="outlined"
+                                                variant='outlined'
                                                 value={slidesPerViewMobile}
-                                                onChange={(e) => {
-                                                setIsDisableBtn(false);
-                                                setSlidesPerViewMobile(Number(e.target.value))
-                                            }}/>
+                                                setValue={setSlidesPerViewMobile}
+                                                setIsDisableBtn={setIsDisableBtn}
+                                                direction='row'
+                                            />   
                                         </Box>
                                         
                                     </Box>
                                     <Box mb={2} display='flex'>
                                         <Box mr={1}>
-                                            <TextField 
+                                            <InputChange
+                                                id={null}
+                                                fullWidth={false}
                                                 type='number'
-                                                size="small"
+                                                size="small" 
                                                 label="Space Between"
-                                                variant="outlined"
+                                                variant='outlined'
                                                 value={spaceBetween}
-                                                onChange={(e) => {
-                                                setIsDisableBtn(false);
-                                                setSpaceBetween(Number(e.target.value))
-                                            }}/>
+                                                setValue={setSpaceBetween}
+                                                setIsDisableBtn={setIsDisableBtn}
+                                                direction='row'
+                                            /> 
                                         </Box>
                                         <Box>
-                                            <TextField 
+                                            <InputChange
+                                                id={null}
+                                                fullWidth={false}
                                                 type='number'
-                                                size="small"
+                                                size="small" 
                                                 label="Speed (ms)"
-                                                variant="outlined"
+                                                variant='outlined'
                                                 value={speed}
-                                                onChange={(e) => {
-                                                setIsDisableBtn(false);
-                                                setSpeed(Number(e.target.value))
-                                            }}/>
+                                                setValue={setSpeed}
+                                                setIsDisableBtn={setIsDisableBtn}
+                                                direction='row'
+                                            />  
                                         </Box>
                                     </Box>
 
                                     <Box my={2} display='flex'>
                                         <Box mr={1}> 
-                                            <Tooltip title="After change Loop settings you need to reloading page" >
+                                            <Tooltip classes={{tooltip: classes.tooltipReload}} title="After change Loop, Slides Per View, Space Between settings you need to reloading page" >
                                                 <IconButton>
                                                     <InfoOutlined/>
                                                 </IconButton>
@@ -651,7 +697,7 @@ function StyledComponent(props) {
                                                 </Box>
                                                 <img src={item.imageUrl} alt={item.imageName}/>
                                                 <Box className={classes.dumbSlideTitle}>
-                                                    <TextField 
+                                                    {/* <TextField 
                                                         type='text'
                                                         size="small" 
                                                         variant="outlined"
@@ -660,6 +706,18 @@ function StyledComponent(props) {
                                                             setIsDisableBtn(false);
                                                             handleSlideTitle(e.target.value)
                                                         }}
+                                                    /> */}
+                                                    <InputChange
+                                                        id={index}
+                                                        fullWidth={false}
+                                                        type='text'
+                                                        size="small" 
+                                                        label='Heading'
+                                                        variant='outlined'
+                                                        value={item.title}
+                                                        setValue={handleSlideTitle}
+                                                        setIsDisableBtn={setIsDisableBtn}
+                                                        direction='column'
                                                     />
                                                 </Box>
                                             </Box>

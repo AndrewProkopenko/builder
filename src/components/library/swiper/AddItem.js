@@ -4,8 +4,7 @@ import firebase from "../../../firebase/firebase"
 import {  
     Button,  
     TextField,  
-    Box, 
-    FormGroup, 
+    Box,  
     Typography, 
     makeStyles
 } from '@material-ui/core' 
@@ -50,6 +49,8 @@ const AddItem = (props) => {
     
     const classes = useStyles();
 
+    console.log(props.btnWithLabel)
+
     return (
         <Box className={classes.addSlide}>
             <Button color='primary' variant='contained' className={props.btnWithLabel}  >
@@ -63,7 +64,7 @@ const AddItem = (props) => {
                     style={{
                     display: "none"
                 }}/>
-            </Button>
+            </Button> 
             <Typography variant='caption' > Image: { newImageName.replace(`-${props.id}`, '') }</Typography>
             <Box my={1}>
                 <TextField 

@@ -208,8 +208,8 @@ function DumbComponent() {
             return window.innerWidth < widthMobile ? setMobileView(true)  : setMobileView(false) 
         }; 
         const setScrollHeader = () => { 
-            if(!mobileView) {
-                const headerTop =  window.pageYOffset
+            if(mobileView) {
+                const headerTop =  window.pageYOffset 
                 try {
                     if( headerTop > 1 ) {
                         headerRef.current.classList.add('sticky')

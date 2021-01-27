@@ -68,7 +68,8 @@ function StyledComponent() {
                     className={classes.btnSettings}
                     onClick={() => { setOpen(!open) }}
                 >   
-                    open <br/>
+                    {open ? 'close' : 'open' }
+                    <br/>
                     settings
                     <SettingsIcon style={{ color: '#fff' }} fontSize='small'/>
                 </Button>

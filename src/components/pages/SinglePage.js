@@ -81,7 +81,7 @@ function SinglePage(props) {
           position: 'absolute', 
           zIndex: 1031, 
           top: 0, 
-          left: 10,
+          left: 70,
           backgroundColor: theme.palette.error.dark,   
           minWidth: 30, 
           maxWidth: 40, 

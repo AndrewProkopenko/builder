@@ -26,7 +26,7 @@ function Login() {
     
     const [isSubmit, setIsSubmit] = React.useState(false)
 
-    const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
+    const [isDisableBtn, setIsDisableBtn] = React.useState(false) 
     
     React.useEffect( () => {
         setIsLoading(false) 
@@ -59,11 +59,11 @@ function Login() {
       }));
     const classes = useStyles();
 
-    const disableCheck = () => {
-        console.log(name, password)
-        if(name !== '' && password !== '') setIsDisableBtn(false)
-        else setIsDisableBtn(true) 
-        setError(null)
+    const disableCheck = () => { 
+            console.log(name, password)
+            if(name !== '') setIsDisableBtn(false)
+            else setIsDisableBtn(true)  
+        
     }
 
     const handleChange = (value, place) => {
@@ -78,7 +78,8 @@ function Login() {
             }
             default: break;
         } 
-        disableCheck()
+        setError(null)
+        
     } 
     const handleSubmit = (e) => {
         e.preventDefault() 
@@ -121,7 +122,7 @@ function Login() {
                                 autoComplete='true'
                                 autoFocus
                                 value={name}
-                                onChange={  (e)=>{handleChange(e.target.value, "name")} }
+                                onChange={  (e)=>{setName(e.target.value); disableCheck()} }
                             />
                         </Box>
                         <Box mb={2} >
@@ -134,7 +135,7 @@ function Login() {
                                 type="password"
                                 id="password" 
                                 value={password}
-                                onChange={  (e)=>{handleChange(e.target.value, "password")} }
+                                onChange={  (e)=>{setPassword(e.target.value); disableCheck()} }
                             />
                         </Box>
                         {

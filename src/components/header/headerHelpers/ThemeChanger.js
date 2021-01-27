@@ -63,8 +63,7 @@ function ThemeChanger() {
       setOpen(false);
     }; 
 
-    const useStyles = makeStyles((theme) => {
-        console.log(theme.palette.success)
+    const useStyles = makeStyles((theme) => { 
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 

@@ -340,7 +340,7 @@
         "spaceBetween": 30, 
         "color": "primary", 
         "speed": 200, 
-        "loop": true, 
+        "loop": false, 
         "freeMode": false, 
         "slides": [
             {

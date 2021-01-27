@@ -13,8 +13,7 @@ import {getColorByPalette} from '../colorPicker/ColorCalculation'
 SwiperCore.use([Navigation]);
   
 function DumbComponent(props) {
-   
-    console.log(props.data)
+    
     const heading = props.data.heading  
     let color = props.data.color
 
@@ -62,14 +61,14 @@ function DumbComponent(props) {
                         paddingRight: 0,
                     }
                 }, 
-                [theme.breakpoints.down('sm')]: {
-                    '& .swiper-button-prev': {
-                        display: 'none !important'
-                    },
-                    '& .swiper-button-next': {
-                        display: 'none'
-                    }
-                }, 
+                // [theme.breakpoints.down('xs')]: {
+                //     '& .swiper-button-prev': {
+                //         display: 'none !important'
+                //     },
+                //     '& .swiper-button-next': {
+                //         display: 'none'
+                //     }
+                // }, 
             },
             slide: {
                 position: 'relative',  
@@ -125,7 +124,7 @@ function DumbComponent(props) {
                 setTimeout(() => {
                     let slideHeightCalc = slideRef.current.clientWidth
                     setSlideHeight(slideHeightCalc) 
-                }, 100)
+                }, 200)
             }
             catch (error) {
                 console.log(error)

@@ -9,7 +9,7 @@ import Draggable from 'react-draggable';
 import ColorSelecter from '../colorPicker/ColorSelecter'
 
 import { 
-    MenuItem,Button, Box, Tooltip, TextField, FormControl, InputLabel,
+    MenuItem,Button, Box, Tooltip, FormControl, InputLabel,
     Select, Typography, ButtonGroup, makeStyles, Modal, DialogContent
 } from '@material-ui/core'
 
@@ -25,6 +25,8 @@ import TabletMacIcon from '@material-ui/icons/TabletMac';
 import DumbComponent from "./DumbComponent"
 
 import ImageContext  from '../../../context/imageContext/ImageContext'
+
+import InputChange from '../../functions/InputChange';
 
 function StyledComponent(props) {
 
@@ -317,28 +319,32 @@ function StyledComponent(props) {
                                             Styles
                                         </Typography>
                                         <Box mr={1} mb={2} display='inline-block' >
-                                            <TextField 
+                                            <InputChange
+                                                id={null}
+                                                fullWidth={false}
                                                 type='number'
-                                                size='small'
-                                                label="Margin Top"
-                                                variant="outlined"
+                                                size="small" 
+                                                label='Margin Top'
+                                                variant='outlined'
                                                 value={marginTop}
-                                                onChange={(e) => {
-                                                    setIsDisableBtn(false);
-                                                    setMarginTop(Number(e.target.value))
-                                            }}/>
+                                                setValue={setMarginTop}
+                                                setIsDisableBtn={setIsDisableBtn}
+                                                direction='row'
+                                            />  
                                         </Box>
                                         <Box mr={1} mb={2} display='inline-block' >
-                                            <TextField 
+                                            <InputChange
+                                                id={null}
+                                                fullWidth={false}
                                                 type='number'
-                                                size='small'
-                                                label="Margin Bottom"
-                                                variant="outlined"
+                                                size="small" 
+                                                label='Margin Bottom'
+                                                variant='outlined'
                                                 value={marginBottom}
-                                                onChange={(e) => {
-                                                    setIsDisableBtn(false);
-                                                    setMarginBottom(Number(e.target.value))
-                                            }}/>
+                                                setValue={setMarginBottom}
+                                                setIsDisableBtn={setIsDisableBtn}
+                                                direction='row'
+                                            />  
                                         </Box>
                                         <FormControl 
                                             variant='filled' 
@@ -389,14 +395,18 @@ function StyledComponent(props) {
                                         <Typography variant='h6' gutterBottom>
                                             Texts
                                         </Typography>
-                                        <TextField  
-                                            fullWidth
+                                        <InputChange
+                                            id={null}
+                                            fullWidth={true}
                                             type='text'
-                                            label="Main Heading" 
-                                            variant="outlined"  
+                                            size="medium" 
+                                            label='Main Heading'
+                                            variant='outlined'
                                             value={heading}
-                                            onChange={ (e) => { setIsDisableBtn(false); setHeading(e.target.value) } }     
-                                        />
+                                            setValue={setHeading}
+                                            setIsDisableBtn={setIsDisableBtn}
+                                            direction='row'
+                                        /> 
                                     </Box> 
                                     <Box display="flex" mt={3}>   
                                         <Box display="flex" mr={2} minWidth={150} >
@@ -417,26 +427,34 @@ function StyledComponent(props) {
                                             }
                                             
                                         </Box> 
-                                        <TextField  
-                                            fullWidth
+                                        <InputChange
+                                            id={null}
+                                            fullWidth={true}
                                             type='text'
-                                            label="Sub Heading" 
-                                            variant="outlined" 
-                                            size='small'  
+                                            size="small" 
+                                            label='Sub Heading'
+                                            variant='outlined'
                                             value={subHeading}
-                                            onChange={ (e) => { setIsDisableBtn(false); setSubHeading(e.target.value)  } }     
-                                        />
+                                            setValue={setSubHeading}
+                                            setIsDisableBtn={setIsDisableBtn}
+                                            direction='row'
+                                        /> 
+                                         
                                     </Box> 
                                     <Box mt={3} mb={3}>   
-                                        <TextField  
-                                            multiline
-                                            fullWidth
+                                        <InputChange
+                                            id={null}
+                                            fullWidth={true}
+                                            multiline={true}
                                             type='text'
+                                            size="medium" 
                                             label="Paragraph" 
-                                            variant="outlined"  
+                                            variant='outlined'
                                             value={paragraph}
-                                            onChange={ (e) => { setIsDisableBtn(false);  setParagraph(e.target.value)  } }     
-                                        />
+                                            setValue={setParagraph}
+                                            setIsDisableBtn={setIsDisableBtn}
+                                            direction='row'
+                                        />  
                                     </Box> 
                                     <Typography 
                                         component='h6'  
@@ -444,39 +462,49 @@ function StyledComponent(props) {
                                         Form Settings
                                     </Typography> 
                                     <Box display='flex' mt={2}>
-                                        <Box mr={1} flexGrow='1' >   
-                                            <TextField   
-                                                fullWidth
+                                        <Box mr={1} flexGrow='1' >  
+                                            <InputChange
+                                                id={null}
+                                                fullWidth={true} 
                                                 type='text'
+                                                size="small" 
                                                 label="Form Input Label" 
-                                                size='small'  
-                                                variant="outlined"  
+                                                variant='outlined'
                                                 value={inputLabel}
-                                                onChange={ (e) => { setIsDisableBtn(false); setInputLabel(e.target.value) } }     
-                                            />
+                                                setValue={setInputLabel}
+                                                setIsDisableBtn={setIsDisableBtn}
+                                                direction='row'
+                                            />  
                                         </Box> 
                                         <Box flexGrow='1' >   
-                                            <TextField   
-                                                fullWidth
+                                            <InputChange
+                                                id={null}
+                                                fullWidth={true} 
                                                 type='text'
+                                                size="small" 
                                                 label="Form Button Label" 
-                                                size='small'  
-                                                variant="outlined"  
+                                                variant='outlined'
                                                 value={buttonLabel}
-                                                onChange={ (e) => { setIsDisableBtn(false); setButtonLabel(e.target.value) } }     
-                                            />
+                                                setValue={setButtonLabel}
+                                                setIsDisableBtn={setIsDisableBtn}
+                                                direction='row'
+                                            />  
                                         </Box> 
                                     </Box>
                                     <Box mt={2}>   
-                                        <TextField   
-                                            fullWidth
+                                    
+                                        <InputChange
+                                            id={null}
+                                            fullWidth={true} 
                                             type='text'
+                                            size="small" 
                                             label="Form Policy" 
-                                            size='small'  
-                                            variant="outlined"  
+                                            variant='outlined'
                                             value={policy}
-                                            onChange={ (e) => { setIsDisableBtn(false);  setPolicy(e.target.value) } }     
-                                        />
+                                            setValue={setPolicy}
+                                            setIsDisableBtn={setIsDisableBtn}
+                                            direction='row'
+                                        />   
                                     </Box> 
 
                                     <Box mt={2} display="flex" >
