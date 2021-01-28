@@ -15,7 +15,7 @@ import {
 
 import ModalContext from '../../../context/modalContext/ModalContext'
 
-import {getColorByPalette} from '../colorPicker/ColorCalculation'
+import {getColorByPalette} from '../../functions/colorChanger/ColorCalculation'
  
 export default function CustomizedTables(props) {
     let mainColor = props.data.color

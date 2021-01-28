@@ -25,8 +25,8 @@ import {
 
 import DumbComponent from "./DumbComponent"  
 
-import ColorSelecter from '../colorPicker/ColorSelecter'
-import {isNoThemeColor} from '../colorPicker/ColorCalculation'
+import ColorSelecter from '../../functions/colorChanger/ColorSelecter'
+import {isNoThemeColor} from '../../functions/colorChanger/ColorCalculation'
 
 import InputChange from '../../functions/InputChange';
   
@@ -71,6 +71,7 @@ const StyledComponent = (props) => {
         if(colorTheme) {  
             setColorSelect('custom')
         } 
+        // eslint-disable-next-line
     }, [props.data.classes.color]) 
 
     const useStyles = makeStyles((theme) => {

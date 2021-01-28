@@ -8,7 +8,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';  
 
-import {getColorByPalette} from '../colorPicker/ColorCalculation'
+import {getColorByPalette} from '../../functions/colorChanger/ColorCalculation'
 
 SwiperCore.use([Navigation]);
   

@@ -2,7 +2,7 @@ import React from 'react'
 
 import StylesChangers from '../../../styles/changers'  
   
-import ColorSelecter from '../../library/colorPicker/ColorSelecter'
+import ColorSelecter from '../../functions/colorChanger/ColorSelecter'
 
 import LoadingContext from '../../../context/loadingContext/LoadingContext' 
 import SendFormContext from '../../../context/sendFormContext/SendFormContext'  

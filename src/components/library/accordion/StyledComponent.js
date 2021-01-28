@@ -4,8 +4,8 @@ import StylesChangers from '../../../styles/changers'
 import StyledInputs from '../../../styles/inputs'   
 
 import Draggable from 'react-draggable';  
-import ColorSelecter from '../colorPicker/ColorSelecter'
-import {isNoThemeColor} from '../colorPicker/ColorCalculation'
+import ColorSelecter from '../../functions/colorChanger/ColorSelecter'
+import {isNoThemeColor} from '../../functions/colorChanger/ColorCalculation'
 
 import { 
     MenuItem,Button, Box, Tooltip, FormControl, InputLabel,
@@ -59,6 +59,7 @@ function StyledComponent(props) {
         if(colorTheme) {  
             setColorSelect('custom')
         }
+        // eslint-disable-next-line
     }, [props.data.color]) 
 
     const useStyles = makeStyles((theme) => {

@@ -5,7 +5,7 @@ import SendFormContext from '../../../context/sendFormContext/SendFormContext'
 import { Container, Grid, makeStyles, Button, Box, darken, fade } from '@material-ui/core'
 
 import '../../../assets/style/contactMap.scss' 
-import {getColorByPalette, getColorByPaletteReverse} from '../colorPicker/ColorCalculation'
+import {getColorByPalette, getColorByPaletteReverse} from '../../functions/colorChanger/ColorCalculation'
 
 function DumbComponent(props) {
     const { sendRequests } = React.useContext(SendFormContext)

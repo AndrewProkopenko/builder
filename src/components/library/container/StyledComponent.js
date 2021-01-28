@@ -8,13 +8,13 @@ import InputChange from '../../functions/InputChange';
 
 
 import uuid from 'react-uuid' 
-import ColorSelecter from '../colorPicker/ColorSelecter' 
-import {isNoThemeColor} from '../colorPicker/ColorCalculation'
+import ColorSelecter from '../../functions/colorChanger/ColorSelecter' 
+import {isNoThemeColor} from '../../functions/colorChanger/ColorCalculation'
   
 import { 
     MenuItem,   FormGroup,  Button,
     Box,  Menu, Tooltip,
-    TextField, FormControl, InputLabel,
+    FormControl, InputLabel,
     Select, Typography, IconButton, 
     Modal, DialogContent, 
 } from '@material-ui/core' 
@@ -97,6 +97,7 @@ function ContainerElement(props) {
         if(borderTheme) {  
             setBorderColorSelect('custom')
         }  
+        // eslint-disable-next-line
     }, [props.data.classes.backgroundColor, props.data.classes.color, props.data.classes.borderColor])
 
     const useStyles = makeStyles((theme) => {

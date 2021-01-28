@@ -12,8 +12,8 @@ import Draggable from 'react-draggable';
 
 import InputChange from '../../functions/InputChange';
  
-import ColorSelecter from '../colorPicker/ColorSelecter'
-import {isNoThemeColor} from '../colorPicker/ColorCalculation'
+import ColorSelecter from '../../functions/colorChanger/ColorSelecter'
+import {isNoThemeColor} from '../../functions/colorChanger/ColorCalculation'
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -76,6 +76,7 @@ const StyledComponent = (props) => {
     const [imageBorderColorSelect, setImageBorderColorSelect] = React.useState(props.data.image.classes.borderColor ||  'transperent')
     const [imageBorderColorCustom, setImageBorderColorCustom] = React.useState(props.data.image.classes.borderColor ||  'transperent')
   
+    // eslint-disable-next-line
     const [image, setImage] = React.useState(props.data.image || {})
     const [imageUrl, setImageUrl] = React.useState(props.data.image.url || '')
     const [imageName, setImageName] = React.useState(props.data.image.imageName || '')
@@ -127,6 +128,7 @@ const StyledComponent = (props) => {
         if(imageBorderTheme) {  
             setImageBorderColorSelect('custom')
         }  
+        // eslint-disable-next-line
     }, [props.data.classes.backgroundColor, props.data.classes.color, props.data.classes.borderColor, props.data.image.classes.borderColor ]) 
 
     const useStyles = makeStyles((theme) => {

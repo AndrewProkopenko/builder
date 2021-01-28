@@ -4,7 +4,7 @@ import SendFormContext from '../../../context/sendFormContext/SendFormContext'
 
 import { Container, makeStyles, Button, Box, Grid, fade, darken } from '@material-ui/core'
 
-import {getColorByPalette, getColorByPaletteReverse} from '../colorPicker/ColorCalculation'
+import {getColorByPalette, getColorByPaletteReverse} from '../../functions/colorChanger/ColorCalculation'
 
 import '../../../assets/style/lineForm.scss' 
 

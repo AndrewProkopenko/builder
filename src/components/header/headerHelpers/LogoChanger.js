@@ -7,7 +7,7 @@ import ImageContext from '../../../context/imageContext/ImageContext'
 
 import StylesChangers from '../../../styles/changers'  
  
-import ColorSelecter from '../../library/colorPicker/ColorSelecter'
+import ColorSelecter from '../../functions/colorChanger/ColorSelecter'
 
 import { 
     Tooltip,

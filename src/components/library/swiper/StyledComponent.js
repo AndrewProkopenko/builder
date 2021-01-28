@@ -4,8 +4,8 @@ import StylesChangers from '../../../styles/changers'
 import StyledInputs from '../../../styles/inputs'    
 
 import Draggable from 'react-draggable';
-import ColorSelecter from '../colorPicker/ColorSelecter'
-import {isNoThemeColor} from '../colorPicker/ColorCalculation'
+import ColorSelecter from '../../functions/colorChanger/ColorSelecter'
+import {isNoThemeColor} from '../../functions/colorChanger/ColorCalculation'
 
 import {
     Select, 
@@ -39,7 +39,7 @@ import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 import DumbComponent from "./DumbComponent"
 
 import AddItem from './AddItem'
-import ChangeTitle from './ChangeItem'
+// import ChangeTitle from './ChangeItem'
 import InputChange from '../../functions/InputChange';
 
 import ImageContext  from '../../../context/imageContext/ImageContext'
@@ -86,6 +86,7 @@ function StyledComponent(props) {
         if(colorTheme) {  
             setColorSelect('custom')
         }
+        // eslint-disable-next-line
     }, [props.data.color]) 
 
     const useStyles = makeStyles((theme) => {

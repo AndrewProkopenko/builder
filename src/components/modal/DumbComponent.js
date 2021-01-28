@@ -7,8 +7,7 @@ import {
     Button, 
     Typography,  
     Box,
-    IconButton,
-    fade
+    IconButton, 
 } from '@material-ui/core';  
 import CloseIcon from '@material-ui/icons/Close';
 
@@ -17,7 +16,7 @@ import '../../assets/style/modal.scss'
 import SendFormContext from '../../context/sendFormContext/SendFormContext'
 import ModalContext from '../../context/modalContext/ModalContext'
 
-import {getColorByPaletteForGradient} from '../library/colorPicker/ColorCalculation'
+import {getColorByPaletteForGradient} from '../functions/colorChanger/ColorCalculation'
 
 
 export default function TransitionsModal() {
@@ -100,7 +99,7 @@ export default function TransitionsModal() {
           borderColor: colorGradient1
         },
         '&:hover': {
-          backgroundColor: fade(colorGradient1, 0.07), 
+          backgroundColor: "#7979792b", 
         },
          
       },

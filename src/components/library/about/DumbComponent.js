@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Container, Grid, makeStyles, Box, Button, darken, fade } from '@material-ui/core'
 
-import {getColorByPalette} from '../colorPicker/ColorCalculation'
+import {getColorByPalette} from '../../functions/colorChanger/ColorCalculation'
 
 import '../../../assets/style/about.scss'
 

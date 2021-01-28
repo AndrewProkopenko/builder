@@ -10,7 +10,7 @@ import ListCreator from '../list/ElementCreator'
 import ParagraphCreator from '../paragraph/ElementCreator'
 import ParagraphImageCreator from '../paragraphImage/ElementCreator'
 
-import {getColorByPalette} from '../colorPicker/ColorCalculation'
+import {getColorByPalette} from '../../functions/colorChanger/ColorCalculation'
 
 function DumbComponent(props) {
  

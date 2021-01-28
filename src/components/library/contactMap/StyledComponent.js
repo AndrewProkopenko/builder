@@ -2,8 +2,8 @@ import React from 'react'
 import StylesChangers from '../../../styles/changers'   
 import StyledInputs from '../../../styles/inputs'    
  
-import ColorSelecter from '../colorPicker/ColorSelecter'
-import {isNoThemeColor} from '../colorPicker/ColorCalculation'
+import ColorSelecter from '../../functions/colorChanger/ColorSelecter'
+import {isNoThemeColor} from '../../functions/colorChanger/ColorCalculation'
 
 import Draggable from 'react-draggable';  
  
@@ -58,6 +58,7 @@ function StyledComponent(props) {
         if(colorTheme) {  
             setColorSelect('custom')
         }  
+        // eslint-disable-next-line
     }, [props.data.color])
 
     

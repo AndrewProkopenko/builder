@@ -5,8 +5,8 @@ import StylesChangers from '../../../styles/changers'
 import StyledInputs from '../../../styles/inputs'    
 
 import Draggable from 'react-draggable';
-import ColorSelecter from '../colorPicker/ColorSelecter'
-import {isNoThemeColor} from '../colorPicker/ColorCalculation'
+import ColorSelecter from '../../functions/colorChanger/ColorSelecter'
+import {isNoThemeColor} from '../../functions/colorChanger/ColorCalculation'
 
 import {
     Select, 
@@ -93,6 +93,7 @@ function StyledComponent(props) {
         if(colorTextTheme) {  
             setColorTextSelect('custom')
         }
+        // eslint-disable-next-line
     }, [props.data.colorButton, props.data.colorText])  
    
 

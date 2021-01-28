@@ -6,7 +6,7 @@ import { Container, Grid, makeStyles, Button, darken, fade } from '@material-ui/
 
 import '../../../assets/style/main-banner.scss'
 
-import {getColorByPalette, getColorByPaletteReverse} from '../colorPicker/ColorCalculation'
+import {getColorByPalette, getColorByPaletteReverse} from '../../functions/colorChanger/ColorCalculation'
 
 function DumbComponent(props) {
 

@@ -24,7 +24,7 @@ import {
 import { darken, lighten } from '@material-ui/core/styles';
 
 
-import {getColorByPaletteForGradient, getColorByPalette } from '../../library/colorPicker/ColorCalculation'
+import {getColorByPaletteForGradient, getColorByPalette } from '../../functions/colorChanger/ColorCalculation'
 
 function DumbComponent() { 
 

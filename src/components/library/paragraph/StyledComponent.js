@@ -28,8 +28,8 @@ import DumbComponent from "./DumbComponent"
 
 import InputChange from '../../functions/InputChange';
  
-import ColorSelecter from '../colorPicker/ColorSelecter'
-import {isNoThemeColor} from '../colorPicker/ColorCalculation' 
+import ColorSelecter from '../../functions/colorChanger/ColorSelecter'
+import {isNoThemeColor} from '../../functions/colorChanger/ColorCalculation' 
 
 import OpenWithIcon from '@material-ui/icons/OpenWith';
 import DeleteOutline  from '@material-ui/icons/DeleteOutline';  
@@ -92,6 +92,7 @@ const StyledComponent = (props) => {
         if(borderTheme) {  
             setBorderColorSelect('custom')
         }  
+        // eslint-disable-next-line
     }, [props.data.classes.backgroundColor, props.data.classes.color, props.data.classes.borderColor]) 
          
 

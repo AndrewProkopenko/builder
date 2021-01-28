@@ -6,7 +6,7 @@ import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
 
 import '../../../assets/style/accordion.scss'
 
-import {getColorByPalette} from '../colorPicker/ColorCalculation'
+import {getColorByPalette} from '../../functions/colorChanger/ColorCalculation'
 
 function DumbComponent(props) { 
     let color = props.data.color

@@ -2,7 +2,7 @@ import React from 'react'
 
 import { makeStyles, Container, Grid, Box, Button, darken, fade } from '@material-ui/core'  
 import ModalContext from '../../../context/modalContext/ModalContext'
-import {getColorByPalette} from '../colorPicker/ColorCalculation'
+import {getColorByPalette} from '../../functions/colorChanger/ColorCalculation'
 
 function DumbComponent(props) { 
 

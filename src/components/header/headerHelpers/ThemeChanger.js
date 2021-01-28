@@ -3,7 +3,7 @@ import React from 'react'
 import StylesChangers from '../../../styles/changers'  
 
 import Draggable from 'react-draggable';   
-import { ColorPicker } from '../../library/colorPicker/ColorPicker'
+import { ColorPicker } from '../../functions/colorChanger/ColorPicker'
 
 import { 
     Tooltip,

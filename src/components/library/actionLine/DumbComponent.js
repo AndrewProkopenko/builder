@@ -5,7 +5,7 @@ import { darken, fade } from '@material-ui/core/styles/colorManipulator';
  
 import ModalContext from '../../../context/modalContext/ModalContext'
 
-import {getColorByPalette} from '../colorPicker/ColorCalculation'
+import {getColorByPalette} from '../../functions/colorChanger/ColorCalculation'
 
 function DumbComponent(props) {
 

@@ -6,7 +6,7 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 import CategoryContext from '../../context/headerContext/CategoryContext'
 
-import { getColorByPalette } from '../../components/library/colorPicker/ColorCalculation'
+import { getColorByPalette } from '../functions/colorChanger/ColorCalculation'
 
 function Footer() {
 

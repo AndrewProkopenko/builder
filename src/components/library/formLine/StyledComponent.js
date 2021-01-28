@@ -1,7 +1,7 @@
 import React from 'react'
  
-import ColorSelecter from '../colorPicker/ColorSelecter'
-import {isNoThemeColor} from '../colorPicker/ColorCalculation'
+import ColorSelecter from '../../functions/colorChanger/ColorSelecter'
+import {isNoThemeColor} from '../../functions/colorChanger/ColorCalculation'
 
 import StylesChangers from '../../../styles/changers'   
 import StyledInputs from '../../../styles/inputs'    
@@ -51,6 +51,7 @@ function StyledComponent(props) {
         if (colorTheme) {  
             setColorSelect('custom')
         }  
+        // eslint-disable-next-line
     }, [props.data.color])
 
     const handleOpen = () => {  
