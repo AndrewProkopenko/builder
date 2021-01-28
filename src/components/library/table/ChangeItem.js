@@ -15,16 +15,7 @@ const ChangeItem = (props) => {
 
     return (
         <Box display='flex' alignItems="center" width="100%">
-            {
-                (name !== props.item.name || price !== props.item.price) && 
-                <Box mr={1}>
-                    <Tooltip title={`Save row`} placement='top'>
-                        <IconButton onClick={handleSave} color={'primary'} >
-                            <CheckCircleOutlineIcon />
-                        </IconButton> 
-                    </Tooltip>
-                </Box>
-            }
+           
             <Box mr={1} flexGrow={1}>
                 <TextField 
                     fullWidth
@@ -36,6 +27,7 @@ const ChangeItem = (props) => {
                     onChange={(e) => { 
                         setName(e.target.value)
                     }}
+                    onBlur={handleSave}
                 />
             </Box>
             <Box >
@@ -49,6 +41,7 @@ const ChangeItem = (props) => {
                     onChange={(e) => { 
                         setPrice(e.target.value)
                     }}
+                    onBlur={handleSave}
                 />
             </Box>
         </Box>

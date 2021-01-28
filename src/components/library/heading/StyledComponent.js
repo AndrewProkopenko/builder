@@ -10,8 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { 
     FormControlLabel, 
     Switch,
-    Grid, 
-    TextField, 
+    Grid,  
     Button, 
     FormControl,
     InputLabel,
@@ -23,13 +22,17 @@ import {
     Box,
     Tooltip,
     DialogContent,
-    ButtonGroup
+    ButtonGroup,
+    FormGroup
 
 } from '@material-ui/core'
 
 import DumbComponent from "./DumbComponent" 
 
-import {ColorPicker} from '../colorPicker/ColorPicker'
+import InputChange from '../../functions/InputChange';
+ 
+import ColorSelecter from '../colorPicker/ColorSelecter'
+import {isNoThemeColor} from '../colorPicker/ColorCalculation'
 
 import OpenWithIcon from '@material-ui/icons/OpenWith';
 import { DeleteOutline, InfoOutlined } from '@material-ui/icons';
@@ -56,8 +59,17 @@ const StyledComponent = (props) => {
         right: props.data.classes.marginRight 
     })
     
-    const [color, setColor] = React.useState(props.data.classes.color || 'inherit')
-    const [backgroundColor, setBackgroundColor] = React.useState(props.data.classes.backgroundColor ||  'transperent')
+    const [borderColorSelect, setBorderColorSelect] = React.useState(props.data.classes.borderColor ||  'transperent')
+    const [borderColorCustom, setBorderColorCustom] = React.useState(props.data.classes.borderColor ||  'transperent')
+    const [borderStyle, setBorderStyle] = React.useState(props.data.classes.borderStyle ||  'solid')
+    const [borderWidth, setBorderWidth] = React.useState(props.data.classes.borderWidth ||  0 )
+    const [borderRadius, setBorderRadius] = React.useState(props.data.classes.borderRadius || 0)
+    
+    const [backgroundSelect,  setBackgroundSelect] = React.useState(props.data.classes.backgroundColor || 'transperent')
+    const [backgroundCustom, setBackgroundCustom] = React.useState(props.data.classes.backgroundColor || 'transperent')
+    const [colorSelect,  setColorSelect] = React.useState(props.data.classes.color || 'inherit')
+    const [colorCustom, setColorCustom] = React.useState(props.data.classes.color || 'inherit')
+ 
     const [textAlign, setTextAlign] = React.useState(props.data.classes.textAlign ||  'left')
     const [display, setDisplay] = React.useState(props.data.classes.display ||  'block')
     const [fontSize, setFontSize] = React.useState(props.data.classes.fontSize ||  16)
@@ -68,25 +80,37 @@ const StyledComponent = (props) => {
 
     const [textInDumb, setTextInDumb] = React.useState(props.data.text)
     const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
-
-    
+ 
     const [open, setOpen] = React.useState(false);
-         
 
-    
+    const bgTheme = isNoThemeColor(props.data.classes.backgroundColor)
+    const colorTheme = isNoThemeColor(props.data.classes.color)
+    const borderTheme = isNoThemeColor(props.data.classes.borderColor)
 
+    React.useEffect(() => {
+        if(bgTheme) {  
+            setBackgroundSelect('custom')
+        }  
+        if(colorTheme) {  
+            setColorSelect('custom')
+        }  
+        if(borderTheme) {  
+            setBorderColorSelect('custom')
+        }  
+    }, [props.data.classes.backgroundColor, props.data.classes.color, props.data.classes.borderColor]) 
+          
     const useStyles = makeStyles((theme) => {
         const styleRef = StyledInputs()
         const commonStyle = styleRef(theme)
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { btnSave, menu, menuTitle, responseValues, responseTablets, responseMobile, mobileTooltip, tabletTooltip } = commonClasses 
+        const { menu, menuTitle, responseValues, responseTablets, responseMobile, mobileTooltip, tabletTooltip } = commonClasses 
         const { mtView, mbView, ptView, pbView, inputNumber, inputGroup, dumbItemContainer, dumbItem, dumbItemDelete } = commonStyle 
         return ({
             inputNumber: inputNumber, 
             inputGroup: inputGroup, 
-            btnSave: btnSave,
+            // btnSave: btnSave,
             dumbItemContainer: {  ...dumbItemContainer, ...{
                 '&:hover' : {    
                     boxShadow: theme.shadows[10], 
@@ -146,8 +170,8 @@ const StyledComponent = (props) => {
             dumbItem: dumbItem, 
             dumbItemDelete : dumbItemDelete,  
             menu: {...menu, ...{
-                left: "calc(50% - 200px)",
-                width: 400, 
+                left: "calc(50% - 250px)",
+                width: 500, 
             } },    
             menuTitle: menuTitle,  
 
@@ -155,7 +179,11 @@ const StyledComponent = (props) => {
             responseTablets: responseTablets,
             responseMobile: responseMobile,
             mobileTooltip: mobileTooltip,
-            tabletTooltip: tabletTooltip
+            tabletTooltip: tabletTooltip, 
+            tooltip: {
+                fontSize: 14, 
+                backgroundColor: theme.palette.primary.main
+            }
           })
     });
     
@@ -168,42 +196,50 @@ const StyledComponent = (props) => {
         marginTop: margin.top,
         marginBottom: margin.bottom,
         marginLeft: margin.left,
-        marginRight: margin.right,
-        color: color,
-        backgroundColor: backgroundColor,
+        marginRight: margin.right,  
         textAlign: textAlign,
         fontSize: fontSize,
         fontWeight: fontWeight, 
-        lineHeight: lineHeight
+        lineHeight: lineHeight,
+        borderStyle: borderStyle,
+        borderRadius: borderRadius,
+        borderWidth: borderWidth
     } 
     const classes = useStyles();
-
-    
-
-    const handlePadding = (e, direction) => {  
+ 
+    const handlePadding = (value, direction) => {  
         let newPadding = Object.assign({}, padding)
-        newPadding[direction] = Number(e.target.value)
+        newPadding[direction] = Number(value)
         setPadding(newPadding)  
-
-        setIsDisableBtn(false);
+ 
     }
-    const handleMargin= (e, direction) => {  
+    const handleMargin= (value, direction) => {  
         let newMargin = Object.assign({}, margin)
-        newMargin[direction] = Number(e.target.value)
+        newMargin[direction] = Number(value)
         setMargin(newMargin)  
-
-        setIsDisableBtn(false);
+ 
     }
 
-    const saveData = () => {   
+    const handleSave = () => {   
         const sentData = Object.assign({}, props.data)
 
         sentData.classes = myClassName
+
+        if (backgroundSelect === 'custom') { sentData.classes.backgroundColor = backgroundCustom }
+        else { sentData.classes.backgroundColor = backgroundSelect }
+        
+        if (colorSelect === 'custom') { sentData.classes.color = colorCustom } 
+        else { sentData.classes.color = colorSelect }
+        
+        if (borderColorSelect === 'custom') { sentData.classes.borderColor = borderColorCustom } 
+        else { sentData.classes.borderColor = borderColorSelect }
+ 
+
         sentData.text = textInDumb
         sentData.responseFont = isResponsiveFont
         props.reSaveChildren(props.data.id, sentData)
         setIsDisableBtn(true); 
-        handleClose()
+        // handleClose()
     }
     const removeItem = () => {  
         let conf = window.confirm("Delete ?");
@@ -219,9 +255,11 @@ const StyledComponent = (props) => {
         setOpen(true);
     }
     const handleClose = () => {
+        if(!isDisableBtn) handleSave()
         setOpen(false);
     };
     
+    const viewCorrect = props.data.classes.display !== 'block' ? `(uncorrect view for ${props.data.classes.display} display)` : ''
 
     return ( 
             <Grid container style={{position: 'relative'}}> 
@@ -239,18 +277,23 @@ const StyledComponent = (props) => {
                                     className={classes.menuTitle}
                                     id="draggable-dialog-title"
                                 >
-                                    Задать заголовку текст и стили <OpenWithIcon/>
+                                    { !isDisableBtn && "Close to save - " } Heading - {props.data.variant} Settings <OpenWithIcon/>
                                 </Typography>
 
                                 {/* text input */}
                                 <Box mb={2} >
-                                    <TextField 
-                                        type='text' 
+                                    <InputChange
+                                        id={null}
+                                        fullWidth={true}
+                                        multiline={true}
+                                        type='text'
+                                        size="medium" 
                                         label="Text input"
-                                        fullWidth
+                                        variant='standard'
                                         value={textInDumb}
-                                        onChange={(e) => { setIsDisableBtn(false); setTextInDumb(e.target.value); e.target.focus() }}
-                                    />    
+                                        setValue={setTextInDumb}
+                                        setIsDisableBtn={setIsDisableBtn} 
+                                    />      
                                 </Box>  
 
                                 {/* Responsive font */}
@@ -266,7 +309,7 @@ const StyledComponent = (props) => {
                                             }
                                             label="Set Responsive Font Size"
                                         />
-                                        <Tooltip title="Если включено, то на мобильных устройствах шрифт будет меньше и выравнивание будет по центру  "  >
+                                        <Tooltip classes={{tooltip: classes.tooltip}}  title="If enabled, the type will be smaller on mobile devices and the alignment will be centered"  >
                                             <IconButton>
                                                 <InfoOutlined/>
                                             </IconButton>
@@ -280,7 +323,7 @@ const StyledComponent = (props) => {
                                                 isResponsiveFont ?
                                                 <React.Fragment> 
                                                     <p>MarginTop: <b>{margin.top * 0.8 }</b>; MarginBottom: <b>{margin.bottom * 0.8 }</b> </p>   
-                                                    <p>FontSize: <b>{ fontSize * 0.8 }</b> </p>   
+                                                    <p>FontSize: <b>{ fontSize > 40 ? fontSize*0.8 : 20 }</b> </p>   
                                                 </React.Fragment>
                                                 :
                                                 <Typography variant='caption'>
@@ -310,138 +353,201 @@ const StyledComponent = (props) => {
                                         </Box>
                                     </Box>
                                 </Tooltip>
+                                <Box className={classes.inputGroup}>
+                                    <FormGroup row>
+                                        <FormControl 
+                                            variant='filled' 
+                                            size='small'   
+                                            className={classes.inputNumber}
+                                            fullWidth
+                                        >
+                                            <InputLabel id="display-style-label">Display</InputLabel>
+                                            <Select
+                                                labelId="display-style-label"
+                                                id="display-style"
+                                                value={display}
+                                                onChange={(e) => {setIsDisableBtn(false); setDisplay(e.target.value) }}
+                                            >
+                                            <MenuItem value={'block'}>Block</MenuItem> 
+                                            <MenuItem value={'inline-block'}>Inline-block</MenuItem> 
+                                            <MenuItem value={'flex'}>Flex</MenuItem> 
+                                            <MenuItem value={'inline-flex'}>Inline-flex</MenuItem> 
+                                            </Select>
+                                        </FormControl>
+                                    </FormGroup>
+                                </Box>  
 
                                 {/* margin */}
                                 <Box className={classes.inputGroup}>
                                     <Box display="flex" flexDirection="row"  > 
-                                        <TextField 
-                                            className={classes.inputNumber}
-                                            type='number'
-                                            label="Margin Top" 
-                                            variant="filled" 
-                                            size='small'  
-                                            value={margin.top}
-                                            onChange={ (e) => { handleMargin(e, 'top') } }     
-                                        />
-                                        <TextField 
-                                            className={classes.inputNumber}
-                                            type='number'
-                                            label="Margin Bottom" 
-                                            variant="filled" 
-                                            size='small'  
-                                            value={margin.bottom}
-                                            onChange={ (e) => { handleMargin(e, 'bottom') } }     
-                                        />
+                                        <Box className={classes.inputNumber}>
+                                            <InputChange
+                                                id={'top'}
+                                                fullWidth={false}
+                                                type='number'
+                                                size="small" 
+                                                label='Margin Top'
+                                                variant='filled'
+                                                value={margin.top}
+                                                setValue={handleMargin}
+                                                setIsDisableBtn={setIsDisableBtn} 
+                                            /> 
+                                        </Box>
+                                        <Box className={classes.inputNumber}>
+                                            <InputChange
+                                                id={'bottom'}
+                                                fullWidth={false}
+                                                type='number'
+                                                size="small" 
+                                                label='Margin Bottom'
+                                                variant='filled'
+                                                value={margin.bottom}
+                                                setValue={handleMargin}
+                                                setIsDisableBtn={setIsDisableBtn} 
+                                            /> 
+                                        </Box> 
                                     </Box>
                                     <Box display="flex" flexDirection="row" > 
-                                        <TextField 
-                                            className={classes.inputNumber}
-                                            type='number'
-                                            label="Margin Left" 
-                                            variant="filled" 
-                                            size='small'  
-                                            value={margin.left}
-                                            onChange={ (e) => { handleMargin(e, 'left') } }     
-                                        />
-                                        <TextField 
-                                            className={classes.inputNumber}
-                                            type='number'
-                                            label="Margin Right" 
-                                            variant="filled" 
-                                            size='small'  
-                                            value={margin.right}
-                                            onChange={ (e) => { handleMargin(e, 'right') } }     
-                                        />
+                                        <Box className={classes.inputNumber}>
+                                            <InputChange
+                                                id={'left'}
+                                                fullWidth={false}
+                                                type='number'
+                                                size="small" 
+                                                label='Margin Left'
+                                                variant='filled'
+                                                value={margin.left}
+                                                setValue={handleMargin}
+                                                setIsDisableBtn={setIsDisableBtn} 
+                                            /> 
+                                        </Box>
+                                        <Box className={classes.inputNumber}>
+                                            <InputChange
+                                                id={'right'}
+                                                fullWidth={false}
+                                                type='number'
+                                                size="small" 
+                                                label='Margin Right'
+                                                variant='filled'
+                                                value={margin.right}
+                                                setValue={handleMargin}
+                                                setIsDisableBtn={setIsDisableBtn} 
+                                            /> 
+                                        </Box>
+                                         
                                     </Box>
                                 </Box>
                                 
                                 {/* padding */}
                                 <Box className={classes.inputGroup}>
                                     <Box display="flex" flexDirection="row" > 
-                                        <TextField 
-                                            className={classes.inputNumber}
-                                            type='number'
-                                            label="Padding Top" 
-                                            variant="filled" 
-                                            size='small'  
-                                            value={padding.top}
-                                            onChange={ (e) => { handlePadding(e, 'top') } }     
-                                        />
-                                        <TextField 
-                                            className={classes.inputNumber}
-                                            type='number'
-                                            label="Padding Bottom" 
-                                            variant="filled" 
-                                            size='small'  
-                                            value={padding.bottom}
-                                            onChange={ (e) => { handlePadding(e, 'bottom') } }     
-                                        />
+                                        <Box className={classes.inputNumber}>
+                                            <InputChange
+                                                id={'top'}
+                                                fullWidth={false}
+                                                type='number'
+                                                size="small" 
+                                                label="Padding Top" 
+                                                variant='filled'
+                                                value={padding.top}
+                                                setValue={handlePadding}
+                                                setIsDisableBtn={setIsDisableBtn} 
+                                            /> 
+                                        </Box> 
+                                        <Box className={classes.inputNumber}>
+                                            <InputChange
+                                                id={'bottom'}
+                                                fullWidth={false}
+                                                type='number'
+                                                size="small" 
+                                                label="Padding Bottom" 
+                                                variant='filled'
+                                                value={padding.bottom}
+                                                setValue={handlePadding}
+                                                setIsDisableBtn={setIsDisableBtn} 
+                                            /> 
+                                        </Box>  
                                     </Box>
-                                    <Box display="flex" flexDirection="row" > 
-                                        <TextField 
-                                            className={classes.inputNumber}
-                                            type='number'
-                                            label="Padding Left" 
-                                            variant="filled" 
-                                            size='small'  
-                                            value={padding.left}
-                                            onChange={ (e) => { handlePadding(e, 'left') } }     
-                                        />
-                                        <TextField 
-                                            className={classes.inputNumber}
-                                            type='number'
-                                            label="Padding Right" 
-                                            variant="filled" 
-                                            size='small'  
-                                            value={padding.right}
-                                            onChange={ (e) => { handlePadding(e, 'right') } }     
-                                        />
+                                    <Box display="flex" flexDirection="row" >
+                                        <Box className={classes.inputNumber}>
+                                            <InputChange
+                                                id={'left'}
+                                                fullWidth={false}
+                                                type='number'
+                                                size="small" 
+                                                label="Padding Left" 
+                                                variant='filled'
+                                                value={padding.left}
+                                                setValue={handlePadding}
+                                                setIsDisableBtn={setIsDisableBtn} 
+                                            /> 
+                                        </Box>   
+                                        <Box className={classes.inputNumber}>
+                                            <InputChange
+                                                id={'right'}
+                                                fullWidth={false}
+                                                type='number'
+                                                size="small" 
+                                                label="Padding Right" 
+                                                variant='filled'
+                                                value={padding.right}
+                                                setValue={handlePadding}
+                                                setIsDisableBtn={setIsDisableBtn} 
+                                            /> 
+                                        </Box>  
                                     </Box>
                 
                                 </Box>
                                 
                                 {/* bg-color */}
                                 <Box className={classes.inputGroup} display="flex" flexDirection="row" > 
-                                    <Box 
-                                        className={classes.inputNumber}
-                                    >
-                                        <Typography  component={'h6'} gutterBottom  >
-                                            Background  -  { backgroundColor }
-                                        </Typography> 
-                                        <ColorPicker 
-                                            initialColor={backgroundColor} 
-                                            changeColor={setBackgroundColor} 
-                                            setIsDisableBtn={setIsDisableBtn}
-                                            position={'left'}
-                                        /> 
+                                    <Box className={classes.inputNumber} >   
+                                        <ColorSelecter
+                                            label={'Background'}
+                                            colorSelect={backgroundSelect} 
+                                            setColorSelect={setBackgroundSelect}
+                                            colorCustom={backgroundCustom}
+                                            setColorCustom={setBackgroundCustom}
+                                            setIsDisableBtn={setIsDisableBtn} 
+                                            position = {'left'}
+                                            noInherit={false}
+                                        />  
                                     </Box> 
-                                    <Box 
-                                        className={classes.inputNumber}
-                                    >
-                                        <Typography  component={'h6'} gutterBottom  >
-                                            Color  -  { color }
-                                        </Typography>
-                                        <ColorPicker 
-                                            initialColor={color} 
-                                            changeColor={setColor} 
-                                            setIsDisableBtn={setIsDisableBtn}
-                                            position={'right'}
-                                        /> 
-                                    </Box>  
+                                     
+                                </Box>
+                                <Box className={classes.inputGroup} display="flex" flexDirection="row" > 
+                                    <Box className={classes.inputNumber} >   
+                                        <ColorSelecter
+                                            label={'Color'}
+                                            colorSelect={colorSelect} 
+                                            setColorSelect={setColorSelect}
+                                            colorCustom={colorCustom}
+                                            setColorCustom={setColorCustom}
+                                            setIsDisableBtn={setIsDisableBtn} 
+                                            position = {'right'}
+                                            noInherit={false}
+                                        />  
+                                    </Box> 
+                                     
                                 </Box>
                                 
                                 {/* font */}
                                 <Box className={classes.inputGroup}> 
                                     <Box display="flex" flexDirection="row" >  
-                                        <TextField 
-                                            className={classes.inputNumber}
-                                            type='number'
-                                            label="Font Size" 
-                                            variant="filled" 
-                                            size='small'  
-                                            value={fontSize}
-                                            onChange={ (e) => {setIsDisableBtn(false); setFontSize(Number(e.target.value))} }     
-                                        /> 
+                                        <Box className={classes.inputNumber}>
+                                            <InputChange
+                                                id={'right'}
+                                                fullWidth={false}
+                                                type='number'
+                                                size="small" 
+                                                label="Font Size" 
+                                                variant='filled'
+                                                value={fontSize}
+                                                setValue={setFontSize}
+                                                setIsDisableBtn={setIsDisableBtn} 
+                                            /> 
+                                        </Box> 
+                                         
                                         <FormControl 
                                             variant='filled' 
                                             size='small'   
@@ -463,36 +569,109 @@ const StyledComponent = (props) => {
                                         
                                     </Box>
                                     <Box display="flex" flexDirection="row" >
-                                    <TextField 
-                                        className={classes.inputNumber}
-                                        type='number'
-                                        label="Line Height (em)" 
-                                        variant="filled" 
-                                        size='small'  
-                                        value={lineHeight}
-                                        onChange={ (e) => {setIsDisableBtn(false); setLineHeight(Number(e.target.value))} }     
-                                    />
-                                    <FormControl 
-                                        variant='filled' 
-                                        size='small'   
-                                        className={classes.inputNumber}
-                                    >
-                                        <InputLabel id="align-select-label">Text Align</InputLabel>
-                                        <Select
-                                            labelId="align-select-label"
-                                            id="align-select"
-                                            value={textAlign}
-                                            onChange={(e) => {setIsDisableBtn(false); setTextAlign((e.target.value)) }}
+                                        <Box className={classes.inputNumber}>
+                                            <InputChange
+                                                id={'right'}
+                                                fullWidth={false}
+                                                type='number'
+                                                size="small" 
+                                                label="Line Height (em)" 
+                                                variant='filled'
+                                                value={lineHeight}
+                                                setValue={setLineHeight}
+                                                setIsDisableBtn={setIsDisableBtn} 
+                                            /> 
+                                        </Box> 
+                                     
+                                        <FormControl 
+                                            variant='filled' 
+                                            size='small'   
+                                            className={classes.inputNumber}
                                         >
-                                        <MenuItem value={'left'}>Left</MenuItem>
-                                        <MenuItem value={'center'}>Center</MenuItem>
-                                        <MenuItem value={'right'}>Right</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </Box>
+                                            <InputLabel id="align-select-label">Text Align</InputLabel>
+                                            <Select
+                                                labelId="align-select-label"
+                                                id="align-select"
+                                                value={textAlign}
+                                                onChange={(e) => {setIsDisableBtn(false); setTextAlign((e.target.value)) }}
+                                            >
+                                            <MenuItem value={'left'}>Left</MenuItem>
+                                            <MenuItem value={'center'}>Center</MenuItem>
+                                            <MenuItem value={'right'}>Right</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                    </Box>
+                                    <Box display="flex" flexDirection="row" >
+                                        <Box className={classes.inputNumber}>
+                                            <InputChange
+                                                id={'right'}
+                                                fullWidth={false}
+                                                type='number'
+                                                size="small" 
+                                                label="Border Radius" 
+                                                variant='filled'
+                                                value={borderRadius}
+                                                setValue={setBorderRadius}
+                                                setIsDisableBtn={setIsDisableBtn} 
+                                            /> 
+                                        </Box> 
+                                        <Box className={classes.inputNumber}>
+                                            <InputChange
+                                                id={'right'}
+                                                fullWidth={false}
+                                                type='number'
+                                                size="small" 
+                                                label="Border Width" 
+                                                variant='filled'
+                                                value={borderWidth}
+                                                setValue={setBorderWidth}
+                                                setIsDisableBtn={setIsDisableBtn} 
+                                            /> 
+                                        </Box>   
+                                    </Box>
+                                    <Box display="flex" flexDirection="row" >
+                                        <FormControl 
+                                            variant='filled' 
+                                            size='small'   
+                                            className={classes.inputNumber}
+                                        >
+                                            <InputLabel id="border-style-label">Border Style</InputLabel>
+                                            <Select
+                                                labelId="border-style-label"
+                                                id="border-style"
+                                                value={borderStyle}
+                                                onChange={(e) => {setIsDisableBtn(false); setBorderStyle(e.target.value) }}
+                                            >
+                                            <MenuItem value={'solid'}>Solid</MenuItem>
+                                            <MenuItem value={'dotted'}>Dotted</MenuItem>
+                                            <MenuItem value={'dashed'}>Dashed</MenuItem>
+                                            <MenuItem value={'double'}>Double</MenuItem>
+                                            <MenuItem value={'groove'}>Groove</MenuItem>
+                                            <MenuItem value={'inset'}>Inset</MenuItem>
+                                            <MenuItem value={'outset'}>Outset</MenuItem>
+                                            <MenuItem value={'ridge'}>Ridge</MenuItem>
+                                            <MenuItem value={'none'}>None</MenuItem>
+                                            </Select>
+                                        </FormControl>  
+                                    </Box>
+                                    <Box display="flex" flexDirection="row" >
+                                        <Box className={classes.inputNumber} >   
+                                            <ColorSelecter
+                                                label={'Border Color'}
+                                                colorSelect={borderColorSelect} 
+                                                setColorSelect={setBorderColorSelect}
+                                                colorCustom={borderColorCustom}
+                                                setColorCustom={setBorderColorCustom}
+                                                setIsDisableBtn={setIsDisableBtn} 
+                                                position = {'left'}
+                                                noInherit={false}
+                                            />  
+                                        </Box> 
+                                    </Box>
                                 </Box>
                                 
-                                <Box className={classes.btnSave}>
+                                <Box mt={5} />
+                                {/* <Box className={classes.btnSave}>
                                     <Button 
                                         disabled={isDisableBtn} 
                                         variant="contained"
@@ -502,7 +681,7 @@ const StyledComponent = (props) => {
                                     >
                                         Save
                                     </Button> 
-                                </Box>
+                                </Box> */}
                             
                             </div>
                         </Draggable>
@@ -517,16 +696,16 @@ const StyledComponent = (props) => {
                             onClick={handleInputFocus}
                             aria-controls="simple-menu" aria-haspopup="true"  
                         >
-                            <Tooltip  title={` ${props.data.variant} margin top`}  placement={'top'}>
+                            <Tooltip  title={` ${props.data.variant} margin top ${viewCorrect}`}  placement={'top'}>
                                 <div className={classes.mtView}></div>
                             </Tooltip>
-                            <Tooltip  title={` ${props.data.variant} margin bottom`}  placement={'top'}>
+                            <Tooltip  title={` ${props.data.variant} margin bottom ${viewCorrect}`}  placement={'top'}>
                                 <div className={classes.mbView}></div>
                             </Tooltip> 
-                            <Tooltip  title={` ${props.data.variant} padding top`}  placement={'top'}>
+                            <Tooltip  title={` ${props.data.variant} padding top ${viewCorrect}`}  placement={'top'}>
                                 <div className={classes.ptView}></div>
                             </Tooltip> 
-                            <Tooltip  title={` ${props.data.variant} padding bottom`}  placement={'top'}>
+                            <Tooltip  title={` ${props.data.variant} padding bottom ${viewCorrect}`}  placement={'top'}>
                                 <div className={classes.pbView}></div>
                             </Tooltip>  
                             <DumbComponent 

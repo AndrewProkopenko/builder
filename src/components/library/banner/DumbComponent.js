@@ -82,8 +82,7 @@ function DumbComponent(props) {
                 paddingRight: "2.5em",
                 paddingTop: ".8em",
                 paddingBottom: ".8em",
-                backgroundColor: colorButton,
-                border: `1px solid ${colorButton}`, 
+                backgroundColor: colorButton, 
                 color: theme.palette.getContrastText(colorButton), 
                 transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeInOut}`, 
                 whiteSpace: 'nowrap', 
@@ -101,8 +100,7 @@ function DumbComponent(props) {
                 },
                 [theme.breakpoints.up('sm')]: {
                     '&:hover' : {
-                        background: 'none',
-                        color: theme.palette.text.primary
+                        backgroundColor: darken(colorButton, 0.2) , 
                     }
                 }, 
             },

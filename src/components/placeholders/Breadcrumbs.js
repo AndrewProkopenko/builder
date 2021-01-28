@@ -22,7 +22,7 @@ const SimpleBreadcrumbs = (props) =>  {
      
     const useStyles = makeStyles( theme => ({
         breadcrumbsContainer: {
-            margin: '10px 0', 
+            margin: '20px 0', 
             paddingTop: 20,
             paddingBottom: 20,
             paddingLeft: theme.spacing(3),
@@ -33,6 +33,9 @@ const SimpleBreadcrumbs = (props) =>  {
                 paddingBottom: 10,  
                 paddingLeft: theme.spacing(2),
                 paddingRight: theme.spacing(2),
+            }, 
+            [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
+                margin: '10px 0', 
             }, 
         },
         breadcrumbLink: {

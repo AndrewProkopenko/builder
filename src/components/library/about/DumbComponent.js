@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Container, Grid, makeStyles, Box, Button, darken } from '@material-ui/core'
+import { Container, Grid, makeStyles, Box, Button, darken, fade } from '@material-ui/core'
 
 import {getColorByPalette} from '../colorPicker/ColorCalculation'
 
@@ -53,7 +53,7 @@ function DumbComponent(props) {
                 },
                 [theme.breakpoints.up('sm')]: {
                     '&:hover' : {
-                        background: 'none',
+                        background: fade(colorButton, 0.15), 
                         color: theme.palette.text.primary
                     }
                 }, 

@@ -4,7 +4,7 @@ import { ColorPicker } from './ColorPicker'
 
 import { FormControl, InputLabel, Select , MenuItem, Box, makeStyles } from '@material-ui/core'
 
-function ColorSelecter({label, colorSelect, setColorSelect, colorCustom , setColorCustom, setIsDisableBtn, position, noInherit }) {
+function ColorSelecter({label, colorSelect, setColorSelect, colorCustom , setColorCustom, setIsDisableBtn, position, noInherit, isContrastSelect }) {
     
 
     const useStyles = makeStyles(theme => ({
@@ -32,9 +32,15 @@ function ColorSelecter({label, colorSelect, setColorSelect, colorCustom , setCol
         },
         success: {
             backgroundColor: theme.palette.success.main
-        } 
+        },
+        defaultColor: {
+            backgroundColor: theme.palette.background.default
+        },
+        paper: { 
+            backgroundColor: theme.palette.background.paper
+        }
     }))
-    const { block, primary , secondary , warning , error , info, success } = useStyles()
+    const { block, primary , secondary , warning , error , info, success, defaultColor , paper } = useStyles()
     const colorCustomText = (colorCustom !== 'primary' && colorCustom !== 'secondary' &&  colorCustom !== 'warning' &&
                             colorCustom !== 'error' && colorCustom !== 'info' && colorCustom !== 'success' ) ? ` - ${colorCustom}` : " "
     return (
@@ -71,6 +77,20 @@ function ColorSelecter({label, colorSelect, setColorSelect, colorCustom , setCol
                         Success
                         <Box className={`${block} ${success}`} />
                     </MenuItem>
+                    <MenuItem style={{position: 'relative'}} value={'default'}>
+                        Default Background
+                        <Box className={`${block} ${defaultColor}`} />
+                    </MenuItem>
+                    <MenuItem style={{position: 'relative'}} value={'paper'}>
+                        Paper Background
+                        <Box className={`${block} ${paper}`} />
+                    </MenuItem>
+                    {   
+                        isContrastSelect &&
+                        <MenuItem style={{position: 'relative'}} value={'contrast'}>
+                            Contrast (about Background)
+                        </MenuItem>
+                    }
                     <MenuItem value={'custom'}>
                         Custom  {colorCustomText}
                     </MenuItem>

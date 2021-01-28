@@ -61,6 +61,7 @@ function DumbComponent(props) {
                 height: 50,
                 paddingLeft: 45,
                 paddingRight: 25, 
+                transition: `${theme.transitions.easing.easeInOut} ${theme.transitions.duration.shorter}ms`, 
                 '&::-webkit-input-placeholder':  {  
                     color: theme.palette.text.primary,
                 },
@@ -76,6 +77,9 @@ function DumbComponent(props) {
                 '&:focus': {
                     borderColor: colorFocusInput
                 },
+                "&:hover": {
+                    background: fade(color, 0.07), 
+                },
                 [theme.breakpoints.down('sm')]: {
                     textAlign: 'center' ,
                     paddingLeft: 20,
@@ -88,6 +92,7 @@ function DumbComponent(props) {
                 border: `2px solid ${color}`, 
                 height: 50,
                 textTransform: 'inherit', 
+                transition: `${theme.transitions.easing.easeInOut} ${theme.transitions.duration.shorter}ms`, 
                 
                 color: theme.palette.getContrastText(color),
                 '&:active' : {
@@ -101,7 +106,7 @@ function DumbComponent(props) {
                 },
                 [theme.breakpoints.up('sm')]: {
                     '&:hover' : {
-                        background: 'none',
+                        background: fade(color, 0.15), 
                         color: theme.palette.getContrastText(theme.palette.background.paper),
                     }
                 }, 

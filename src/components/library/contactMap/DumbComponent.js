@@ -2,7 +2,7 @@ import React from 'react'
 
 import SendFormContext from '../../../context/sendFormContext/SendFormContext'
 
-import { Container, Grid, makeStyles, Button, Box, darken } from '@material-ui/core'
+import { Container, Grid, makeStyles, Button, Box, darken, fade } from '@material-ui/core'
 
 import '../../../assets/style/contactMap.scss' 
 import {getColorByPalette, getColorByPaletteReverse} from '../colorPicker/ColorCalculation'
@@ -58,6 +58,7 @@ function DumbComponent(props) {
                 backgroundColor: theme.palette.background.paper,
                 color: theme.palette.text.primary,
                 boxShadow: 'none', 
+                transition: `${theme.transitions.easing.easeInOut} ${theme.transitions.duration.shorter}ms`, 
                 '&::-webkit-input-placeholder':  {  
                     color: theme.palette.text.primary,
                 },
@@ -72,7 +73,10 @@ function DumbComponent(props) {
                 }, 
                 '&:focus': {
                     borderColor: colorFocusInput
-                }
+                },
+                "&:hover": {
+                    background: fade(color, 0.07), 
+                },
             },
             button: {
                 backgroundColor: color ,
@@ -89,7 +93,7 @@ function DumbComponent(props) {
                 },
                 [theme.breakpoints.up('sm')]: {
                     '&:hover' : {
-                        background: 'none',
+                        background: fade(color, 0.15), 
                         color: theme.palette.text.primary
                     }
                 }, 

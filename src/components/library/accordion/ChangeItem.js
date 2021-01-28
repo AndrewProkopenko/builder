@@ -1,29 +1,23 @@
 import React, {useState} from 'react'
  
-import { Box , TextField, Tooltip, IconButton  } from '@material-ui/core'
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import { TextField , Box } from '@material-ui/core' 
 
 
 const ChangeItem = (props) => {
-    const [head, setHead] = useState(props.item.head)
-    const [body, setBody] = useState(props.item.body)
+
+    console.log('change item accordion')
+
+    const [head, setHead] = useState(props.head)
+    const [body, setBody] = useState(props.body)
  
     const handleSave = () => { 
         props.handleUpdateItem(props.index, head, body)
+
     }
 
     return (
         <Box display='flex' alignItems="center" width="100%">
-            {
-                (head !== props.item.head || body !== props.item.body) && 
-                <Box mr={1}>
-                    <Tooltip title={`Save item`} placement='top'>
-                        <IconButton onClick={handleSave} color={'primary'} >
-                            <CheckCircleOutlineIcon />
-                        </IconButton> 
-                    </Tooltip>
-                </Box>
-            }
+            
             <Box width="100%">
                 <Box mt={1} >
                     <TextField  
@@ -34,6 +28,7 @@ const ChangeItem = (props) => {
                         variant="outlined"  
                         value={head}
                         onChange={ (e) => {  setHead(e.target.value) } }     
+                        onBlur={handleSave}
                     /> 
                 </Box>
                 
@@ -46,6 +41,7 @@ const ChangeItem = (props) => {
                         variant="outlined"  
                         value={body}
                         onChange={ (e) => {  setBody(e.target.value) } }     
+                        onBlur={handleSave}
                     />
                 </Box>
             </Box>

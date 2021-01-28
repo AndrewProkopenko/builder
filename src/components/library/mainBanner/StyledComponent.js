@@ -5,8 +5,9 @@ import StylesChangers from '../../../styles/changers'
 import StyledInputs from '../../../styles/inputs'    
 
 import Draggable from 'react-draggable';  
-
+ 
 import ColorSelecter from '../colorPicker/ColorSelecter'
+import {isNoThemeColor} from '../colorPicker/ColorCalculation'
 
 import { 
     MenuItem,Button, Box, Tooltip, FormControl, InputLabel,
@@ -64,18 +65,13 @@ function StyledComponent(props) {
         setOpen(true);
     }
     const handleClose = () => {
+        if(!isDisableBtn) handleSave()
         setOpen(false);
     };
 
+    const colorTheme = isNoThemeColor(props.data.color)
     React.useEffect(() => {
-        if(
-            props.data.color !== 'primary' && 
-            props.data.color !== 'secondary' &&
-            props.data.color !== 'warning' &&
-            props.data.color !== 'error' &&
-            props.data.color !== 'info' &&
-            props.data.color !== 'success' 
-         ) {  
+        if(colorTheme) {  
             setColorSelect('custom')
         } 
     }, [props.data.color]) 
@@ -86,7 +82,7 @@ function StyledComponent(props) {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { menu, menuTitle, btnSetting, btnSave, btnDrawerStyle, btnDrawerItem, containerWrapper, btnWithLabel,  
+        const { menu, menuTitle, btnSetting, btnDrawerStyle, btnDrawerItem, containerWrapper, btnWithLabel,  
             responseValues ,responseMobile , mobileTooltip, responseTablets, tabletTooltip } = commonClasses 
             
         const { mtView, mbView } = commonStyle 
@@ -116,8 +112,7 @@ function StyledComponent(props) {
                 width: '100%',
             }}, 
             menuTitle: menuTitle,
-            btnSetting: btnSetting,  
-            btnSave: btnSave,
+            btnSetting: btnSetting,   
             btnWithLabel: btnWithLabel,
 
             responseValues: responseValues, 
@@ -212,7 +207,7 @@ function StyledComponent(props) {
         }
   
         props.reSaveItem(props.data.id, newData) 
-        handleClose()
+        // handleClose()
         setIsDisableBtn(true)
     }
     const removeItem = () => {
@@ -311,7 +306,7 @@ function StyledComponent(props) {
                                         className={classes.menuTitle}
                                         id="draggable-dialog-title"
                                     >
-                                        Main banner settings <OpenWithIcon/>
+                                        { !isDisableBtn && "Close to save - " } Main banner settings <OpenWithIcon/>
                                     </Typography> 
 
                                     <Box>
@@ -541,7 +536,9 @@ function StyledComponent(props) {
                                         
                                     </Box>
 
-                                    <Box className={classes.btnSave}>
+                                    <Box mt={5} />
+
+                                    {/* <Box className={classes.btnSave}>
                                         <Button
                                             disabled={isDisableBtn}
                                         
@@ -552,7 +549,7 @@ function StyledComponent(props) {
                                         >
                                             Save
                                         </Button> 
-                                    </Box>
+                                    </Box> */}
                                 </div>
                             </Draggable>
                         </DialogContent> 

@@ -5,9 +5,10 @@ import StyledInputs from '../../../styles/inputs'
 
 import Draggable from 'react-draggable';  
 import ColorSelecter from '../colorPicker/ColorSelecter'
+import {isNoThemeColor} from '../colorPicker/ColorCalculation'
 
 import { 
-    MenuItem,Button, Box, Tooltip, TextField, FormControl, InputLabel,
+    MenuItem,Button, Box, Tooltip, FormControl, InputLabel,
     Select, Typography, ButtonGroup, makeStyles, Modal, DialogContent, Divider
 } from '@material-ui/core'
 
@@ -22,6 +23,7 @@ import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 import DumbComponent from "./DumbComponent"
 import AddItem from "./AddItem"
 import ChangeItem from "./ChangeItem"
+import InputChange from '../../functions/InputChange';
 
 function StyledComponent(props) {
 
@@ -46,18 +48,15 @@ function StyledComponent(props) {
         setOpen(true);
     }
     const handleClose = () => {
+        
+        if(!isDisableBtn) handleSave()
         setOpen(false);
     };
+    
+    const colorTheme = isNoThemeColor(props.data.color)
 
     React.useEffect(() => {
-        if(
-            props.data.color !== 'primary' && 
-            props.data.color !== 'secondary' &&
-            props.data.color !== 'warning' &&
-            props.data.color !== 'error' &&
-            props.data.color !== 'info' &&
-            props.data.color !== 'success' 
-        ) {  
+        if(colorTheme) {  
             setColorSelect('custom')
         }
     }, [props.data.color]) 
@@ -68,7 +67,7 @@ function StyledComponent(props) {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { menu, menuTitle, btnSetting, btnSave, btnDrawerStyle, btnDrawerItem, 
+        const { menu, menuTitle, btnSetting, btnDrawerStyle, btnDrawerItem, 
             containerWrapper, responseValues ,responseMobile , mobileTooltip 
         } = commonClasses 
         
@@ -99,7 +98,7 @@ function StyledComponent(props) {
             }}, 
             menuTitle: menuTitle,
             btnSetting: btnSetting,  
-            btnSave: btnSave,
+            // btnSave: btnSave,
             responseValues: responseValues,  
             responseMobile: responseMobile,
             mobileTooltip: mobileTooltip,
@@ -142,7 +141,7 @@ function StyledComponent(props) {
         }
    
         props.reSaveItem(props.data.id, newData) 
-        handleClose()
+        // handleClose()
         setIsDisableBtn(true)
     }
     const removeAccordion = () => {
@@ -203,11 +202,14 @@ function StyledComponent(props) {
         setIsDisableBtn(false); 
     }
     const removeItem = (index) => { 
-        const newItems = items.slice()
-        newItems.splice(index, 1) 
- 
-        setItems(newItems)
-        setIsDisableBtn(false); 
+        const conf = window.confirm('Delete item?')
+        if(conf) {
+            const newItems = items.slice()
+            newItems.splice(index, 1) 
+    
+            setItems(newItems)
+            setIsDisableBtn(false); 
+        }
     }
 
     return (
@@ -297,7 +299,7 @@ function StyledComponent(props) {
                                         className={classes.menuTitle}
                                         id="draggable-dialog-title"
                                     >
-                                        Accordion Settings <OpenWithIcon/>
+                                        { !isDisableBtn && "Close to save - " }  Accordion Settings <OpenWithIcon/>
                                     </Typography> 
 
                                     <Box>
@@ -305,28 +307,31 @@ function StyledComponent(props) {
                                             Styles
                                         </Typography>
                                         <Box mr={1} display='inline-block' >
-                                            <TextField 
+                                            <InputChange
+                                                id={null}
+                                                fullWidth={false}
                                                 type='number'
-                                                size='small'
-                                                label="Margin Top"
-                                                variant="outlined"
+                                                size="small" 
+                                                label='Margin Top'
+                                                variant='outlined'
                                                 value={marginTop}
-                                                onChange={(e) => {
-                                                    setIsDisableBtn(false);
-                                                    setMarginTop(Number(e.target.value))
-                                            }}/>
+                                                setValue={setMarginTop}
+                                                setIsDisableBtn={setIsDisableBtn} 
+                                            />   
                                         </Box>
                                         <Box mr={1} display='inline-block' >
-                                            <TextField 
+                                            <InputChange
+                                                id={null}
+                                                fullWidth={false}
                                                 type='number'
-                                                size='small'
-                                                label="Margin Bottom"
-                                                variant="outlined"
+                                                size="small" 
+                                                label='Margin Bottom'
+                                                variant='outlined'
                                                 value={marginBottom}
-                                                onChange={(e) => {
-                                                    setIsDisableBtn(false);
-                                                    setMarginBottom(Number(e.target.value))
-                                            }}/>
+                                                setValue={setMarginBottom}
+                                                setIsDisableBtn={setIsDisableBtn} 
+                                            />  
+                                             
                                         </Box>
                                         <FormControl 
                                             variant='filled' 
@@ -366,14 +371,17 @@ function StyledComponent(props) {
                                         <Typography variant='h6' gutterBottom>
                                             Texts
                                         </Typography>
-                                        <TextField  
-                                            fullWidth
+                                        <InputChange
+                                            id={null}
+                                            fullWidth={true}
                                             type='text'
-                                            label="Main Heading" 
-                                            variant="outlined"  
+                                            size="medium" 
+                                            label='Main Heading'
+                                            variant='outlined'
                                             value={heading}
-                                            onChange={ (e) => { setIsDisableBtn(false); setHeading(e.target.value) } }     
-                                        />
+                                            setValue={setHeading}
+                                            setIsDisableBtn={setIsDisableBtn} 
+                                        />  
                                     </Box> 
                                     <Box mt={2}>  
                                         <Typography variant='h6'>
@@ -434,8 +442,8 @@ function StyledComponent(props) {
                                                                 </Tooltip>  
                                                             </ButtonGroup>
                                                         </Box>
-
-                                                        <ChangeItem index={index} item={item} handleUpdateItem={handleUpdateItem} /> 
+ 
+                                                        <ChangeItem index={index} head={item.head} body={item.body} handleUpdateItem={handleUpdateItem} />  
                                                         
                                                     </Box>
                                                 )
@@ -459,8 +467,10 @@ function StyledComponent(props) {
                                             noInherit={false}
                                         />
                                     </Box>
+ 
+                                    <Box mt={5} />  
 
-                                    <Box className={classes.btnSave}>
+                                    {/* <Box className={classes.btnSave}>
                                         <Button
                                             disabled={isDisableBtn}
                                         
@@ -471,9 +481,8 @@ function StyledComponent(props) {
                                         >
                                             Save
                                         </Button> 
-                                    </Box>
-                                    
-                                    
+                                    </Box> */}
+                                     
                                 </div>
                             </Draggable>
                         </DialogContent> 

@@ -5,6 +5,7 @@ import StyledInputs from '../../../styles/inputs'
 
 import Draggable from 'react-draggable';
 import ColorSelecter from '../colorPicker/ColorSelecter'
+import {isNoThemeColor} from '../colorPicker/ColorCalculation'
 
 import {
     Select, 
@@ -14,15 +15,15 @@ import {
     Button, 
     IconButton, 
     Box,
-    Tooltip,
-    TextField,
+    Tooltip, 
     Divider, 
     Typography,
     ButtonGroup,
     makeStyles,
     Modal,
     DialogContent, 
-    fade
+    fade,
+    TextField
 } from '@material-ui/core'
 
 import OpenWithIcon from '@material-ui/icons/OpenWith';
@@ -38,6 +39,7 @@ import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 import DumbComponent from "./DumbComponent"
 
 import AddItem from './AddItem'
+import ChangeTitle from './ChangeItem'
 import InputChange from '../../functions/InputChange';
 
 import ImageContext  from '../../../context/imageContext/ImageContext'
@@ -74,18 +76,14 @@ function StyledComponent(props) {
     const handleOpen = () => {
         setOpen(true);
     }
-    const handleClose = () => {
+    const handleClose = () => { 
+        if(!isDisableBtn) handleSave()
         setOpen(false);
     }; 
+
+    const colorTheme = isNoThemeColor(props.data.color)
     React.useEffect(() => {
-        if(
-            props.data.color !== 'primary' && 
-            props.data.color !== 'secondary' &&
-            props.data.color !== 'warning' &&
-            props.data.color !== 'error' &&
-            props.data.color !== 'info' &&
-            props.data.color !== 'success' 
-        ) {  
+        if(colorTheme) {  
             setColorSelect('custom')
         }
     }, [props.data.color]) 
@@ -96,7 +94,7 @@ function StyledComponent(props) {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { menu, menuTitle, btnSetting, btnSave, btnDrawerStyle, btnDrawerItem, containerWrapper, btnWithLabel, responseValues ,responseMobile , mobileTooltip } = commonClasses 
+        const { menu, menuTitle, btnSetting, btnDrawerStyle, btnDrawerItem, containerWrapper, btnWithLabel, responseValues ,responseMobile , mobileTooltip } = commonClasses 
  
         const { mtView, mbView } = commonStyle 
 
@@ -126,8 +124,7 @@ function StyledComponent(props) {
                 width: '100%',
             }}, 
             menuTitle: menuTitle,
-            btnSetting: btnSetting,  
-            btnSave: btnSave, 
+            btnSetting: btnSetting,   
             responseValues: responseValues,  
             responseMobile: responseMobile,
             mobileTooltip: mobileTooltip,
@@ -225,8 +222,7 @@ function StyledComponent(props) {
             })
         }
 
-        props.reSaveItem(props.data.id, newData)
-        handleClose()
+        props.reSaveItem(props.data.id, newData) 
         setIsDisableBtn(true)
         setImageForDelete([])
     }
@@ -259,7 +255,10 @@ function StyledComponent(props) {
     }
 
     const swipeSlide = (direction, index) => {
-        let newSlides = slides.slice()
+        let newSlides = []
+        slides.forEach(element => {
+            newSlides.push(JSON.parse(JSON.stringify(element)))
+        });
         let activeIndex = index  
       
         if(direction === 'up' && activeIndex === 0) return  
@@ -413,8 +412,9 @@ function StyledComponent(props) {
                                     <Typography
                                         component='p'
                                         className={classes.menuTitle}
-                                        id="draggable-dialog-title">
-                                        Settings Swiper
+                                        id="draggable-dialog-title"
+                                    >
+                                        { !isDisableBtn && "Close to save - " } Settings Swiper
                                         <OpenWithIcon/>
                                     </Typography>
                                     <Box mt={2}>
@@ -696,29 +696,33 @@ function StyledComponent(props) {
                                                 </ButtonGroup>
                                                 </Box>
                                                 <img src={item.imageUrl} alt={item.imageName}/>
-                                                <Box className={classes.dumbSlideTitle}>
-                                                    {/* <TextField 
-                                                        type='text'
-                                                        size="small" 
+                                                <Box className={classes.dumbSlideTitle}> 
+                                                    <TextField
+                                                        fullWidth
+                                                        size='small'
+                                                        type='text' 
                                                         variant="outlined"
                                                         value={item.title}
-                                                        onChange={(e) => {
-                                                            setIsDisableBtn(false);
-                                                            handleSlideTitle(e.target.value)
+                                                        onChange={(e) => { 
+                                                            handleSlideTitle(e.target.value, index)
                                                         }}
+                                                        // onBlur={handleSave}
+                                                    />
+                                                    {/* <ChangeTitle
+                                                        item={item}
+                                                        index={index}
+                                                        reSave={handleSlideTitle}
                                                     /> */}
-                                                    <InputChange
-                                                        id={index}
-                                                        fullWidth={false}
+                                                    {/* <InputChange
+                                                        id={index} 
                                                         type='text'
-                                                        size="small" 
-                                                        label='Heading'
+                                                        size="small"  
                                                         variant='outlined'
                                                         value={item.title}
                                                         setValue={handleSlideTitle}
                                                         setIsDisableBtn={setIsDisableBtn}
                                                         direction='column'
-                                                    />
+                                                    /> */}
                                                 </Box>
                                             </Box>
                                         ))
@@ -726,8 +730,8 @@ function StyledComponent(props) {
                                     <AddItem addSlide={addSlide} id={props.data.id} btnWithLabel={classes.btnWithLabel} />
                                     
    
-
-                                    <Box className={classes.btnSave}>
+                                    <Box mt={5} />
+                                    {/* <Box className={classes.btnSave}>
                                         <Button
                                             disabled={isDisableBtn}
                                             variant="contained"
@@ -736,7 +740,7 @@ function StyledComponent(props) {
                                             onClick={handleSave}>
                                             Save
                                         </Button>
-                                    </Box>
+                                    </Box> */}
                                 </div>
                             </Draggable>
                         </DialogContent>

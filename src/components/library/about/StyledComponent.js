@@ -6,6 +6,7 @@ import StyledInputs from '../../../styles/inputs'
  
 import Draggable from 'react-draggable';
 import ColorSelecter from '../colorPicker/ColorSelecter'
+import {isNoThemeColor} from '../colorPicker/ColorCalculation'
 
 import {
     Select, 
@@ -14,8 +15,7 @@ import {
     InputLabel, 
     Button,
     Box,
-    Tooltip,
-    TextField,
+    Tooltip, 
     FormControlLabel,
     Switch,
     Typography,
@@ -36,6 +36,8 @@ import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 import DumbComponent from "./DumbComponent"
 
 import ImageContext  from '../../../context/imageContext/ImageContext'
+
+import InputChange from '../../functions/InputChange';
 
 function StyledComponent(props) {
  
@@ -68,21 +70,18 @@ function StyledComponent(props) {
         setOpen(true);
     }
     const handleClose = () => {
+        if(!isDisableBtn) handleSave()
         setOpen(false);
     };
     const handleChange = () => {
         setIsButton(!isButton)
         setIsDisableBtn(false)
     }
+    
+    const colorTheme = isNoThemeColor(props.data.colorButton)
+
     React.useEffect(() => {
-        if(
-            props.data.colorButton !== 'primary' && 
-            props.data.colorButton !== 'secondary' &&
-            props.data.colorButton !== 'warning' &&
-            props.data.colorButton !== 'error' &&
-            props.data.colorButton !== 'info' &&
-            props.data.colorButton !== 'success' 
-        ) {  
+        if(colorTheme) {  
             setColorSelect('custom')
         }  
     }, [props.data.colorButton])  
@@ -95,7 +94,7 @@ function StyledComponent(props) {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { menu, menuTitle, btnSetting, btnSave, btnDrawerStyle, btnDrawerItem, 
+        const { menu, menuTitle, btnSetting, btnDrawerStyle, btnDrawerItem, 
             containerWrapper, btnWithLabel, responseValues ,responseMobile , mobileTooltip
         } = commonClasses 
         
@@ -127,7 +126,7 @@ function StyledComponent(props) {
             }}, 
             menuTitle: menuTitle,
             btnSetting: btnSetting,  
-            btnSave: btnSave, 
+            // btnSave: btnSave, 
             btnWithLabel: btnWithLabel,
             responseValues: responseValues,  
             responseMobile: responseMobile,
@@ -170,7 +169,7 @@ function StyledComponent(props) {
          
         setIsDisableBtn(false)
     }
-    const handleSave = () => {
+    const handleSave = () => { 
         const newData = Object.assign({}, props.data)
         newData.heading = heading
         newData.paragraph = paragraph
@@ -190,7 +189,7 @@ function StyledComponent(props) {
         }
 
         props.reSaveItem(props.data.id, newData)
-        handleClose()
+        // handleClose()
         setIsDisableBtn(true)
     }
     const removeItem = () => {
@@ -307,7 +306,7 @@ function StyledComponent(props) {
                                         component='p'
                                         className={classes.menuTitle}
                                         id="draggable-dialog-title">
-                                        Settings About
+                                        { !isDisableBtn && "Close to save - " }  Settings About
                                         <OpenWithIcon/>
                                     </Typography>
 
@@ -316,28 +315,30 @@ function StyledComponent(props) {
                                             Styles
                                         </Typography>
                                         <Box mr={1} mb={2} display='inline-block' >
-                                            <TextField 
+                                            <InputChange
+                                                id={null}
+                                                fullWidth={false}
                                                 type='number'
-                                                size='small'
-                                                label="Margin Top"
-                                                variant="outlined"
+                                                size="small" 
+                                                label='Margin Top'
+                                                variant='outlined'
                                                 value={marginTop}
-                                                onChange={(e) => {
-                                                    setIsDisableBtn(false);
-                                                    setMarginTop(Number(e.target.value))
-                                            }}/>
+                                                setValue={setMarginTop}
+                                                setIsDisableBtn={setIsDisableBtn} 
+                                            />  
                                         </Box>
                                         <Box mr={1} mb={2} display='inline-block' >
-                                            <TextField 
+                                            <InputChange
+                                                id={null}
+                                                fullWidth={false}
                                                 type='number'
-                                                size='small'
-                                                label="Margin Bottom"
-                                                variant="outlined"
+                                                size="small" 
+                                                label='Margin Bottom'
+                                                variant='outlined'
                                                 value={marginBottom}
-                                                onChange={(e) => {
-                                                    setIsDisableBtn(false);
-                                                    setMarginBottom(Number(e.target.value))
-                                            }}/>
+                                                setValue={setMarginBottom}
+                                                setIsDisableBtn={setIsDisableBtn} 
+                                            />  
                                         </Box>
                                         <FormControl 
                                             variant='filled' 
@@ -377,30 +378,32 @@ function StyledComponent(props) {
                                         <Typography variant='h6' gutterBottom>
                                             Texts
                                         </Typography>
-                                        <TextField
-                                            fullWidth
+                                        <InputChange
+                                            id={null}
+                                            fullWidth={true}
                                             type='text'
-                                            label="Main Heading"
-                                            variant="outlined"
+                                            size="medium" 
+                                            label='Main Heading'
+                                            variant='outlined'
                                             value={heading}
-                                            onChange={(e) => {
-                                            setIsDisableBtn(false);
-                                            setHeading(e.target.value)
-                                        }}/>
+                                            setValue={setHeading}
+                                            setIsDisableBtn={setIsDisableBtn} 
+                                        />  
                                     </Box>
 
-                                    <Box mt={3}>
-                                        <TextField
-                                            multiline
-                                            fullWidth
+                                    <Box mt={3}>   
+                                        <InputChange
+                                            id={null}
+                                            fullWidth={true}
+                                            multiline={true}
                                             type='text'
-                                            label="Paragraph"
-                                            variant="outlined"
+                                            size="medium" 
+                                            label="Paragraph" 
+                                            variant='outlined'
                                             value={paragraph}
-                                            onChange={(e) => {
-                                            setIsDisableBtn(false);
-                                            setParagraph(e.target.value)
-                                        }}/>
+                                            setValue={setParagraph}
+                                            setIsDisableBtn={setIsDisableBtn} 
+                                        />   
                                     </Box>
 
                                     <Box display='flex' mt={3} mb={3}>
@@ -418,23 +421,27 @@ function StyledComponent(props) {
                                                     <Box mb={1}>
                                                         <Box display='flex'>
                                                             <Box mr={1}>
-                                                                <TextField
+                                                                <InputChange
+                                                                    id={null} 
                                                                     type='text'
+                                                                    size="small" 
                                                                     label="Text for Button"
-                                                                    variant="outlined"
+                                                                    variant='outlined'
                                                                     value={textButton}
-                                                                    onChange={(e) => {
-                                                                    setIsDisableBtn(false);
-                                                                    setTextButton(e.target.value)
-                                                                }}/>
+                                                                    setValue={setTextButton}
+                                                                    setIsDisableBtn={setIsDisableBtn} 
+                                                                />   
                                                             </Box>
-                                                            <TextField
+                                                            <InputChange
+                                                                id={null} 
                                                                 type='text'
+                                                                size="small" 
                                                                 label="Target for Button"
-                                                                variant="outlined"
+                                                                variant='outlined'
                                                                 value={targetButton}
-                                                                onChange={(e) => { setIsDisableBtn(false); setTargetButton(e.target.value) }}
-                                                            />
+                                                                setValue={setTargetButton}
+                                                                setIsDisableBtn={setIsDisableBtn} 
+                                                            />  
                                                         </Box>
                                                     </Box>
                                                     <Box mt={2} display="flex" >
@@ -472,7 +479,9 @@ function StyledComponent(props) {
                                         </Box>
                                     </Box>
 
-                                    <Box className={classes.btnSave}>
+                                    <Box mt={5} /> 
+
+                                    {/* <Box className={classes.btnSave}>
                                         <Button
                                             disabled={isDisableBtn}
                                             variant="contained"
@@ -481,7 +490,7 @@ function StyledComponent(props) {
                                             onClick={handleSave}>
                                             Save
                                         </Button>
-                                    </Box>
+                                    </Box> */}
                                 </div>
                             </Draggable>
                         </DialogContent>

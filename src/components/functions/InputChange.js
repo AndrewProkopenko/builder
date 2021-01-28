@@ -15,11 +15,13 @@ const InputChange = memo(({ id, fullWidth, multiline,  type, size, label, varian
 
     const [valueLocal, setValueLocal] = useState(value) 
 
-    const save = () => {
-        if(id !== null ) setValue(valueLocal, id)
-        else setValue(valueLocal)
+    const save = () => { 
+        if(valueLocal !== value) {
+            if(id !== null ) setValue(valueLocal, id)
+            else setValue(valueLocal)
 
-        setIsDisableBtn(false) 
+            setIsDisableBtn(false) 
+        } 
     } 
     
     const handleChange = (e) => {
@@ -41,17 +43,17 @@ const InputChange = memo(({ id, fullWidth, multiline,  type, size, label, varian
     const classes = useStyles() 
 
     return (
-        <Box display='flex' alignItems='center' flexDirection={direction} >
-            {
-                valueLocal !== value &&
-                <Box mx={1}> 
-                    <Tooltip title="Save" placement='top'>
-                        <IconButton onClick={save}  color={'primary'} className={classes.iconButton} >
-                            <CheckCircleOutlineIcon />
-                        </IconButton> 
-                    </Tooltip>
-                </Box>
-            }
+        // <Box display='flex' alignItems='center' flexDirection={direction} >
+        //     {
+        //         valueLocal !== value &&
+        //         <Box mx={1}> 
+        //             <Tooltip title="Save" placement='top'>
+        //                 <IconButton onClick={save}  color={'primary'} className={classes.iconButton} >
+        //                     <CheckCircleOutlineIcon />
+        //                 </IconButton> 
+        //             </Tooltip>
+        //         </Box>
+        //     }
             <TextField
                 fullWidth={fullWidth}
                 type={type}
@@ -64,7 +66,7 @@ const InputChange = memo(({ id, fullWidth, multiline,  type, size, label, varian
                 onBlur={save}
             />
             
-        </Box>
+        // </Box>
     )
 })
 

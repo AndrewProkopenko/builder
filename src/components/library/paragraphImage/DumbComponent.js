@@ -2,42 +2,56 @@ import React from 'react'
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Tooltip } from '@material-ui/core';  
+import {getColorByPalette} from '../colorPicker/ColorCalculation'
 
 function DumbComponent(props) { 
-  
-    const useStyles = makeStyles((theme) => ({
-        myClassName: props.className , 
-        imageStyle: props.imageClassName ? props.imageClassName : {},
-        imageStabilization: {
-            maxWidth: '100%', 
-            maxHeight: '100%',  
-            [`@media (max-width: ${props.imageClassName.width}px)`]: {
-                height: 'auto'
-            }, 
-            // [theme.breakpoints.down('md')]: { 
-            // }
-        },
-        mobileClass: {
-            [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
-                display: "flex !important",
-                flexDirection: 'column', 
-                alignItems: 'center', 
-                textAlign: 'center', 
-                marginTop: props.className.marginTop*0.5, 
-                marginBottom: props.className.marginBottom*0.5,
-                '& span': {
-                    marginTop: theme.spacing(1)
-                }
-            }, 
-            [`@media (max-width: ${props.imageClassName.width}px)`]: {
-                display: "flex !important",
-                flexDirection: 'column', 
-                '& span': {
-                    marginTop: theme.spacing(1)
-                }
-            }, 
-        }
-      })); 
+    
+    const useStyles = makeStyles((theme) => {
+        let  color = getColorByPalette(theme, props.className.color)
+        let  backgroundColor = getColorByPalette(theme, props.className.backgroundColor)
+        let  borderColor = getColorByPalette(theme, props.className.borderColor)
+        let  imageBorderColor = getColorByPalette(theme, props.imageClassName.borderColor)
+
+        return({
+            myClassName: {...props.className, ...{
+                color: color,  
+                backgroundColor: backgroundColor, 
+                borderColor: borderColor
+            }} , 
+            imageStyle: props.imageClassName ? {...props.imageClassName, ...{ 
+                borderColor: imageBorderColor
+            }} : {} ,  
+            imageStabilization: {
+                maxWidth: '100%', 
+                maxHeight: '100%',  
+                [`@media (max-width: ${props.imageClassName.width}px)`]: {
+                    height: 'auto'
+                }, 
+                // [theme.breakpoints.down('md')]: { 
+                // }
+            },
+            mobileClass: {
+                [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
+                    display: "flex !important",
+                    flexDirection: 'column', 
+                    alignItems: 'center', 
+                    textAlign: 'center', 
+                    marginTop: props.className.marginTop*0.5, 
+                    marginBottom: props.className.marginBottom*0.5,
+                    '& span': {
+                        marginTop: theme.spacing(1)
+                    }
+                }, 
+                [`@media (max-width: ${props.imageClassName.width}px)`]: {
+                    display: "flex !important",
+                    flexDirection: 'column', 
+                    '& span': {
+                        marginTop: theme.spacing(1)
+                    }
+                }, 
+            }
+          })
+    }); 
     const classes = useStyles();
  
     const title = props.data.image.title ? props.data.image.title : ''

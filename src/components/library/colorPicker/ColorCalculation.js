@@ -24,6 +24,9 @@ export const getColorByPalette = (theme, color) => {
         case ('paper') : {
             return theme.palette.background.paper
         } 
+        case ('contrast') : {
+            return 'contrast'
+        } 
         default: return color
     } 
 }
@@ -46,6 +49,12 @@ export const getColorByPaletteForGradient = (theme, color) => {
         } 
         case ('success') : {
             return  [theme.palette.success.main, theme.palette.success.dark]
+        } 
+        case ('default') : {
+            return [theme.palette.background.paper, theme.palette.background.default]
+        } 
+        case ('paper') : {
+            return [theme.palette.background.default, theme.palette.background.paper]
         } 
         default: return [color, color]
     } 
@@ -70,6 +79,26 @@ export const getColorByPaletteReverse = (theme, color) => {
         case ('success') : {
             return theme.palette.info.main
         } 
+        case ('default') : {
+            return theme.palette.background.paper
+        } 
+        case ('paper') : {
+            return theme.palette.background.default
+        }
         default: return color
     } 
+}
+export const isNoThemeColor = (color) => {
+    if(
+        color !== 'contrast' && 
+        color !== 'default' && 
+        color !== 'paper' && 
+        color !== 'primary' && 
+        color !== 'secondary' &&
+        color !== 'warning' &&
+        color !== 'error' &&
+        color !== 'info' &&
+        color !== 'success' 
+    ) return true 
+    else return false 
 }

@@ -7,7 +7,8 @@ import {
     Button, 
     Typography,  
     Box,
-    IconButton
+    IconButton,
+    fade
 } from '@material-ui/core';  
 import CloseIcon from '@material-ui/icons/Close';
 
@@ -82,6 +83,7 @@ export default function TransitionsModal() {
         width: "100%",
         height: 50,
         textAlign: 'center', 
+        transition: `${theme.transitions.easing.easeInOut} ${theme.transitions.duration.shorter}ms`, 
         '&::-webkit-input-placeholder':  {  
           color: theme.palette.text.primary,
         },
@@ -96,7 +98,11 @@ export default function TransitionsModal() {
         }, 
         '&:focus': {
           borderColor: colorGradient1
-        }
+        },
+        '&:hover': {
+          backgroundColor: fade(colorGradient1, 0.07), 
+        },
+         
       },
       button: {
         backgroundImage: `linear-gradient(180deg, ${colorGradient1} 0%, ${colorGradient2} 100%)`,  

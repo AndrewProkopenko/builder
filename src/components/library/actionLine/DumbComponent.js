@@ -38,15 +38,14 @@ function DumbComponent(props) {
                 paddingRight: "2.5em",
                 paddingTop: ".8em",
                 paddingBottom: ".8em",
-                backgroundColor: colorMain,
-                border: `1px solid ${colorMain}`, 
+                backgroundColor: colorMain, 
                 color: theme.palette.getContrastText(colorMain), 
                 transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeInOut}`, 
                 whiteSpace: 'nowrap', 
 
                   
                 '&:active' : {
-                    backgroundColor: darken(colorMain, 0.4) , 
+                    backgroundColor: darken(colorMain, 0.5) , 
                 },
                 [theme.breakpoints.down('sm')]: {
                     width: "100%", 
@@ -59,8 +58,7 @@ function DumbComponent(props) {
                 },
                 [theme.breakpoints.up('sm')]: {
                     '&:hover' : {
-                        background: 'none',
-                        color: theme.palette.text.primary
+                        backgroundColor: darken(colorMain, 0.3) ,  
                     }
                 }, 
             },

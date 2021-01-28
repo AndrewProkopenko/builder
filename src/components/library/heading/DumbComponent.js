@@ -4,33 +4,36 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 // import { Typography } from '@material-ui/core';
 
+import {getColorByPalette} from '../colorPicker/ColorCalculation'
+
 function DumbComponent(props) {
-  
-    const useStyles = makeStyles((theme) => ({
-        myClassName: props.className ,
-        resposiveFontSize: { 
-            [`@media (max-width: 960px)`]: {
-                fontSize: props.className.fontSize*0.8, 
-                marginTop: props.className.marginTop*0.8,
-                marginBottom: props.className.marginBottom*0.8
+    const useStyles = makeStyles((theme) => {
+        let  color = getColorByPalette(theme, props.className.color)
+        let  backgroundColor = getColorByPalette(theme, props.className.backgroundColor)
+        let  borderColor = getColorByPalette(theme, props.className.borderColor)
+        return({
+            myClassName: {...props.className, ...{
+                color: color,  
+                backgroundColor: backgroundColor, 
+                borderColor: borderColor
+            }} ,
+            resposiveFontSize: { 
+                [`@media (max-width: 960px)`]: {
+                    fontSize: props.className.fontSize > 40 ? props.className.fontSize*0.8 : 20, 
+                    marginTop: props.className.marginTop*0.8,
+                    marginBottom: props.className.marginBottom*0.8
+                },
+                [theme.breakpoints.down('sm')]: {
+                    fontSize: props.className.fontSize > 40 ? props.className.fontSize*0.6 : 20,
+                    lineHeight : 1.2, 
+                    marginTop: props.className.marginTop*0.5, 
+                    marginBottom: props.className.marginBottom*0.5, 
+                    textAlign: 'center'
+                },
             },
-            [theme.breakpoints.down('sm')]: {
-                fontSize: props.className.fontSize > 40 ? props.className.fontSize*0.6 : 20,
-                lineHeight : 1.2, 
-                marginTop: props.className.marginTop*0.5, 
-                marginBottom: props.className.marginBottom*0.5, 
-                textAlign: 'center'
-            },
-        },
-        // mobileClass: {
-        //     [theme.breakpoints.down('sm')]: {
-        //         marginTop: props.className.marginTop > 30 ? props.className.marginTop * 0.6 : 15,
-        //         marginBottom: props.className.marginBottom > 30 ? props.className.marginBottom * 0.6 : 15,
-        //         paddingLeft: props.className.paddingLeft > 30 ? props.className.paddingLeft * 0.6 : 15
-        //     } 
-        // }
-      }
-    ));
+             
+          })
+    } );
     const classes = useStyles();
  
     

@@ -2,21 +2,30 @@ import React from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'; 
 
+import {getColorByPalette} from '../colorPicker/ColorCalculation'
+
 function DumbComponent(props) {
 
     console.log('dumb list') 
   
-    const useStyles = makeStyles((theme) => ({
-        myClassName: props.className ,  
-        liClass: props.data.itemsStyle,
-        mobileClass: {
-            [theme.breakpoints.down('sm')]: {
-                marginTop: props.className.marginTop === 0 ? 0 : (props.className.marginTop > 30 ? props.className.marginTop*0.6 : 15), 
-                marginBottom: props.className.marginBottom === 0 ? 0 : (props.className.marginBottom > 30 ? props.className.marginBottom*0.6 : 15),  
-                paddingLeft: props.className.paddingLeft === 0 ? 0 : (props.className.paddingLeft > 30 ? props.className.paddingLeft*0.6 : 15)
-            } 
-        }
-      }));
+    const useStyles = makeStyles((theme) => {
+        
+        let  color = getColorByPalette(theme, props.className.color)
+        
+        return({
+            myClassName: {...props.className, ...{
+                color: color,   
+            }},  
+            liClass: props.data.itemsStyle,
+            mobileClass: {
+                [theme.breakpoints.down('sm')]: {
+                    marginTop: props.className.marginTop === 0 ? 0 : (props.className.marginTop > 30 ? props.className.marginTop*0.6 : 15), 
+                    marginBottom: props.className.marginBottom === 0 ? 0 : (props.className.marginBottom > 30 ? props.className.marginBottom*0.6 : 15),  
+                    paddingLeft: props.className.paddingLeft === 0 ? 0 : (props.className.paddingLeft > 30 ? props.className.paddingLeft*0.6 : 15)
+                } 
+            }
+          })
+    });
     const classes = useStyles();
  
  

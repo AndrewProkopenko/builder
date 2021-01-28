@@ -11,7 +11,7 @@ const StylesChangers = () => {
             backgroundColor: theme.palette.background.paper, 
             paddingLeft: 10 , 
             paddingRight: 10 , 
-            paddingBottom: 0,   
+            // paddingBottom: 50,   
             width: '100%',
             maxHeight: 'calc(100vh - 100px)', 
             minHeight: 500,

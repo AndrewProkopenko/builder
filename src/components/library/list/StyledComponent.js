@@ -8,8 +8,7 @@ import Draggable from 'react-draggable';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { 
-    Grid, 
-    TextField, 
+    Grid,  
     Button, 
     ButtonGroup, 
     FormControl,
@@ -20,12 +19,16 @@ import {
     Modal,
     Box,
     DialogContent, 
-    Tooltip
-
+    Tooltip,
+    TextField
 } from '@material-ui/core'
 
 import DumbComponent from "./DumbComponent"  
-import {ColorPicker} from '../colorPicker/ColorPicker'
+
+import ColorSelecter from '../colorPicker/ColorSelecter'
+import {isNoThemeColor} from '../colorPicker/ColorCalculation'
+
+import InputChange from '../../functions/InputChange';
   
 import OpenWithIcon from '@material-ui/icons/OpenWith';
 import DeleteOutline  from '@material-ui/icons/DeleteOutline';   
@@ -42,7 +45,10 @@ const StyledComponent = (props) => {
         top:  props.data.classes.marginTop ,  
         bottom: props.data.classes.marginBottom ,  
     }) 
-    const [color, setColor] = React.useState(props.data.classes.color || 'inherit') 
+     
+    const [colorSelect, setColorSelect] = React.useState(props.data.classes.color || 'inherit') 
+    const [colorCustom, setColorCustom] = React.useState(props.data.classes.color || 'inherit') 
+
     const [fontSize, setFontSize] = React.useState(props.data.classes.fontSize ||  16)
     const [fontWeight, setFontWeight] = React.useState(props.data.classes.fontWeight ||  400)
     const [lineHeight, setLineHeight] = React.useState(props.data.classes.lineHeight ||  1.38)
@@ -59,6 +65,13 @@ const StyledComponent = (props) => {
  
     const [open, setOpen] = React.useState(false);
          
+    
+    const colorTheme = isNoThemeColor(props.data.classes.color)
+    React.useEffect(() => {
+        if(colorTheme) {  
+            setColorSelect('custom')
+        } 
+    }, [props.data.classes.color]) 
 
     const useStyles = makeStyles((theme) => {
         const styleRef = StyledInputs()
@@ -66,12 +79,11 @@ const StyledComponent = (props) => {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { btnSave, menu, menuTitle,  responseValues, responseMobile, mobileTooltip  } = commonClasses 
+        const { menu, menuTitle,  responseValues, responseMobile, mobileTooltip  } = commonClasses 
         const { mtView, mbView, inputNumber, inputGroup, dumbItemContainer, dumbItem, dumbItemDelete } = commonStyle
         return ({ 
             inputNumber: inputNumber, 
-            inputGroup: inputGroup,
-            btnSave: btnSave,
+            inputGroup: inputGroup, 
             dumbItemContainer: {  ...dumbItemContainer, ...{
                 '&:hover' : {     
                     boxShadow: theme.shadows[10], 
@@ -131,8 +143,7 @@ const StyledComponent = (props) => {
     const myClassName = {  
         marginTop: margin.top,
         marginBottom: margin.bottom, 
-        paddingLeft: paddingLeft, 
-        color: color, 
+        paddingLeft: paddingLeft,  
         fontSize: fontSize,
         fontWeight: fontWeight, 
         lineHeight: lineHeight 
@@ -140,15 +151,15 @@ const StyledComponent = (props) => {
     const classes = useStyles();
 
     
-    const handleMargin = (e, direction) => {  
+    const handleMargin = (value, direction) => {  
         let newMargin = Object.assign({}, margin)
-        newMargin[direction] = Number(e.target.value)
+        newMargin[direction] = Number(value)
         setMargin(newMargin)  
 
         setIsDisableBtn(false);
     }
 
-    const saveData = () => {    
+    const handleSave = () => {    
         const sentData = Object.assign({}, props.data)
 
         sentData.classes = myClassName 
@@ -157,10 +168,14 @@ const StyledComponent = (props) => {
             listStyle: itemsListStyle
         }
         sentData.items = items
+        if(colorSelect === 'custom') {
+            sentData.classes.color = colorCustom
+        } else {
+            sentData.classes.color = colorSelect
+        }
  
         props.reSaveChildren(props.data.id, sentData)
-        setIsDisableBtn(true); 
-        handleClose()
+        setIsDisableBtn(true);  
     }
     const removeItem = () => {  
         let conf = window.confirm("Delete ?");
@@ -169,10 +184,11 @@ const StyledComponent = (props) => {
         } 
     };
     
-    const handleInputFocus = (event) => {  
+    const handleOpen = () => {  
         setOpen(true);
     }
     const handleClose = () => {
+        if(!isDisableBtn) handleSave()
         setOpen(false);
     };
 
@@ -244,7 +260,7 @@ const StyledComponent = (props) => {
                                 className={classes.menuTitle}
                                 id="draggable-dialog-title"
                             >
-                                List Settings <OpenWithIcon/>
+                                { !isDisableBtn && "Close to save - " } List Settings <OpenWithIcon/>
                             </Typography>
                             <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (>600px)' placement={'top'}>
                                 <Box className={`${classes.responseValues} ${classes.responseMobile}`}>
@@ -262,57 +278,89 @@ const StyledComponent = (props) => {
                             {/* margin */}
                             <Box className={classes.inputGroup}>
                                 <Box display="flex" flexDirection="row"  > 
-                                    <TextField 
-                                        className={classes.inputNumber}
-                                        type='number'
-                                        label="Margin Top" 
-                                        variant="filled" 
-                                        size='small'  
-                                        value={margin.top}
-                                        onChange={ (e) => { handleMargin(e, 'top') } }     
-                                    />
-                                    <TextField 
-                                        className={classes.inputNumber}
-                                        type='number'
-                                        label="Margin Bottom" 
-                                        variant="filled" 
-                                        size='small'  
-                                        value={margin.bottom}
-                                        onChange={ (e) => { handleMargin(e, 'bottom') } }     
-                                    />
+                                    <Box className={classes.inputNumber}>
+                                        <InputChange
+                                            id={'top'}
+                                            fullWidth={false}
+                                            type='number'
+                                            size="small" 
+                                            label='Block Margin Top'
+                                            variant='filled'
+                                            value={margin.top}
+                                            setValue={handleMargin}
+                                            setIsDisableBtn={setIsDisableBtn}
+                                            direction='row'
+                                        />  
+                                    </Box> 
+                                    <Box className={classes.inputNumber}>
+                                        <InputChange
+                                            id={'bottom'}
+                                            fullWidth={false}
+                                            type='number'
+                                            size="small" 
+                                            label='Block Margin Bottom'
+                                            variant='filled'
+                                            value={margin.bottom}
+                                            setValue={handleMargin}
+                                            setIsDisableBtn={setIsDisableBtn}
+                                            direction='row'
+                                        />  
+                                    </Box>  
                                 </Box> 
                             </Box>
                             
                             {/* padding */}
                             <Box className={classes.inputGroup}>
                                 <Box display="flex" flexDirection="row" > 
-                                    <TextField 
-                                        className={classes.inputNumber}
-                                        type='number'
-                                        label="Padding Left" 
-                                        variant="filled" 
-                                        size='small'  
-                                        value={paddingLeft}
-                                        onChange={ (e) => { setPaddingLeft(e.target.value) } }     
-                                    /> 
+                                    <Box className={classes.inputNumber}>
+                                        <InputChange
+                                            id={null} 
+                                            type='number'
+                                            size="small" 
+                                            label="Block Padding Left" 
+                                            variant='filled'
+                                            value={paddingLeft}
+                                            setValue={setPaddingLeft}
+                                            setIsDisableBtn={setIsDisableBtn}
+                                            direction='row'
+                                        />  
+                                    </Box>   
+                                    <Box className={classes.inputNumber}>
+                                        <InputChange
+                                            id={null} 
+                                            type='number'
+                                            size="small" 
+                                            label="Item Padding Bottom" 
+                                            variant='filled'
+                                            value={itemsPadding}
+                                            setValue={setItemsPadding}
+                                            setIsDisableBtn={setIsDisableBtn}
+                                            direction='row'
+                                        />  
+                                    </Box>   
                                 </Box>
                                  
-            
                             </Box>
                            
                                      
                             {/* font */}
                             <Box className={classes.inputGroup} mt={2}> 
                                 <Box display="flex" flexDirection="row" >  
-                                    <TextField 
-                                        className={classes.inputNumber}
-                                        type='number'
-                                        label="Font Size" 
-                                        variant="filled" 
-                                        size='small'  
-                                        value={fontSize}
-                                        onChange={ (e) => {setIsDisableBtn(false); setFontSize(Number(e.target.value))} }     
-                                    /> 
+                                   
+                                    <Box className={classes.inputNumber}>
+                                        <InputChange
+                                            id={null} 
+                                            type='number'
+                                            size="small" 
+                                            label="Font Size" 
+                                            variant='filled'
+                                            value={fontSize}
+                                            setValue={setFontSize}
+                                            setIsDisableBtn={setIsDisableBtn}
+                                            direction='row'
+                                        />  
+                                    </Box>
+                                     
                                     <FormControl 
                                         variant='filled' 
                                         size='small'   
@@ -333,37 +381,19 @@ const StyledComponent = (props) => {
                                 </Box>
 
                                 <Box display="flex" flexDirection="row" >
-                                    <TextField 
-                                        className={classes.inputNumber}
-                                        type='number'
-                                        label="Line Height (em)" 
-                                        variant="filled" 
-                                        size='small'  
-                                        value={lineHeight}
-                                        onChange={ (e) => {setIsDisableBtn(false); setLineHeight(Number(e.target.value))} }     
-                                    /> 
-                                     <Box className={classes.inputNumber} >
-                                        <Typography  component={'p'} gutterBottom  >
-                                            Color  -  { color }
-                                        </Typography> 
-                                        <ColorPicker 
-                                            initialColor={color} 
-                                            changeColor={setColor} 
+                                    <Box className={classes.inputNumber}>
+                                        <InputChange
+                                            id={null} 
+                                            type='number'
+                                            size="small" 
+                                            label="Line Height (em)" 
+                                            variant='filled'
+                                            value={lineHeight}
+                                            setValue={setLineHeight}
                                             setIsDisableBtn={setIsDisableBtn}
-                                            position={'left'}
-                                        /> 
-                                    </Box>  
-                                </Box>
-                                <Box display="flex" flexDirection="row" >
-                                    <TextField 
-                                        className={classes.inputNumber}
-                                        type='number'
-                                        label="Item Padding Bottom" 
-                                        variant="filled" 
-                                        size='small'  
-                                        value={itemsPadding}
-                                        onChange={ (e) => {setIsDisableBtn(false); setItemsPadding(Number(e.target.value))} }     
-                                    />
+                                            direction='row'
+                                        />  
+                                    </Box>
                                     <FormControl 
                                         variant='filled' 
                                         size='small'   
@@ -386,6 +416,22 @@ const StyledComponent = (props) => {
                                             <MenuItem value={'upper-roman'}>upper-roman</MenuItem>
                                         </Select>
                                     </FormControl>
+ 
+                                       
+                                </Box>
+                                <Box display="flex" flexDirection="row" >
+                                    <Box className={classes.inputNumber} >
+                                        <ColorSelecter
+                                            label={'Color'}
+                                            colorSelect={colorSelect} 
+                                            setColorSelect={setColorSelect}
+                                            colorCustom={colorCustom}
+                                            setColorCustom={setColorCustom}
+                                            setIsDisableBtn={setIsDisableBtn} 
+                                            position="left"
+                                            noInherit={false}
+                                        /> 
+                                    </Box>
                                 </Box>
                             </Box>
                             
@@ -453,37 +499,29 @@ const StyledComponent = (props) => {
                                         )
                                     })
                                 } 
-                                <TextField 
-                                    className={classes.inputNumber}
-                                    type='text'
-                                    label={`New Item`} 
-                                    variant="outlined" 
-                                    size='small'  
-                                    value={newItem}
-                                    onChange={ (e) => {setNewItem(e.target.value)} }     
-                                />
-                                <Box my={1}>
-                                    <Button 
-                                        onClick={handleAddItem}
-                                        variant='contained'
-                                        color='primary'
-                                        disabled={newItem.length > 0 ? false : true}
-                                    >
-                                        Add new item
-                                    </Button>
+                                <Box px={1}>
+                                    <TextField 
+                                        className={classes.inputNumber}
+                                        type='text'
+                                        label={`New Item`} 
+                                        variant="outlined" 
+                                        size='small'  
+                                        value={newItem}
+                                        onChange={ (e) => {setNewItem(e.target.value)} }     
+                                    />
+                                    <Box my={1}>
+                                        <Button 
+                                            onClick={handleAddItem}
+                                            variant='contained'
+                                            color='primary'
+                                            disabled={newItem.length > 0 ? false : true}
+                                        >
+                                            Add new item
+                                        </Button>
+                                    </Box>
                                 </Box>
                             </Box>
-                            <Box className={classes.btnSave}>
-                                <Button 
-                                    disabled={isDisableBtn} 
-                                    variant="contained"
-                                    color="primary"
-                                    size={'medium'} 
-                                    onClick={saveData}
-                                >
-                                    Save
-                                </Button> 
-                            </Box>
+                            <Box mt={5} />
                         
                         </div>
                     </Draggable>
@@ -493,7 +531,7 @@ const StyledComponent = (props) => {
                 <Grid item xs={12}  className={classes.dumbItemContainer }>  
                         <div 
                             className={classes.dumbItem }
-                            onClick={handleInputFocus}
+                            onClick={handleOpen}
                             aria-controls="simple-menu" aria-haspopup="true"  
                         > 
                             <Tooltip  title={` list margin top`}  placement={'top'}>

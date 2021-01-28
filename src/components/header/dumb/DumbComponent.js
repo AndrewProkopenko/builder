@@ -126,7 +126,7 @@ function DumbComponent() {
             fixedPadding: { 
                 minHeight: 100 + settings.classes.paddingY*2 , 
                 [`@media (max-width: ${widthMobile}px)`]: {
-                    minHeight: 80 + settings.classes.paddingY , 
+                    minHeight: 60 + settings.classes.paddingY , 
                 },
             },
             topHeader: {   

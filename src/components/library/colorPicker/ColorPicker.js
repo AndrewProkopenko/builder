@@ -45,6 +45,7 @@ export const ColorPicker = memo(({ initialColor, changeColor, setIsDisableBtn, p
             color !== 'inherit' && 
             color !== 'transperent' && 
             color !== 'custom' && 
+            color !== 'contrast' && 
             color !== 'default' && 
             color !== 'paper' ) ? 
             theme.palette.getContrastText(color) : theme.palette.text.primary
