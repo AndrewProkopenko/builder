@@ -67,7 +67,7 @@ function ThemeChanger() {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { menu, menuTitle, btnSetting, btnSave } = commonClasses
+        const { menu, menuTitle, btnSetting, btnSave, dialogContentUnstyle } = commonClasses
         return ({  
             menu: {...menu, ...{
                 left: "calc(50% - 450px)",
@@ -88,8 +88,8 @@ function ThemeChanger() {
                 maxWidth: '25%', 
                 flexGrow: 1, 
                 marginRight: theme.spacing(1)
-            }
-        
+            }, 
+            dialogContentUnstyle: dialogContentUnstyle
         })
     })
     
@@ -157,7 +157,7 @@ function ThemeChanger() {
         setIsDisableBtn(true)
         handleClose()
     }  
-    
+     
      
     return (
         <div className={classes.dumbWrapper}>
@@ -179,7 +179,7 @@ function ThemeChanger() {
                 aria-labelledby="draggable-dialog-title"
                 onClose={handleClose} 
             > 
-                <DialogContent> 
+                <DialogContent classes={{root: classes.dialogContentUnstyle}}> 
                     <Draggable  handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'} >
                         <div className={classes.menu}>
                             <Typography 

@@ -48,10 +48,14 @@ textarea:focus {
     color: #e1e1e1;
   }
   
-  ::-moz-selection {
+::-moz-selection {
     background: #5a6770;
     color: #e1e1e1;
-  }
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
 
 .heading { 
     h3 { 

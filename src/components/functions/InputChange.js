@@ -6,7 +6,15 @@ import { TextField } from '@material-ui/core'
 
 const InputChange = memo(({ id, fullWidth, multiline,  type, size, label, variant, value, setValue, setIsDisableBtn }) => {
 
-    const [valueLocal, setValueLocal] = useState(value) 
+   
+    const [valueLocal, setValueLocal] = useState(value)   
+   
+    React.useEffect(() => {
+        if(valueLocal !== value) {
+            setValueLocal(value) 
+        }
+        // eslint-disable-next-line
+    }, [value])
 
     const save = () => { 
         if(valueLocal !== value) {

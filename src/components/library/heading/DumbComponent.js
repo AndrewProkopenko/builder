@@ -11,9 +11,14 @@ function DumbComponent(props) {
         let  color = getColorByPalette(theme, props.className.color)
         let  backgroundColor = getColorByPalette(theme, props.className.backgroundColor)
         let  borderColor = getColorByPalette(theme, props.className.borderColor)
+        function computedContrastColor() {
+            if(color !== 'contrast') return color
+            if(backgroundColor !== 'inherit') return theme.palette.getContrastText(backgroundColor)
+            return color
+        }
         return({
             myClassName: {...props.className, ...{
-                color: color,  
+                color: computedContrastColor(),  
                 backgroundColor: backgroundColor, 
                 borderColor: borderColor
             }} ,

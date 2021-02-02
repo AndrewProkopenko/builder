@@ -2,8 +2,10 @@
 import React from 'react'  
 
 import StylesChangers from '../../../styles/changers'  
+ 
+import {isNoThemeColor} from '../../functions/colorChanger/ColorCalculation'
+import ColorSelecter from '../../functions/colorChanger/ColorSelecter'
 
-import { ColorPicker } from '../../functions/colorChanger/ColorPicker'
 import CategoryContext from '../../../context/headerContext/CategoryContext'  
 import { 
     Tooltip,
@@ -21,8 +23,7 @@ import {
     MenuItem, 
 
 } from '@material-ui/core' 
- 
-import SaveIcon from '@material-ui/icons/Save';
+  
 import SettingsIcon from '@material-ui/icons/Settings';
 import OpenWithIcon from '@material-ui/icons/OpenWith'; 
  
@@ -46,41 +47,36 @@ function StyleChanger() {
     const [settingBackgroundSelect, setSettingBackgroundSelect] = React.useState(settings.classes.backgroundColor ||  'transparent')
     const [settingBackgroundCustom, setSettingBackgroundCustom] = React.useState(settings.classes.backgroundColor ||  'transparent')
 
+    
+    const colorTheme = isNoThemeColor(settings.classes.backgroundColor) 
     React.useEffect(() => {
-        if( 
-            settings.classes.backgroundColor !== 'default' && 
-            settings.classes.backgroundColor !== 'paper' && 
-            settings.classes.backgroundColor !== 'primary' &&  
-            settings.classes.backgroundColor !== 'secondary' &&
-            settings.classes.backgroundColor !== 'warning' &&
-            settings.classes.backgroundColor !== 'error' &&
-            settings.classes.backgroundColor !== 'info' &&
-            settings.classes.backgroundColor !== 'success'  
-        ) {  
+        if(colorTheme) {  
             setSettingBackgroundSelect('custom')
         }
     }, [settings])
      
-    const handleInputFocus = () => {  
+    const handleOpen = () => {  
       setOpen(true);
     }
     const handleClose = () => {
-      setOpen(false);
+        if(!isDisableBtn) handleSave()
+        setOpen(false);
     }; 
 
     const useStyles = makeStyles((theme) => {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { menu, menuTitle, btnSetting, btnSave } = commonClasses
+        const { menu, menuTitle, btnSetting, dialogContentUnstyle } = commonClasses
+        
         return ({  
+            dialogContentUnstyle: dialogContentUnstyle,
             menu: {...menu, ...{
-                left: "calc(50% - 200px)",
-                maxWidth: 400,   
+                left: "calc(50% - 250px)",
+                maxWidth: 500,   
             }},
             menuTitle: menuTitle,
-            btnSetting: btnSetting, 
-            btnSave: btnSave,   
+            btnSetting: btnSetting,  
             settingsItem: {
                 width: '100%',
                 marginRight: 5, 
@@ -111,8 +107,7 @@ function StyleChanger() {
         }
  
         updateSettings(newSettings)
-        setIsDisableBtn(true)
-        handleClose()
+        setIsDisableBtn(true) 
     }  
      
      
@@ -120,7 +115,7 @@ function StyleChanger() {
         <div className={classes.dumbWrapper}>
             <Tooltip title='Style Settings' placement='bottom'>
                 <Button  
-                    onClick={handleInputFocus} 
+                    onClick={handleOpen} 
                     size='medium'
                     variant='contained'
                     color='primary' 
@@ -136,7 +131,7 @@ function StyleChanger() {
                 aria-labelledby="draggable-dialog-title"
                 onClose={handleClose} 
             > 
-                <DialogContent> 
+                <DialogContent classes={{root: classes.dialogContentUnstyle}} > 
                     <Draggable  handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'} >
                         <div className={classes.menu}>
                             <Typography 
@@ -144,7 +139,7 @@ function StyleChanger() {
                                 className={classes.menuTitle}
                                 id="draggable-dialog-title"
                             >
-                                Style changer <OpenWithIcon/>
+                               { !isDisableBtn && "Close to save - " }  Header Style Settings <OpenWithIcon/>
                             </Typography>
                              
                             <FormGroup row>
@@ -278,37 +273,17 @@ function StyleChanger() {
                                     </FormControl>
                                     
                                     <Box mt={2} display="flex" flexDirection='column'>
-                                            <FormControl    variant='filled' style={{minWidth: '250px' }}>
-                                                <InputLabel id="color-select-label">Background Color for Header</InputLabel>
-                                                <Select
-                                                    labelId="color-select-label"
-                                                    id="color-select"
-                                                    value={settingBackgroundSelect}
-                                                    onChange={(e) => {setIsDisableBtn(false); setSettingBackgroundSelect(e.target.value)   }}
-                                                >
-                                                    <MenuItem value={'primary'}>Theme Primary</MenuItem>
-                                                    <MenuItem value={'secondary'}>Theme Secondary</MenuItem> 
-                                                    <MenuItem value={'warning'}>Theme Warning</MenuItem>
-                                                    <MenuItem value={'error'}>Theme Error</MenuItem>
-                                                    <MenuItem value={'info'}>Theme Info</MenuItem>
-                                                    <MenuItem value={'success'}>Theme Success</MenuItem>
-                                                    <MenuItem value={'default'}>Theme BG default</MenuItem>
-                                                    <MenuItem value={'paper'}>Theme BG paper</MenuItem>
-                                                    <MenuItem value={'custom'}>Custom</MenuItem>
-                                                </Select>
-                                            </FormControl>
-                                            <Box mt={2} >
-                                                {
-                                                    settingBackgroundSelect === 'custom' &&
-                                                    <ColorPicker
-                                                        initialColor = {settingBackgroundCustom}
-                                                        changeColor = {setSettingBackgroundCustom}
-                                                        setIsDisableBtn = {setIsDisableBtn}
-                                                        position = {'left'}
-                                                    /> 
-                                                }
-                                                
-                                            </Box>
+                                        <ColorSelecter
+                                            label={'Background for Header'}
+                                            colorSelect={settingBackgroundSelect} 
+                                            setColorSelect={setSettingBackgroundSelect}
+                                            colorCustom={settingBackgroundCustom}
+                                            setColorCustom={setSettingBackgroundCustom}
+                                            setIsDisableBtn={setIsDisableBtn} 
+                                            position = {'right'}
+                                            noInherit={true}
+                                        />
+                                             
                                         </Box>
                                     <Box 
                                         className={classes.settingsItem}
@@ -319,17 +294,7 @@ function StyleChanger() {
                                    
      
                           
-                            <Box className={classes.btnSave} mt={2}>
-                                <Button 
-                                    color={'primary'} 
-                                    variant="contained"
-                                    onClick={handleSave}
-                                    startIcon={<SaveIcon/>}
-                                    disabled={isDisableBtn}
-                                >
-                                    Save
-                                </Button>
-                            </Box>
+                            <Box mt={5} /> 
                         </div>
                     </Draggable>
                 </DialogContent> 

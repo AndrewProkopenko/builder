@@ -6,13 +6,13 @@ import firebase from '../../../firebase/firebase'
 import ModeContext from '../../../context/modeContext/ModeContext'  
 import ModalContext from '../../../context/modalContext/ModalContext'  
 import CategoryContext from '../../../context/headerContext/CategoryContext'
+import SendFormContext from '../../../context/sendFormContext/SendFormContext'
 
 import ThemeSwitcher from './ThemeSwitcher'
 
 import Desktop from './desktop'
 import Mobile from './mobile'
-
-// import "../../assets/header.scss"
+   
 import { 
     AppBar, 
     Typography,
@@ -21,80 +21,45 @@ import {
     Box, 
     Button, 
 } from "@material-ui/core"; 
-import { darken, lighten } from '@material-ui/core/styles';
+import { darken } from '@material-ui/core/styles';
 
 
-import {getColorByPaletteForGradient, getColorByPalette } from '../../functions/colorChanger/ColorCalculation'
+import { getColorByPalette } from '../../functions/colorChanger/ColorCalculation'
 
 function DumbComponent() { 
 
     console.log('dumb header')
 
+    const { setCustomAlert } = React.useContext(SendFormContext)
     const { user } = React.useContext(ModeContext)
     const { handleOpen  } = React.useContext(ModalContext)
-    const {categories, logo, modal,  settings, themeMode} = React.useContext(CategoryContext)    
-  
-    const checked = themeMode === 'dark' ? true : false
- 
-
+    const {categories, logo, modal,  settings } = React.useContext(CategoryContext)    
+    
     const [mobileView, setMobileView] = useState(true); 
    
-    let backgroundHeader = settings.classes.backgroundColor
+    let backgroundHeader
     let colorHeader 
-    let hoverActiveLinkColor
-    let iconMobileDrawerColor
+    let hoverActiveLinkColor 
   
-    let modalBtnColor1 = modal.color
-    let modalBtnColor2 = modal.color
+    let modalBtnColor = modal.color  
 
     let widthMobile 
-    
-    
+     
     const headerRef = React.useRef(null);
     const topHeaderRef = React.useRef(null);
-
-    
-
+  
     const useStyles = makeStyles((theme) => {
         widthMobile = theme.breakpoints.values[`${settings.breakpoint}`] 
-        modalBtnColor1= getColorByPaletteForGradient(theme, modal.color)[0]
-        modalBtnColor2= getColorByPaletteForGradient(theme, modal.color)[1] 
-        backgroundHeader = getColorByPalette(theme, backgroundHeader) 
-        iconMobileDrawerColor = theme.palette.getContrastText(backgroundHeader)
+        modalBtnColor= getColorByPalette(theme, modal.color)  
 
-        if(backgroundHeader === 'primary') {
-            backgroundHeader = theme.palette.primary.main
-            colorHeader = theme.palette.getContrastText(theme.palette.primary.main)
-            hoverActiveLinkColor = darken(theme.palette.primary.main, 0.3)
-        }
-        if(backgroundHeader === 'secondary') {
-            backgroundHeader = theme.palette.secondary.main
-            colorHeader = theme.palette.getContrastText(theme.palette.secondary.main)
-            hoverActiveLinkColor = darken(theme.palette.secondary.main, 0.3)
-        } 
-        if( 
-            backgroundHeader !== 'default' && 
-            backgroundHeader !== 'paper' && 
-            backgroundHeader !== 'primary' && 
-            backgroundHeader !== 'secondary' &&
-            backgroundHeader !== 'warning' &&
-            backgroundHeader !== 'error' &&
-            backgroundHeader !== 'info' &&
-            backgroundHeader !== 'success' 
-        ) {  
-                colorHeader = theme.palette.getContrastText(backgroundHeader)
-                hoverActiveLinkColor = darken(backgroundHeader, 0.5) 
-        }   
-        if(backgroundHeader === 'paper') { 
-            backgroundHeader = theme.palette.background.paper
-            colorHeader = theme.palette.getContrastText(theme.palette.background.paper)
+        backgroundHeader = getColorByPalette(theme, settings.classes.backgroundColor) 
+
+        hoverActiveLinkColor = darken(backgroundHeader, 0.3)
+        colorHeader =  theme.palette.getContrastText(backgroundHeader)  
+ 
+        if(settings.classes.backgroundColor === 'paper' || settings.classes.backgroundColor === 'default') {  
             hoverActiveLinkColor = theme.palette.primary.main 
         }  
-        if(backgroundHeader === 'default') { 
-            backgroundHeader = theme.palette.background.default
-            colorHeader = theme.palette.getContrastText(theme.palette.background.default)
-            hoverActiveLinkColor = theme.palette.primary.main 
-        } 
  
         return ({
             header: { 
@@ -133,9 +98,8 @@ function DumbComponent() {
                 height: '100%', 
                 paddingTop: 5, 
                 paddingBottom: 5,  
-                backgroundColor:  checked ? darken(backgroundHeader , 0.7) : lighten(backgroundHeader, 0.85), 
-                transition: `200ms ${theme.transitions.easing.easeInOut} `, 
-                color: theme.palette.text.primary, 
+                backgroundColor:  "rgba(0, 0, 0, 0.16)" , 
+                transition: `200ms ${theme.transitions.easing.easeInOut} `,  
                 '&.sticky' : {
                     // transform: 'scaleY(0)',
                     // transformOrigin: 'top', 
@@ -179,23 +143,23 @@ function DumbComponent() {
                 },
             }, 
             buttonModal: { 
-                backgroundImage: `linear-gradient(180deg, ${modalBtnColor1} 0%, ${modalBtnColor2} 100%)`,  
-                color: theme.palette.getContrastText(modalBtnColor2), 
+                backgroundColor: modalBtnColor,   
+                color: theme.palette.getContrastText(modalBtnColor), 
                 transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeInOut}`,
                 textTransform: 'inherit', 
                 padding: theme.spacing(1, 3), 
                 cursor: 'pointer', 
-                '&:hover': { 
-                    color: theme.palette.getContrastText(modalBtnColor2) ,
-                    backgroundImage: `linear-gradient(200deg, ${modalBtnColor1} 0%, ${modalBtnColor2} 100%)`, 
+                '&:hover': {  
+                    backgroundColor: darken(modalBtnColor, .3) , 
                 }
             }, 
             linkModal: {  
                 textTransform: 'inherit', 
+                color: colorHeader, 
                 padding: theme.spacing(0.5, 1.2),
                 '&:hover': { 
-                    backgroundColor: modalBtnColor1, 
-                    color: theme.palette.getContrastText(modalBtnColor1), 
+                    backgroundColor: modalBtnColor, 
+                    color: theme.palette.getContrastText(modalBtnColor), 
                     cursor: 'pointer'
                 }
             }
@@ -236,12 +200,13 @@ function DumbComponent() {
     }, []);
      
 
-    const openModal = (target) => { 
-        handleOpen(target) 
+    const openModal = () => { 
+        handleOpen(modal.target) 
     }
 
-    const handleSignOut = () => {
+    const handleSignOut = () => { 
         firebase.logout()
+        setCustomAlert('warning', 'You are logged out successfully', 3000)
     }
   
     const createLogo = (
@@ -262,8 +227,7 @@ function DumbComponent() {
     );
 
     const createModalBtn = ( 
-        <Button
-            onClick={() => { openModal(modal.target) }} 
+        <Button 
             variant="contained"
             size='small' 
             className={buttonModal}
@@ -351,7 +315,9 @@ function DumbComponent() {
                         /> 
                         : 
                         <Mobile 
-                            iconColor={iconMobileDrawerColor}  
+                            openModal={openModal}
+                            iconColor={colorHeader}  
+                            menuColor={backgroundHeader}  
                             modalBtn={renderModal}
                             logo={createLogo}  
                             categories={categories}  

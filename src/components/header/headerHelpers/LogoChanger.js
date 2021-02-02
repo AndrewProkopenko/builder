@@ -8,6 +8,7 @@ import ImageContext from '../../../context/imageContext/ImageContext'
 import StylesChangers from '../../../styles/changers'  
  
 import ColorSelecter from '../../functions/colorChanger/ColorSelecter'
+import {isNoThemeColor} from '../../functions/colorChanger/ColorCalculation'
 
 import { 
     Tooltip,
@@ -23,8 +24,7 @@ import {
     FormControlLabel, 
     Switch, 
 } from '@material-ui/core' 
- 
-import SaveIcon from '@material-ui/icons/Save';
+  
 import SettingsIcon from '@material-ui/icons/Settings';
 import OpenWithIcon from '@material-ui/icons/OpenWith';
 import ImageIcon from '@material-ui/icons/Image'; 
@@ -55,33 +55,32 @@ function LogoChanger() {
     const [colorSelect,  setColorSelect] = React.useState(modal.color)
     const [colorCustom, setColorCustom] = React.useState(modal.color)
 
+    
+    const colorTheme = isNoThemeColor(modal.color) 
+
     React.useEffect(() => {
-        if(
-            modal.color !== 'primary' && 
-            modal.color !== 'secondary' &&
-            modal.color !== 'warning' &&
-            modal.color !== 'error' &&
-            modal.color !== 'info' &&
-            modal.color !== 'success' 
-        ) {  
+        if(colorTheme) {  
             setColorSelect('custom')
         }
+        // eslint-disable-next-line
     }, [modal])
 
-    const handleInputFocus = () => {  
+    const handleOpen = () => {  
       setOpen(true);
     }
     const handleClose = () => {
-      setOpen(false);
+        if(!isDisableBtn) handleSave()
+        setOpen(false);
     }; 
 
     const useStyles = makeStyles((theme) => {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
-
-        const { menu, menuTitle, btnSetting, btnSave, btnWithLabel } = commonClasses
+        
+        const { menu, menuTitle, btnSetting, btnSave, btnWithLabel, dialogContentUnstyle } = commonClasses
 
         return ({  
+            dialogContentUnstyle: dialogContentUnstyle, 
             menu: {...menu, ...{
                 left: "calc(50% - 250px)",
                 maxWidth: 500,   
@@ -120,8 +119,7 @@ function LogoChanger() {
         }
         
         updateLogo(newLogo, newModal)
-        setIsDisableBtn(true)
-        handleClose()
+        setIsDisableBtn(true) 
     }  
     const handleImageSetting = (event) => {    
         uploadHandler(event.target.files[0])
@@ -133,8 +131,7 @@ function LogoChanger() {
     const uploadHandler = (imageData) => { 
         const storageRef = firebase.storage.ref(`${imageData.name}`).put(imageData)
         storageRef.on('state-changed', 
-          snapshot => {
-            console.log( snapshot )
+          snapshot => { 
           }, 
           error => {
             console.log(error.message )
@@ -161,7 +158,7 @@ function LogoChanger() {
         <div className={classes.dumbWrapper}>
             <Tooltip title='Logo/Modal Settings' placement='bottom'>
                 <Button  
-                    onClick={handleInputFocus} 
+                    onClick={handleOpen} 
                     size='medium'
                     variant='contained'
                     color='primary' 
@@ -177,7 +174,7 @@ function LogoChanger() {
                 aria-labelledby="draggable-dialog-title"
                 onClose={handleClose} 
             > 
-                <DialogContent> 
+                <DialogContent classes={{root: classes.dialogContentUnstyle}}> 
                     <Draggable  handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'} >
                         <div className={classes.menu}>
                             <Typography 
@@ -185,7 +182,7 @@ function LogoChanger() {
                                 className={classes.menuTitle}
                                 id="draggable-dialog-title"
                             >
-                                Logo/Modal  changer  <OpenWithIcon/>
+                                { !isDisableBtn && "Close to save - " } Logo/Modal Settings  <OpenWithIcon/>
                             </Typography>
                              
                             <Typography variant='h6' gutterBottom>
@@ -292,17 +289,7 @@ function LogoChanger() {
                             </Box>
 
 
-                            <Box className={classes.btnSave} mt={2}>
-                                <Button 
-                                    color={'primary'} 
-                                    variant="contained"
-                                    onClick={handleSave}
-                                    startIcon={<SaveIcon/>}
-                                    disabled={isDisableBtn}
-                                >
-                                    Save
-                                </Button>
-                            </Box>
+                            <Box mt={5} /> 
                         </div>
                     </Draggable>
                 </DialogContent> 

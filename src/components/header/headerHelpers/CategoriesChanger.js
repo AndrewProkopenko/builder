@@ -25,8 +25,7 @@ import {
     Grid,
     fade,  
 } from '@material-ui/core' 
- 
-import SaveIcon from '@material-ui/icons/Save';
+  
 import SettingsIcon from '@material-ui/icons/Settings';
 import OpenWithIcon from '@material-ui/icons/OpenWith';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -40,21 +39,21 @@ import Draggable from 'react-draggable';
 
 function CategoriesChanger() { 
 
-    console.log('CategoriesChanger')
+    console.log('Categories Changer')
      
     const {categories, setCategories, deletePageFromFirebase, deleteCategoryFromFirebase} = React.useContext(CategoryContext)    
     const {layouts} = React.useContext(LibraryContext)
     const pageLayout = layouts.page
     const categoryLayout = layouts.category
- 
-    const [localCategories, setLocalCategories] = React.useState(categories)
+  
     const [open, setOpen] = React.useState(false)
     const [isDisableBtn, setIsDisableBtn] = React.useState(true)
 
     
  
-    const handleInputFocus = () => {  
-      setOpen(true);
+    const handleOpen = () => {  
+        if(!isDisableBtn) handleSave()
+        setOpen(true);
     }
     const handleClose = () => {
       setOpen(false);
@@ -65,16 +64,16 @@ function CategoriesChanger() {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { menu, menuTitle, btnSetting, btnSave } = commonClasses
+        const { menu, menuTitle, btnSetting , dialogContentUnstyle } = commonClasses
        
         return( { 
+            dialogContentUnstyle: dialogContentUnstyle, 
             menu: {...menu, ...{
                 left: "calc(50% - 400px)",
                 maxWidth: 800,   
             }}, 
             menuTitle: menuTitle,
-            btnSetting: btnSetting, 
-            btnSave: btnSave,
+            btnSetting: btnSetting,  
 
             listPages : {
                 marginTop: 20, 
@@ -197,18 +196,18 @@ function CategoriesChanger() {
     } 
      
     const handleUpdateCategory = (value, id) => {  
-        let newCategories = localCategories.slice() 
+        let newCategories = categories.slice() 
         newCategories.map( (item) => { 
             if(item.id === id ) { 
                 item.title = value
             }
             return 0
         })  
-        setLocalCategories(newCategories)
+        setCategories(newCategories)
         setIsDisableBtn(false)
     } 
     const handleUpdatePage = ( value, categoryId, pageId) => { 
-        let newCategories = localCategories.slice() 
+        let newCategories = categories.slice() 
         newCategories.map( (item) => { 
             if(item.id === categoryId ) { 
                 
@@ -221,16 +220,15 @@ function CategoriesChanger() {
             }
             return 0
         })  
-        setLocalCategories(newCategories)
+        setCategories(newCategories)
         setIsDisableBtn(false)
     } 
     const handleSave = () => { 
-        setCategories(localCategories) 
-        setIsDisableBtn(true)
-        handleClose()
+        // setCategories(localCategories)
+        setIsDisableBtn(true) 
     }  
     const swapCategory = (direction, id) => {
-        let newCategories = categories.slice() 
+        let newCategories = JSON.parse(JSON.stringify(categories)) 
         let activeIndex   
      
         newCategories.map( (item) => { 
@@ -346,7 +344,7 @@ function CategoriesChanger() {
         <div className={classes.dumbWrapper}>
             <Tooltip title='Categories Settings' placement='bottom'>
                 <Button  
-                    onClick={handleInputFocus} 
+                    onClick={handleOpen} 
                     size='medium'
                     variant='contained'
                     color='primary' 
@@ -362,7 +360,7 @@ function CategoriesChanger() {
                 aria-labelledby="draggable-dialog-title"
                 onClose={handleClose} 
             > 
-                <DialogContent> 
+                <DialogContent classes={{root: classes.dialogContentUnstyle}} > 
                     <Draggable  handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'} >
                         <div className={classes.menu}>
                             <Typography 
@@ -557,7 +555,8 @@ function CategoriesChanger() {
                                             )  
                                         })
                                     }
-                                    <Box className={classes.btnSave} mt={2}>
+                                    <Box mt={5} />
+                                    {/* <Box className={classes.btnSave} mt={2}>
                                         <Button 
                                             color={'primary'} 
                                             variant="contained"
@@ -567,7 +566,7 @@ function CategoriesChanger() {
                                         >
                                             Save
                                         </Button>
-                                    </Box>
+                                    </Box> */}
                                 </Grid>
                             </Grid>
                             

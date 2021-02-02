@@ -21,10 +21,7 @@ import {
     ButtonGroup,
     makeStyles,
     Modal,
-    DialogContent, 
-    fade, 
-    FormControlLabel, 
-    Switch
+    DialogContent,   
 } from '@material-ui/core'
 
 import OpenWithIcon from '@material-ui/icons/OpenWith';
@@ -41,13 +38,11 @@ import DumbComponent from "./DumbComponent"
 
 import AddItem from './AddItem' 
 import InputChange from '../../functions/InputChange';
-
-import ImageContext  from '../../../context/imageContext/ImageContext'
+ 
 import CategoryContext  from '../../../context/headerContext/CategoryContext'
 
 function StyledComponent(props) {
- 
-    const { removeImage } = React.useContext(ImageContext)
+  
     const { categories } = React.useContext(CategoryContext)
 
     const [isDisableBtn, setIsDisableBtn] = React.useState(true)
@@ -69,9 +64,7 @@ function StyledComponent(props) {
     const [marginTop, setMarginTop] = React.useState(props.data.marginTop || 50)
     const [marginBottom, setMarginBottom] = React.useState(props.data.marginBottom || 50)
     const [maxWidthContainer, setMaxWidthContainer] = React.useState(props.data.maxWidthContainer || 'lg') 
-
-    const [imageForDelete, setImageForDelete] = React.useState([])
-
+  
     const mobileMarginTopComputed = marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30)
     const mobileMarginBottomComputed = marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30)
 
@@ -158,22 +151,19 @@ function StyledComponent(props) {
                 border: `1px solid ${theme.palette.divider}`, 
                 marginRight: theme.spacing(0.5),
                 marginBottom: theme.spacing(0.5), 
-                maxWidth: 264
-            },
-            dumbSlide: {
-                display: 'inline-block', 
-                width: 250, 
-                height: 250, 
-                position: 'relative', 
-                "& img": {
-                    width: '100%', 
-                    height: '100%'
-                },
+                maxWidth: 264,  
                 '&:hover': {
                     "& $dumbSlideButtons" : {
                         opacity: 1
                     }
                 }
+            },
+            dumbSlide: {
+                display: 'inline-flex',
+                flexDirection: 'column', 
+                alignItems: 'center', 
+                width: 250,   
+                position: 'relative'
             },  
             dumbSlideButtons: {
                 opacity: 0, 
@@ -181,17 +171,22 @@ function StyledComponent(props) {
                 top: 5, 
                 right: 5, 
             },
-            dumbSlideTitle: {
-                position: 'absolute',
-                zIndex: 5, 
-                bottom: 20,  
-                right: 0,
-                maxWidth: "75%", 
+            dumbSlideTitle: { 
                 fontSize: 14, 
-                lineHeight: 1.1, 
-                backgroundColor: fade(theme.palette.background.default, 0.7), 
-                padding: theme.spacing(1, 2)
+                lineHeight: 1.1,  
             }, 
+            dumbSlideSvg: {
+                width: 70, 
+                height: 70, 
+                borderRadius: 35, 
+                padding: 10, 
+                backgroundColor: theme.palette.text.disabled, 
+                "& svg": {
+                    width: '100%',
+                    height: '100%',
+                    fill: theme.palette.text.primary
+                }
+            },
             addSlide: { 
                 padding: theme.spacing(1), 
                 margin: theme.spacing(2, 0),
@@ -228,80 +223,58 @@ function StyledComponent(props) {
         } else {
             newData.color = colorSelect
         }
-
-        if(imageForDelete.length > 0) {
-            imageForDelete.forEach( name => {
-                removeImage(name)
-            })
-        }
-
+ 
         props.reSaveItem(props.data.id, newData) 
-        setIsDisableBtn(true)
-        setImageForDelete([])
+        setIsDisableBtn(true) 
     }
     const removeItem = () => {
         const conf = window.confirm('Delete? ') 
 
-        if (conf)  { 
-            let imgArray = []
-            slides.forEach( slide => {
-                if(slide.imageName !== 'ImageExample') imgArray.push(slide.imageName)
-            })
-            if(imgArray.length > 0) {
-                imgArray.forEach( name => {
-                    removeImage(name)
-                })
-            }
-
+        if (conf)  {  
             props.removeContainer(props.data.id)
         }
             
     }
 
-    const handleSlideTitle = (title, index) => {
+    const handleSlideSvg = (svg, index) => {
         let newSlides = slides.slice()
 
-        newSlides[index].title = title 
+        newSlides[index].svg = svg 
         
         setSlides(newSlides) 
         setIsDisableBtn(false)
     }
-    const handleChangeIsUrl = (value, index) => { 
+     
+    const handleChangeUrl = (id, index) => {  
         let newSlides = slides.slice()
+ 
+        let activeItem
+        categories.forEach( item => {
+            if(item.id === id) activeItem = item
+            else {
+                if(item.pages.length > 0) {
+                    item.pages.forEach(innerItem => {
+                        if(innerItem.id === id) {
+                            activeItem = innerItem
+                            activeItem.categorySlug = item.slug
+                        }
+                    })
+                }
+            }
+        })
+ 
+        console.log(activeItem)
 
-        newSlides[index].isUrl = !value 
-        newSlides[index].isButton = false 
+        if(activeItem.type === 'category') newSlides[index].url = activeItem.slug
+        if(activeItem.type === 'page') newSlides[index].url = `${activeItem.categorySlug}/${activeItem.slug}`
+        newSlides[index].title = activeItem.title
+        newSlides[index].idActive = id
         
+        console.log(newSlides)
         setSlides(newSlides) 
         setIsDisableBtn(false)
     }
-    const handleChangeUrl = (value, index) => { 
-        console.log(value)
-        let newSlides = slides.slice()
-
-        newSlides[index].url = value  
-        
-        setSlides(newSlides) 
-        setIsDisableBtn(false)
-    }
-    const handleChangeIsButton = (value, index) => { 
-        let newSlides = slides.slice()
-
-        newSlides[index].isButton = !value 
-        newSlides[index].isUrl = false
-        
-        setSlides(newSlides) 
-        setIsDisableBtn(false)
-    }
-    const handleChangeIsButtonTarget = (value, index) => {
-        let newSlides = slides.slice()
-
-        newSlides[index].targetButton = value 
-        
-        setSlides(newSlides) 
-        setIsDisableBtn(false) 
-    }
-
+      
     const swipeSlide = (direction, index) => {
         let newSlides = []
         slides.forEach(element => {
@@ -330,29 +303,39 @@ function StyledComponent(props) {
         setSlides(newSlides) 
         setIsDisableBtn(false)
     }
-    const removeSlide = (index) => {
-        const newImageForDelete = imageForDelete.slice()
-        const newSlides = slides.slice()
-        const deletedImageName = newSlides[index].imageName
-
-        if(deletedImageName !== 'imageExample') newImageForDelete.push(deletedImageName)
+    const removeSlide = (index) => { 
+        const newSlides = slides.slice() 
 
         newSlides.splice(index, 1)
-        setSlides(newSlides)
-        setImageForDelete(newImageForDelete)
+        setSlides(newSlides) 
         setIsDisableBtn(false)
 
     }
-    const addSlide = ( url, name, title ) => {
+    const addSlide = ( svg, idActive ) => {
+        let activeItem
+        categories.forEach( item => {
+            if(item.id === idActive) activeItem = item
+            else {
+                if(item.pages.length > 0) {
+                    item.pages.forEach(innerItem => {
+                        if(innerItem.id === idActive) {
+                            activeItem = innerItem
+                            activeItem.categorySlug = item.slug
+                        }
+                    })
+                }
+            }
+        })
+  
+
         const newSlides = slides.slice()
         const slide = {
-            imageUrl: url, 
-            imageName: name, 
-            title: title, 
-            isLink: false, 
-            url: "",
-            isButton: false, 
-            targetButton: ""
+            svg: svg,  
+            title: activeItem.title,   
+            slug: activeItem.slug, 
+            categorySlug: activeItem.categorySlug || '/', 
+            idActive: idActive, 
+            inner: []
         }
         newSlides.push(slide)
         setSlides(newSlides)
@@ -363,80 +346,50 @@ function StyledComponent(props) {
 
     const slidesRender = () => (
         slides.map((item, index) => {  
+            console.log(slides) 
             return (
-                <Box key={index} className={classes.slideContainer}>
-                    {
-                        !item.isUrl &&
-                        <React.Fragment>
-                            <FormControlLabel
-                                control={
-                                        <Switch checked = { item.isButton }
-                                            onChange = { () => {handleChangeIsButton(item.isButton, index)} }
-                                            name={`checkedB-${index}`} 
-                                            color = "primary"
-                                        />
-                                    }
-                                label="Set Modal Button"
-                            /> 
-                            {
-                                item.isButton &&  
-                                <Box my={1}>  
-                                    <InputChange
-                                        id={index}
-                                        fullWidth={true}
-                                        type='text'
-                                        size="small"  
-                                        label="Target for Modal"
-                                        variant='outlined'
-                                        value={item.targetButton}
-                                        setValue={handleChangeIsButtonTarget}
-                                        setIsDisableBtn={setIsDisableBtn} 
-                                    />  
-                                </Box> 
-                            }
-                        </React.Fragment>
-                    }
-                    {
-                        !item.isButton &&
-                        <React.Fragment>
-                            <FormControlLabel
-                                control={
-                                        <Switch checked = { item.isUrl }
-                                            onChange = { () => {handleChangeIsUrl(item.isUrl, index)} }
-                                            name={`checkedB-${index}`} 
-                                            color = "primary"
-                                        />
-                                    }
-                                label="Set Link"
-                            /> 
-                            {
-                                item.isUrl &&  
-                                <Box my={1}> 
-                                    <FormControl 
-                                        variant='filled' 
-                                        size='small'    
-                                        // style={{width: '100%'}}
-                                        fullWidth
-                                    >
-                                        <InputLabel id={`url-${index}`}>Choice page</InputLabel>
-                                        <Select
-                                            labelId={`url-${index}`}
-                                            id="url-select"
-                                            value={item.url}  
-                                            fullWidth
-                                            style={{maxWidth: '100%'}}
-                                            onChange={(e) => {setIsDisableBtn(false); handleChangeUrl(e.target.value, index) }}
-                                        >   
-                                            {
-                                                renderLinkList()
-                                            }
-                                             
-                                        </Select>
-                                    </FormControl>
-                                </Box> 
-                            }
-                        </React.Fragment>
-                    }
+                <Box key={index} className={classes.slideContainer}>  
+                    <Box my={1}> 
+                        <FormControl 
+                            variant='filled' 
+                            size='small'    
+                            // style={{width: '100%'}}
+                            fullWidth
+                        >
+                            <InputLabel id={`url-${index}`}>Choice page</InputLabel>
+                            <Select
+                                labelId={`url-${index}`}
+                                id="url-select"
+                                value={item.idActive}  
+                                fullWidth
+                                style={{maxWidth: '100%'}}
+                                onChange={(e) => {  
+                                    setIsDisableBtn(false); 
+                                    handleChangeUrl(e.target.value, index); 
+                                }}
+                            >   
+                                {
+                                    renderLinkList()
+                                }
+                                    
+                            </Select>
+                        </FormControl>
+                    </Box> 
+                    <Box my={2}>
+                        <InputChange
+                            id={index}
+                            fullWidth={true}
+                            type='text'
+                            size="small"  
+                            label="Set svg as html"
+                            variant='outlined'
+                            value={item.svg}
+                            setValue={handleSlideSvg}
+                            setIsDisableBtn={setIsDisableBtn} 
+                        />  
+                    </Box> 
+
+                    {/* view */}
                     <Box  className={classes.dumbSlide}>
                         <Box className={classes.dumbSlideButtons}>
                             <ButtonGroup
@@ -493,20 +446,24 @@ function StyledComponent(props) {
                                 </Tooltip>
                                 
                             </ButtonGroup>
+                        </Box> 
+                        
+
+                        <Box className={classes.dumbSlideSvg}>  
+                            <span dangerouslySetInnerHTML={{__html: item.svg}}></span>
                         </Box>
-                        <img src={item.imageUrl} alt={item.imageName}/>
-                        <Box className={classes.dumbSlideTitle}>  
-                            <InputChange
-                                id={index}
-                                fullWidth={true}
-                                type='text'
-                                size="small"  
-                                variant='outlined'
-                                value={item.title}
-                                setValue={handleSlideTitle}
-                                setIsDisableBtn={setIsDisableBtn} 
-                            /> 
+                        <Box my={1} className={classes.dumbSlideTitle}>  
+                             { item.title }
                         </Box>
+                        {
+                            item.isButton && 
+                            <Button 
+                                color={'default'}
+                                variant={'contained'}
+                            >
+                                {item.textButton}
+                            </Button> 
+                        }
                     </Box>
                 </Box>
                 
@@ -530,10 +487,10 @@ function StyledComponent(props) {
         return links.map( link => {
             switch(link.type) {
                 case('category') : {
-                    return <MenuItem key={link.id} value={link.slug}>{link.title } - { link.slug}</MenuItem> 
+                    return <MenuItem key={link.id} value={link.id} >{link.title } - { link.slug}</MenuItem> 
                 }
                 case('page'): {
-                    return <MenuItem key={link.id} value={`${link.categorySlug}/${link.slug}`}>{link.title } - {`${link.categorySlug}/${link.slug}`}</MenuItem>
+                    return <MenuItem key={link.id} value={link.id} >{link.title } - {`${link.categorySlug}/${link.slug}`}</MenuItem>
                 }
                 default: break;
             } 
@@ -851,7 +808,7 @@ function StyledComponent(props) {
                                      
                                     <Box mt={2} display="flex" >
                                         <ColorSelecter
-                                            label={'Color for Arrows'}
+                                            label={'Color for Block'}
                                             colorSelect={colorSelect} 
                                             setColorSelect={setColorSelect}
                                             colorCustom={colorCustom}
@@ -871,7 +828,7 @@ function StyledComponent(props) {
                                     {
                                         slidesRender()
                                     }
-                                    <AddItem addSlide={addSlide} id={props.data.id} btnWithLabel={classes.btnWithLabel} />
+                                    <AddItem addSlide={addSlide} id={props.data.id} renderLinkList={renderLinkList} />
                                     
    
                                     <Box mt={5} />

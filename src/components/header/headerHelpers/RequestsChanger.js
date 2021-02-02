@@ -42,7 +42,7 @@ function RequestsChanger() {
         setLocalRequests(requests)
     }, [requests])
      
-    const handleInputFocus = () => {  
+    const handleOpen = () => {  
         setOpen(true);
     }
     const handleClose = () => {
@@ -57,8 +57,10 @@ function RequestsChanger() {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { menu, menuTitle, btnSetting, btnSave } = commonClasses
+        const { menu, menuTitle, btnSetting, btnSave, dialogContentUnstyle } = commonClasses
+        
         return ({ 
+            dialogContentUnstyle: dialogContentUnstyle,
             menu: {...menu, ...{
                 left: "calc(50% - 400px)",
                 maxWidth: 800,   
@@ -110,13 +112,15 @@ function RequestsChanger() {
         setIsDisableBtn(false)
  
     }  
-    const handleRemove = (id) => {  
-
-        const newReq = localRequests.slice()
-        const filtered = newReq.filter(item => ( item.time !== id ))
-
-        setLocalRequests(filtered)
-        setIsDisableBtn(false)
+    const handleRemove = (id) => {   
+        const conf = window.confirm('Delete request?') 
+        if(conf) {
+            const newReq = localRequests.slice()
+            const filtered = newReq.filter(item => ( item.time !== id ))
+    
+            setLocalRequests(filtered)
+            setIsDisableBtn(false) 
+        }
     }  
 
      
@@ -173,7 +177,7 @@ function RequestsChanger() {
         <div className={classes.dumbWrapper}>
             <Tooltip title='Requests List' placement='bottom'>
                 <Button  
-                    onClick={handleInputFocus} 
+                    onClick={handleOpen} 
                     size='medium'
                     variant='contained'
                     color='primary' 
@@ -189,7 +193,7 @@ function RequestsChanger() {
                 aria-labelledby="draggable-dialog-title"
                 onClose={handleClose} 
             > 
-                <DialogContent> 
+                <DialogContent classes={{root: classes.dialogContentUnstyle}}> 
                     <Draggable  handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'} >
                         <div className={classes.menu}>
                             <Typography 

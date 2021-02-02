@@ -56,9 +56,10 @@ function StyledComponent(props) {
     const useStyles = makeStyles((theme) => {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
-
-        const { menu, menuTitle, btnSetting, btnSave, btnDrawerStyle, btnDrawerItem, containerWrapper } = commonClasses 
+        
+        const { menu, menuTitle, btnSetting, btnSave, btnDrawerStyle, btnDrawerItem, containerWrapper, dialogContentUnstyle } = commonClasses 
         return ({
+            dialogContentUnstyle: dialogContentUnstyle, 
             btnDrawerStyle: btnDrawerStyle,
             btnDrawerItem: btnDrawerItem,
             containerWrapper: containerWrapper,
@@ -186,7 +187,7 @@ function StyledComponent(props) {
                         open={open}
                         aria-labelledby="draggable-dialog-title"
                         onClose={handleClose}>
-                        <DialogContent>
+                        <DialogContent classes={{root: classes.dialogContentUnstyle}}>
                             <Draggable
                                 handle="#draggable-dialog-title"
                                 cancel={'[class*="MuiDialogContent-root"]'}>

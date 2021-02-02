@@ -14,7 +14,7 @@ import Alert from '../components/placeholders/Alert'
 
 function ThemeComponent() {   
     const {themeLight, themeDark, themeMode } = React.useContext(CategoryContext) 
-    const { isShowAlert, closeAlert } = React.useContext(SendFormContext)  
+    const { isShowAlert } = React.useContext(SendFormContext)  
     
     let themeCreate 
     if(themeMode === 'dark') { 
@@ -30,7 +30,7 @@ function ThemeComponent() {
             <CssBaseline/>   
             {
                 isShowAlert &&
-                <Alert severity={isShowAlert} closeAlert={closeAlert} /> 
+                <Alert  /> 
             } 
             <Modal/>
             <RouterComponent/>

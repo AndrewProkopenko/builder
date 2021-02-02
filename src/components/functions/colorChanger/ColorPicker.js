@@ -64,9 +64,9 @@ export const ColorPicker = memo(({ initialColor, changeColor, setIsDisableBtn, p
                 border: `1px solid ${contrastColor}`, 
                 borderRadius: theme.shape.borderRadius, 
                 cursor: "pointer", 
-                transition: `${theme.transitions.duration.shortest} ${theme.transitions.easing.easeInOut}ms`, 
+                transition: `${theme.transitions.duration.short}ms ${theme.transitions.easing.easeInOut} `, 
                 '&:hover' : { 
-                    boxShadow: theme.shadows[4]
+                    boxShadow: theme.shadows[2]
                 }
             }, 
             boxPicker: { 

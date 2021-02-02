@@ -4,6 +4,7 @@ import firebase from '../firebase/firebase'
 
 import LoadingContext from '../context/loadingContext/LoadingContext' 
 import ModeContext from '../context/modeContext/ModeContext' 
+import SendFormContext from '../context/sendFormContext/SendFormContext' 
  
 import { Avatar, Button, TextField, Box, Container, CircularProgress, Typography, Tooltip } from '@material-ui/core'; 
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'; 
@@ -15,6 +16,7 @@ import { Alert } from '@material-ui/lab';
 function Login() {
 
     
+    const { setCustomAlert } = React.useContext(SendFormContext)
     const { setIsLoading } = React.useContext(LoadingContext) 
     const { user } = React.useContext(ModeContext) 
  
@@ -44,7 +46,7 @@ function Login() {
         },
         avatar: {
           margin: theme.spacing(1),
-          backgroundColor: isSubmit ? theme.palette.info.main : theme.palette.secondary.main,
+          backgroundColor: isSubmit ? theme.palette.primary.main : theme.palette.secondary.main,
         },
         form: {
           width: '100%', // Fix IE 11 issue.
@@ -60,10 +62,9 @@ function Login() {
     const classes = useStyles();
 
     const disableCheck = () => { 
-            console.log(name, password)
-            if(name !== '') setIsDisableBtn(false)
-            else setIsDisableBtn(true)  
-        
+        console.log(name, password)
+        if(name !== '') setIsDisableBtn(false)
+        else setIsDisableBtn(true)   
     }
 
     const handleChange = (value, place) => {
@@ -88,7 +89,8 @@ function Login() {
         setIsSubmit(true)
         firebase.loginWithEmail(name, password).then( (res) => {
             setIsRedirect(true)
-            setIsSubmit(false)
+            setIsSubmit(false) 
+            setCustomAlert('success', `Hello, ${res.user.email}. Now you can change site`, 7000)
         }).catch(function(err) { 
             setError(err)
             setIsSubmit(false)

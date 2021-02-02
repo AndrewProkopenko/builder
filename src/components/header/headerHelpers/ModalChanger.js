@@ -3,6 +3,7 @@ import React from 'react'
 import StylesChangers from '../../../styles/changers'  
   
 import ColorSelecter from '../../functions/colorChanger/ColorSelecter'
+import {isNoThemeColor} from '../../functions/colorChanger/ColorCalculation'
 
 import LoadingContext from '../../../context/loadingContext/LoadingContext' 
 import SendFormContext from '../../../context/sendFormContext/SendFormContext'  
@@ -17,8 +18,7 @@ import {
     TextField,   
 } from '@material-ui/core' 
 
-import { amber } from '@material-ui/core/colors'
-import SaveIcon from '@material-ui/icons/Save';
+import { amber } from '@material-ui/core/colors' 
 import SettingsIcon from '@material-ui/icons/Settings';
 import OpenWithIcon from '@material-ui/icons/OpenWith'; 
  
@@ -45,22 +45,17 @@ function RequestsChanger() {
     const [inputPhone, setInputPhone] = React.useState(modalSettings.inputPhone || '')
 
     
-    const handleInputFocus = () => {  
+    const handleOpen = () => {  
         setOpen(true);
     }
     const handleClose = () => {
+        if(!isDisableBtn) handleSave()
         setOpen(false);
     }; 
      
+    const colorTheme = isNoThemeColor(modalSettings.colorButton)
     React.useEffect(() => {
-        if(
-            modalSettings.colorButton !== 'primary' && 
-            modalSettings.colorButton !== 'secondary' &&
-            modalSettings.colorButton !== 'warning' &&
-            modalSettings.colorButton !== 'error' &&
-            modalSettings.colorButton !== 'info' &&
-            modalSettings.colorButton !== 'success' 
-        ) {  
+        if(colorTheme) {  
             setColorSelect('custom')
         }  
     }, [modalSettings.colorButton])
@@ -69,10 +64,10 @@ function RequestsChanger() {
     const useStyles = makeStyles((theme) => {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
-
-        const { menu, menuTitle, btnSetting, btnSave } = commonClasses
+        const { menu, menuTitle, btnSetting, dialogContentUnstyle } = commonClasses
 
         return ({  
+            dialogContentUnstyle: dialogContentUnstyle, 
             menu: {...menu, ...{
                 left: "calc(50% - 300px)",
                 maxWidth: 600,   
@@ -84,8 +79,7 @@ function RequestsChanger() {
                     flexDirection: 'row',
                     fontSize: 10
                 }
-            }}, 
-            btnSave: btnSave, 
+            }},  
         })
     })
     
@@ -108,8 +102,7 @@ function RequestsChanger() {
             newData.colorButton = colorSelect
         }
         setIsDisableBtn(true)
-        setIsLoading(true)
-        handleClose()
+        setIsLoading(true) 
 
         updateModalSettings(newData)
         setIsLoading(false)
@@ -119,7 +112,7 @@ function RequestsChanger() {
         <div className={classes.dumbWrapper}>
             <Tooltip title='Modal Settings' placement='bottom'>
                 <Button  
-                    onClick={handleInputFocus} 
+                    onClick={handleOpen} 
                     size='medium'
                     variant='contained'
                     color='primary' 
@@ -135,7 +128,7 @@ function RequestsChanger() {
                 aria-labelledby="draggable-dialog-title"
                 onClose={handleClose} 
             > 
-                <DialogContent> 
+                <DialogContent classes={{root: classes.dialogContentUnstyle}} > 
                     <Draggable  handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'} >
                         <div className={classes.menu}>
                             <Typography 
@@ -143,7 +136,7 @@ function RequestsChanger() {
                                 className={classes.menuTitle}
                                 id="draggable-dialog-title"
                             >
-                                Modal Settings <OpenWithIcon/>
+                                { !isDisableBtn && "Close to save - " } Modal Settings <OpenWithIcon/>
                             </Typography>
                              
                             <Box my={2}>
@@ -235,20 +228,9 @@ function RequestsChanger() {
                                     noInherit={true}
                                 /> 
                             </Box>
-                            
                              
+                            <Box mt={5} /> 
 
-                            <Box className={classes.btnSave} mt={2}>
-                                <Button 
-                                    color={'primary'} 
-                                    variant="contained"
-                                    onClick={handleSave}
-                                    startIcon={<SaveIcon/>}
-                                    disabled={isDisableBtn}
-                                >
-                                    Save
-                                </Button>
-                            </Box>
                         </div>
                     </Draggable>
                 </DialogContent> 

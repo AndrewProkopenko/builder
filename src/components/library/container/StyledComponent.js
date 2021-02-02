@@ -106,11 +106,12 @@ function ContainerElement(props) {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { btnSave, menu, menuTitle,  responseValues ,responseMobile , mobileTooltip, responseTablets, tabletTooltip  } = commonClasses 
+        const { btnSave, menu, menuTitle,  responseValues ,responseMobile , mobileTooltip, responseTablets, tabletTooltip, dialogContentUnstyle  } = commonClasses 
         const { inputNumber, inputGroup , settingsItem  } = commonStyle 
  
-
+        
         return ({   
+            dialogContentUnstyle:dialogContentUnstyle, 
             settingsItem: settingsItem,
             inputNumber: {...inputNumber, ...{
                 // maxWidth: '50%'
@@ -242,7 +243,7 @@ function ContainerElement(props) {
                     aria-labelledby="draggable-dialog-title"
                     onClose={handleClose} 
                 >
-                    <DialogContent>
+                    <DialogContent classes={{root: classes.dialogContentUnstyle}}>
                         <Draggable  handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'} >
                             <div className={classes.menu}  >
                                 <Typography 
@@ -391,7 +392,11 @@ function ContainerElement(props) {
                                 onChange={(e) => {setIsDisableBtn(false); setSettingInnerContainer(e.target.value) }}
                             >
                                 <MenuItem value={false}>False</MenuItem>
-                                <MenuItem value={true}>True</MenuItem> 
+                                <MenuItem value={'xl'}>xl - 1920 </MenuItem> 
+                                <MenuItem value={'lg'}>lg - 1280 </MenuItem> 
+                                <MenuItem value={'md'}>md - 960 </MenuItem> 
+                                <MenuItem value={'sm'}>sm - 600 </MenuItem> 
+                                <MenuItem value={'xs'}>xs - 0 </MenuItem>
                             </Select>
                         </FormControl>
                     </FormGroup>
@@ -419,7 +424,7 @@ function ContainerElement(props) {
                         Styles 
                     </Typography>
                     <React.Fragment>
-                        <Tooltip classes={{tooltip: classes.tabletTooltip}} title='Calculated styles for Tablets (>960px)' placement={'top'}>
+                        <Tooltip classes={{tooltip: classes.tabletTooltip}} title='Calculated styles for Tablets (<960px)' placement={'top'}>
                             <Box className={`${classes.responseValues} ${classes.responseTablets}`}>
                                 <TabletMacIcon/>
                                 <Box>   
@@ -433,7 +438,7 @@ function ContainerElement(props) {
                             </Box>
                         </Tooltip>
 
-                        <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (>600px)' placement={'top'}>
+                        <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (<600px)' placement={'top'}>
                             <Box className={`${classes.responseValues} ${classes.responseMobile}`}>
                                 <PhoneIphoneIcon/>
                                 <Box>  
@@ -573,7 +578,7 @@ function ContainerElement(props) {
                                     colorCustom={backgroundCustom}
                                     setColorCustom={setBackgroundCustom}
                                     setIsDisableBtn={setIsDisableBtn} 
-                                    position = {'left'}
+                                    position = {'right'}
                                     noInherit={false}
                                 />  
                             </Box>
@@ -591,6 +596,7 @@ function ContainerElement(props) {
                                     noInherit={false}
                                     isContrastSelect={true}
                                 />   
+                                {colorSelect === 'contrast' && <Typography variant='caption' color='secondary' >Contast color don`t work with "inherit" background </Typography>}
                             </Box> 
                         </Box>
                         <Box className={classes.inputGroup} display="flex" flexDirection="row" >  
@@ -602,7 +608,7 @@ function ContainerElement(props) {
                                     colorCustom={borderColorCustom}
                                     setColorCustom={setBorderColorCustom}
                                     setIsDisableBtn={setIsDisableBtn} 
-                                    position = {'left'}
+                                    position = {'right'}
                                     noInherit={false} 
                                 />  
                             </Box> 

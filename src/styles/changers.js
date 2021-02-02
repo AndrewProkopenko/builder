@@ -138,6 +138,10 @@ const StylesChangers = () => {
         tabletTooltip: {
             fontSize: 13, 
             backgroundColor: theme.palette.success.dark
+        }, 
+        dialogContentUnstyle: {
+            outline: 0, 
+            padding: 0
         }
     })
  

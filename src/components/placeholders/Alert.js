@@ -3,8 +3,12 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core'
 import { Alert } from '@material-ui/lab'
 
+import SendFormContext from '../../context/sendFormContext/SendFormContext'
 
-const  AlertComponent = (props) => {
+const  AlertComponent = () => { 
+    
+    const { isShowAlert, closeAlert, alertText  } = React.useContext(SendFormContext)  
+
     const useStyles = makeStyles( (theme) => { 
         return {
             alertContainer: {
@@ -37,26 +41,19 @@ const  AlertComponent = (props) => {
     const classes = useStyles()
 
     const handleClose = () => {
-        props.closeAlert()
+        closeAlert() 
     }
-
-    const alertText = () => {
-        if(props.severity === 'success') return "Your request was accepted successfully"
-        if(props.severity === 'info') return "Your request is being processed"
-        if(props.severity === 'error') return "An error has occurred :("
-        if(props.severity === 'warning') return "Warning!" 
-    }
-      
+   
     return (
         <div className={classes.alertContainer}>
             <Alert 
-                severity={props.severity} 
+                severity={isShowAlert} 
                 variant="filled"
                 onClose={handleClose} 
                 className={classes.alert}
                 classes= {{ message: classes.message }}
             >
-                { alertText() }
+                { alertText }
             </Alert>
         </div>
     )

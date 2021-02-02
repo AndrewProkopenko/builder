@@ -2,7 +2,7 @@ import React, {useState} from 'react'
   
 import { useHistory } from "react-router-dom";
 
-import { makeStyles, Typography, Container, Box, fade } from '@material-ui/core'  
+import { makeStyles, Typography, Container, Box, darken } from '@material-ui/core'  
 
 import SwiperCore, { Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -11,16 +11,13 @@ import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';  
 
 import {getColorByPalette} from '../../functions/colorChanger/ColorCalculation'
-
-import ModalContext from '../../../context/modalContext/ModalContext'
+ 
 
 SwiperCore.use([Navigation]);
   
 function DumbComponent(props) {
 
-    let history = useHistory();
-    
-    const { handleOpen } = React.useContext(ModalContext) 
+    let history = useHistory(); 
 
     const [isSwiper, setIsSwiper] = useState(true) 
     
@@ -47,10 +44,9 @@ function DumbComponent(props) {
     const useStyles = makeStyles((theme) => {   
         
         color = getColorByPalette(theme, color) 
-
+         
         return ({  
-            swiper: {
-                 
+            swiper: {                 
                 '& .swiper-button-prev': {
                     color: color, 
                     "&:after": { 
@@ -72,49 +68,119 @@ function DumbComponent(props) {
                     }
                 },  
             },
-            activeSlide: {
-                cursor: 'pointer', 
-                '&:hover': {
-                    '& $slideImg': {
-                        transform: "scale(1.03)"
-                    },
-                    '& $slideTitle': { 
-                        backgroundColor: theme.palette.background.default
-                    },
-                }
-            }, 
-            slide: {
-                position: 'relative',  
-                height: slideHeight,   
-                overflow: 'hidden',    
+            
+            slide: { 
+                boxSizing: 'border-box !important', 
+                position: 'relative',   
+                height: slideHeight > 300 ? 300 : (slideHeight - 30) ,  
+                overflow: 'hidden',  
+                cursor: 'pointer',   
+                backgroundColor: theme.palette.background.paper,
             },
             slideBox: {
+                overflow: 'hidden', 
+                display: 'inline-flex', 
+                flexDirection: 'column', 
+                alignItems: 'center', 
+                justifyContent: 'center',
                 position: 'relative',  
                 width: "100%",
+                maxWidth: '100%', 
                 height: "100%",
+                padding: 15,
+                boxShadow: theme.shadows['10'], 
+                borderRadius: theme.shape.borderRadius, 
+                transition: `${theme.transitions.duration.standard}ms ${theme.transitions.easing.easeInOut}`,
+                '&:hover': { 
+                    // backgroundColor: color, 
+                    boxShadow: theme.shadows["2"], 
+                    '& $slideImg': {
+                        // width: 500, 
+                        // height: 500, 
+                        
+                        // backgroundColor: theme.palette.getContrastText(color), 
+                        "& svg": { 
+                            // fill: color
+                        }, 
+                        "&::after": {
+                            transform: 'scale(10)'
+                        },
+                    },
+                    '& $slideTitle': {
+                        color: theme.palette.getContrastText(color)
+                    } 
+                }
+
             }, 
-            slideImg: {
-                width: "100%",
-                height: "100%",
-                backgroundPosition: 'center', 
-                backgroundRepeat: 'no-repeat', 
-                backgroundSize: 'cover',
-                transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeInOut}`
-            },
-            slideTitle: {
-                position: 'absolute',
-                zIndex: 5, 
-                bottom: 20,  
-                right: 0,
-                maxWidth: "75%", 
-                fontSize: '3vw', 
-                lineHeight: 1.1, 
-                backgroundColor: fade(theme.palette.background.default, 0.7), 
-                padding: theme.spacing(1, 2), 
-                borderBottom: `2px solid ${color}`,
-                transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeInOut}`, 
+            slideImg: { 
+                display: 'flex', 
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'relative', 
+                width: 70, 
+                height: 70, 
+                borderRadius: '50%',  
+                marginTop: 10, 
+                marginBottom: 10, 
+                // backgroundColor: color, 
+                transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeInOut}`,
+                "&::after": { 
+                    position: 'absolute',
+                    zIndex: 3, 
+                    top: -10, 
+                    left: -10,  
+                    content: "''", 
+                    width: 90, 
+                    height: 90, 
+                    borderRadius: '50%',  
+                    backgroundColor: color, 
+                    transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeInOut}`,
+                },
+                '& span': { 
+                    display: 'flex', 
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                },
+                "& svg": {
+                    position: 'relative', 
+                    zIndex: 10,  
+                    width: 60,
+                    height: 60,
+                    fill: theme.palette.getContrastText(color)
+                },
                 [theme.breakpoints.down('sm')]: {
-                    fontSize: 20
+                    width: 40, 
+                    height: 40,
+                    "&::after": {   
+                        width: 60, 
+                        height: 60,  
+                    },
+                    "& svg": {  
+                        width: 30,
+                        height: 30, 
+                    },
+                }
+                 
+            },
+            slideTitle: { 
+                position: 'relative', 
+                zIndex: 15, 
+                fontSize: 18, 
+                lineHeight: 1.1,  
+                textAlign: 'center', 
+                padding: theme.spacing(1, 2),  
+                marginTop: 8, 
+                transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeInOut}`, 
+                width: "100%", 
+                [theme.breakpoints.down('sm')]: {
+                    fontSize: 16
+                }
+            },
+            slideBtn: {
+                backgroundColor: color, 
+                color: theme.palette.getContrastText(color), 
+                '&:hover': {
+                    backgroundColor: darken(color, 0.3), 
                 }
             },
             styleClass: {
@@ -130,10 +196,10 @@ function DumbComponent(props) {
                 justifyContent: 'center',
                 flexWrap: 'wrap', 
                 '& $slide': {
-                    maxWidth: 300, 
+                    maxWidth: 200, 
                     marginLeft: spaceBetween,
-                    marginRigth: spaceBetween,
-                    marginBottom: spaceBetween, 
+                    marginRight: spaceBetween,
+                    marginBottom: spaceBetween*2, 
                     
                 },
                 '& $slideImg': {
@@ -141,24 +207,25 @@ function DumbComponent(props) {
                 },
                 [theme.breakpoints.down('sm')]: {
                     '& $slide': {
-                        marginLeft: 0, 
-                        marginRight: 0, 
-                        maxWidth: '100%',   
+                        marginLeft: 10, 
+                        marginRight: 10, 
+                        marginBottom: 20, 
+                        // maxWidth: '100%',   
                     }
                 }
             }
         })
     });  
     const classes  = useStyles(); 
+    
      
-  
-    React.useEffect(() => {   
+    React.useEffect(() => {  
 
         const getWidthViewport = () => {  
             
             let actualWidth = window.innerWidth
 
-            console.log('swiper resize', actualWidth)  
+            console.log('blocks resize', actualWidth)  
 
             if(actualWidth <= 600) {
                 if(items.length > slidesForViewMobile) setIsSwiper(true)
@@ -193,37 +260,28 @@ function DumbComponent(props) {
         // eslint-disable-next-line
     }, []);
  
-    const handleSlideClick = (slide) => {
-        if(slide.isButton) {
-            handleOpen(slide.targetButton)
-        }
-        if(slide.isUrl) {
-            history.push(`/${slide.url}`) 
-        }
+    const handleSlideClick = (slide) => { 
+        history.push(`/${slide.url}`)  
+        // console.log(slide)
     }
 
     const renderSlide = (slide) => (
         <SwiperSlide 
-            key={slide.imageUrl} 
+            key={slide.id} 
             ref={slideRef} 
-            className={`${classes.slide} ${(slide.isButton || slide.isUrl) ? classes.activeSlide : '' } `}
+            className={`${classes.slide}`}
             onClick={() => { handleSlideClick(slide) }}
         >
-            <Box className={classes.slideBox}>
-                <Box 
-                    style={{backgroundImage: `url(${slide.imageUrl})`}}
-                    className={classes.slideImg}
-                />
-                {
-                    slide.title.length > 0 &&
-                    <Typography
-                        component='h6'
-                        className={classes.slideTitle}
-                    >
-                        {slide.title}
-                    </Typography>
-                }
-                
+            <Box className={classes.slideBox}> 
+                <Box className={classes.slideImg}>
+                    <span dangerouslySetInnerHTML={{__html: slide.svg}}></span>
+                </Box> 
+                <Typography
+                    component='h6'
+                    className={classes.slideTitle}
+                >
+                    {slide.title} 
+                </Typography> 
             </Box>
         </SwiperSlide>
     )

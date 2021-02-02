@@ -83,12 +83,13 @@ function StyledComponent(props) {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { menu, menuTitle, btnSetting, btnDrawerStyle, btnDrawerItem, containerWrapper, btnWithLabel,  
+        const { menu, menuTitle, btnSetting, btnDrawerStyle, btnDrawerItem, containerWrapper, btnWithLabel, dialogContentUnstyle, 
             responseValues ,responseMobile , mobileTooltip, responseTablets, tabletTooltip } = commonClasses 
             
         const { mtView, mbView } = commonStyle 
 
         return ({
+            dialogContentUnstyle: dialogContentUnstyle, 
             btnDrawerStyle: btnDrawerStyle,
             btnDrawerItem: btnDrawerItem,
             containerWrapper: {
@@ -299,7 +300,7 @@ function StyledComponent(props) {
                         aria-labelledby="draggable-dialog-title"
                         onClose={handleClose} 
                     > 
-                        <DialogContent> 
+                        <DialogContent classes={{root: classes.dialogContentUnstyle}}> 
                             <Draggable  handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'} >
                                 <div className={classes.menu}>
                                     <Typography 
@@ -362,7 +363,7 @@ function StyledComponent(props) {
                                                 <MenuItem value={'xs'}>xs - 0 </MenuItem> 
                                             </Select>
                                         </FormControl>
-                                        <Tooltip classes={{tooltip: classes.tabletTooltip}} title='Calculated styles for Tablets (>960px)' placement={'top'}>
+                                        <Tooltip classes={{tooltip: classes.tabletTooltip}} title='Calculated styles for Tablets (<960px)' placement={'top'}>
                                             <Box className={`${classes.responseValues} ${classes.responseTablets}`}>
                                                 <TabletMacIcon/>
                                                 <Box>   
@@ -374,7 +375,7 @@ function StyledComponent(props) {
                                             </Box>
                                         </Tooltip>
 
-                                        <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (>600px)' placement={'top'}>
+                                        <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (<600px)' placement={'top'}>
                                             <Box className={`${classes.responseValues} ${classes.responseMobile}`}>
                                                 <PhoneIphoneIcon/>
                                                 <Box>  

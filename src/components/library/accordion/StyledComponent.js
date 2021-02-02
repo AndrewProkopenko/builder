@@ -4,7 +4,7 @@ import StylesChangers from '../../../styles/changers'
 import StyledInputs from '../../../styles/inputs'   
 
 import Draggable from 'react-draggable';  
-import ColorSelecter from '../../functions/colorChanger/ColorSelecter'
+import ColorSelecter from '../../functions/colorChanger/ColorSelecter' 
 import {isNoThemeColor} from '../../functions/colorChanger/ColorCalculation'
 
 import { 
@@ -21,8 +21,7 @@ import { DeleteOutline } from '@material-ui/icons';
 import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
  
 import DumbComponent from "./DumbComponent"
-import AddItem from "./AddItem"
-import ChangeItem from "./ChangeItem"
+import AddItem from "./AddItem" 
 import InputChange from '../../functions/InputChange';
 
 function StyledComponent(props) {
@@ -67,13 +66,14 @@ function StyledComponent(props) {
         const commonStyle = styleRef(theme)
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
-
-        const { menu, menuTitle, btnSetting, btnDrawerStyle, btnDrawerItem, 
+        
+        const { menu, menuTitle, btnSetting, btnDrawerStyle, btnDrawerItem, dialogContentUnstyle, 
             containerWrapper, responseValues ,responseMobile , mobileTooltip 
         } = commonClasses 
         
         const { mtView, mbView } = commonStyle 
         return ({
+            dialogContentUnstyle: dialogContentUnstyle,
             btnDrawerStyle: btnDrawerStyle,
             btnDrawerItem: btnDrawerItem,
             containerWrapper: {
@@ -150,9 +150,15 @@ function StyledComponent(props) {
         if(conf) props.removeContainer(props.data.id)
     }
 
-    const handleUpdateItem = (index, head, body) => { 
+    const handleUpdateItemHead = (head, index) => { 
         const newItems = items.slice()
-        newItems[index].head = head
+        newItems[index].head = head 
+
+        setItems(newItems)
+        setIsDisableBtn(false); 
+    } 
+    const handleUpdateItemBody = (body, index) => { 
+        const newItems = items.slice() 
         newItems[index].body = body
 
         setItems(newItems)
@@ -292,7 +298,7 @@ function StyledComponent(props) {
                         aria-labelledby="draggable-dialog-title"
                         onClose={handleClose} 
                     > 
-                        <DialogContent> 
+                        <DialogContent classes={{root: classes.dialogContentUnstyle}}> 
                             <Draggable  handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'} >
                                 <div className={classes.menu}>
                                     <Typography 
@@ -354,7 +360,7 @@ function StyledComponent(props) {
                                                 <MenuItem value={'xs'}>xs - 0 </MenuItem> 
                                             </Select>
                                         </FormControl>
-                                        <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (>600px)' placement={'top'}>
+                                        <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (<600px)' placement={'top'}>
                                             <Box className={`${classes.responseValues} ${classes.responseMobile}`}>
                                                 <PhoneIphoneIcon/>
                                                 <Box>  
@@ -443,9 +449,30 @@ function StyledComponent(props) {
                                                                 </Tooltip>  
                                                             </ButtonGroup>
                                                         </Box>
- 
-                                                        <ChangeItem index={index} head={item.head} body={item.body} handleUpdateItem={handleUpdateItem} />  
-                                                        
+                                                                
+                                                        <InputChange
+                                                            id={index}
+                                                            fullWidth={true}
+                                                            type='text'
+                                                            size="small" 
+                                                            label='Head'
+                                                            variant='outlined'
+                                                            value={item.head}
+                                                            setValue={handleUpdateItemHead}
+                                                            setIsDisableBtn={setIsDisableBtn} 
+                                                        />
+                                                        <Box mt={1} />
+                                                        <InputChange
+                                                            id={index}
+                                                            fullWidth={true}
+                                                            type='text'
+                                                            size="small" 
+                                                            label='Body'
+                                                            variant='outlined'
+                                                            value={item.body}
+                                                            setValue={handleUpdateItemBody}
+                                                            setIsDisableBtn={setIsDisableBtn} 
+                                                        /> 
                                                     </Box>
                                                 )
                                             })

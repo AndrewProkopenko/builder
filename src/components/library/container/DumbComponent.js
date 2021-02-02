@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Container, Paper } from '@material-ui/core';
 
 import ModeContext from '../../../context/modeContext/ModeContext'
- 
+  
 import HeadingCreator from '../heading/ElementCreator'
 import ListCreator from '../list/ElementCreator'
 import ParagraphCreator from '../paragraph/ElementCreator'
@@ -74,10 +74,7 @@ function DumbComponent(props) {
 
     const isPaperClassForContainer = props.settings.isPaper ? classes.noPadding : classes.yesPadding
     const isPaperClassForPaper = props.settings.isPaper ? classes.yesPadding : classes.noPadding
-   
- 
-      
-
+    
     const renderItems = () => { 
         return (
             modeDev ?
@@ -87,7 +84,7 @@ function DumbComponent(props) {
                 // eslint-disable-next-line
                 let orderLast = props.data.children.indexOf(item) == props.data.children.length - 1 ? true : false
 
-                switch(item.type) { 
+                switch(item.type) {  
                     case 'heading' :  
                         return ( 
                             <HeadingCreator 
@@ -191,7 +188,7 @@ function DumbComponent(props) {
                         {  
                             props.settings.innerContainer && 
                             <Container
-                                maxWidth={'lg'}
+                                maxWidth={props.settings.innerContainer}
                                 fixed={props.settings.fixed} 
                                 disableGutters={props.settings.disableGutters} 
                             >
@@ -219,7 +216,7 @@ function DumbComponent(props) {
                         {  
                             props.settings.innerContainer && 
                             <Container
-                                maxWidth={'lg'}
+                                maxWidth={props.settings.innerContainer}
                                 fixed={props.settings.fixed} 
                                 disableGutters={props.settings.disableGutters} 
                             >

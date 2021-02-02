@@ -20,6 +20,7 @@ import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
 import ThemeSwitcher from './ThemeSwitcher'
 
 const Mobile = (props) => { 
+ 
 
     const useStyles = makeStyles((theme) => { 
         return ({
@@ -39,8 +40,8 @@ const Mobile = (props) => {
                 width: '100%', 
                 padding: '6px 16px', 
                 '&.active' : {
-                    backgroundColor: theme.palette.primary.main,
-                    color: '#fff'
+                    backgroundColor: props.menuColor,
+                    color: props.iconColor
                 }
             },  
             accordionReset: {
@@ -84,6 +85,10 @@ const Mobile = (props) => {
     }
     const handleDrawerClose = () => { 
         setDrawerOpen(false) 
+    }
+    const handleModal = () => {
+        handleDrawerClose()
+        props.openModal()
     }
 
     return (
@@ -187,13 +192,13 @@ const Mobile = (props) => {
                     }
 
                     <Box px={2}>
-                        <Box my={3} width={'100%'} clone={true} >
+                        <Box my={3} width={'100%'} clone={true} onClick={handleModal}>
                             {props.modalBtn}
                         </Box>
                     </Box>
                     
-                    <Box px={3}>
-                        <Box my={2} width={'100%'} clone={true} >
+                    <Box px={3} my={2} >
+                        <Box  width={'100%'} clone={true} >
                             <ThemeSwitcher/>
                         </Box>
                     </Box>

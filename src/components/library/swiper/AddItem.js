@@ -48,8 +48,7 @@ const AddItem = (props) => {
     })
     
     const classes = useStyles();
-
-    console.log(props.btnWithLabel)
+ 
 
     return (
         <Box className={classes.addSlide}>
@@ -65,7 +64,9 @@ const AddItem = (props) => {
                     display: "none"
                 }}/>
             </Button> 
-            <Typography variant='caption' > Image: { newImageName.replace(`-${props.id}`, '') }</Typography>
+            <Box ml={2} display='inline-block'>
+                <Typography variant='caption' > Image: { newImageName.replace(`-${props.id}`, '') }</Typography>
+            </Box>
             <Box my={1}>
                 <TextField 
                     type='text'

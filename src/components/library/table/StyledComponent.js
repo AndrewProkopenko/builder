@@ -85,10 +85,11 @@ function StyledComponent(props) {
         const commonClasses = classesRef(theme)
 
         const { menu, menuTitle, btnSetting, btnDrawerStyle, btnDrawerItem, containerWrapper ,
-            responseValues ,responseMobile , mobileTooltip} = commonClasses 
+            responseValues ,responseMobile , mobileTooltip, dialogContentUnstyle} = commonClasses   
 
         const { mtView, mbView } = commonStyle 
         return ({
+            dialogContentUnstyle: dialogContentUnstyle, 
             btnDrawerStyle: btnDrawerStyle,
             btnDrawerItem: btnDrawerItem,
             containerWrapper: {
@@ -185,7 +186,7 @@ function StyledComponent(props) {
 
         setRows(newRows)
         setIsDisableBtn(false); 
-    }
+    } 
     const swapItem = (direction, index) => { 
         const newRows = rows.slice()
         let activeIndex   
@@ -334,7 +335,7 @@ function StyledComponent(props) {
                         aria-labelledby="draggable-dialog-title"
                         onClose={handleClose}
                     >
-                        <DialogContent>
+                        <DialogContent classes={{root: classes.dialogContentUnstyle}} >
                             <Draggable
                                 handle="#draggable-dialog-title"
                                 cancel={'[class*="MuiDialogContent-root"]'}>
@@ -400,7 +401,7 @@ function StyledComponent(props) {
                                             </Select>
                                         </FormControl>
                                         
-                                        <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (>600px)' placement={'top'}>
+                                        <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (<600px)' placement={'top'}>
                                             <Box className={`${classes.responseValues} ${classes.responseMobile}`}>
                                                 <PhoneIphoneIcon/>
                                                 <Box>  
@@ -514,7 +515,7 @@ function StyledComponent(props) {
                                                                         </Button>
                                                                     </Tooltip>  
                                                                 }
-                                                                <Tooltip title='Delete Page' placement='top'>
+                                                                <Tooltip title='Delete Row' placement='top'>
                                                                     <Button
                                                                         variant='contained'
                                                                         color="secondary"
@@ -527,7 +528,19 @@ function StyledComponent(props) {
                                                                 </Tooltip>  
                                                             </ButtonGroup>
                                                         </Box>
-                                                                
+
+                                                        {/* <InputChange
+                                                            id={null}
+                                                            fullWidth={false}
+                                                            type='number'
+                                                            size="small" 
+                                                            label='Margin Top'
+                                                            variant='outlined'
+                                                            value={marginTop}
+                                                            setValue={setMarginTop}
+                                                            setIsDisableBtn={setIsDisableBtn}
+                                                            direction='row'
+                                                        />   */}
                                                         <ChangeItem handleRowChange={handleRowChange} item={item} index={index} />
 
                                                     </Box>

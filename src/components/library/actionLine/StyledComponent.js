@@ -83,10 +83,12 @@ function StyledComponent(props) {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { menu, menuTitle, btnSetting, btnDrawerStyle, 
+        const { menu, menuTitle, btnSetting, btnDrawerStyle, dialogContentUnstyle,
             btnDrawerItem, containerWrapper , responseValues ,responseMobile , mobileTooltip } = commonClasses 
         const { mtView, mbView } = commonStyle 
+        
         return ({
+            dialogContentUnstyle: dialogContentUnstyle,
             btnDrawerStyle: btnDrawerStyle,
             btnDrawerItem: btnDrawerItem,
             containerWrapper: {
@@ -265,7 +267,7 @@ function StyledComponent(props) {
                         open={open}
                         aria-labelledby="draggable-dialog-title"
                         onClose={handleClose}>
-                        <DialogContent>
+                        <DialogContent classes={{root: classes.dialogContentUnstyle}}>
                             <Draggable
                                 handle="#draggable-dialog-title"
                                 cancel={'[class*="MuiDialogContent-root"]'}>
@@ -341,7 +343,7 @@ function StyledComponent(props) {
                                                 <MenuItem value={'xs'}>xs - 0 </MenuItem> 
                                             </Select>
                                         </FormControl>
-                                        <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (>600px)' placement={'top'}>
+                                        <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (<600px)' placement={'top'}>
                                             <Box className={`${classes.responseValues} ${classes.responseMobile}`}>
                                                 <PhoneIphoneIcon/>
                                                 <Box>  

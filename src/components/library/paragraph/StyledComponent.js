@@ -100,12 +100,12 @@ const StyledComponent = (props) => {
         const styleRef = StyledInputs()
         const commonStyle = styleRef(theme)
         const classesRef = StylesChangers()
-        const commonClasses = classesRef(theme)
+        const commonClasses = classesRef(theme)     
 
-        const { menu, menuTitle, responseValues, responseMobile } = commonClasses 
+        const { menu, menuTitle, responseValues, responseMobile, dialogContentUnstyle } = commonClasses 
         const { mtView, mbView, ptView, pbView, inputNumber, inputGroup, dumbItemContainer, dumbItem, dumbItemDelete } = commonStyle
         return ({
-     
+            dialogContentUnstyle: dialogContentUnstyle, 
             inputNumber: inputNumber, 
             inputGroup: inputGroup, 
             dumbItemContainer: {  ...dumbItemContainer, ...{
@@ -241,7 +241,7 @@ const StyledComponent = (props) => {
                     aria-labelledby="draggable-dialog-title"
                     onClose={handleClose} 
                 >
-                    <DialogContent>
+                    <DialogContent classes={{root: classes.dialogContentUnstyle}} >
                         <Draggable  handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'} >
                         <div className={classes.menu}  >
                             <Typography 
@@ -429,7 +429,7 @@ const StyledComponent = (props) => {
                                         colorCustom={backgroundCustom}
                                         setColorCustom={setBackgroundCustom}
                                         setIsDisableBtn={setIsDisableBtn} 
-                                        position = {'left'}
+                                        position = {'right'}
                                         noInherit={false}
                                     />  
                                 </Box>  
@@ -445,7 +445,9 @@ const StyledComponent = (props) => {
                                         setIsDisableBtn={setIsDisableBtn} 
                                         position = {'right'}
                                         noInherit={false}
+                                        isContrastSelect={true} 
                                     />  
+                                    {colorSelect === 'contrast' && <Typography variant='caption' color='secondary' >Contast color don`t work with "inherit" background </Typography>}
                                 </Box> 
                                     
                             </Box>
@@ -581,7 +583,7 @@ const StyledComponent = (props) => {
                                             colorCustom={borderColorCustom}
                                             setColorCustom={setBorderColorCustom}
                                             setIsDisableBtn={setIsDisableBtn} 
-                                            position = {'left'}
+                                            position = {'right'}
                                             noInherit={false}
                                         />  
                                     </Box> 

@@ -9,7 +9,8 @@ export default class SendFormProvider extends React.Component {
     state = {   
         requests: [], 
         modalSettings: {}, 
-        isShowAlert: null,
+        isAlertSeverity: null,
+        alertText: '',
     }
 
     async componentDidMount() {
@@ -37,12 +38,13 @@ export default class SendFormProvider extends React.Component {
         
         return `${year}/${month<10?`0${month}`:`${month}`}/${date}; ${hour}:${minute}:${second}`
     }
-    closeAlertFromTimeout() {
+    closeAlertFromTimeout(time) {
         setTimeout(() => {
             this.setState({ 
-                isShowAlert: null
+                isAlertSeverity: null,
+                alertText: ''
             })
-        }, 7000);
+        }, time);
     }
 
     async sendRequests(req) { 
@@ -55,7 +57,8 @@ export default class SendFormProvider extends React.Component {
         newList.push(newReq)
  
         this.setState({  
-            isShowAlert: 'info'
+            isAlertSeverity: 'info',
+            alertText: "Your request is being processed"
         })
         
         await firebase.db.collection("site1category").doc('requests').update({
@@ -63,15 +66,17 @@ export default class SendFormProvider extends React.Component {
         }).then(() => { 
             this.setState({ 
                 requests: newList, 
-                isShowAlert: 'success'
+                isAlertSeverity: 'success', 
+                alertText: 'Your request was accepted successfully'
             })
-            this.closeAlertFromTimeout()
+            this.closeAlertFromTimeout(7000)
 
           }).catch( () => {
             this.setState({ 
-                isShowAlert: 'error'
+                isAlertSeverity: 'error', 
+                alertText: "An error has occurred :("
             })
-            this.closeAlertFromTimeout()
+            this.closeAlertFromTimeout(700)
           })
     }
  
@@ -90,13 +95,22 @@ export default class SendFormProvider extends React.Component {
         }) 
     }
 
+    setCustomAlert(severity, text, duration) {
+        this.setState({  
+            isAlertSeverity: severity, 
+            alertText: text
+        })
+        this.closeAlertFromTimeout(duration)
+    }
+
     render() {
         return(
             <SendFormContext.Provider
                 value={{
                     requests: this.state.requests, 
-                    isShowAlert: this.state.isShowAlert, 
+                    isShowAlert: this.state.isAlertSeverity, 
                     modalSettings: this.state.modalSettings, 
+                    alertText: this.state.alertText, 
                     
                     updateRequests: (req) => {
                         this.updateRequests(req)
@@ -109,9 +123,12 @@ export default class SendFormProvider extends React.Component {
                     },
                     closeAlert: () => {
                         this.setState({
-                            isShowAlert: null
-                        })
-
+                            isAlertSeverity: null, 
+                            alertText: ''
+                        }) 
+                    }, 
+                    setCustomAlert: (severity, text, duration) => {
+                        this.setCustomAlert(severity, text, duration)
                     }
                 }}
             >

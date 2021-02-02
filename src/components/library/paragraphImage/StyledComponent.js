@@ -137,10 +137,11 @@ const StyledComponent = (props) => {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { menu, menuTitle,  responseValues, responseMobile, mobileTooltip  } = commonClasses 
+        const { menu, menuTitle,  responseValues, responseMobile, mobileTooltip, dialogContentUnstyle  } = commonClasses 
         const { mtView, mbView, ptView, pbView, inputNumber, inputGroup, dumbItemContainer, dumbItem, dumbItemDelete } = commonStyle
-
+        
         return ({
+            dialogContentUnstyle: dialogContentUnstyle, 
             inputNumber: inputNumber, 
             inputGroup: inputGroup, 
             dumbItemContainer: {  ...dumbItemContainer, ...{
@@ -387,7 +388,7 @@ const StyledComponent = (props) => {
                     aria-labelledby="draggable-dialog-title"
                     onClose={handleClose} 
                 >
-                    <DialogContent>
+                    <DialogContent classes={{root: classes.dialogContentUnstyle}} >
                         <Draggable  handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'} >
                         <div className={classes.menu}  >
                             <Typography 
@@ -412,7 +413,7 @@ const StyledComponent = (props) => {
                                 />   
                             </Box> 
 
-                            <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (>600px)' placement={'top'}>
+                            <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (<600px)' placement={'top'}>
                                 <Box className={`${classes.responseValues} ${classes.responseMobile}`}>
                                     <PhoneIphoneIcon/>
                                     <Box>   
@@ -628,7 +629,7 @@ const StyledComponent = (props) => {
                                                 colorCustom={imageBorderColorCustom}
                                                 setColorCustom={setImageBorderColorCustom}
                                                 setIsDisableBtn={setIsDisableBtn} 
-                                                position = {'left'}
+                                                position = {'right'}
                                                 noInherit={false}
                                             />  
                                         </Box> 
@@ -855,7 +856,7 @@ const StyledComponent = (props) => {
                                         colorCustom={backgroundCustom}
                                         setColorCustom={setBackgroundCustom}
                                         setIsDisableBtn={setIsDisableBtn} 
-                                        position = {'left'}
+                                        position = {'right'}
                                         noInherit={false}
                                     />  
                                 </Box>  
@@ -872,7 +873,9 @@ const StyledComponent = (props) => {
                                         setIsDisableBtn={setIsDisableBtn} 
                                         position = {'right'}
                                         noInherit={false}
+                                        isContrastSelect={true} 
                                     />  
+                                    {colorSelect === 'contrast' && <Typography variant='caption' color='secondary' >Contast color don`t work with "inherit" background </Typography>}
                                 </Box>   
                             </Box>
                                                     
@@ -1010,7 +1013,7 @@ const StyledComponent = (props) => {
                                             colorCustom={borderColorCustom}
                                             setColorCustom={setBorderColorCustom}
                                             setIsDisableBtn={setIsDisableBtn} 
-                                            position = {'left'}
+                                            F = {'right'}
                                             noInherit={false}
                                         />  
                                     </Box> 

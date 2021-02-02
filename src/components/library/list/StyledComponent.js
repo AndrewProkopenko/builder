@@ -80,9 +80,10 @@ const StyledComponent = (props) => {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { menu, menuTitle,  responseValues, responseMobile, mobileTooltip  } = commonClasses 
+        const { menu, menuTitle,  responseValues, responseMobile, mobileTooltip, dialogContentUnstyle  } = commonClasses 
         const { mtView, mbView, inputNumber, inputGroup, dumbItemContainer, dumbItem, dumbItemDelete } = commonStyle
         return ({ 
+            dialogContentUnstyle: dialogContentUnstyle, 
             inputNumber: inputNumber, 
             inputGroup: inputGroup, 
             dumbItemContainer: {  ...dumbItemContainer, ...{
@@ -193,7 +194,7 @@ const StyledComponent = (props) => {
         setOpen(false);
     };
 
-    const handleItemChange = (index, value) => {
+    const handleItemChange = (value, index) => {
         let newItems = items.slice()
         newItems[index] = value
         setItems(newItems)
@@ -224,12 +225,15 @@ const StyledComponent = (props) => {
         setItems(newItems) 
         setIsDisableBtn(false)
     }
-    const deleteItem = (index) => {  
-        let newItems = items.slice()
-        newItems.splice(index, 1)
-         
-        setItems(newItems) 
-        setIsDisableBtn(false)
+    const deleteItemList = (index) => { 
+        let conf = window.confirm("Delete item?");
+        if(conf) {
+            let newItems = items.slice()
+            newItems.splice(index, 1)
+             
+            setItems(newItems) 
+            setIsDisableBtn(false)
+        } 
     } 
     const handleAddItem = () => {
         let newItems = items.slice()
@@ -253,7 +257,7 @@ const StyledComponent = (props) => {
                     aria-labelledby="draggable-dialog-title"
                     onClose={handleClose} 
                 >
-                    <DialogContent>
+                    <DialogContent classes={{root: classes.dialogContentUnstyle}}>
                         <Draggable  handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'} >
                         <div className={classes.menu}  >
                             <Typography 
@@ -263,7 +267,7 @@ const StyledComponent = (props) => {
                             >
                                 { !isDisableBtn && "Close to save - " } List Settings <OpenWithIcon/>
                             </Typography>
-                            <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (>600px)' placement={'top'}>
+                            <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (<600px)' placement={'top'}>
                                 <Box className={`${classes.responseValues} ${classes.responseMobile}`}>
                                     <PhoneIphoneIcon/>
                                     <Box>
@@ -442,16 +446,20 @@ const StyledComponent = (props) => {
                                 {
                                     items.map( (item, index) => {
                                         return (
-                                            <Box key={index} display={'flex'} p={1} > 
-                                                <TextField 
-                                                    className={classes.inputNumber}
+                                            <Box key={index} display={'flex'} alignItems='flex-start' p={1} > 
+                                                <InputChange
+                                                    id={index}
+                                                    fullWidth={true}
+                                                    multiline={true}
                                                     type='text'
+                                                    size="small" 
                                                     label={`Item ${index+1}`} 
-                                                    variant="outlined" 
-                                                    size='small'  
+                                                    variant='outlined'
                                                     value={item}
-                                                    onChange={ (e) => {handleItemChange(index, e.target.value)} }     
-                                                /> 
+                                                    setValue={handleItemChange}
+                                                    setIsDisableBtn={setIsDisableBtn} 
+                                                />  
+                                                <Box mr={0.5} />
                                                 <ButtonGroup 
                                                         color="primary"
                                                         aria-label="contained primary button group"
@@ -490,7 +498,7 @@ const StyledComponent = (props) => {
                                                                 variant='contained'
                                                                 color="secondary"
                                                                 disableElevation={true} 
-                                                                onClick={() => { deleteItem(index) }}
+                                                                onClick={() => { deleteItemList(index) }}
                                                             > 
                                                                 <DeleteOutline style={{ color: '#fff' }} fontSize='small'/>
                                                             </Button>

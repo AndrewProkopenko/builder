@@ -20,6 +20,7 @@ import TableElement from '../library/table/ElementCreator'
 import FormLineElement from '../library/formLine/ElementCreator'  
 import SwiperElement from '../library/swiper/ElementCreator'  
 import BannerElement from '../library/banner/ElementCreator'  
+import BlocksPagesElement from '../library/blocksPages/ElementCreator'   
 
 import SkeletonPage from '../placeholders/SkeletonPage'
 import Breadcrumbs from '../placeholders/Breadcrumbs'
@@ -51,6 +52,7 @@ function SinglePage(props) {
   const FormLineLayout = layouts.formLine 
   const SwiperLayout = layouts.swiper 
   const BannerLayout = layouts.banner 
+  const BlocksPagesLayout = layouts.blocksPages 
 
   const [data, setData] = React.useState({})
   const [items, setItems] = React.useState([]) 
@@ -64,13 +66,15 @@ function SinglePage(props) {
     setOpen(false);
   };
   
-  const useStyles = makeStyles((theme) => {
+  const useStyles = makeStyles((theme) => { 
+
     const classesRef = StylesChangers()
     const commonClasses = classesRef(theme)
 
-    const { menu, menuTitle } = commonClasses 
+    const { menu, menuTitle, dialogContentUnstyle } = commonClasses 
 
     return ({ 
+      dialogContentUnstyle: dialogContentUnstyle, 
       btnContainer: {
         position: 'relative',
         '&:hover $btnSetting' : {
@@ -220,6 +224,7 @@ function SinglePage(props) {
     if(type === 'formLine')   newCont = JSON.parse(JSON.stringify(FormLineLayout))
     if(type === 'swiper')     newCont = JSON.parse(JSON.stringify(SwiperLayout))
     if(type === 'banner')     newCont = JSON.parse(JSON.stringify(BannerLayout))
+    if(type === 'blocksPages')     newCont = JSON.parse(JSON.stringify(BlocksPagesLayout))
   
 
     newCont.id = uuid()
@@ -467,6 +472,19 @@ function SinglePage(props) {
               />
           )
         } 
+        if(items[key].type === 'blocksPages') { 
+          return(
+              <BlocksPagesElement
+                key={items[key].id} 
+                data={items[key]} 
+                swapContainer={swapContainer}
+                removeContainer={removeContainer}
+                reSaveItem={reSaveItem}
+                isFirst={orderFirst}
+                isLast={orderLast}
+              />
+          )
+        } 
         return false
       })
     }
@@ -507,7 +525,7 @@ function SinglePage(props) {
               aria-labelledby="draggable-dialog-title"
               onClose={handleClose} 
             > 
-                <DialogContent> 
+                <DialogContent classes={{root: classes.dialogContentUnstyle}}> 
                     <Draggable  handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'} >
                         <div className={classes.menu}>
                             <Typography 
@@ -524,11 +542,18 @@ function SinglePage(props) {
                                 <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('container') }}>
                                     Container
                                 </Button> 
+                              </Tooltip> 
+                            </Box> 
+                            <Box className={classes.boxMenuItem}> 
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Paper cart with links. Has be slider' placement='top'>
+                                <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('blocksPages') }}>
+                                    Blocks with Links
+                                </Button> 
                               </Tooltip>
                             </Box> 
 
                             <Divider style={{margin: '15px 0'}} />
-
+ 
                             <Typography variant='caption' component="h6" gutterBottom>
                               With form
                             </Typography>
@@ -594,7 +619,7 @@ function SinglePage(props) {
                               </Tooltip>
                             </Box>
                             <Box className={classes.boxMenuItem}>
-                              <Tooltip classes={{tooltip: classes.tooltip}} title='Simple slider with square images' placement='top'>
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Simple slider with square images. Has be blocks' placement='top'>
                                 <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('swiper') }}>
                                     Swiper
                                 </Button> 

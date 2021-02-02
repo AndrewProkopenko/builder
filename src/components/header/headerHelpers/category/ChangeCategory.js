@@ -4,8 +4,11 @@ import { Box , TextField, Tooltip, IconButton  } from '@material-ui/core'
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 const ChangeCategory = (props) => {
+    console.log('category title changer')
 
     const [value, setValue] = useState(props.item.title)
+
+    console.log(value)
  
     const handleSave = () => {
         props.handleUpdateCategory(value, props.item.id)

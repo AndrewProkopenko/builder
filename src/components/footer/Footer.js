@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
-import { makeStyles, Box, Typography, Container, IconButton, Tooltip } from '@material-ui/core'
+import { makeStyles, Box, Typography, Container, IconButton, Tooltip, darken } from '@material-ui/core'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 import CategoryContext from '../../context/headerContext/CategoryContext'
@@ -14,11 +14,17 @@ function Footer() {
 
     let backgroundFooter = settings.classes.backgroundColor
     let contrastFooter
+    let hoverActiveLinkColor
      
     const useStyles = makeStyles( (theme) => {
 
         backgroundFooter = getColorByPalette(theme, backgroundFooter) 
         contrastFooter = theme.palette.getContrastText(backgroundFooter)
+        hoverActiveLinkColor = darken(backgroundFooter, 0.3)
+
+        if(settings.classes.backgroundColor === 'paper' || settings.classes.backgroundColor === 'default') {  
+            hoverActiveLinkColor = theme.palette.primary.main 
+        } 
 
         return({ 
             footer: {
@@ -62,7 +68,7 @@ function Footer() {
             },  
             buttonToTop: {
                 '&:hover': {
-                    backgroundColor: theme.palette.primary.dark
+                    backgroundColor: hoverActiveLinkColor
                 }
             }
         })
