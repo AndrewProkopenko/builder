@@ -21,19 +21,21 @@ import {
     Modal,
     DialogContent,
     Divider,  
+    FormControlLabel, 
+    Switch, 
+    IconButton
 } from '@material-ui/core'
 
 import OpenWithIcon from '@material-ui/icons/OpenWith';
 
+import {DeleteOutline, InfoOutlined} from '@material-ui/icons'; 
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExpandLessOutlinedIcon from '@material-ui/icons/ExpandLessOutlined';
-import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
-import {DeleteOutline} from '@material-ui/icons';
+import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined'; 
 import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 
 import DumbComponent from "./DumbComponent"
-import AddItem from "./AddItem"
-import ChangeItem from "./ChangeItem" 
+import AddItem from "./AddItem" 
 
 import InputChange from '../../functions/InputChange';
 
@@ -44,12 +46,15 @@ function StyledComponent(props) {
 
     const [heading, setHeading] = React.useState(props.data.heading)  
  
+    const [isButton, setIsButton] = React.useState(props.data.isButton || false)
     const [textButton,  setTextButton] = React.useState(props.data.buttonText || '') 
 
     const [colorSelect,  setColorSelect] = React.useState(props.data.color || '')
     const [colorCustom, setColorCustom] = React.useState(props.data.color || '')
     const [rows, setRows] = React.useState(props.data.rows)
     const [tableRow, setTableRow] = React.useState(props.data.tableRow)
+
+    const [tableMinWidth, setTableMinWidth] = React.useState(props.data.tableMinWidth || 200 )
 
     const [visibleRows, setVisibleRows] = React.useState(props.data.visibleRows || 5)
     const [visibleBottonText, setVisibleBottonText] = React.useState(props.data.visibleBottonText || 'Show all')
@@ -69,6 +74,10 @@ function StyledComponent(props) {
         if(!isDisableBtn) handleSave()
         setOpen(false);
     };
+    const handleChange = () => {
+        setIsButton(!isButton)
+        setIsDisableBtn(false)
+    }
      
     const colorTheme = isNoThemeColor(props.data.color)
     React.useEffect(() => {
@@ -147,6 +156,8 @@ function StyledComponent(props) {
     const handleSave = () => {
         const newData = Object.assign({}, props.data)
         newData.heading = heading 
+        newData.tableMinWidth = tableMinWidth 
+        newData.isButton = isButton 
         newData.buttonText = textButton 
         newData.rows = rows 
         newData.tableRow = tableRow 
@@ -178,10 +189,15 @@ function StyledComponent(props) {
         newRow[index] = value
         setTableRow(newRow)
     }
-    const handleRowChange = (index, name, price) => {
-        const newRows = rows.slice()
+    const handleRowChangeName = (name, index) => {
+        const newRows = rows.slice() 
+        newRows[index].name = name 
 
-        newRows[index].name = name
+        setRows(newRows)
+        setIsDisableBtn(false); 
+    } 
+    const handleRowChangePrice = (price, index) => {
+        const newRows = rows.slice() 
         newRows[index].price = price
 
         setRows(newRows)
@@ -428,17 +444,50 @@ function StyledComponent(props) {
                                             direction='row'
                                         />  
                                     </Box>
+                                    <Box my={2} display={'flex'}>
+                                        <FormControlLabel
+                                            control={
+                                                < Switch checked = { isButton }
+                                                        onChange = { handleChange }
+                                                            name = "checkedB" 
+                                                            color = "primary" />
+                                            }
+                                            label="Add Modal Button"/> 
+                                            {
+                                                isButton && 
+                                                <Box flexGrow={1}> 
+                                                    <InputChange
+                                                        id={null} 
+                                                        fullWidth={true}
+                                                        type='text'
+                                                        size="small" 
+                                                        label="Text for Button"
+                                                        variant='outlined'
+                                                        value={textButton}
+                                                        setValue={setTextButton}
+                                                        setIsDisableBtn={setIsDisableBtn} 
+                                                    />    
+                                                </Box>
+                                            }
+                                    </Box>
 
-                                    <Box mt={3} mb={3}>
+                                    <Box my={3} display='flex' alignItems='center'>
+                                        <Box mr={1}> 
+                                            <Tooltip  title="The table will scroll horizontally with a smaller width" >
+                                                <IconButton className={classes.warningBtn} >
+                                                    <InfoOutlined/>
+                                                </IconButton>
+                                            </Tooltip>
+                                        </Box>
                                         <InputChange
                                             id={null} 
                                             fullWidth={true}
-                                            type='text'
+                                            type='number'
                                             size="small" 
-                                            label="Text Button"
+                                            label="Table Min Width"
                                             variant='outlined'
-                                            value={textButton}
-                                            setValue={setTextButton}
+                                            value={tableMinWidth}
+                                            setValue={setTableMinWidth}
                                             setIsDisableBtn={setIsDisableBtn} 
                                         />    
                                     </Box>
@@ -529,19 +578,30 @@ function StyledComponent(props) {
                                                             </ButtonGroup>
                                                         </Box>
 
-                                                        {/* <InputChange
-                                                            id={null}
-                                                            fullWidth={false}
-                                                            type='number'
+                                                        <InputChange
+                                                            id={index}
+                                                            fullWidth={true}
+                                                            type='text'
                                                             size="small" 
-                                                            label='Margin Top'
+                                                            label={`Table Row Name ${index + 1}`}
                                                             variant='outlined'
-                                                            value={marginTop}
-                                                            setValue={setMarginTop}
-                                                            setIsDisableBtn={setIsDisableBtn}
-                                                            direction='row'
-                                                        />   */}
-                                                        <ChangeItem handleRowChange={handleRowChange} item={item} index={index} />
+                                                            value={item.name}
+                                                            setValue={handleRowChangeName}
+                                                            setIsDisableBtn={setIsDisableBtn} 
+                                                        />  
+                                                        <Box mr={1} />
+                                                        <InputChange
+                                                            id={index}
+                                                            fullWidth={false}
+                                                            type='text'
+                                                            size="small" 
+                                                            label={`Table Row Price ${index + 1}`}
+                                                            variant='outlined'
+                                                            value={item.price}
+                                                            setValue={handleRowChangePrice}
+                                                            setIsDisableBtn={setIsDisableBtn} 
+                                                        />  
+                                                        {/* <ChangeItem handleRowChange={handleRowChange} item={item} index={index} /> */}
 
                                                     </Box>
                                                 )

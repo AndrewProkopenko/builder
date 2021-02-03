@@ -4,7 +4,7 @@ import { TextField } from '@material-ui/core'
  
 
 
-const InputChange = memo(({ id, fullWidth, multiline,  type, size, label, variant, value, setValue, setIsDisableBtn }) => {
+const InputChange = memo(({ id, fullWidth, required, multiline,  type, size, label, variant, value, setValue, setIsDisableBtn }) => {
 
    
     const [valueLocal, setValueLocal] = useState(value)   
@@ -33,6 +33,7 @@ const InputChange = memo(({ id, fullWidth, multiline,  type, size, label, varian
       
     return ( 
         <TextField
+            required={required}
             fullWidth={fullWidth}
             type={type}
             multiline={multiline}

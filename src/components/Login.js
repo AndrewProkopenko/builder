@@ -28,7 +28,7 @@ function Login() {
     
     const [isSubmit, setIsSubmit] = React.useState(false)
 
-    const [isDisableBtn, setIsDisableBtn] = React.useState(false) 
+    const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
     
     React.useEffect( () => {
         setIsLoading(false) 
@@ -61,9 +61,9 @@ function Login() {
       }));
     const classes = useStyles();
 
-    const disableCheck = () => { 
-        console.log(name, password)
-        if(name !== '') setIsDisableBtn(false)
+    const disableCheck = ({value1, value2}) => { 
+        console.log(value1, value2)
+        if(value1 !== '' && value2 !== '') setIsDisableBtn(false)
         else setIsDisableBtn(true)   
     }
 
@@ -80,7 +80,10 @@ function Login() {
             default: break;
         } 
         setError(null)
-        
+        disableCheck({
+            value1: value, 
+            value2: place === 'name' ? password : name
+        })
     } 
     const handleSubmit = (e) => {
         e.preventDefault() 
@@ -110,7 +113,7 @@ function Login() {
   
                 <div className={classes.paper}>
                     <Avatar className={classes.avatar}>
-                        { isSubmit ? <CircularProgress size={25} color={'#fff'}  /> : <LockOutlinedIcon /> }
+                        { isSubmit ? <CircularProgress size={25} style={{color: '#fff'}} /> : <LockOutlinedIcon /> }
                     </Avatar> 
                     <form className={classes.form} onSubmit={handleSubmit}>
                         <Box mb={2} >
@@ -124,7 +127,7 @@ function Login() {
                                 autoComplete='true'
                                 autoFocus
                                 value={name}
-                                onChange={  (e)=>{setName(e.target.value); disableCheck()} }
+                                onChange={  (e)=>{handleChange(e.target.value, 'name')} }
                             />
                         </Box>
                         <Box mb={2} >
@@ -137,7 +140,7 @@ function Login() {
                                 type="password"
                                 id="password" 
                                 value={password}
-                                onChange={  (e)=>{setPassword(e.target.value); disableCheck()} }
+                                onChange={  (e)=>{handleChange(e.target.value, 'password')} }
                             />
                         </Box>
                         {

@@ -53,6 +53,7 @@ function StyleChanger() {
         if(colorTheme) {  
             setSettingBackgroundSelect('custom')
         }
+        // eslint-disable-next-line
     }, [settings])
      
     const handleOpen = () => {  

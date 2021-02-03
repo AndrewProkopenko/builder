@@ -10,7 +10,7 @@ import {
     Paper, 
     Button, 
     Container,
-    Box
+    Box    
 } from '@material-ui/core'; 
 
 import ModalContext from '../../../context/modalContext/ModalContext'
@@ -19,6 +19,8 @@ import {getColorByPalette} from '../../functions/colorChanger/ColorCalculation'
  
 export default function CustomizedTables(props) {
     let mainColor = props.data.color
+    const tableMinWidth = props.data.tableMinWidth
+    const isButton = props.data.isButton
     const buttonText = props.data.buttonText
     const heading = props.data.heading
     const rows = props.data.rows
@@ -27,8 +29,8 @@ export default function CustomizedTables(props) {
     const visibleBottonText = props.data.visibleBottonText
     const visibleBottonTextClick = props.data.visibleBottonTextClick
      
-    const isBotton = rows.length - visibleRows > 0 ? true : false  
-    const [isBottonClick, setIsBottonClick] = useState(false)
+    const isButtonShowMore = rows.length - visibleRows > 0 ? true : false  
+    const [isButtonClick, setIsButtonClick] = useState(false)
 
     const marginTop = props.data.marginTop  
     const marginBottom = props.data.marginBottom  
@@ -45,8 +47,8 @@ export default function CustomizedTables(props) {
         mainColor = getColorByPalette(theme, mainColor)
  
         return ({
-            table: {
-                minWidth: 200,
+            table: { 
+                minWidth: tableMinWidth,
             },
             
             tableCell: {
@@ -101,28 +103,29 @@ export default function CustomizedTables(props) {
         handleOpen(target)
     }
     const handleVisible = () => {
-        setIsBottonClick(!isBottonClick)
+        setIsButtonClick(!isButtonClick)
     }
 
     const renderRows = () => {  
-        if(!isBottonClick)
-        return (
-            rows.map((row, index) => {
-                if(index < visibleRows)
-                return (
-                    OnceRow(row, index)
-                )
-                return false
-            })
-        )
-        if(isBottonClick)
-        return (
-            rows.map((row, index) => { 
-                return (
-                    OnceRow(row, index)
-                )
-            })
-        )
+        if(isButtonClick)
+            return (
+                rows.map((row, index) => { 
+                    return (
+                        OnceRow(row, index)
+                    )
+                })
+            )
+        else
+            return (
+                rows.map((row, index) => {
+                    if(index < visibleRows)
+                    return (
+                        OnceRow(row, index)
+                    )
+                    return false
+                })
+            )
+       
     }
     const OnceRow = (row, index) => (
         <StyledTableRow key={index} hover={true}  >
@@ -132,24 +135,27 @@ export default function CustomizedTables(props) {
             <TableCell align="center" className={classes.tableCell}>
                 {row.price}
             </TableCell> 
-            <TableCell align="right" className={`${classes.tableButtonCell} ${classes.tableCell}`}> 
-                <Button 
-                    variant='contained'   
-                    className={classes.tableButton}
-                    onClick={() => { handleOpenModal(row.name) }}
-                >
-                    { buttonText }
-                </Button>
-            </TableCell>
-        </StyledTableRow>
+            {
+                isButton && 
+                <TableCell align="right" className={`${classes.tableButtonCell} ${classes.tableCell}`}> 
+                    <Button 
+                        variant='contained'   
+                        className={classes.tableButton}
+                        onClick={() => { handleOpenModal(row.name) }}
+                    >
+                        { buttonText }
+                    </Button>
+                </TableCell>
+            }
+        </StyledTableRow> 
     )
-    const renderBotton = () => {
+    const renderButton = () => {
         return (  
             <Box mt={2} display='flex' justifyContent='center'>
                 <Button
                     onClick={handleVisible}
                 >
-                    { isBottonClick ? visibleBottonTextClick  : visibleBottonText }
+                    { isButtonClick ? visibleBottonTextClick  : visibleBottonText }
                 </Button> 
             </Box>
         )
@@ -161,8 +167,9 @@ export default function CustomizedTables(props) {
                 <h3> { heading } </h3> 
             }
             <TableContainer component={Paper}>
+                
                 <Table className={classes.table} aria-label="customized table">
-                    <TableHead>
+                    <TableHead> 
                         <TableRow>
                             {tableRow.map((item, index) => ( 
                                 <TableCell 
@@ -173,19 +180,23 @@ export default function CustomizedTables(props) {
                                     {item}
                                 </TableCell>
                             ))} 
-                            <TableCell align="right" className={`${classes.tableHeader} ${classes.tableCell}` } ></TableCell>
+                            {
+                                isButton &&
+                                <TableCell align="right" className={`${classes.tableHeader} ${classes.tableCell}` } ></TableCell>
+                            }
                         </TableRow>
                     </TableHead>
-                    <TableBody>
-                        {
-                            renderRows()
-                        }
-                    </TableBody>
+                    
+                        <TableBody>
+                            {
+                                renderRows()
+                            }
+                        </TableBody> 
                 </Table>
             </TableContainer>
             {
-                isBotton &&
-                renderBotton()
+                isButtonShowMore &&
+                renderButton()
             }
         </Container>
     );

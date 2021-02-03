@@ -58,6 +58,7 @@ function RequestsChanger() {
         if(colorTheme) {  
             setColorSelect('custom')
         }  
+        // eslint-disable-next-line
     }, [modalSettings.colorButton])
     
 

@@ -72,7 +72,8 @@ function DumbComponent(props) {
                     color: theme.palette.text.primary,
                 }, 
                 '&:focus': {
-                    borderColor: colorFocusInput
+                    borderColor: colorFocusInput, 
+                    background: fade(colorFocusInput, 0.07), 
                 },
                 "&:hover": {
                     background: fade(color, 0.07), 

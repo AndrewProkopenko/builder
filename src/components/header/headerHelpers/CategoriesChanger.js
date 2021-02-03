@@ -6,9 +6,7 @@ import LibraryContext from '../../../context/libraryContext/LibraryContext'
 
 import StylesChangers from '../../../styles/changers'  
 
-import AddCategory from './category/AddCategory'
-import AddPage from './category/AddPage'
-import ChangeCategory from './category/ChangeCategory'
+import AddItem from './category/AddItem' 
 import ChangePage from './category/ChangePage'
 
 import { 
@@ -23,7 +21,8 @@ import {
     makeStyles,  
     ButtonGroup, 
     Grid,
-    fade,  
+    fade,
+    TextField,  
 } from '@material-ui/core' 
   
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -33,7 +32,8 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import ExpandLessOutlinedIcon from '@material-ui/icons/ExpandLessOutlined';
 import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
 import InfoOutlined from '@material-ui/icons/InfoOutlined';
- 
+
+import InputChange from '../../functions/InputChange';
 
 import Draggable from 'react-draggable';  
 
@@ -372,7 +372,7 @@ function CategoriesChanger() {
                             </Typography>
                             <Grid container direction="row" spacing={1}>
                                 <Grid item xs={4} >
-                                    <AddCategory addCategory={addCategory} />
+                                    <AddItem title={'Category'} id={null} addItem={addCategory} />
                                 </Grid>
                                 <Grid item xs={8} >
                                     {
@@ -472,9 +472,27 @@ function CategoriesChanger() {
 
                                                             
                                                         </AccordionSummary>
-                                                        <Box p={2}  > 
-                                                            
-                                                            <ChangeCategory item={item} handleUpdateCategory={handleUpdateCategory}  />
+                                                        <Box p={2}  >  
+                                                            <InputChange
+                                                                id={item.id}
+                                                                fullWidth={true}
+                                                                required={true}
+                                                                type='text'
+                                                                size="small" 
+                                                                label="Category title"
+                                                                variant='filled'
+                                                                value={item.title}
+                                                                setValue={handleUpdateCategory}
+                                                                setIsDisableBtn={setIsDisableBtn} 
+                                                            /> 
+                                                            <TextField
+                                                                type='text' 
+                                                                label="Category slug (read only)"
+                                                                fullWidth
+                                                                variant='filled'
+                                                                value={item.slug} 
+                                                                disabled={true} 
+                                                            /> 
 
                                                             <ul className={classes.listPages}>  
                                                                 <Typography className={classes.titlePages}>
@@ -545,7 +563,10 @@ function CategoriesChanger() {
                                                                 }
                                                                 <li>
 
-                                                                    <AddPage addPage={addPage} id={item.id} />    
+                                                                    <Box mt={2} ml={'auto'} maxWidth={300}>
+                                                                        <Box mb={1} ><Typography variant='caption' gutterBottom >Add new page</Typography></Box>
+                                                                        <AddItem title={'Page'} id={item.id} addItem={addPage} />
+                                                                    </Box> 
                                                                  
                                                                 </li>
                                                             </ul>

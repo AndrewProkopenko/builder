@@ -155,19 +155,13 @@ export default function TransitionsModal() {
     setFormName('')
     closeModal()
   } 
-
-  // const openModal = () => {
-  //   handleOpen('')
-  // }
+ 
   const closeModal = () => {
     handleClose()
   }
 
   return (
-    <React.Fragment>
-      {/* <button type="button" onClick={ openModal }>
-        react-transition-group
-      </button> */}
+    <React.Fragment> 
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

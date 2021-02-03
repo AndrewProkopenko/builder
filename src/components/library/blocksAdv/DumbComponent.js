@@ -1,6 +1,4 @@
-import React, {useState} from 'react'
-  
-import { NavLink } from "react-router-dom";
+import React, {useState} from 'react' 
 
 import { makeStyles, Typography, Container, Box } from '@material-ui/core'  
 
@@ -23,6 +21,8 @@ function DumbComponent(props) {
     const [isSwiper, setIsSwiper] = useState(true) 
     
     const heading = props.data.heading  
+    const isButton = props.data.isButton  
+    const targetButton = props.data.targetButton 
     let color = props.data.color
 
     const slidesForViewDesktop = props.data.slidesPerView 
@@ -55,7 +55,7 @@ function DumbComponent(props) {
                     },
                     [theme.breakpoints.down('sm')]: { 
                         marginTop: 0,
-                        left: 0,
+                        left: -5,
                         "&:after": { 
                             fontSize: `${14}px !important`
                         },
@@ -68,7 +68,7 @@ function DumbComponent(props) {
                     },
                     [theme.breakpoints.down('sm')]: { 
                         marginTop: 0,  
-                        right: 0,
+                        right: -5,
                         "&:after": { 
                             fontSize: `${14}px !important`
                         },
@@ -80,7 +80,7 @@ function DumbComponent(props) {
                     [theme.breakpoints.down('sm')]: { 
                         paddingLeft: 0,
                         paddingRight: 0,
-                        paddingTop: 40
+                        paddingTop: 30
                     }
                 },  
             },
@@ -110,6 +110,8 @@ function DumbComponent(props) {
                 boxShadow: theme.shadows['10'], 
                 borderRadius: theme.shape.borderRadius, 
                 transition: `${theme.transitions.duration.standard}ms ${theme.transitions.easing.easeInOut}`,
+
+                cursor: isButton ? 'pointer' : 'default', 
                 
                 [theme.breakpoints.up('sm')]: {
                     overflow: 'hidden', 
@@ -139,7 +141,7 @@ function DumbComponent(props) {
                     paddingTop: 25, 
                     paddingLeft: 10, 
                     paddingRight: 10, 
-                    paddingBottom: 20, 
+                    paddingBottom: 15, 
                     '& $slideImg': {
                         position: 'absolute', 
                         top: -25, 
@@ -173,7 +175,7 @@ function DumbComponent(props) {
                     top: 0, 
                     left: 0,  
                     content: "''", 
-                    width: '70', 
+                    width: 70, 
                     height: 70, 
                     borderRadius: '50%',  
                     backgroundColor: color, 
@@ -228,13 +230,29 @@ function DumbComponent(props) {
                 '& $slideImg': {
                     maxWidth: '100%',  
                 },
-                [theme.breakpoints.down('sm')]: {
+                [theme.breakpoints.down('xs')]: {
                     '& $slide': {
                         marginLeft: 10, 
                         marginRight: 10, 
                         marginBottom: 20, 
-                        // maxWidth: '100%',   
-                    }
+                        maxWidth: 400,   
+                    },
+                    '& $slideBox': {
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        flexDirection: 'row', 
+                        padding: 10
+                    },
+                    '& $slideImg': {
+                        position: 'relative', 
+                        top: 'auto',
+                        left: 'auto',
+                        minWidth: 50
+                    },
+                    '& $slideTitle': {
+                        marginTop: 0, 
+                        marginLeft: 8
+                    },
                 }
             }
         })
@@ -284,7 +302,7 @@ function DumbComponent(props) {
     }, []);
   
     const handleSlideClick = () => { 
-        handleOpen('slide.targetButton') 
+        if(isButton) handleOpen(targetButton) 
     }
 
     const renderSlide = (slide, key) => (

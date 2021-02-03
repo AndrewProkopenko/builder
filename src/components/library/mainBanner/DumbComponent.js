@@ -50,7 +50,7 @@ function DumbComponent(props) {
                 transition: `${theme.transitions.easing.easeInOut} ${theme.transitions.duration.shorter}ms`, 
                 "&:focus": {
                     borderColor: colorFocusInput, 
-                    background: fade(color, 0.07), 
+                    background: fade(colorFocusInput, 0.07), 
                 }, 
                 "&:hover": {
                     background: fade(color, 0.07), 

@@ -53,7 +53,7 @@ function DumbComponent(props) {
                     },
                     [theme.breakpoints.down('sm')]: { 
                         marginTop: 0,
-                        left: 0,
+                        left: -5,
                         "&:after": { 
                             fontSize: `${14}px !important`
                         },
@@ -66,7 +66,7 @@ function DumbComponent(props) {
                     },
                     [theme.breakpoints.down('sm')]: { 
                         marginTop: 0,  
-                        right: 0,
+                        right: -5,
                         "&:after": { 
                             fontSize: `${14}px !important`
                         },
@@ -78,7 +78,7 @@ function DumbComponent(props) {
                     [theme.breakpoints.down('sm')]: { 
                         paddingLeft: 0,
                         paddingRight: 0,
-                        paddingTop: 40
+                        paddingTop: 30
                     }
                 },  
             },
@@ -135,7 +135,7 @@ function DumbComponent(props) {
                 
                 [theme.breakpoints.down('xs')]: {
                     position: 'relative',  
-                    paddingTop: 35, 
+                    paddingTop: 25, 
                     paddingLeft: 10, 
                     paddingRight: 10, 
                     paddingBottom: 10, 

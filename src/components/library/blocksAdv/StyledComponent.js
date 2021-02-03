@@ -22,6 +22,8 @@ import {
     makeStyles,
     Modal,
     DialogContent,   
+    FormControlLabel, 
+    Switch
 } from '@material-ui/core'
 
 import OpenWithIcon from '@material-ui/icons/OpenWith';
@@ -56,6 +58,9 @@ function StyledComponent(props) {
 
     const [colorSelect,  setColorSelect] = React.useState(props.data.color || 'primary')
     const [colorCustom, setColorCustom] = React.useState(props.data.color || 'primary')
+    
+    const [isButton, setIsButton] = React.useState(props.data.isButton || false)
+    const [targetButton, setTargetButton] = React.useState(props.data.targetButton || '')
 
     const [marginTop, setMarginTop] = React.useState(props.data.marginTop || 50)
     const [marginBottom, setMarginBottom] = React.useState(props.data.marginBottom || 50)
@@ -71,6 +76,10 @@ function StyledComponent(props) {
         if(!isDisableBtn) handleSave()
         setOpen(false);
     }; 
+    const handleChange = () => {
+        setIsButton(!isButton)
+        setIsDisableBtn(false)
+    } 
 
     const colorTheme = isNoThemeColor(props.data.color)
     React.useEffect(() => {
@@ -191,6 +200,28 @@ function StyledComponent(props) {
             tooltipReload: {
                 fontSize: 14, 
                 backgroundColor: theme.palette.warning.main
+            },
+            reloadSettings: {
+                display: "flex", 
+                alignItems: 'center', 
+                padding: theme.spacing(1), 
+                border: `1px solid ${theme.palette.divider}`, 
+                '&:hover': {
+                    borderColor: theme.palette.warning.light,  
+                    '& $warningBtn': {
+                        backgroundColor: theme.palette.warning.main,   
+                        '& svg': {
+                            fill: theme.palette.getContrastText(theme.palette.warning.main)
+                        }
+                    }
+                }
+                 
+            },
+            warningBtn: {
+                backgroundColor: theme.palette.divider, 
+                '&:hover': {
+                    backgroundColor: theme.palette.warning.light,
+                }
             }
         })
     })
@@ -201,6 +232,8 @@ function StyledComponent(props) {
     const handleSave = () => {
         const newData = Object.assign({}, props.data)
         newData.heading = heading   
+        newData.isButton = isButton   
+        newData.targetButton = targetButton   
         newData.slidesPerView = slidesPerView   
         newData.slidesPerViewMobile = slidesPerViewMobile   
         newData.slidesPerViewTablet = slidesPerViewTablet   
@@ -400,15 +433,7 @@ function StyledComponent(props) {
                         <Box my={1} className={classes.dumbSlideTitle}>  
                              { item.title }
                         </Box>
-                        {
-                            item.isButton && 
-                            <Button 
-                                color={'default'}
-                                variant={'contained'}
-                            >
-                                {item.textButton}
-                            </Button> 
-                        }
+                         
                     </Box>
                 </Box>
                 
@@ -419,10 +444,10 @@ function StyledComponent(props) {
      
     return (
         <div className={classes.containerWrapper}>
-            <Tooltip  title={`Swiper margin top`}  placement={'top'}>
+            <Tooltip  title={`Advantages margin top`}  placement={'top'}>
                 <div className={classes.mtView}></div>
             </Tooltip>
-            <Tooltip  title={`Swiper margin bottom`}  placement={'top'}>
+            <Tooltip  title={`Advantages margin bottom`}  placement={'top'}>
                 <div className={classes.mbView}></div>
             </Tooltip>
             <Box style={{
@@ -431,7 +456,7 @@ function StyledComponent(props) {
                 <Box className={classes.btnDrawerStyle}>
                     <Box display="flex" flexDirection="column">
                         <Box mb={1}>
-                            <Tooltip title='Swiper Settings' placement='right'>
+                            <Tooltip title='Advantages Settings' placement='right'>
                                 <Button
                                     onClick={handleOpen}
                                     size='medium'
@@ -522,7 +547,7 @@ function StyledComponent(props) {
                                         className={classes.menuTitle}
                                         id="draggable-dialog-title"
                                     >
-                                        { !isDisableBtn && "Close to save - " } Settings Swiper
+                                        { !isDisableBtn && "Close to save - " } Settings Advantages
                                         <OpenWithIcon/>
                                     </Typography>
                                     <Box mt={2}>
@@ -539,6 +564,32 @@ function StyledComponent(props) {
                                             direction='row'
                                         />
                                     </Box>
+                                    <Box display='flex' mt={2} mb={2}>
+                                        <FormControlLabel
+                                            control={
+                                                < Switch checked = { isButton }
+                                                        onChange = { handleChange }
+                                                            name = "checkedB" 
+                                                            color = "primary" />
+                                            }
+                                            label="Open Modal by click"/> 
+                                            {
+                                                isButton && 
+                                                <Box flexGrow={1} > 
+                                                    <InputChange
+                                                        id={null} 
+                                                        fullWidth={true}
+                                                        type='text'
+                                                        size="small" 
+                                                        label="Target for Button"
+                                                        variant='outlined'
+                                                        value={targetButton}
+                                                        setValue={setTargetButton}
+                                                        setIsDisableBtn={setIsDisableBtn} 
+                                                    />   
+                                                </Box>
+                                            }
+                                    </Box> 
                                     <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (<600px)' placement={'top'}>
                                         <Box className={`${classes.responseValues} ${classes.responseMobile}`}>
                                             <PhoneIphoneIcon/>
@@ -578,152 +629,159 @@ function StyledComponent(props) {
                                             direction='row'
                                         />  
                                     </Box>
-                                     
-                                    <Box mb={2} display='flex'> 
-                                        <Box mr={1}>
-                                            <InputChange
-                                                id={null}
-                                                fullWidth={false}
-                                                type='number'
-                                                size="small" 
-                                                label="Slides Per View Desktop"
-                                                variant='outlined'
-                                                value={slidesPerView}
-                                                setValue={setSlidesPerView}
-                                                setIsDisableBtn={setIsDisableBtn}
-                                                direction='row'
-                                            />  
-                                        </Box>
-                                        <Box mr={1}>
-                                            <InputChange
-                                                id={null}
-                                                fullWidth={false}
-                                                type='number'
-                                                size="small" 
-                                                label="Slides Per View Tablet"
-                                                variant='outlined'
-                                                value={slidesPerViewTablet}
-                                                setValue={setSlidesPerViewTablet}
-                                                setIsDisableBtn={setIsDisableBtn}
-                                                direction='row'
-                                            />   
-                                        </Box>
-                                        <Box mr={1}>
-                                            <InputChange
-                                                id={null}
-                                                fullWidth={false}
-                                                type='number'
-                                                size="small" 
-                                                label="Slides Per View Mobile"
-                                                variant='outlined'
-                                                value={slidesPerViewMobile}
-                                                setValue={setSlidesPerViewMobile}
-                                                setIsDisableBtn={setIsDisableBtn}
-                                                direction='row'
-                                            />   
-                                        </Box>
-                                        
-                                    </Box>
-                                    <Box mb={2} display='flex'>
-                                        <Box mr={1}>
-                                            <InputChange
-                                                id={null}
-                                                fullWidth={false}
-                                                type='number'
-                                                size="small" 
-                                                label="Space Between"
-                                                variant='outlined'
-                                                value={spaceBetween}
-                                                setValue={setSpaceBetween}
-                                                setIsDisableBtn={setIsDisableBtn}
-                                                direction='row'
-                                            /> 
-                                        </Box>
-                                        <Box>
-                                            <InputChange
-                                                id={null}
-                                                fullWidth={false}
-                                                type='number'
-                                                size="small" 
-                                                label="Speed (ms)"
-                                                variant='outlined'
-                                                value={speed}
-                                                setValue={setSpeed}
-                                                setIsDisableBtn={setIsDisableBtn}
-                                                direction='row'
-                                            />  
-                                        </Box>
-                                    </Box>
 
-                                    <Box my={2} display='flex'>
+                                    <Box className={classes.reloadSettings}> 
                                         <Box mr={1}> 
-                                            <Tooltip classes={{tooltip: classes.tooltipReload}} title="After change Loop, Slides Per View, Space Between settings you need to reloading page" >
-                                                <IconButton>
+                                            <Tooltip classes={{tooltip: classes.tooltipReload}} title="After change this settings you need to reloading page" >
+                                                <IconButton className={classes.warningBtn} >
                                                     <InfoOutlined/>
                                                 </IconButton>
                                             </Tooltip>
                                         </Box>
-                                        <Box mr={1}>
-                                            <FormControl 
-                                                variant='filled' 
-                                                size='small'    
-                                                style={{minWidth: 200}}
-                                            >
-                                                <InputLabel id="align-select-label">Loop</InputLabel>
-                                                <Select
-                                                    labelId="align-select-label"
-                                                    id="align-select"
-                                                    value={loop}
-                                                    onChange={(e) => {setIsDisableBtn(false); setLoop((e.target.value)) }}
-                                                >
-                                                    <MenuItem value={true}>True</MenuItem>
-                                                    <MenuItem value={false}>False</MenuItem> 
-                                                </Select>
-                                            </FormControl>
-                                        </Box>
-                                        <Box mr={1}>
-                                            <FormControl 
-                                                variant='filled' 
-                                                size='small'   
-                                                style={{minWidth: 200}} 
-                                            >
-                                                <InputLabel id="align-select-label">Free Mode</InputLabel>
-                                                <Select
-                                                    labelId="align-select-label"
-                                                    id="align-select"
-                                                    value={freeMode}
-                                                    onChange={(e) => {setIsDisableBtn(false); setFreeMode((e.target.value)) }}
-                                                >
-                                                    <MenuItem value={true}>True</MenuItem>
-                                                    <MenuItem value={false}>False</MenuItem> 
-                                                </Select>
-                                            </FormControl>
-                                        </Box>
+                                        
                                         <Box>
-                                            <FormControl 
-                                                variant='filled' 
-                                                size='small'    
-                                            >
-                                                <InputLabel id="maxWidth-style-label">Max-Width for Container</InputLabel>
-                                                <Select
-                                                    labelId="maxWidth-label"
-                                                    id="maxWidth-style"
-                                                    value={maxWidthContainer}
-                                                    style={{minWidth: 180}}
-                                                    onChange={(e) => {setIsDisableBtn(false); setMaxWidthContainer(e.target.value) }}
-                                                >
-                                                    <MenuItem value={false}>False</MenuItem>
-                                                    <MenuItem value={'xl'}>xl - 1920 </MenuItem> 
-                                                    <MenuItem value={'lg'}>lg - 1280 </MenuItem> 
-                                                    <MenuItem value={'md'}>md - 960 </MenuItem> 
-                                                    <MenuItem value={'sm'}>sm - 600 </MenuItem> 
-                                                    <MenuItem value={'xs'}>xs - 0 </MenuItem> 
-                                                </Select>
-                                            </FormControl>
+                                                
+                                            <Box my={2} display='flex'> 
+                                                <Box mr={1}>
+                                                    <InputChange
+                                                        id={null}
+                                                        fullWidth={false}
+                                                        type='number'
+                                                        size="small" 
+                                                        label="Slides Per View Desktop"
+                                                        variant='outlined'
+                                                        value={slidesPerView}
+                                                        setValue={setSlidesPerView}
+                                                        setIsDisableBtn={setIsDisableBtn}
+                                                        direction='row'
+                                                    />  
+                                                </Box>
+                                                <Box mr={1}>
+                                                    <InputChange
+                                                        id={null}
+                                                        fullWidth={false}
+                                                        type='number'
+                                                        size="small" 
+                                                        label="Slides Per View Tablet"
+                                                        variant='outlined'
+                                                        value={slidesPerViewTablet}
+                                                        setValue={setSlidesPerViewTablet}
+                                                        setIsDisableBtn={setIsDisableBtn}
+                                                        direction='row'
+                                                    />   
+                                                </Box>
+                                                <Box mr={1}>
+                                                    <InputChange
+                                                        id={null}
+                                                        fullWidth={false}
+                                                        type='number'
+                                                        size="small" 
+                                                        label="Slides Per View Mobile"
+                                                        variant='outlined'
+                                                        value={slidesPerViewMobile}
+                                                        setValue={setSlidesPerViewMobile}
+                                                        setIsDisableBtn={setIsDisableBtn}
+                                                        direction='row'
+                                                    />   
+                                                </Box>
+                                                
+                                            </Box>
+                                            <Box mb={2} display='flex'>
+                                                <Box mr={1}>
+                                                    <InputChange
+                                                        id={null}
+                                                        fullWidth={false}
+                                                        type='number'
+                                                        size="small" 
+                                                        label="Space Between"
+                                                        variant='outlined'
+                                                        value={spaceBetween}
+                                                        setValue={setSpaceBetween}
+                                                        setIsDisableBtn={setIsDisableBtn}
+                                                        direction='row'
+                                                    /> 
+                                                </Box>
+                                                <Box>
+                                                    <InputChange
+                                                        id={null}
+                                                        fullWidth={false}
+                                                        type='number'
+                                                        size="small" 
+                                                        label="Speed (ms)"
+                                                        variant='outlined'
+                                                        value={speed}
+                                                        setValue={setSpeed}
+                                                        setIsDisableBtn={setIsDisableBtn}
+                                                        direction='row'
+                                                    />  
+                                                </Box>
+                                            </Box>
+
+                                            <Box mt={2} mb={1} display='flex'>
+                                                
+                                                <Box mr={1}>
+                                                    <FormControl 
+                                                        variant='filled' 
+                                                        size='small'    
+                                                        style={{minWidth: 200}}
+                                                    >
+                                                        <InputLabel id="align-select-label">Loop</InputLabel>
+                                                        <Select
+                                                            labelId="align-select-label"
+                                                            id="align-select"
+                                                            value={loop}
+                                                            onChange={(e) => {setIsDisableBtn(false); setLoop((e.target.value)) }}
+                                                        >
+                                                            <MenuItem value={true}>True</MenuItem>
+                                                            <MenuItem value={false}>False</MenuItem> 
+                                                        </Select>
+                                                    </FormControl>
+                                                </Box>
+                                                <Box mr={1}>
+                                                    <FormControl 
+                                                        variant='filled' 
+                                                        size='small'   
+                                                        style={{minWidth: 200}} 
+                                                    >
+                                                        <InputLabel id="align-select-label">Free Mode</InputLabel>
+                                                        <Select
+                                                            labelId="align-select-label"
+                                                            id="align-select"
+                                                            value={freeMode}
+                                                            onChange={(e) => {setIsDisableBtn(false); setFreeMode((e.target.value)) }}
+                                                        >
+                                                            <MenuItem value={true}>True</MenuItem>
+                                                            <MenuItem value={false}>False</MenuItem> 
+                                                        </Select>
+                                                    </FormControl>
+                                                </Box>
+                                                <Box>
+                                                    <FormControl 
+                                                        variant='filled' 
+                                                        size='small'    
+                                                    >
+                                                        <InputLabel id="maxWidth-style-label">Max-Width for Container</InputLabel>
+                                                        <Select
+                                                            labelId="maxWidth-label"
+                                                            id="maxWidth-style"
+                                                            value={maxWidthContainer}
+                                                            style={{minWidth: 180}}
+                                                            onChange={(e) => {setIsDisableBtn(false); setMaxWidthContainer(e.target.value) }}
+                                                        >
+                                                            <MenuItem value={false}>False</MenuItem>
+                                                            <MenuItem value={'xl'}>xl - 1920 </MenuItem> 
+                                                            <MenuItem value={'lg'}>lg - 1280 </MenuItem> 
+                                                            <MenuItem value={'md'}>md - 960 </MenuItem> 
+                                                            <MenuItem value={'sm'}>sm - 600 </MenuItem> 
+                                                            <MenuItem value={'xs'}>xs - 0 </MenuItem> 
+                                                        </Select>
+                                                    </FormControl>
+                                                </Box>
+
+                                            </Box>
                                         </Box>
 
                                     </Box>
-
                                      
                                     <Box mt={2} display="flex" >
                                         <ColorSelecter

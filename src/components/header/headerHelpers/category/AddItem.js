@@ -11,18 +11,21 @@ import {
 import InfoOutlined from '@material-ui/icons/InfoOutlined';
 
 
-const AddCategory = (props) => {
+const AddItem = (props) => {
 
     
-    const [newCategoryTitle, setNewCategoryTitle] = React.useState('')
-    const [newCategorySlug, setNewCategorySlug] = React.useState('')
+    const [newItemTitle, setNewItemTitle] = React.useState('')
+    const [newItemSlug, setNewItemSlug] = React.useState('')
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        props.addCategory(newCategoryTitle, newCategorySlug)
         
-        setNewCategoryTitle('') 
-        setNewCategorySlug('')
+        if(props.id !== null ) props.addItem(newItemTitle, newItemSlug, props.id)
+        else props.addItem(newItemTitle, newItemSlug)
+        
+        
+        setNewItemTitle('') 
+        setNewItemSlug('')
     }
     
     return (
@@ -32,20 +35,20 @@ const AddCategory = (props) => {
                     <TextField
                         required
                         fullWidth
-                        label="Category title" 
+                        label={`${props.title} title`} 
                         variant="outlined" 
-                        value={newCategoryTitle}
-                        onChange={(e) => { setNewCategoryTitle(e.target.value) }}
+                        value={newItemTitle}
+                        onChange={(e) => { setNewItemTitle(e.target.value) }}
                     />
                 </Box>
                 <Box mb={1} style={{position: 'relative'}}>
                     <TextField
                         required
                         fullWidth
-                        label="Category slug" 
+                        label={`${props.title} slug`} 
                         variant="outlined" 
-                        value={newCategorySlug}
-                        onChange={(e) => { setNewCategorySlug( e.target.value)}}
+                        value={newItemSlug}
+                        onChange={(e) => { setNewItemSlug( e.target.value)}}
                             
                     />
                     <Tooltip title="You can't rewrite slug in future" placement='left'  >
@@ -61,7 +64,7 @@ const AddCategory = (props) => {
                         variant="contained"
                         fullWidth
                     >
-                        Add New Category
+                        Add New {props.title}
                     </Button> 
                 </Box>
             </FormGroup>
@@ -70,4 +73,4 @@ const AddCategory = (props) => {
     )
 }
 
-export default AddCategory
+export default AddItem
