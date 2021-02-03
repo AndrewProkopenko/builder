@@ -3,37 +3,24 @@ import React from 'react'
 import {  
     Button,  
     TextField,  
-    Box,  
-    Typography, 
-    FormControl, 
-    InputLabel, 
-    Select, 
+    Box,   
     makeStyles
 } from '@material-ui/core'
-
-import SelectPage from '../../functions/SelectPage'
+ 
    
 
 const AddItem = (props) => {
      
     const [newSvg, setNewSvg] = React.useState('') 
-    const [idActive, setIdActive] = React.useState(null) 
-    const [activePage, setActivePage] = React.useState({}) 
- 
+    const [newTitle, setNewTitle] = React.useState('') 
+    
     const handleSubmit = (e) => { 
         e.preventDefault()
 
-        props.addSlide(newSvg, activePage)
+        props.addSlide(newSvg, newTitle)
         setNewSvg('') 
-        setIdActive('')
-        setActivePage({})
-    }
-    function handleChangeUrl(selectedPage) {  
-     
-        setIdActive(selectedPage.id)
-        setActivePage(selectedPage)
-      
-    }
+        setNewTitle('') 
+    } 
 
     const useStyles = makeStyles((theme) => { 
 
@@ -54,18 +41,29 @@ const AddItem = (props) => {
              
             
             <Box my={1} maxWidth={300} >
-                <TextField 
-                    fullWidth
-                    type='text'
-                    size="small" 
-                    label='Set Svg'
-                    variant="outlined"
-                    value={newSvg}
-                    onChange={(e) => { setNewSvg(e.target.value) }}
-                />
-                <Box my={1}> 
-                    <SelectPage value={idActive} setValue={handleChangeUrl} />
-                </Box> 
+                <Box my={1}>
+                    <TextField 
+                        fullWidth
+                        type='text'
+                        size="small" 
+                        label='Set Title'
+                        variant="outlined"
+                        value={newTitle}
+                        onChange={(e) => { setNewTitle(e.target.value) }}
+                    /> 
+                </Box>
+                <Box my={1}>
+                    <TextField 
+                        fullWidth
+                        type='text'
+                        size="small" 
+                        label='Set Svg'
+                        variant="outlined"
+                        value={newSvg}
+                        onChange={(e) => { setNewSvg(e.target.value) }}
+                    /> 
+                </Box>
+                
                 <Box my={1}>
                     <Button 
                         variant="contained"

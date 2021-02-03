@@ -38,13 +38,11 @@ import DumbComponent from "./DumbComponent"
 
 import AddItem from './AddItem' 
 import InputChange from '../../functions/InputChange';
- 
-import CategoryContext  from '../../../context/headerContext/CategoryContext'
+  
+import SelectPage from '../../functions/SelectPage';
 
 function StyledComponent(props) {
-  
-    const { categories } = React.useContext(CategoryContext)
-
+    
     const [isDisableBtn, setIsDisableBtn] = React.useState(true)
     const [open, setOpen] = React.useState(false)
   
@@ -245,32 +243,11 @@ function StyledComponent(props) {
         setIsDisableBtn(false)
     }
      
-    const handleChangeUrl = (id, index) => {  
+    const handleChangeUrl = (activePage, index) => {  
         let newSlides = slides.slice()
- 
-        let activeItem
-        categories.forEach( item => {
-            if(item.id === id) activeItem = item
-            else {
-                if(item.pages.length > 0) {
-                    item.pages.forEach(innerItem => {
-                        if(innerItem.id === id) {
-                            activeItem = innerItem
-                            activeItem.categorySlug = item.slug
-                        }
-                    })
-                }
-            }
-        })
- 
-        console.log(activeItem)
-
-        if(activeItem.type === 'category') newSlides[index].url = activeItem.slug
-        if(activeItem.type === 'page') newSlides[index].url = `${activeItem.categorySlug}/${activeItem.slug}`
-        newSlides[index].title = activeItem.title
-        newSlides[index].idActive = id
-        
-        console.log(newSlides)
+   
+        newSlides[index].activePage = activePage 
+         
         setSlides(newSlides) 
         setIsDisableBtn(false)
     }
@@ -304,37 +281,21 @@ function StyledComponent(props) {
         setIsDisableBtn(false)
     }
     const removeSlide = (index) => { 
-        const newSlides = slides.slice() 
-
-        newSlides.splice(index, 1)
-        setSlides(newSlides) 
-        setIsDisableBtn(false)
-
+        const conf = window.confirm('Delete? ') 
+        if(conf) {
+            const newSlides = slides.slice() 
+    
+            newSlides.splice(index, 1)
+            setSlides(newSlides) 
+            setIsDisableBtn(false) 
+        } 
     }
-    const addSlide = ( svg, idActive ) => {
-        let activeItem
-        categories.forEach( item => {
-            if(item.id === idActive) activeItem = item
-            else {
-                if(item.pages.length > 0) {
-                    item.pages.forEach(innerItem => {
-                        if(innerItem.id === idActive) {
-                            activeItem = innerItem
-                            activeItem.categorySlug = item.slug
-                        }
-                    })
-                }
-            }
-        })
-  
-
+    const addSlide = ( svg, activePage ) => {
+         
         const newSlides = slides.slice()
         const slide = {
             svg: svg,  
-            title: activeItem.title,   
-            slug: activeItem.slug, 
-            categorySlug: activeItem.categorySlug || '/', 
-            idActive: idActive, 
+            activePage: activePage,   
             inner: []
         }
         newSlides.push(slide)
@@ -345,35 +306,11 @@ function StyledComponent(props) {
     }
 
     const slidesRender = () => (
-        slides.map((item, index) => {  
-            console.log(slides) 
+        slides.map((item, index) => {   
             return (
                 <Box key={index} className={classes.slideContainer}>  
                     <Box my={1}> 
-                        <FormControl 
-                            variant='filled' 
-                            size='small'    
-                            // style={{width: '100%'}}
-                            fullWidth
-                        >
-                            <InputLabel id={`url-${index}`}>Choice page</InputLabel>
-                            <Select
-                                labelId={`url-${index}`}
-                                id="url-select"
-                                value={item.idActive}  
-                                fullWidth
-                                style={{maxWidth: '100%'}}
-                                onChange={(e) => {  
-                                    setIsDisableBtn(false); 
-                                    handleChangeUrl(e.target.value, index); 
-                                }}
-                            >   
-                                {
-                                    renderLinkList()
-                                }
-                                    
-                            </Select>
-                        </FormControl>
+                        <SelectPage value={item.activePage.id} setValue={handleChangeUrl} index={index} /> 
                     </Box> 
                     <Box my={2}>
                         <InputChange
@@ -453,17 +390,9 @@ function StyledComponent(props) {
                             <span dangerouslySetInnerHTML={{__html: item.svg}}></span>
                         </Box>
                         <Box my={1} className={classes.dumbSlideTitle}>  
-                             { item.title }
+                             { item.activePage.title }
                         </Box>
-                        {
-                            item.isButton && 
-                            <Button 
-                                color={'default'}
-                                variant={'contained'}
-                            >
-                                {item.textButton}
-                            </Button> 
-                        }
+                         
                     </Box>
                 </Box>
                 
@@ -471,33 +400,7 @@ function StyledComponent(props) {
         })
     )
 
-    const renderLinkList = () => {
-        let links = []
-        categories.forEach( item => { 
-            links.push(item)
-            if(item.pages.length > 0) {
-                item.pages.forEach( innerItem => {
-                    let page = JSON.parse(JSON.stringify(innerItem))
-                    page.categorySlug = item.slug
-                    links.push(page)
-                })
-            }
-        })
-
-        return links.map( link => {
-            switch(link.type) {
-                case('category') : {
-                    return <MenuItem key={link.id} value={link.id} >{link.title } - { link.slug}</MenuItem> 
-                }
-                case('page'): {
-                    return <MenuItem key={link.id} value={link.id} >{link.title } - {`${link.categorySlug}/${link.slug}`}</MenuItem>
-                }
-                default: break;
-            } 
-            return false
-        }) 
-    }
-      
+     
     return (
         <div className={classes.containerWrapper}>
             <Tooltip  title={`Swiper margin top`}  placement={'top'}>
@@ -828,7 +731,8 @@ function StyledComponent(props) {
                                     {
                                         slidesRender()
                                     }
-                                    <AddItem addSlide={addSlide} id={props.data.id} renderLinkList={renderLinkList} />
+
+                                    <AddItem addSlide={addSlide} id={props.data.id} />
                                     
    
                                     <Box mt={5} />

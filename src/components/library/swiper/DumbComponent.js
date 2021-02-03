@@ -198,13 +198,13 @@ function DumbComponent(props) {
             handleOpen(slide.targetButton)
         }
         if(slide.isUrl) {
-            history.push(`/${slide.url}`) 
+            history.push(`${slide.activePage.slug}`) 
         }
     }
 
-    const renderSlide = (slide) => (
+    const renderSlide = (slide, key) => (
         <SwiperSlide 
-            key={slide.imageUrl} 
+            key={key} 
             ref={slideRef} 
             className={`${classes.slide} ${(slide.isButton || slide.isUrl) ? classes.activeSlide : '' } `}
             onClick={() => { handleSlideClick(slide) }}

@@ -80,8 +80,8 @@ const Desktop = (props) => {
                 justifyContent: "flex-start", 
                 paddingTop: props.settings.classes.paddingY,  
                 paddingBottom: props.settings.classes.paddingY,  
-                paddingLeft: 10, 
-                paddingRight: 10
+                // paddingLeft: 10, 
+                // paddingRight: 10
             }, 
             listUnstyle: {
                position: 'absolute', 

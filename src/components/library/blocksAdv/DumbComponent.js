@@ -12,11 +12,13 @@ import 'swiper/components/navigation/navigation.scss';
 
 import {getColorByPalette} from '../../functions/colorChanger/ColorCalculation'
  
+import ModalContext from '../../../context/modalContext/ModalContext'
 
 SwiperCore.use([Navigation]);
   
 function DumbComponent(props) {
  
+    const { handleOpen } = React.useContext(ModalContext) 
 
     const [isSwiper, setIsSwiper] = useState(true) 
     
@@ -45,7 +47,7 @@ function DumbComponent(props) {
         color = getColorByPalette(theme, color) 
          
         return ({  
-            swiper: {                 
+            swiper: {  
                 '& .swiper-button-prev': {
                     color: color, 
                     "&:after": { 
@@ -71,7 +73,7 @@ function DumbComponent(props) {
                             fontSize: `${14}px !important`
                         },
                     }
-                },
+                }, 
                 '& .swiper-container': {
                     paddingLeft: 50,
                     paddingRight: 50,
@@ -86,8 +88,7 @@ function DumbComponent(props) {
             slide: { 
                 boxSizing: 'border-box !important', 
                 position: 'relative',   
-                height: slideHeight > 300 ? 300 : (slideHeight - 30) ,   
-                cursor: 'pointer',   
+                height: slideHeight > 300 ? 300 : (slideHeight - 30) ,    
                 backgroundColor: theme.palette.background.paper,
                 '& a': {
                     color: 'inherit'
@@ -135,10 +136,10 @@ function DumbComponent(props) {
                 
                 [theme.breakpoints.down('xs')]: {
                     position: 'relative',  
-                    paddingTop: 35, 
+                    paddingTop: 25, 
                     paddingLeft: 10, 
                     paddingRight: 10, 
-                    paddingBottom: 10, 
+                    paddingBottom: 20, 
                     '& $slideImg': {
                         position: 'absolute', 
                         top: -25, 
@@ -172,7 +173,7 @@ function DumbComponent(props) {
                     top: 0, 
                     left: 0,  
                     content: "''", 
-                    width: 70, 
+                    width: '70', 
                     height: 70, 
                     borderRadius: '50%',  
                     backgroundColor: color, 
@@ -281,27 +282,29 @@ function DumbComponent(props) {
         }
         // eslint-disable-next-line
     }, []);
-
   
+    const handleSlideClick = () => { 
+        handleOpen('slide.targetButton') 
+    }
+
     const renderSlide = (slide, key) => (
         <SwiperSlide 
             key={key}  
             ref={slideRef} 
-            className={`${classes.slide}`}
-        >
-            <NavLink to={slide.activePage.slug}>
-                <Box className={classes.slideBox}> 
-                    <Box className={classes.slideImg}>
-                        <span dangerouslySetInnerHTML={{__html: slide.svg}}></span>
-                    </Box> 
-                    <Typography
-                        component='h6'
-                        className={classes.slideTitle}
-                    >
-                        {slide.activePage.title} 
-                    </Typography> 
-                </Box>
-            </NavLink>
+            className={`${classes.slide}`} 
+            onClick={handleSlideClick}
+        > 
+            <Box className={classes.slideBox}> 
+                <Box className={classes.slideImg}>
+                    <span dangerouslySetInnerHTML={{__html: slide.svg}}></span>
+                </Box> 
+                <Typography
+                    component='h6'
+                    className={classes.slideTitle}
+                >
+                    {slide.title} 
+                </Typography> 
+            </Box> 
         </SwiperSlide>
     )
  

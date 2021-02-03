@@ -21,6 +21,7 @@ import FormLineElement from '../library/formLine/ElementCreator'
 import SwiperElement from '../library/swiper/ElementCreator'  
 import BannerElement from '../library/banner/ElementCreator'  
 import BlocksPagesElement from '../library/blocksPages/ElementCreator'   
+import BlocksAdvElement from '../library/blocksAdv/ElementCreator'   
 
 import SkeletonPage from '../placeholders/SkeletonPage'
 import Breadcrumbs from '../placeholders/Breadcrumbs'
@@ -53,6 +54,7 @@ function SinglePage(props) {
   const SwiperLayout = layouts.swiper 
   const BannerLayout = layouts.banner 
   const BlocksPagesLayout = layouts.blocksPages 
+  const BlocksAdvLayout = layouts.blocksAdv 
 
   const [data, setData] = React.useState({})
   const [items, setItems] = React.useState([]) 
@@ -214,17 +216,18 @@ function SinglePage(props) {
     let newItems = items.slice()
 
     let newCont
-    if(type === 'container')  newCont = JSON.parse(JSON.stringify(ContainerLayout))
-    if(type === 'mainBanner') newCont = JSON.parse(JSON.stringify(MainBannerLayout))
-    if(type === 'accordion')  newCont = JSON.parse(JSON.stringify(AccordionLayout))
-    if(type === 'contactMap') newCont = JSON.parse(JSON.stringify(СontactMapLayout))
-    if(type === 'about')      newCont = JSON.parse(JSON.stringify(AboutLayout))
-    if(type === 'actionLine') newCont = JSON.parse(JSON.stringify(ActionLineLayout))
-    if(type === 'table')      newCont = JSON.parse(JSON.stringify(TableLayout))
-    if(type === 'formLine')   newCont = JSON.parse(JSON.stringify(FormLineLayout))
-    if(type === 'swiper')     newCont = JSON.parse(JSON.stringify(SwiperLayout))
-    if(type === 'banner')     newCont = JSON.parse(JSON.stringify(BannerLayout))
-    if(type === 'blocksPages')     newCont = JSON.parse(JSON.stringify(BlocksPagesLayout))
+    if(type === 'container')   newCont = JSON.parse(JSON.stringify(ContainerLayout))
+    if(type === 'mainBanner')  newCont = JSON.parse(JSON.stringify(MainBannerLayout))
+    if(type === 'accordion')   newCont = JSON.parse(JSON.stringify(AccordionLayout))
+    if(type === 'contactMap')  newCont = JSON.parse(JSON.stringify(СontactMapLayout))
+    if(type === 'about')       newCont = JSON.parse(JSON.stringify(AboutLayout))
+    if(type === 'actionLine')  newCont = JSON.parse(JSON.stringify(ActionLineLayout))
+    if(type === 'table')       newCont = JSON.parse(JSON.stringify(TableLayout))
+    if(type === 'formLine')    newCont = JSON.parse(JSON.stringify(FormLineLayout))
+    if(type === 'swiper')      newCont = JSON.parse(JSON.stringify(SwiperLayout))
+    if(type === 'banner')      newCont = JSON.parse(JSON.stringify(BannerLayout))
+    if(type === 'blocksPages') newCont = JSON.parse(JSON.stringify(BlocksPagesLayout))
+    if(type === 'blocksAdv')   newCont = JSON.parse(JSON.stringify(BlocksAdvLayout))
   
 
     newCont.id = uuid()
@@ -485,6 +488,19 @@ function SinglePage(props) {
               />
           )
         } 
+        if(items[key].type === 'blocksAdv') { 
+          return(
+              <BlocksAdvElement
+                key={items[key].id} 
+                data={items[key]} 
+                swapContainer={swapContainer}
+                removeContainer={removeContainer}
+                reSaveItem={reSaveItem}
+                isFirst={orderFirst}
+                isLast={orderLast}
+              />
+          )
+        } 
         return false
       })
     }
@@ -545,9 +561,16 @@ function SinglePage(props) {
                               </Tooltip> 
                             </Box> 
                             <Box className={classes.boxMenuItem}> 
-                              <Tooltip classes={{tooltip: classes.tooltip}} title='Paper cart with links. Has be slider' placement='top'>
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Paper cart with svg icon, contain link to page. Has be slider' placement='top'>
                                 <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('blocksPages') }}>
                                     Blocks with Links
+                                </Button> 
+                              </Tooltip>
+                            </Box> 
+                            <Box className={classes.boxMenuItem}> 
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Paper cart with svg icon. Has be slider' placement='top'>
+                                <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('blocksAdv') }}>
+                                    Blocks without Links
                                 </Button> 
                               </Tooltip>
                             </Box> 

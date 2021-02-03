@@ -92,7 +92,7 @@ const Mobile = (props) => {
     }
 
     return (
-        <Toolbar  style={{justifyContent: 'space-between'}}> 
+        <Toolbar disableGutters style={{justifyContent: 'space-between'}}> 
             <Drawer
                 {...{
                 anchor: "right",
