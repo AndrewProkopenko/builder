@@ -1,3 +1,4 @@
+ 
 export const getColorByPalette = (theme, color) => {
     switch(color) {
         case ('primary') : {

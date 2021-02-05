@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import ScrollToTop from '../components/functions/ScrollToTop'  
     
 import LoadingProgress from '../components/placeholders/LoadingProgress'
+
+import Modal from '../components/modal/DumbComponent' 
 import Header from '../components/header/Header' 
 import Footer from '../components/footer/Footer' 
  
@@ -35,6 +37,7 @@ function RouterComponent() {
                 categories.length > 0 &&
                 <React.Fragment>
                      
+                    <Modal/>
                     <Header/>
 
                     <main>

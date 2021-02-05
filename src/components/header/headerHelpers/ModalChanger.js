@@ -14,8 +14,7 @@ import {
     DialogContent , 
     Typography,  
     Box,
-    makeStyles,   
-    TextField,   
+    makeStyles,    
 } from '@material-ui/core' 
 
 import { amber } from '@material-ui/core/colors' 
@@ -23,6 +22,8 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import OpenWithIcon from '@material-ui/icons/OpenWith'; 
  
 import Draggable from 'react-draggable';  
+
+import InputChange from '../../functions/InputChange'
 
 function RequestsChanger() {
     
@@ -140,82 +141,96 @@ function RequestsChanger() {
                                 { !isDisableBtn && "Close to save - " } Modal Settings <OpenWithIcon/>
                             </Typography>
                              
-                            <Box my={2}>
-                                <TextField  
+                            <Box my={2}> 
+                                <InputChange
+                                    id={null}
+                                    fullWidth={true}
                                     type='text'
+                                    size="small" 
                                     label="Heading" 
-                                    variant="outlined" 
-                                    size='small'  
-                                    fullWidth
+                                    variant='outlined'
                                     value={heading}
-                                    onChange={ (e) => { setIsDisableBtn(false); setHeading(e.target.value) } }     
-                                />
+                                    setValue={setHeading}
+                                    setIsDisableBtn={setIsDisableBtn} 
+                                /> 
                             </Box>
                             <Box my={2}>
-                                <TextField  
+                                <InputChange
+                                    id={null}
+                                    fullWidth={true}
                                     type='text'
-                                    label="Sub Heading" 
-                                    variant="outlined" 
-                                    size='small'  
-                                    fullWidth
+                                    size="small" 
+                                    label="Sub Heading"
+                                    variant='outlined'
                                     value={subHeading}
-                                    onChange={ (e) => { setIsDisableBtn(false); setSubHeading(e.target.value) } }     
-                                />
+                                    setValue={setSubHeading}
+                                    setIsDisableBtn={setIsDisableBtn} 
+                                /> 
                             </Box>
                             <Box my={2}>
-                                <TextField  
+                                <InputChange
+                                    id={null}
+                                    fullWidth={true}
                                     type='text'
+                                    size="small" 
                                     label="Target text" 
-                                    variant="outlined" 
-                                    size='small'  
-                                    fullWidth
+                                    variant='outlined'
                                     value={targetText}
-                                    onChange={ (e) => { setIsDisableBtn(false); setTargetText(e.target.value) } }     
-                                />
+                                    setValue={setTargetText}
+                                    setIsDisableBtn={setIsDisableBtn} 
+                                /> 
                             </Box>
                             <Box my={2}>
-                                <TextField  
+                                <InputChange
+                                    id={null}
+                                    fullWidth={true}
                                     type='text'
+                                    size="small" 
                                     label="Input Name text" 
-                                    variant="outlined" 
-                                    size='small'  
-                                    fullWidth
+                                    variant='outlined'
                                     value={inputName}
-                                    onChange={ (e) => { setIsDisableBtn(false); setInputName(e.target.value) } }     
+                                    setValue={setInputName}
+                                    setIsDisableBtn={setIsDisableBtn} 
                                 />
                             </Box>
                             <Box my={2}>
-                                <TextField  
+                                <InputChange
+                                    id={null}
+                                    fullWidth={true}
                                     type='text'
+                                    size="small" 
                                     label="Input Phone text" 
-                                    variant="outlined" 
-                                    size='small'  
-                                    fullWidth
+                                    variant='outlined'
                                     value={inputPhone}
-                                    onChange={ (e) => { setIsDisableBtn(false); setInputPhone(e.target.value) } }     
-                                />
+                                    setValue={setInputPhone}
+                                    setIsDisableBtn={setIsDisableBtn} 
+                                /> 
                             </Box>
                             <Box my={2}>
-                                <TextField  
+                                <InputChange
+                                    id={null}
+                                    fullWidth={true}
                                     type='text'
+                                    size="small" 
                                     label="Button text" 
-                                    variant="outlined" 
-                                    size='small'  
-                                    fullWidth
+                                    variant='outlined'
                                     value={buttonText}
-                                    onChange={ (e) => { setIsDisableBtn(false); setButtonText(e.target.value) } }     
-                                />
+                                    setValue={setButtonText}
+                                    setIsDisableBtn={setIsDisableBtn} 
+                                />  
                             </Box>
                             <Box my={2}>
-                                <TextField  
+                                <InputChange
+                                    id={null}
+                                    fullWidth={true}
                                     type='text'
+                                    size="small" 
                                     label="Policy text" 
-                                    variant="outlined" 
-                                    size='small'  
-                                    fullWidth
+                                    variant='outlined'
                                     value={policy}
-                                    onChange={ (e) => { setIsDisableBtn(false); setPolicy(e.target.value) } }     
-                                />
+                                    setValue={setPolicy}
+                                    setIsDisableBtn={setIsDisableBtn} 
+                                />  
                             </Box>
                             <Box display="flex" >
                                 <ColorSelecter

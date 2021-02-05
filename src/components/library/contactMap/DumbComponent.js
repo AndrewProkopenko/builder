@@ -1,17 +1,28 @@
-import React from 'react'
+import React, {useState, useContext} from 'react'
+
+import { Container, Grid, makeStyles, Button, Box, darken, fade, lighten } from '@material-ui/core'
+
+import {getColorByPalette, getColorByPaletteReverse} from '../../functions/colorChanger/ColorCalculation' 
+import { NameValidation, PhoneValidation} from '../../functions/formValidation'
+import InputMaskPhone from '../../functions/InputMaskPhone' 
+import ValidationChip from '../../placeholders/ValidationChip'
 
 import SendFormContext from '../../../context/sendFormContext/SendFormContext'
 
-import { Container, Grid, makeStyles, Button, Box, darken, fade } from '@material-ui/core'
-
 import '../../../assets/style/contactMap.scss' 
-import {getColorByPalette, getColorByPaletteReverse} from '../../functions/colorChanger/ColorCalculation'
+
+import {Location} from '../../../assets/icons/location.js'
+import {Phone} from '../../../assets/icons/phone.js'
 
 function DumbComponent(props) {
-    const { sendRequests } = React.useContext(SendFormContext)
-    const [formPhone, setFormPhone] = React.useState('')
-    const [formName, setFormName] = React.useState('')
-    const [formComment, setFormComment] = React.useState('')
+    const { sendRequests, validationSettings } = useContext(SendFormContext)
+
+    const [formPhone, setFormPhone] = useState('')
+    const [formName, setFormName] = useState('')
+    const [formComment, setFormComment] = useState('')
+
+    const [isValidPhone, setIsValidPhone] = useState({isValid: true})
+    const [isValidName, setIsValidName] = useState({isValid: true})
  
     const mapHtml = props.data.mapFrame
     const location = props.data.location 
@@ -25,7 +36,7 @@ function DumbComponent(props) {
      
     let colorMapOnload  
     let color = props.data.color || 'primary'
-    let colorFocusInput
+    let colorFocusInput, inValidColor
 
     const marginTop = props.data.marginTop  
     const marginBottom = props.data.marginBottom  
@@ -36,10 +47,20 @@ function DumbComponent(props) {
 
         color = getColorByPalette(theme, color)
         colorFocusInput = getColorByPaletteReverse(theme, props.data.color) 
+        inValidColor = getColorByPalette(theme, validationSettings.color) 
  
         return ({
             svg: {
-                fill: colorFocusInput
+                fill: colorFocusInput, 
+                marginRight: 15,
+                maxWidth: 25,
+                minWidth: 25,
+                height: 25,
+                transition: `${theme.transitions.easing.easeInOut} ${theme.transitions.duration.shorter}ms`, 
+                '& svg': {
+                    width: "100%",
+                    height: "100%",
+                }
             }, 
             itemBackground: {  
                 backgroundColor: theme.palette.background.paper, 
@@ -54,7 +75,7 @@ function DumbComponent(props) {
             },
             input: {
                 fontFamily: 'inherit', 
-                border: `1px solid ${color}`, 
+                border: `1px solid ${color}`,  
                 backgroundColor: theme.palette.background.paper,
                 color: theme.palette.text.primary,
                 boxShadow: 'none', 
@@ -74,9 +95,28 @@ function DumbComponent(props) {
                 '&:focus': {
                     borderColor: colorFocusInput, 
                     background: fade(colorFocusInput, 0.07), 
+                    "&:hover": {
+                        background: fade(colorFocusInput, 0.07), 
+                    },
                 },
                 "&:hover": {
                     background: fade(color, 0.07), 
+                },
+            },
+            inValidInput: {
+                borderColor: lighten(inValidColor, 0.2),
+                background: fade(inValidColor, 0.15), 
+                '&::-webkit-input-placeholder':  {  
+                    color: lighten(inValidColor, 0.2),
+                },
+                '&::-moz-placeholder' : { 
+                    color: lighten(inValidColor, 0.2),
+                },
+                '&:-ms-input-placeholder': {  
+                    color: lighten(inValidColor, 0.2),
+                },
+                '&:-moz-placeholder': { 
+                    color: lighten(inValidColor, 0.2),
                 },
             },
             button: {
@@ -132,6 +172,16 @@ function DumbComponent(props) {
                     marginTop: marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30),  
                     marginBottom: marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30),  
                 }
+            }, 
+            validationChipsContainer: {
+                display: 'flex', 
+                [theme.breakpoints.down('sm')]: {
+                    flexDirection: 'column',
+                    '& >*' : {
+                        marginLeft: 0, 
+                        marginTop: `0px !important`
+                    }
+                }
             }
         })
     });
@@ -140,21 +190,40 @@ function DumbComponent(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault()  
+        const valphone = PhoneValidation(formPhone) 
+        const valname = NameValidation(formName) 
+    
+        if(valphone.isValid && valname.isValid) {
+            const sendForm = {
+                phone: formPhone,
+                name: formName, 
+                comment: formComment,
+                place: 'contact',  
+                isCheck: false
+            }
+    
+            sendRequests(sendForm)
+            
+            setFormPhone('')
+            setFormName('')
+            setFormComment('')
+        } else {
+            setIsValidName(valname)
+            setIsValidPhone(valphone)
+        } 
+    }
+    const handleChangePhone = (value) => {
+        setFormPhone(value) 
+        setIsValidPhone({isValid: true})
+    }
+    const handleChangeName = (value) => {
+        setFormName(value) 
+        setIsValidName({isValid: true})
+    }
 
-        const sendForm = {
-            phone: formPhone,
-            name: formName, 
-            comment: formComment,
-            place: 'contact',  
-            isCheck: false
-        }
-
-        sendRequests(sendForm)
-        
-        setFormPhone('')
-        setFormName('')
-        setFormComment('')
-
+    const handleCloseValidationChip = (place) => {
+        if(place === 'name') setIsValidName({isValid: true})
+        if(place === 'phone') setIsValidPhone({isValid: true})
     }
     return ( 
         <div style={{position: 'relative'}}> 
@@ -166,30 +235,17 @@ function DumbComponent(props) {
                                 <Box className={classes.boxForFlex}>
                                     <Box className={classes.linksContainer}>
                                         <div className="loc">
-                                            <svg className={classes.svg} viewBox="0 0 511.999 511.999">
-                                                <g>
-                                                    <g>
-                                                        <path d="M255.999,0C152.786,0,68.817,85.478,68.817,190.545c0,58.77,29.724,130.103,88.349,212.017
-                                                            c42.902,59.948,85.178,102.702,86.957,104.494c3.27,3.292,7.572,4.943,11.879,4.943c4.182,0,8.367-1.558,11.611-4.683
-                                                            c1.783-1.717,44.166-42.74,87.149-101.86c58.672-80.701,88.421-153.007,88.421-214.912C443.181,85.478,359.21,0,255.999,0z
-                                                            M255.999,272.806c-50.46,0-91.511-41.052-91.511-91.511s41.052-91.511,91.511-91.511s91.511,41.052,91.511,91.511
-                                                            S306.457,272.806,255.999,272.806z"/>
-                                                    </g>
-                                                </g>
-                                            </svg>
+                                            <div className={classes.svg} > 
+                                                <Location/>
+                                            </div>
                                             <span>
                                                 {location}
                                             </span>
                                         </div>
-                                        <div className="tel">
-                                            <svg className={classes.svg} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 513.64 513.64" style={{enableBackground: 'new 0 0 513.64 513.64'}} xmlSpace="preserve">
-                                                <g><g>
-                                                    <path d="M499.66,376.96l-71.68-71.68c-25.6-25.6-69.12-15.359-79.36,17.92c-7.68,23.041-33.28,35.841-56.32,30.72
-                                                                                        c-51.2-12.8-120.32-79.36-133.12-133.12c-7.68-23.041,7.68-48.641,30.72-56.32c33.28-10.24,43.52-53.76,17.92-79.36l-71.68-71.68
-                                                                                        c-20.48-17.92-51.2-17.92-69.12,0l-48.64,48.64c-48.64,51.2,5.12,186.88,125.44,307.2c120.32,120.32,256,176.641,307.2,125.44
-                                                                                        l48.64-48.64C517.581,425.6,517.581,394.88,499.66,376.96z" />
-                                                </g></g> 
-                                            </svg>
+                                        <div className="tel" >
+                                            <div className={classes.svg}> 
+                                                 <Phone/>
+                                            </div>
 
                                             <a className={classes.link} href={`tel:${phone}`}> {phone} </a>
                                         </div>
@@ -198,29 +254,53 @@ function DumbComponent(props) {
                                         <p> 
                                             { paragraph }
                                         </p>
+                                        <Box className={classes.validationChipsContainer}> 
+                                            {
+                                                !isValidName.isValid &&
+                                                <Box flexGrow={1}  >
+                                                    <ValidationChip  
+                                                        isValid={isValidName.isValid} 
+                                                        handleClose={handleCloseValidationChip}
+                                                        place={'name'}
+                                                        absolute={false}
+                                                        style={{marginTop: 0}}
+                                                        closeOnFirstClick={true}
+                                                    />
+                                                </Box>
+                                            } 
+                                            {
+                                                !isValidPhone.isValid &&
+                                                <Box flexGrow={1} ml={2}>
+                                                    <ValidationChip  
+                                                        isValid={isValidPhone.isValid}  
+                                                        handleClose={handleCloseValidationChip}
+                                                        place={'phone'}
+                                                        absolute={false}
+                                                        style={{ marginTop: 0 }}
+                                                        closeOnFirstClick={true}
+                                                    />
+                                                </Box>
+                                            } 
+                                        </Box>
                                         <div className="kr-form">
                                             <div className="kr-form-inputs">
                                             <span>
                                                 <input 
                                                     name="name" 
                                                     type="text" 
-                                                    placeholder={inputName} 
-                                                    required 
-                                                    className={classes.input}
+                                                    placeholder={inputName}  
+                                                    className={`${classes.input} ${!isValidName.isValid && classes.inValidInput}`} 
                                                     value={formName}
-                                                    onChange={e => {setFormName(e.target.value)}}
+                                                    onChange={e => {handleChangeName(e.target.value)}}
                                                 />
                                             </span>
                                             <span>
-                                                <input 
-                                                    name="phone" 
-                                                    type="tel" 
-                                                    placeholder={inputPhone}
-                                                    required 
-                                                    className={classes.input}
+                                                <InputMaskPhone 
+                                                    placeholder={`${inputPhone}`}  
+                                                    className={`${classes.input} ${!isValidPhone.isValid && classes.inValidInput}`} 
                                                     value={formPhone}
-                                                    onChange={e => {setFormPhone(e.target.value)}}
-                                                />
+                                                    setValue={handleChangePhone}
+                                                /> 
                                             </span>
                                             </div>
                                             <textarea   

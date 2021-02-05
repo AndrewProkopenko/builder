@@ -1,17 +1,25 @@
-import React from 'react'
+import React, { useState, useContext} from 'react'
 
 import SendFormContext from '../../../context/sendFormContext/SendFormContext'
 
-import { Container, makeStyles, Button, Box, Grid, fade, darken } from '@material-ui/core'
+import { Container, makeStyles, Button, Box, Grid, fade, darken, lighten } from '@material-ui/core'
 
 import {getColorByPalette, getColorByPaletteReverse} from '../../functions/colorChanger/ColorCalculation'
 
 import '../../../assets/style/lineForm.scss' 
 
+import ValidationChip from '../../placeholders/ValidationChip'
+import {NameValidation, PhoneValidation} from '../../functions/formValidation'
+import InputMaskPhone from '../../functions/InputMaskPhone'
+
 function DumbComponent(props) {  
-    const { sendRequests } = React.useContext(SendFormContext)
-    const [formPhone, setFormPhone] = React.useState('')
-    const [formName, setFormName] = React.useState('') 
+    const { sendRequests, validationSettings } = useContext(SendFormContext)
+
+    const [formPhone, setFormPhone] = useState('')
+    const [formName, setFormName] = useState('') 
+    
+    const [isValidPhone, setIsValidPhone] = useState({isValid: true})
+    const [isValidName, setIsValidName] = useState({isValid: true})
    
     const heading = props.data.heading
     const paragraph = props.data.paragraph
@@ -25,12 +33,13 @@ function DumbComponent(props) {
     const maxWidthContainer = props.data.maxWidthContainer 
 
     let color = props.data.color
-    let colorFocusInput
+    let colorFocusInput, inValidColor
   
     const useStyles = makeStyles((theme) => {    
 
         color = getColorByPalette(theme, color)
         colorFocusInput = getColorByPaletteReverse(theme, props.data.color) 
+        inValidColor = getColorByPalette(theme, validationSettings.color) 
 
         return ({ 
             itemBackground: {  
@@ -77,6 +86,9 @@ function DumbComponent(props) {
                 '&:focus': {
                     borderColor: colorFocusInput,
                     background: fade(colorFocusInput, 0.07), 
+                    "&:hover": {
+                        background: fade(colorFocusInput, 0.07), 
+                    },
                 },
                 "&:hover": {
                     background: fade(color, 0.07), 
@@ -86,6 +98,22 @@ function DumbComponent(props) {
                     paddingLeft: 20,
                     paddingRight: 20, 
                 }
+            },
+            inValidInput: {
+                borderColor: lighten(inValidColor, 0.2),
+                background: fade(inValidColor, 0.15), 
+                '&::-webkit-input-placeholder':  {  
+                    color: lighten(inValidColor, 0.2),
+                },
+                '&::-moz-placeholder' : { 
+                    color: lighten(inValidColor, 0.2),
+                },
+                '&:-ms-input-placeholder': {  
+                    color: lighten(inValidColor, 0.2),
+                },
+                '&:-moz-placeholder': { 
+                    color: lighten(inValidColor, 0.2),
+                },
             },
             button: {
                 width: '100%',
@@ -113,9 +141,17 @@ function DumbComponent(props) {
                 }, 
             }, 
             gridItem: {
-                paddingRight: theme.spacing(1),
+                position: 'relative',
+                paddingRight: theme.spacing(1), 
                 [theme.breakpoints.down('sm')]: {
                     marginBottom: 10,  
+                }
+            },
+            gridValidation: {
+                position: 'relative', 
+                height: 45, 
+                [theme.breakpoints.down('sm')]: {
+                    height: 35
                 }
             },
             policy: {
@@ -137,22 +173,45 @@ function DumbComponent(props) {
 
     const classes  = useStyles();
 
+    
     const handleSubmit = (event) => {
         event.preventDefault()  
 
-        const sendForm = {
-            phone: formPhone,
-            name: formName,  
-            place: 'line Form',  
-            isCheck: false
-        }
+        const valphone = PhoneValidation(formPhone) 
+        const valname = NameValidation(formName) 
 
-        sendRequests(sendForm)
-        
-        setFormPhone('')
-        setFormName('') 
+        if(valphone.isValid && valname.isValid) {
+            const sendForm = {
+                phone: formPhone,
+                name: formName,  
+                place: 'line Form',  
+                isCheck: false
+            }
+    
+            sendRequests(sendForm)
+            
+            setFormPhone('')
+            setFormName('')
+        } else {
+          setIsValidName(valname)
+          setIsValidPhone(valphone)
+        }
+         
 
     }
+    const handleChangePhone = (value) => {
+        setFormPhone(value) 
+        setIsValidPhone({isValid: true})
+      }
+      const handleChangeName = (value) => {
+        setFormName(value) 
+        setIsValidName({isValid: true})
+      }
+    
+      const handleCloseValidationChip = (place) => {
+        if(place === 'name') setIsValidName({isValid: true})
+        if(place === 'phone') setIsValidPhone({isValid: true})
+      }
     return ( 
         <div className={classes.itemBackground}> 
             <Container maxWidth={maxWidthContainer}>
@@ -173,27 +232,57 @@ function DumbComponent(props) {
 
                     <form onSubmit={handleSubmit} style={{position: 'relative', zIndex: 5}}>
                         <Grid container >
+                            <Grid item xs={12} sm={6} md={4} lg={3}  >
+                            {
+                                !isValidName.isValid && 
+                                <Box className={classes.gridValidation}>
+                                    <ValidationChip 
+                                        isValid={isValidName.isValid}  
+                                        handleClose={handleCloseValidationChip}
+                                        place={'name'}
+                                        absolute={true} 
+                                        closeOnFirstClick={true}
+                                        style={{width: 'calc(100% - 10px)', top: 'auto', bottom: 0}}
+                                    />
+                                </Box>
+                            }
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={4} lg={3}  >
+                            {
+                                !isValidPhone.isValid && 
+                                <Box className={classes.gridValidation}>
+                                    <ValidationChip  
+                                        isValid={isValidPhone.isValid}  
+                                        handleClose={handleCloseValidationChip}
+                                        place={'phone'}
+                                        absolute={true} 
+                                        closeOnFirstClick={true}
+                                        style={{width: 'calc(100% - 10px)', top: 'auto', bottom: 0}}
+                                    />
+                                </Box>
+                                
+                            }
+                            </Grid>
+                        </Grid>
+                        <Grid container >
                             <Grid item xs={12} sm={6} md={4} lg={3} className={classes.gridItem}>
                                 <input 
                                     type="text" 
-                                    name={`name-${props.data.id}`} 
-                                    required 
+                                    name={`name-${props.data.id}`}  
                                     placeholder={inputName} 
                                     value={formName}
-                                    onChange={(e) => {setFormName(e.target.value)}}
-                                    className={classes.input}
+                                    onChange={(e) => {handleChangeName(e.target.value)}} 
+                                    className={`${classes.input} ${!isValidName.isValid && classes.inValidInput}`} 
                                 /> 
                             </Grid>
                             <Grid item xs={12} sm={6} md={4} lg={3} className={classes.gridItem}>
-                                <input 
-                                    type="tel" 
-                                    name={`phone-${props.data.id}`} 
-                                    required 
-                                    placeholder={inputPhone} 
+                                 
+                                <InputMaskPhone 
+                                    placeholder={`${inputPhone}`}   
+                                    className={`${classes.input} ${!isValidPhone.isValid && classes.inValidInput}`} 
                                     value={formPhone}
-                                    onChange={(e) => {setFormPhone(e.target.value)}}
-                                    className={classes.input}
-                                /> 
+                                    setValue={handleChangePhone}
+                                />
                             </Grid>
                             <Grid item xs={12} sm={12} md={4} lg={3} className={classes.gridItem}>
                                 <Button 

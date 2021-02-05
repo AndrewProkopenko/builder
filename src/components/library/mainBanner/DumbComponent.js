@@ -1,19 +1,25 @@
-import React from 'react'
+import React, { useState, useContext} from 'react'
 
 import SendFormContext from '../../../context/sendFormContext/SendFormContext'
 
-import { Container, Grid, makeStyles, Button, darken, fade } from '@material-ui/core'
+import { Container, Grid, makeStyles, Button, darken, fade, lighten } from '@material-ui/core'
 
 import '../../../assets/style/main-banner.scss'
 
 import {getColorByPalette, getColorByPaletteReverse} from '../../functions/colorChanger/ColorCalculation'
 
+import { PhoneValidation} from '../../functions/formValidation'
+import InputMaskPhone from '../../functions/InputMaskPhone'
+
+import ValidationChip from '../../placeholders/ValidationChip'
+
 function DumbComponent(props) {
 
-    const { sendRequests } = React.useContext(SendFormContext)
+    const { sendRequests, validationSettings } = useContext(SendFormContext)
 
-    const [formPhone, setFormPhone] = React.useState('')
-    const [isDisableBtn, setIsDisableBtn] = React.useState(false)
+    const [formPhone, setFormPhone] = useState('')
+    const [isDisableBtn, setIsDisableBtn] = useState(false)
+    const [isValidPhone, setIsValidPhone] = useState({isValid: true})
 
     const titleMain = props.data.heading
     const titleSubText = props.data.headingIcon.title
@@ -24,7 +30,7 @@ function DumbComponent(props) {
     const policy = props.data.form.policy
     const imageUrl = props.data.image
     let color = props.data.color 
-    let colorFocusInput
+    let colorFocusInput, inValidColor
   
     
     const marginTop = props.data.marginTop  
@@ -35,6 +41,7 @@ function DumbComponent(props) {
 
         color = getColorByPalette(theme, color)
         colorFocusInput = getColorByPaletteReverse(theme, props.data.color) 
+        inValidColor = getColorByPalette(theme, validationSettings.color) 
           
         return( {
             subHeading: {  
@@ -50,11 +57,30 @@ function DumbComponent(props) {
                 transition: `${theme.transitions.easing.easeInOut} ${theme.transitions.duration.shorter}ms`, 
                 "&:focus": {
                     borderColor: colorFocusInput, 
-                    background: fade(colorFocusInput, 0.07), 
+                    background: fade(colorFocusInput, 0.07),
+                    "&:hover": {
+                        background: fade(colorFocusInput, 0.07), 
+                    },
                 }, 
                 "&:hover": {
                     background: fade(color, 0.07), 
                 }
+            },
+            inValidInput: {
+                borderColor: lighten(inValidColor, 0.2),
+                background: fade(inValidColor, 0.15), 
+                '&::-webkit-input-placeholder':  {  
+                    color: lighten(inValidColor, 0.2),
+                },
+                '&::-moz-placeholder' : { 
+                    color: lighten(inValidColor, 0.2),
+                },
+                '&:-ms-input-placeholder': {  
+                    color: lighten(inValidColor, 0.2),
+                },
+                '&:-moz-placeholder': { 
+                    color: lighten(inValidColor, 0.2),
+                },
             },
             button: {
                 border: `1px solid ${color} !important`, 
@@ -104,24 +130,37 @@ function DumbComponent(props) {
     })
  
     
-    const classes = useStyles()
-
+    const classes = useStyles() 
+     
+ 
     const handleSubmit = (event) => {
-        event.preventDefault() 
-        setIsDisableBtn(true)
-
-        const sendForm = {
-            phone: formPhone,
-            place: 'main page',  
-            isCheck: false
-        }
-
-        sendRequests(sendForm)
         
-        setIsDisableBtn(false) 
-        setFormPhone('')
+        event.preventDefault() 
+          
+        const valphone = PhoneValidation(formPhone)  
+        if(valphone.isValid) {
+            const sendForm = {
+                phone: formPhone,
+                place: 'main page',  
+                isCheck: false
+            }
+    
+            sendRequests(sendForm)
+            
+            setIsDisableBtn(false) 
+            setFormPhone('')
+        } else {
+            setIsValidPhone(valphone)
+        }
+        
     }
-
+    const handleChangePhone = (value) => {
+        setFormPhone(value) 
+        setIsValidPhone({isValid: true})
+    }
+    const handleCloseValidationChip = (place) => { 
+        if(place === 'phone') setIsValidPhone({isValid: true})
+      }
     return (
         <div className={`bulder-main-banner ${classes.styleClass}`}>
             <Container maxWidth={maxWidthContainer}>
@@ -153,15 +192,23 @@ function DumbComponent(props) {
                                 <form onSubmit={handleSubmit}>
                                     <div className="bulder-main-banner_content-form__group">
                                         <span>
-                                            <input 
-                                                type="tel" 
-                                                name="phone" 
-                                                required 
-                                                placeholder={`${inputLabel}`} 
-                                                className={classes.input}
+                                            {
+                                                !isValidPhone.isValid && 
+                                                <ValidationChip 
+                                                    isValid={isValidPhone.isValid} 
+                                                    handleClose={handleCloseValidationChip}
+                                                    place={'phone'}
+                                                    absolute={true} 
+                                                    closeOnFirstClick={true}
+                                                />
+                                            }
+                                            
+                                            <InputMaskPhone 
+                                                placeholder={`${inputLabel}`}   
+                                                className={`${classes.input} ${!isValidPhone.isValid && classes.inValidInput}`} 
                                                 value={formPhone}
-                                                onChange={(e) => { setFormPhone(e.target.value) }}
-                                            />
+                                                setValue={handleChangePhone}
+                                            /> 
                                         </span>
                                         <div className="btn-form">
                                             <Button 

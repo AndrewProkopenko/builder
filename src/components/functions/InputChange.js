@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useState, useEffect } from "react";
 
 import { TextField } from '@material-ui/core' 
  
@@ -9,7 +9,7 @@ const InputChange = memo(({ id, fullWidth, required, multiline,  type, size, lab
    
     const [valueLocal, setValueLocal] = useState(value)   
    
-    React.useEffect(() => {
+    useEffect(() => {
         if(valueLocal !== value) {
             setValueLocal(value) 
         }

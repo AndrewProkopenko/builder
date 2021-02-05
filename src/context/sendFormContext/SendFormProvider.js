@@ -11,6 +11,7 @@ export default class SendFormProvider extends React.Component {
         modalSettings: {}, 
         isAlertSeverity: null,
         alertText: '',
+        validationSettings: {}
     }
 
     async componentDidMount() {
@@ -24,6 +25,7 @@ export default class SendFormProvider extends React.Component {
             this.setState({
                 requests: doc.data().list, 
                 modalSettings: doc.data().modalSettings, 
+                validationSettings: doc.data().validationSettings, 
             })  
         } 
     }
@@ -94,6 +96,14 @@ export default class SendFormProvider extends React.Component {
             modalSettings: settings, 
         }) 
     }
+    async updateValidationSettings(settings) {
+        this.setState({
+            validationSettings: settings
+        })
+        await firebase.db.collection("site1category").doc('requests').update({
+            validationSettings: settings, 
+        }) 
+    }
 
     setCustomAlert(severity, text, duration) {
         this.setState({  
@@ -107,11 +117,15 @@ export default class SendFormProvider extends React.Component {
         return(
             <SendFormContext.Provider
                 value={{
+                    validationSettings: this.state.validationSettings, 
                     requests: this.state.requests, 
                     isShowAlert: this.state.isAlertSeverity, 
                     modalSettings: this.state.modalSettings, 
                     alertText: this.state.alertText, 
                     
+                    updateValidationSettings: (settings) => {
+                        this.updateValidationSettings(settings)
+                    },
                     updateRequests: (req) => {
                         this.updateRequests(req)
                     },

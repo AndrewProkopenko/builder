@@ -7,6 +7,7 @@ import StyleChanger from './headerHelpers/StyleChanger'
 import ThemeChanger from './headerHelpers/ThemeChanger'
 import ModalChanger from './headerHelpers/ModalChanger'
 import RequestsChanger from './headerHelpers/RequestsChanger'
+import ValidationChanger from './headerHelpers/ValidationChanger'
 
 import DumbComponent from './dumb/DumbComponent'
 
@@ -93,6 +94,9 @@ function StyledComponent() {
                         </Box>
                         <Box className={classes.btnSettingsItem}>
                             <ModalChanger/>
+                        </Box>
+                        <Box className={classes.btnSettingsItem}>
+                            <ValidationChanger/>
                         </Box>
                     </div>
                 }
