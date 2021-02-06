@@ -5,6 +5,7 @@ import StylesChangers from '../../../styles/changers'
  
 import {isNoThemeColor} from '../../functions/colorChanger/ColorCalculation'
 import ColorSelecter from '../../functions/colorChanger/ColorSelecter'
+import SelectShadow from '../../functions/SelectShadow'
 
 import CategoryContext from '../../../context/headerContext/CategoryContext'  
 import { 
@@ -21,8 +22,10 @@ import {
     InputLabel,
     Select, 
     MenuItem, 
-
+    IconButton
 } from '@material-ui/core' 
+
+import {InfoOutlined} from '@material-ui/icons'; 
   
 import SettingsIcon from '@material-ui/icons/Settings';
 import OpenWithIcon from '@material-ui/icons/OpenWith'; 
@@ -68,7 +71,7 @@ function StyleChanger() {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { menu, menuTitle, btnSetting, dialogContentUnstyle } = commonClasses
+        const { menu, menuTitle, btnSetting, dialogContentUnstyle, infoBtn, infoBlock } = commonClasses
         
         return ({  
             dialogContentUnstyle: dialogContentUnstyle,
@@ -84,6 +87,8 @@ function StyleChanger() {
                 marginBottom: 10, 
                 flexGrow: 1, 
             },
+            infoBlock: infoBlock,
+            infoBtn: infoBtn,
         })
     })
     
@@ -122,7 +127,7 @@ function StyleChanger() {
                     color='primary' 
                     className={classes.btnSetting}
                 >   
-                    <span>Style</span>
+                    <span>Style Header</span>
                     <SettingsIcon style={{ color: '#fff' }} fontSize='small'/>
                 </Button>
             </Tooltip>
@@ -251,27 +256,16 @@ function StyleChanger() {
                                         value={settingPadding}
                                         onChange={ (e) => { setIsDisableBtn(false); setSettingPadding(Number(e.target.value)) } }     
                                     />
-                                    <FormControl  
+                                    <SelectShadow
                                         variant='filled' 
                                         size='small'   
                                         className={classes.settingsItem}
-                                    >
-                                        <InputLabel id="Shadow-style-label">Shadow</InputLabel>
-                                        <Select
-                                            labelId="Shadow-label"
-                                            id="Shadow-style"
-                                            value={settingBoxShadow}
-                                            onChange={(e) => {setIsDisableBtn(false); setSettingBoxShadow(e.target.value) }}
-                                        > 
-                                            <MenuItem value={'none'}>None</MenuItem>
-                                            <MenuItem value={`0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),
-                                            0px 1px 5px 0px rgba(0,0,0,0.12)`}>Small</MenuItem>
-                                            <MenuItem value={`0px 5px 6px -3px rgba(0,0,0,0.2),0px 9px 12px 1px rgba(0,0,0,0.14),
-                                            0px 3px 16px 2px rgba(0,0,0,0.12)`}>Medium</MenuItem>
-                                            <MenuItem value={`0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),
-                                            0px 9px 46px 8px rgba(0,0,0,0.12)`}>Large</MenuItem> 
-                                        </Select>
-                                    </FormControl>
+                                        label='Header shadow'
+                                        value={settingBoxShadow}
+                                        setValue={setSettingBoxShadow}
+                                        setIsDisableBtn={setIsDisableBtn}
+                                    />
+                                    
                                     
                                     <Box mt={2} display="flex" flexDirection='column'>
                                         <ColorSelecter
@@ -286,11 +280,18 @@ function StyleChanger() {
                                         />
                                              
                                         </Box>
-                                    <Box 
-                                        className={classes.settingsItem}
-                                    > 
-                                        
-                                    </Box> 
+                                        <Box className={classes.infoBlock} mt={2}> 
+                                            <Box mr={1}>  
+                                                <IconButton className={classes.infoBtn} >
+                                                    <InfoOutlined/>
+                                                </IconButton> 
+                                            </Box>
+                                            <Box>
+                                                <Typography variant='h6'>
+                                                    Max Width , Fixed  and Disable Gutters settings also share for footer 
+                                                </Typography>   
+                                            </Box>
+                                        </Box>
                                 </FormGroup>
                                    
      

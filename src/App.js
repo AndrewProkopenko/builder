@@ -3,8 +3,7 @@ import React from "react"
 import ModeProvider from './context/modeContext/ModeProvider'
 import CategoryProvider from './context/headerContext/CategoryProvider'
 import LoadingProvider from './context/loadingContext/LoadingProvider'
-import LibraryProvider from './context/libraryContext/LibraryProvider' 
-import ImageProvider from './context/imageContext/ImageProvider'
+import LibraryProvider from './context/libraryContext/LibraryProvider'  
 import SendFormProvider from './context/sendFormContext/SendFormProvider'
 import ModalProvider from './context/modalContext/ModalProvider'
  
@@ -17,8 +16,7 @@ const App = () => {
 
   return (
     <ModalProvider>
-      <SendFormProvider>
-        <ImageProvider> 
+      <SendFormProvider> 
 
           <CategoryProvider>
             <LibraryProvider>
@@ -31,8 +29,7 @@ const App = () => {
                 </ModeProvider>
             </LibraryProvider> 
           </CategoryProvider> 
-
-        </ImageProvider>
+ 
       </SendFormProvider>
     </ModalProvider>
   );

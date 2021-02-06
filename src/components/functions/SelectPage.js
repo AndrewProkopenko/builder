@@ -12,6 +12,7 @@ import CategoryContext from '../../context/headerContext/CategoryContext'
 
 const SelectPage = memo( ({value, setValue, index}) => {
    
+    console.log(value)
     const { categories } = useContext(CategoryContext)
 
     const [pages, SetPages] = useState([]) 
@@ -86,19 +87,26 @@ const SelectPage = memo( ({value, setValue, index}) => {
                 fullWidth
             >
                 <InputLabel id={`url-pages`}>Choice page</InputLabel>
-                <Select
-                    labelId={`url-pages`}
-                    id="url-select"
-                    value={selectValue}  
-                    fullWidth
-                    style={{maxWidth: '100%'}}
-                    onChange={(e) => { handleChange(e.target.value) }}
-                >   
-                    {
-                        renderLinkList()
-                    }
-                        
-                </Select>
+                {
+                    pages.length > 0 && 
+                    <Select
+                        labelId={`url-pages`}
+                        id="url-select"
+                        value={selectValue}  
+                        fullWidth
+                        style={{maxWidth: '100%'}}
+                        onChange={(e) => { handleChange(e.target.value) }}
+                    >   
+                        {
+                            renderLinkList()
+                        }
+                        {
+                            value === 'none' &&
+                            <MenuItem value={'none'} style={{display: 'none'}} >None</MenuItem>
+                        }
+                            
+                    </Select>
+                }
             </FormControl>
         </Box> 
     )

@@ -8,7 +8,7 @@ import {getColorByPalette, getColorByPaletteReverse} from '../../functions/color
 
 import '../../../assets/style/lineForm.scss' 
 
-import ValidationChip from '../../placeholders/ValidationChip'
+import ValidationChip from '../../utilits/ValidationChip'
 import {NameValidation, PhoneValidation} from '../../functions/formValidation'
 import InputMaskPhone from '../../functions/InputMaskPhone'
 

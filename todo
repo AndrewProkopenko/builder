@@ -1,5 +1,11 @@
-mask
-validation text
+---прелоадер как у приложения 
+---selectPage 
+---imageRemover
+---BOX-SHADOW
+
+наполнить 3 категории по 5 страниц (с иконками)
+common styles (heading block, response coefficient)
+single page 
 
 wish list: 
 1. firebase hosting ---

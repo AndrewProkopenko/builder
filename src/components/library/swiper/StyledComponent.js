@@ -41,14 +41,13 @@ import DumbComponent from "./DumbComponent"
 
 import AddItem from './AddItem' 
 import InputChange from '../../functions/InputChange';
-
-import ImageContext  from '../../../context/imageContext/ImageContext'
+ 
 import SelectPage from '../../functions/SelectPage';
 
-function StyledComponent(props) {
- 
-    const { removeImage } = React.useContext(ImageContext)
+import {RemoveImage} from '../../functions/RemoveImage' 
 
+function StyledComponent(props) {
+    
     const [isDisableBtn, setIsDisableBtn] = React.useState(true)
     const [open, setOpen] = React.useState(false)
   
@@ -96,7 +95,8 @@ function StyledComponent(props) {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { menu, menuTitle, btnSetting, btnDrawerStyle, btnDrawerItem, containerWrapper, btnWithLabel, responseValues ,responseMobile , mobileTooltip, dialogContentUnstyle } = commonClasses 
+        const { menu, menuTitle, btnSetting, btnDrawerStyle, btnDrawerItem, containerWrapper, btnWithLabel, responseValues 
+            ,responseMobile , mobileTooltip, dialogContentUnstyle, infoBtn, infoBlock } = commonClasses 
  
         const { mtView, mbView } = commonStyle 
 
@@ -200,28 +200,8 @@ function StyledComponent(props) {
                 fontSize: 14, 
                 backgroundColor: theme.palette.warning.main
             },
-            reloadSettings: {
-                display: "flex", 
-                alignItems: 'center', 
-                padding: theme.spacing(1), 
-                border: `1px solid ${theme.palette.divider}`, 
-                '&:hover': {
-                    borderColor: theme.palette.warning.light,  
-                    '& $warningBtn': {
-                        backgroundColor: theme.palette.warning.main,   
-                        '& svg': {
-                            fill: theme.palette.getContrastText(theme.palette.warning.main)
-                        }
-                    }
-                }
-                 
-            },
-            warningBtn: {
-                backgroundColor: theme.palette.divider, 
-                '&:hover': {
-                    backgroundColor: theme.palette.warning.light,
-                }
-            }
+            infoBlock: infoBlock,
+            infoBtn: infoBtn
         })
     })
     
@@ -252,7 +232,7 @@ function StyledComponent(props) {
 
         if(imageForDelete.length > 0) {
             imageForDelete.forEach( name => {
-                removeImage(name)
+                RemoveImage(name)
             })
         }
 
@@ -270,7 +250,7 @@ function StyledComponent(props) {
             })
             if(imgArray.length > 0) {
                 imgArray.forEach( name => {
-                    removeImage(name)
+                    RemoveImage(name)
                 })
             }
 
@@ -371,8 +351,8 @@ function StyledComponent(props) {
             imageUrl: url, 
             imageName: name, 
             title: title, 
-            isLink: false, 
-            activePage: [],
+            isUrl: false, 
+            activePage: {id: 'none'},
             isButton: false, 
             targetButton: ""
         }
@@ -384,7 +364,7 @@ function StyledComponent(props) {
     }
 
     const slidesRender = () => (
-        slides.map((item, index) => {  
+        slides.map((item, index) => {   
             return (
                 <Box key={index} className={classes.slideContainer}>
                     {
@@ -435,30 +415,7 @@ function StyledComponent(props) {
                                 item.isUrl &&  
                                 <Box my={1}>
                                     <SelectPage value={item.activePage.id} setValue={handleChangeUrl} index={index} />
-                                </Box>
-                                // <Box my={1}> 
-                                //     <FormControl 
-                                //         variant='filled' 
-                                //         size='small'    
-                                //         // style={{width: '100%'}}
-                                //         fullWidth
-                                //     >
-                                //         <InputLabel id={`url-${index}`}>Choice page</InputLabel>
-                                //         <Select
-                                //             labelId={`url-${index}`}
-                                //             id="url-select"
-                                //             value={item.url}  
-                                //             fullWidth
-                                //             style={{maxWidth: '100%'}}
-                                //             onChange={(e) => {setIsDisableBtn(false); handleChangeUrl(e.target.value, index) }}
-                                //         >   
-                                //             {
-                                //                 renderLinkList()
-                                //             }
-                                             
-                                //         </Select>
-                                //     </FormControl>
-                                // </Box> 
+                                </Box> 
                             }
                         </React.Fragment>
                     }
@@ -538,9 +495,7 @@ function StyledComponent(props) {
             )
         })
     )
-
-     
-      
+ 
     return (
         <div className={classes.containerWrapper}>
             <Tooltip  title={`Swiper margin top`}  placement={'top'}>
@@ -703,10 +658,10 @@ function StyledComponent(props) {
                                         />  
                                     </Box>
                                     
-                                    <Box className={classes.reloadSettings}> 
+                                    <Box className={classes.infoBlock}> 
                                         <Box mr={1}> 
                                             <Tooltip classes={{tooltip: classes.tooltipReload}} title="After change this settings you need to reloading page" >
-                                                <IconButton className={classes.warningBtn} >
+                                                <IconButton className={classes.infoBtn} >
                                                     <InfoOutlined/>
                                                 </IconButton>
                                             </Tooltip>

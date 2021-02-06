@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
   
-import { useHistory } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import { makeStyles, Typography, Container, Box, fade } from '@material-ui/core'  
 
@@ -16,9 +16,7 @@ import ModalContext from '../../../context/modalContext/ModalContext'
 
 SwiperCore.use([Navigation]);
   
-function DumbComponent(props) {
-
-    let history = useHistory();
+function DumbComponent(props) { 
     
     const { handleOpen } = React.useContext(ModalContext) 
 
@@ -86,7 +84,10 @@ function DumbComponent(props) {
             slide: {
                 position: 'relative',  
                 height: slideHeight,   
-                overflow: 'hidden',    
+                overflow: 'hidden', 
+                '& a': {
+                    color: 'inherit'
+                }
             },
             slideBox: {
                 position: 'relative',  
@@ -196,10 +197,7 @@ function DumbComponent(props) {
     const handleSlideClick = (slide) => {
         if(slide.isButton) {
             handleOpen(slide.targetButton)
-        }
-        if(slide.isUrl) {
-            history.push(`${slide.activePage.slug}`) 
-        }
+        } 
     }
 
     const renderSlide = (slide, key) => (
@@ -209,22 +207,45 @@ function DumbComponent(props) {
             className={`${classes.slide} ${(slide.isButton || slide.isUrl) ? classes.activeSlide : '' } `}
             onClick={() => { handleSlideClick(slide) }}
         >
-            <Box className={classes.slideBox}>
-                <Box 
-                    style={{backgroundImage: `url(${slide.imageUrl})`}}
-                    className={classes.slideImg}
-                />
-                {
-                    slide.title.length > 0 &&
-                    <Typography
-                        component='h6'
-                        className={classes.slideTitle}
-                    >
-                        {slide.title}
-                    </Typography>
-                }
-                
-            </Box>
+            {
+                slide.isUrl ? 
+                <NavLink to={slide.activePage.slug}>
+                    <Box className={classes.slideBox}>
+                        <Box 
+                            style={{backgroundImage: `url(${slide.imageUrl})`}}
+                            className={classes.slideImg}
+                        />
+                        {
+                            slide.title.length > 0 &&
+                            <Typography
+                                component='h6'
+                                className={classes.slideTitle}
+                            >
+                                {slide.title}
+                            </Typography>
+                        }
+                        
+                    </Box>
+                </NavLink>
+                :
+                <Box className={classes.slideBox}>
+                    <Box 
+                        style={{backgroundImage: `url(${slide.imageUrl})`}}
+                        className={classes.slideImg}
+                    />
+                    {
+                        slide.title.length > 0 &&
+                        <Typography
+                            component='h6'
+                            className={classes.slideTitle}
+                        >
+                            {slide.title}
+                        </Typography>
+                    }
+                    
+                </Box>
+            }
+            
         </SwiperSlide>
     )
  
@@ -257,16 +278,16 @@ function DumbComponent(props) {
                     navigation   
                 >
                     {
-                        items.map( slide => {
-                            return renderSlide(slide)
+                        items.map( (slide, key) => {
+                            return renderSlide(slide, key)
                         } )
                     }
                 </Swiper> 
                 :
                 <Box className={classes.gallery}>
                     {
-                        items.map( slide => {
-                            return renderSlide(slide)
+                        items.map( (slide, key) => {
+                            return renderSlide(slide, key)
                         } )
                     }
                 </Box>   

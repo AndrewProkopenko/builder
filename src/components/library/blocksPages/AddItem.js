@@ -13,7 +13,7 @@ import SelectPage from '../../functions/SelectPage'
 const AddItem = (props) => {
      
     const [newSvg, setNewSvg] = React.useState('') 
-    const [idActive, setIdActive] = React.useState(null) 
+    const [idActive, setIdActive] = React.useState('none') 
     const [activePage, setActivePage] = React.useState({}) 
  
     const handleSubmit = (e) => { 

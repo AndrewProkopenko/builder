@@ -3,7 +3,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { Box, Typography} from '@material-ui/core'
 
-import LoadingContext from '../context/loadingContext/LoadingContext'
+import LoadingContext from '../../context/loadingContext/LoadingContext'
 
 function Error() {
 
@@ -23,7 +23,7 @@ function Error() {
             <Typography variant='h5' gutterBottom>
                 This page isn`t available
             </Typography>
-            <NavLink to='/'>
+            <NavLink to='/' style={{color: 'inherit'}}>
                 Home
             </NavLink>
         </Box>

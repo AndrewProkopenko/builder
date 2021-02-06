@@ -23,8 +23,8 @@ import BannerElement from '../library/banner/ElementCreator'
 import BlocksPagesElement from '../library/blocksPages/ElementCreator'   
 import BlocksAdvElement from '../library/blocksAdv/ElementCreator'   
 
-import SkeletonPage from '../placeholders/SkeletonPage'
-import Breadcrumbs from '../placeholders/Breadcrumbs'
+import SkeletonPage from '../utilits/SkeletonPage'
+import Breadcrumbs from '../utilits/Breadcrumbs'
  
 import firebase from '../../firebase/firebase'
   
@@ -194,8 +194,7 @@ function SinglePage(props) {
         newData.items[elem].disableGutters = settings.disableGutters 
         newData.items[elem].fixed = settings.fixed 
         newData.items[elem].maxWidth = settings.maxWidth 
-        newData.items[elem].innerContainer = settings.innerContainer 
-        newData.items[elem].isPaper = settings.isPaper 
+        newData.items[elem].innerContainer = settings.innerContainer  
       }
       return 0 
     }) 

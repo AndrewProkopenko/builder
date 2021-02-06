@@ -1,15 +1,15 @@
 import React from 'react'
 import {Redirect} from 'react-router-dom'
-import firebase from '../firebase/firebase' 
+import firebase from '../../firebase/firebase' 
 
-import LoadingContext from '../context/loadingContext/LoadingContext' 
-import ModeContext from '../context/modeContext/ModeContext' 
-import SendFormContext from '../context/sendFormContext/SendFormContext' 
+import LoadingContext from '../../context/loadingContext/LoadingContext' 
+import ModeContext from '../../context/modeContext/ModeContext' 
+import SendFormContext from '../../context/sendFormContext/SendFormContext' 
  
 import { Avatar, Button, TextField, Box, Container, CircularProgress, Typography, Tooltip } from '@material-ui/core'; 
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'; 
 import { makeStyles } from '@material-ui/core/styles';  
-import { Alert } from '@material-ui/lab'; 
+import { Alert, AlertTitle } from '@material-ui/lab'; 
 
 
 
@@ -146,7 +146,10 @@ function Login() {
                         {
                             error && 
                             <Box mb={2} >
-                                <Alert severity="error">{error.message}</Alert>
+                                <Alert severity="error"> 
+                                    <AlertTitle>Error</AlertTitle>
+                                    {error.message}
+                                </Alert>
                             </Box>
                         }
                     

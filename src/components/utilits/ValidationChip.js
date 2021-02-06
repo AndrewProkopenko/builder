@@ -20,9 +20,11 @@ const  ValidationChip = ({ isValid, handleClose, place, absolute, closeOnFirstCl
         }  
 
         window.addEventListener("click", setCloseClick); 
+        window.addEventListener("scroll", setCloseClick); 
 
         return function cleanupListener() { 
             window.removeEventListener('click', setCloseClick)   
+            window.removeEventListener('scroll', setCloseClick)   
         }
         // eslint-disable-next-line
     }, [])
@@ -44,7 +46,12 @@ const  ValidationChip = ({ isValid, handleClose, place, absolute, closeOnFirstCl
                 marginBottom: 8, 
                 transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeInOut}`,
                 transformOrigin: 'bottom', 
-                minHeight: 30,    
+                minHeight: 30,   
+                [theme.breakpoints.down('sm')] : {
+                    position: 'relative', 
+                    top: absolute ? 0 : "inherit",
+                    marginTop: 0 
+                }
             },
             chipFilled: {
                 backgroundColor: chipColor,
@@ -57,7 +64,7 @@ const  ValidationChip = ({ isValid, handleClose, place, absolute, closeOnFirstCl
                 }
             },
             chipOutlined: {
-                backgroundColor: absolute ? theme.palette.background.default : 'inherit', 
+                backgroundColor: 'inherit', 
                 border: `1px solid ${chipColor}`,  
                 color: chipColor,
                 '& $closeChip': { 
@@ -92,6 +99,9 @@ const  ValidationChip = ({ isValid, handleClose, place, absolute, closeOnFirstCl
                 cursor: "pointer",
                 height: 18, 
                 fontSize: 15, 
+                '& svg': {
+                    fill: theme.palette.getContrastText(chipColor)
+                }
                 
             }
         })

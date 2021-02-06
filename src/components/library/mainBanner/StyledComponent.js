@@ -23,15 +23,13 @@ import { DeleteOutline } from '@material-ui/icons';
 import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 import TabletMacIcon from '@material-ui/icons/TabletMac';
 
-import DumbComponent from "./DumbComponent"
-
-import ImageContext  from '../../../context/imageContext/ImageContext'
+import DumbComponent from "./DumbComponent" 
 
 import InputChange from '../../functions/InputChange';
 
-function StyledComponent(props) {
+import {RemoveImage} from '../../functions/RemoveImage' 
 
-    const { removeImage } = React.useContext(ImageContext)
+function StyledComponent(props) { 
         
     const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
     const [open, setOpen] = React.useState(false)
@@ -159,10 +157,10 @@ function StyledComponent(props) {
         const generateImageName = `${imageData.name}-${props.data.id}`
 
         if( imageType === 'mainImage')  { 
-            removeImage(imageName)   
+            RemoveImage(imageName)   
         }
         if( imageType === 'icon') {
-            removeImage(iconName)   
+            RemoveImage(iconName)   
         }
  
           
@@ -215,8 +213,8 @@ function StyledComponent(props) {
     const removeItem = () => {
         const conf = window.confirm('Delete? ')
         if(conf) { 
-            removeImage(imageName) 
-            removeImage(iconName) 
+            RemoveImage(imageName) 
+            RemoveImage(iconName) 
             props.removeContainer(props.data.id)
         }
     }

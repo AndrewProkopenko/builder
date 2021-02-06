@@ -11,7 +11,7 @@ import { getColorByPalette } from '../functions/colorChanger/ColorCalculation'
 function Footer() {
 
     const { logo, settings } = React.useContext(CategoryContext)
-
+ 
     let backgroundFooter = settings.classes.backgroundColor
     let contrastFooter
     let hoverActiveLinkColor
@@ -110,14 +110,16 @@ function Footer() {
 
     return (
         <Box className={classes.footer}>
-            <Container maxWidth={'lg'}>
-
+            <Container 
+                maxWidth={settings.maxWidth}
+                fixed={settings.fixed}
+                disableGutters={settings.disableGutters}
+            > 
                 <Box display='flex' alignItems="center" justifyContent='space-between'>
                     { createLogo() }
                     { buttonToTop() }
                 </Box>
-                
- 
+                 
             </Container>
         </Box>
     ) 

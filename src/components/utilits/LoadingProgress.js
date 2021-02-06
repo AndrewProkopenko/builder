@@ -9,7 +9,7 @@ function LoadingProgress() {
     const useStyles = makeStyles( () => ({
         root: {
             position: 'fixed', 
-            zIndex: 1500, 
+            zIndex: 10001, 
             top: 0, 
             left: 0, 
             right: 0,

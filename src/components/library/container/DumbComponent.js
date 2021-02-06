@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, Paper } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 
 import ModeContext from '../../../context/modeContext/ModeContext'
   
@@ -12,8 +12,8 @@ import ParagraphImageCreator from '../paragraphImage/ElementCreator'
 
 import {getColorByPalette} from '../../functions/colorChanger/ColorCalculation'
 
-function DumbComponent(props) {
- 
+function DumbComponent(props) { 
+
     const {modeDev} = React.useContext(ModeContext)
  
     console.log('dumb container work') 
@@ -38,32 +38,12 @@ function DumbComponent(props) {
                 [`@media (max-width: 960px)`]: { 
                     marginTop: props.classes.marginTop*0.8,
                     marginBottom: props.classes.marginBottom*0.8, 
+                    paddingTop: props.classes.paddingTop*0.8,
+                    paddingBottom: props.classes.paddingBottom*0.8,
                 },
                 [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: { 
                     marginTop: props.classes.marginTop*0.5,
                     marginBottom: props.classes.marginBottom*0.5,  
-                },
-            },
-            noPadding : { 
-                paddingTop: 0,  
-                paddingBottom: 0,
-                [`@media (max-width: 960px)`]: {  
-                    paddingTop: 0,
-                    paddingBottom: 0,
-                },
-                [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {  
-                    paddingTop: 0,
-                    paddingBottom: 0,
-                },
-            },
-            yesPadding : { 
-                paddingTop: props.classes.paddingTop,  
-                paddingBottom: props.classes.paddingBottom,
-                [`@media (max-width: 960px)`]: {  
-                    paddingTop: props.classes.paddingTop*0.8,
-                    paddingBottom: props.classes.paddingBottom*0.8,
-                },
-                [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {  
                     paddingTop: props.classes.paddingTop*0.5,
                     paddingBottom: props.classes.paddingBottom*0.5,
                 },
@@ -71,10 +51,7 @@ function DumbComponent(props) {
         })
     });
     const classes = useStyles(); 
-
-    const isPaperClassForContainer = props.settings.isPaper ? classes.noPadding : classes.yesPadding
-    const isPaperClassForPaper = props.settings.isPaper ? classes.yesPadding : classes.noPadding
-    
+ 
     const renderItems = () => { 
         return (
             modeDev ?
@@ -174,67 +151,31 @@ function DumbComponent(props) {
             }) 
         )
     }
-    return (
-        <React.Fragment>
-            {
-                props.settings.isPaper && 
-                <Container  
-                    maxWidth={props.settings.maxWidth} 
+    return ( 
+        <Container  
+            maxWidth={props.settings.maxWidth} 
+            fixed={props.settings.fixed} 
+            disableGutters={props.settings.disableGutters} 
+            className={`${classes.myClassName} ${classes.styleClass}  `}
+        > 
+            {  
+                props.settings.innerContainer && 
+                <Container
+                    maxWidth={props.settings.innerContainer}
                     fixed={props.settings.fixed} 
                     disableGutters={props.settings.disableGutters} 
-                    className={`${classes.myClassName} ${classes.styleClass} ${isPaperClassForContainer}`}
-                > 
-                    <Paper style={{paddingLeft: 15, paddingRight: 15}} className={isPaperClassForPaper}>
-                        {  
-                            props.settings.innerContainer && 
-                            <Container
-                                maxWidth={props.settings.innerContainer}
-                                fixed={props.settings.fixed} 
-                                disableGutters={props.settings.disableGutters} 
-                            >
-                                { renderItems() }
-                            </Container>
-                        }
-                        {  
-                            !props.settings.innerContainer && 
-                            <React.Fragment>
-                                 { renderItems() }
-                            </React.Fragment>
-                        }
-                        
-                    </Paper>
-                </Container> 
+                >
+                        { renderItems() }
+                </Container>
             }
-            {
-                !props.settings.isPaper &&  
-                <Container  
-                        maxWidth={props.settings.maxWidth} 
-                        fixed={props.settings.fixed} 
-                        disableGutters={props.settings.disableGutters} 
-                        className={`${classes.myClassName} ${classes.styleClass} ${isPaperClassForContainer}`}
-                    > 
-                        {  
-                            props.settings.innerContainer && 
-                            <Container
-                                maxWidth={props.settings.innerContainer}
-                                fixed={props.settings.fixed} 
-                                disableGutters={props.settings.disableGutters} 
-                            >
-                                 { renderItems() }
-                            </Container>
-                        }
-                        {  
-                            !props.settings.innerContainer && 
-                            <React.Fragment>
-                                 { renderItems() }
-                            </React.Fragment>
-                        }
-                        
-                    </Container> 
-                 
+            {  
+                !props.settings.innerContainer && 
+                <React.Fragment>
+                        { renderItems() }
+                </React.Fragment>
             }
             
-        </React.Fragment>
+        </Container>  
     )
 }
 

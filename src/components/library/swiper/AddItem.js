@@ -36,8 +36,7 @@ const AddItem = (props) => {
         setNewImageTitle('') 
     }
 
-    const useStyles = makeStyles((theme) => { 
-
+    const useStyles = makeStyles((theme) => {  
         return ({ 
             addSlide: { 
                 padding: theme.spacing(1), 

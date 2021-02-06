@@ -20,7 +20,7 @@ import {
 } from '@material-ui/core' 
 import {InfoOutlined} from '@material-ui/icons'; 
 
-import { amber } from '@material-ui/core/colors' 
+import { blue } from '@material-ui/core/colors' 
 import SettingsIcon from '@material-ui/icons/Settings';
 import OpenWithIcon from '@material-ui/icons/OpenWith'; 
  
@@ -30,7 +30,7 @@ import {isNoThemeColor} from '../../functions/colorChanger/ColorCalculation'
 import ColorSelecter from '../../functions/colorChanger/ColorSelecter'
 
 import InputChange from '../../functions/InputChange'
-import ValidationChip from '../../placeholders/ValidationChip'
+import ValidationChip from '../../utilits/ValidationChip'
 
 
 function RequestsChanger() {
@@ -70,7 +70,7 @@ function RequestsChanger() {
     const useStyles = makeStyles((theme) => {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
-        const { menu, menuTitle, btnSetting, dialogContentUnstyle } = commonClasses
+        const { menu, menuTitle, btnSetting, dialogContentUnstyle, infoBlock, infoBtn } = commonClasses
  
         return ({  
             dialogContentUnstyle: dialogContentUnstyle, 
@@ -80,34 +80,17 @@ function RequestsChanger() {
             }},
             menuTitle: menuTitle,
             btnSetting: {...btnSetting, ...{
-                backgroundColor: amber[500], 
+                backgroundColor: blue[700], 
                 '&>span' :{
                     flexDirection: 'row',
                     fontSize: 10
-                }
+                },
+                '&:hover': {
+                    backgroundColor: blue[500], 
+                },
             }},  
-            infoBlock: {
-                display: "flex", 
-                alignItems: 'center', 
-                padding: theme.spacing(1), 
-                border: `1px solid ${theme.palette.divider}`, 
-                '&:hover': {
-                    borderColor: theme.palette.warning.light,  
-                    '& $infoBtn': {
-                        backgroundColor: theme.palette.warning.main,   
-                        '& svg': {
-                            fill: theme.palette.getContrastText(theme.palette.warning.main)
-                        }
-                    }
-                }
-                 
-            },
-            infoBtn: {
-                backgroundColor: theme.palette.divider, 
-                '&:hover': {
-                    backgroundColor: theme.palette.warning.light,
-                }
-            },  
+            infoBlock: infoBlock,
+            infoBtn: infoBtn,  
         })
     })
     

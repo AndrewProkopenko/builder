@@ -35,14 +35,12 @@ import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 
 import DumbComponent from "./DumbComponent"
 
-import InputChange from '../../functions/InputChange';
+import InputChange from '../../functions/InputChange'; 
 
-import ImageContext  from '../../../context/imageContext/ImageContext'
+import {RemoveImage} from '../../functions/RemoveImage' 
 
 function StyledComponent(props) { 
-    
-    const { removeImage } = React.useContext(ImageContext)
-
+     
     const [isDisableBtn, setIsDisableBtn] = React.useState(true)
     const [open, setOpen] = React.useState(false)
 
@@ -185,7 +183,7 @@ function StyledComponent(props) {
 
     const handleImageUpload = async (e) => {
   
-        removeImage(imageName)
+        RemoveImage(imageName)
 
         const imageData = e.target.files[0]
         const generateImageName = `${imageData.name}-${props.data.id}`
@@ -230,9 +228,9 @@ function StyledComponent(props) {
         setIsDisableBtn(true)
     }
     const removeItem = () => {
-        const conf = window.confirm('Delete? ')
+        const conf = window.confirm('Delete banner? ')
         if (conf) { 
-            removeImage(imageName)
+            RemoveImage(imageName)
             props.removeContainer(props.data.id)
         }
     }

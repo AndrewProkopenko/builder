@@ -7,6 +7,9 @@ html, body, .App, #root {
     height: 100%;
     // background-color: #f2f2f2 !important;
 }
+body {
+    overflow: hidden;
+}
 .App { 
     display: flex;
     flex-direction: column;
@@ -56,6 +59,7 @@ textarea:focus {
 *, *::before, *::after {
     box-sizing: border-box;
 }
+ 
 
 .heading { 
     h3 { 

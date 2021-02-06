@@ -91,21 +91,7 @@ const StylesChangers = () => {
             position: 'relative',
             outline: "1px solid #ffffff00",
             outlineOffset: 0, 
-            transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeIn} outline`,
-            '&:hover': {
-                // outlineColor: `${theme.palette.error.main}`,
-                // zIndex: 100, 
-                 
-                // '& $mtView' : { 
-                //     opacity: 1
-                // },
-                // '& $mbView' : { 
-                //     opacity: 1
-                // },
-                // '& $btnDrawerStyle' : { 
-                //     opacity: 1
-                // }
-            }
+            transition: `${theme.transitions.duration.shorter}ms ${theme.transitions.easing.easeIn} outline`, 
         },
         responseValues: {
             display: 'flex', 
@@ -142,7 +128,33 @@ const StylesChangers = () => {
         dialogContentUnstyle: {
             outline: 0, 
             padding: 0
-        }
+        }, 
+        infoBlock: {
+            display: "flex", 
+            alignItems: 'center', 
+            padding: theme.spacing(1), 
+            border: `1px solid ${theme.palette.divider}`, 
+            '&:hover': {
+                borderColor: theme.palette.warning.light,  
+                '& $infoBtn': {
+                    backgroundColor: theme.palette.warning.main,   
+                    '& svg': {
+                        fill: theme.palette.getContrastText(theme.palette.warning.main)
+                    }
+                }
+            }, 
+            '& h6': {
+                fontSize: 14, 
+                lineHeight: 1.2
+            }
+             
+        },
+        infoBtn: {
+            backgroundColor: theme.palette.divider, 
+            '&:hover': {
+                backgroundColor: theme.palette.warning.light,
+            }
+        },
     })
  
     return changers 

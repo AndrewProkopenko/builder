@@ -5,7 +5,7 @@ import { Container, Grid, makeStyles, Button, Box, darken, fade, lighten } from 
 import {getColorByPalette, getColorByPaletteReverse} from '../../functions/colorChanger/ColorCalculation' 
 import { NameValidation, PhoneValidation} from '../../functions/formValidation'
 import InputMaskPhone from '../../functions/InputMaskPhone' 
-import ValidationChip from '../../placeholders/ValidationChip'
+import ValidationChip from '../../utilits/ValidationChip'
 
 import SendFormContext from '../../../context/sendFormContext/SendFormContext'
 

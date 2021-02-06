@@ -18,7 +18,7 @@ import SendFormContext from '../../context/sendFormContext/SendFormContext'
 import ModalContext from '../../context/modalContext/ModalContext'
 
 import InputMaskPhone from '../functions/InputMaskPhone'
-import ValidationChip from '../placeholders/ValidationChip'
+import ValidationChip from '../utilits/ValidationChip'
 
 import { getColorByPalette, getColorByPaletteForGradient} from '../functions/colorChanger/ColorCalculation'
 

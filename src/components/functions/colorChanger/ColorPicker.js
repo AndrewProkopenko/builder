@@ -1,7 +1,9 @@
 import React, { memo, useState, useEffect } from "react";
+import Draggable from 'react-draggable'; 
 import { ChromePicker } from "react-color";
-import { IconButton, Box, makeStyles, Button, Tooltip } from "@material-ui/core"
+import { IconButton, Box, makeStyles, Button, Tooltip, Typography } from "@material-ui/core"
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import OpenWithIcon from '@material-ui/icons/OpenWith';
 
 
 export const ColorPicker = memo(({ initialColor, changeColor, setIsDisableBtn, position, noInherit }) => { 
@@ -72,7 +74,7 @@ export const ColorPicker = memo(({ initialColor, changeColor, setIsDisableBtn, p
             boxPicker: { 
                 position: 'absolute',
                 zIndex: 1510, 
-                top: position === 'top' ? 100 : -250, 
+                top: position === 'top' ? 100 : -290, 
                 left: position === 'left' ? 0 : 'auto',
                 right: position === 'right' ? 0 : 'auto',
             }, 
@@ -81,6 +83,14 @@ export const ColorPicker = memo(({ initialColor, changeColor, setIsDisableBtn, p
             }, 
             iconButtonDisabled: {
                 opacity: 0
+            }, 
+            draggableColorTitle: {
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'space-between',
+                padding: theme.spacing(1, 2), 
+                backgroundColor: theme.palette.background.default, 
+                cursor: 'move'
             }
         })
     })
@@ -94,12 +104,22 @@ export const ColorPicker = memo(({ initialColor, changeColor, setIsDisableBtn, p
                 </Box>
                 {   
                     isOpen &&  
-                    <Box className={classes.boxPicker}>
-                        <ChromePicker 
-                            color={ color }
-                            onChangeComplete={ handleChange } 
-                        />
-                    </Box>
+                   
+                        <Draggable  handle="#draggable-color"  >
+                            <Box className={classes.boxPicker}> 
+                                <Typography 
+                                    component='p' 
+                                    className={classes.draggableColorTitle}
+                                    id="draggable-color"
+                                >
+                                    Set color <OpenWithIcon/>
+                                </Typography>
+                                <ChromePicker 
+                                    color={ color }
+                                    onChangeComplete={ handleChange } 
+                                />
+                            </Box>
+                        </Draggable>
                     
                 }
                 {

@@ -1,11 +1,23 @@
-import React from 'react'
+  
+import firebase from '../../firebase/firebase'
+ 
+const RemoveImage = async (name) => { 
+    console.log(name)
+    if(name !== '') {
+        const storageRef = firebase.storage.ref();
 
-function RemoveImage() {
-    return (
-        <div>
-            RemoveImage
-        </div>
-    )
-}
+        const imageRef = storageRef.child(name)
+    
+        try {
+            await imageRef.delete().then(function() {
+                console.log('File deleted successfully')
+            }).catch(function(error) {
+                console.log(error) 
+            }); 
+        } catch (error) {
+            console.log(error)
+        }
+    }  
+} 
 
-export default RemoveImage
+export { RemoveImage }

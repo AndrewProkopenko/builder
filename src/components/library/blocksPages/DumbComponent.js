@@ -334,16 +334,16 @@ function DumbComponent(props) {
                     navigation   
                 >
                     {
-                        items.map( slide => {
-                            return renderSlide(slide)
+                        items.map( (slide, key) => {
+                            return  renderSlide(slide, key) 
                         } )
                     }
                 </Swiper> 
                 :
                 <Box className={classes.gallery}>
                     {
-                        items.map( slide => {
-                            return renderSlide(slide)
+                         items.map( (slide, key) => {
+                            return renderSlide(slide, key) 
                         } )
                     }
                 </Box>   

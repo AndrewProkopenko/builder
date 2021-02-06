@@ -1,18 +1,19 @@
-import React from 'react' 
+import React, { useState, useEffect } from 'react' 
 
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
 import ScrollToTop from '../components/functions/ScrollToTop'  
     
-import LoadingProgress from '../components/placeholders/LoadingProgress'
+import LoadingProgress from '../components/utilits/LoadingProgress'
+import PreloaderThumbnail from '../components/utilits/PreloaderThumbnail'
 
 import Modal from '../components/modal/DumbComponent' 
 import Header from '../components/header/Header' 
 import Footer from '../components/footer/Footer' 
  
-import Login from '../components/Login'
-import Error from '../components/Error'
-import SinglePage from '../components/pages/SinglePage' 
+import Login from '../components/single/Login'
+import Error from '../components/single/Error'
+import SinglePage from '../components/page/SinglePage' 
 
 import CategoryContext from '../context/headerContext/CategoryContext'
 import LoadingContext from '../context/loadingContext/LoadingContext'   
@@ -22,8 +23,20 @@ function RouterComponent() {
     const {categories} = React.useContext(CategoryContext) 
     const {isLoading} = React.useContext(LoadingContext)  
 
-    
+    const [preloaderStatus, setPreloaderStatus] = useState('loading')
 
+    useEffect(() => {
+        if(categories.length > 0) {
+            setPreloaderStatus('ready')
+            setTimeout(() => {
+                setPreloaderStatus('delete') 
+                document.body.style.overflow = 'visible'
+            }, 2000);
+            setTimeout(() => {
+                setPreloaderStatus('hide') 
+            }, 2500);
+        } 
+    }, [categories])
 
     return (   
         <Router basename="builder"> 
@@ -33,6 +46,8 @@ function RouterComponent() {
             
             { isLoading && <LoadingProgress/> }
             
+            <PreloaderThumbnail status={preloaderStatus} />  
+
             {
                 categories.length > 0 &&
                 <React.Fragment>

@@ -2,8 +2,7 @@ import React from 'react'
 import firebase from '../../../firebase/firebase'
 
 import CategoryContext from '../../../context/headerContext/CategoryContext' 
-import LoadingContext from '../../../context/loadingContext/LoadingContext' 
-import ImageContext from '../../../context/imageContext/ImageContext' 
+import LoadingContext from '../../../context/loadingContext/LoadingContext'  
 
 import StylesChangers from '../../../styles/changers'  
  
@@ -31,14 +30,14 @@ import ImageIcon from '@material-ui/icons/Image';
  
 import Draggable from 'react-draggable';  
 
+import {RemoveImage} from '../../functions/RemoveImage' 
+
 function LogoChanger() { 
     
     
     const { setIsLoading } = React.useContext(LoadingContext)
     const { logo, modal, updateLogo } = React.useContext(CategoryContext)     
-  
-    const { removeImage  } = React.useContext(ImageContext)     
-  
+    
     const [open, setOpen] = React.useState(false)
     const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
 
@@ -123,7 +122,7 @@ function LogoChanger() {
     }  
     const handleImageSetting = (event) => {    
         uploadHandler(event.target.files[0])
-        removeImage(logo.imageName) 
+        RemoveImage(logo.imageName) 
 
         setIsLoading(true)
     }

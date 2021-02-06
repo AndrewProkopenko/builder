@@ -88,7 +88,8 @@ function StyledComponent(props) {
         const classesRef = StylesChangers()
         const commonClasses = classesRef(theme)
 
-        const { menu, menuTitle, btnSetting, btnDrawerStyle, btnDrawerItem, containerWrapper, btnWithLabel, responseValues ,responseMobile , mobileTooltip, dialogContentUnstyle } = commonClasses 
+        const { menu, menuTitle, btnSetting, btnDrawerStyle, btnDrawerItem, containerWrapper, btnWithLabel, responseValues ,
+            responseMobile , mobileTooltip, dialogContentUnstyle, infoBlock, infoBtn } = commonClasses 
  
         const { mtView, mbView } = commonStyle 
 
@@ -194,28 +195,8 @@ function StyledComponent(props) {
                 fontSize: 14, 
                 backgroundColor: theme.palette.warning.main
             },
-            reloadSettings: {
-                display: "flex", 
-                alignItems: 'center', 
-                padding: theme.spacing(1), 
-                border: `1px solid ${theme.palette.divider}`, 
-                '&:hover': {
-                    borderColor: theme.palette.warning.light,  
-                    '& $warningBtn': {
-                        backgroundColor: theme.palette.warning.main,   
-                        '& svg': {
-                            fill: theme.palette.getContrastText(theme.palette.warning.main)
-                        }
-                    }
-                }
-                 
-            },
-            warningBtn: {
-                backgroundColor: theme.palette.divider, 
-                '&:hover': {
-                    backgroundColor: theme.palette.warning.light,
-                }
-            }
+            infoBlock: infoBlock,
+            infoBtn: infoBtn
         })
     })
     
@@ -585,10 +566,10 @@ function StyledComponent(props) {
                                         />  
                                     </Box>
                                       
-                                    <Box className={classes.reloadSettings}> 
+                                    <Box className={classes.infoBlock}> 
                                         <Box mr={1}> 
                                             <Tooltip classes={{tooltip: classes.tooltipReload}} title="After change this settings you need to reloading page" >
-                                                <IconButton className={classes.warningBtn} >
+                                                <IconButton className={classes.infoBtn} >
                                                     <InfoOutlined/>
                                                 </IconButton>
                                             </Tooltip>

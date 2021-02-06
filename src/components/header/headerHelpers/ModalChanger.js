@@ -80,6 +80,9 @@ function RequestsChanger() {
                 '&>span' :{
                     flexDirection: 'row',
                     fontSize: 10
+                },
+                '&:hover': {
+                    backgroundColor: amber[700],  
                 }
             }},  
         })

@@ -26,6 +26,7 @@ import { InfoOutlined } from '@material-ui/icons';
 import OpenWithIcon from '@material-ui/icons/OpenWith';
 import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 import TabletMacIcon from '@material-ui/icons/TabletMac';
+import SelectShadow from '../../functions/SelectShadow';
 
 function ContainerElement(props) { 
     console.log('styled Container work')
@@ -69,8 +70,7 @@ function ContainerElement(props) {
     const [settingGutter, setSettingGutter] = React.useState(props.data.disableGutters)
     const [settingFixed, setSettingFixed] = React.useState(props.data.fixed)
     const [settingMaxWidth, setSettingMaxWidth] = React.useState(props.data.maxWidth)
-    const [settingInnerContainer, setSettingInnerContainer] = React.useState(props.data.innerContainer || false )
-    const [settingIsPaper, setSettingIsPaper] = React.useState(props.data.isPaper || false )
+    const [settingInnerContainer, setSettingInnerContainer] = React.useState(props.data.innerContainer || false ) 
 
     const [anchorEl, setAnchorEl] = React.useState(null); 
      
@@ -79,8 +79,7 @@ function ContainerElement(props) {
         maxWidth: settingMaxWidth,
         disableGutters: settingGutter,
         fixed: settingFixed,
-        innerContainer: settingInnerContainer,
-        isPaper :settingIsPaper
+        innerContainer: settingInnerContainer
     }
 
     const bgTheme = isNoThemeColor(props.data.classes.backgroundColor)
@@ -232,10 +231,7 @@ function ContainerElement(props) {
     
  
     return (
-        <Box 
-            maxWidth={props.propsSettings.maxWidth} 
-            fixed={String(props.propsSettings.fixed)}   
-        >    
+        <Box >    
             
             <Box style={{position: 'relative'}} >  
                 <Modal 
@@ -400,25 +396,7 @@ function ContainerElement(props) {
                             </Select>
                         </FormControl>
                     </FormGroup>
-                    <FormGroup row> 
-                            
-                        <FormControl 
-                            variant='filled' 
-                            size='small'   
-                            className={classes.settingsItem}
-                        >
-                            <InputLabel id="inner-container-style-label">Inner Paper Component</InputLabel>
-                            <Select
-                                labelId="inner-paper-label"
-                                id="inner-paper-style"
-                                value={settingIsPaper}
-                                onChange={(e) => {setIsDisableBtn(false); setSettingIsPaper(e.target.value) }}
-                            >
-                                <MenuItem value={false}>False</MenuItem>
-                                <MenuItem value={true}>True</MenuItem> 
-                            </Select>
-                        </FormControl>
-                    </FormGroup>
+                    
                     
                     <Typography  variant={'h6'} gutterBottom  >
                         Styles 
@@ -615,28 +593,15 @@ function ContainerElement(props) {
                         </Box>
                          
                         <Box className={classes.inputGroup} display="flex" flexDirection="row" > 
-                            <FormControl 
+                            <SelectShadow
                                 variant='filled' 
                                 size='small'   
                                 className={classes.inputNumber}
-                            >
-                                <InputLabel id="shadow-style-label">Box Shadow</InputLabel>
-                                <Select
-                                    labelId="shadow-style-label"
-                                    id="shadow-style"
-                                    value={shadow}
-                                    onChange={(e) => {setIsDisableBtn(false); setShadow(e.target.value) }}
-                                >
-                                    <MenuItem value={'none'}>None</MenuItem>
-                                    <MenuItem value={`0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),
-                                    0px 1px 5px 0px rgba(0,0,0,0.12)`}>Small</MenuItem>
-                                    <MenuItem value={`0px 5px 6px -3px rgba(0,0,0,0.2),0px 9px 12px 1px rgba(0,0,0,0.14),
-                                    0px 3px 16px 2px rgba(0,0,0,0.12)`}>Medium</MenuItem>
-                                    <MenuItem value={`0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),
-                                    0px 9px 46px 8px rgba(0,0,0,0.12)`}>Large</MenuItem> 
-                                </Select>
-                            </FormControl> 
-                            
+                                label='Shadow'
+                                value={shadow}
+                                setValue={setShadow}
+                                setIsDisableBtn={setIsDisableBtn}
+                            /> 
                         </Box>
                             
                         {/* border */}

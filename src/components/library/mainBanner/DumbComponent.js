@@ -11,7 +11,7 @@ import {getColorByPalette, getColorByPaletteReverse} from '../../functions/color
 import { PhoneValidation} from '../../functions/formValidation'
 import InputMaskPhone from '../../functions/InputMaskPhone'
 
-import ValidationChip from '../../placeholders/ValidationChip'
+import ValidationChip from '../../utilits/ValidationChip'
 
 function DumbComponent(props) {
 

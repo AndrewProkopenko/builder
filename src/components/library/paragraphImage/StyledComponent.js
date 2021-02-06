@@ -5,8 +5,7 @@ import StyledInputs from '../../../styles/inputs'
 
 import firebase from '../../../firebase/firebase'
 
-import LoadingContext from '../../../context/loadingContext/LoadingContext' 
-import ImageContext  from '../../../context/imageContext/ImageContext'
+import LoadingContext from '../../../context/loadingContext/LoadingContext'  
 
 import Draggable from 'react-draggable';
 
@@ -48,10 +47,11 @@ import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 import ExpandLessOutlinedIcon from '@material-ui/icons/ExpandLessOutlined';
 import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
 
+import {RemoveImage} from '../../functions/RemoveImage' 
+
 const StyledComponent = (props) => {  
     console.log("styled paragraph image")
-    const { setIsLoading } = React.useContext(LoadingContext)
-    const { removeImage } = React.useContext(ImageContext)
+    const { setIsLoading } = React.useContext(LoadingContext) 
  
     const [padding, setPadding] = React.useState({ 
         top:  props.data.classes.paddingTop || 0, 
@@ -345,7 +345,7 @@ const StyledComponent = (props) => {
     const removeItem = () => {  
         let conf = window.confirm("Delete ?");
         if(conf) { 
-            removeImage(imageName)
+            RemoveImage(imageName)
             props.removeItem(props.data.id)
         }
     };
@@ -360,7 +360,7 @@ const StyledComponent = (props) => {
      
     
     const handleImageUpload = async (e) => { 
-        removeImage(imageName)
+        RemoveImage(imageName)
 
         const imageData = e.target.files[0]
         const generateImageName = `${imageData.name}-${props.data.id}`

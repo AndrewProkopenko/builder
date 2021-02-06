@@ -9,7 +9,7 @@ import SendFormContext from '../context/sendFormContext/SendFormContext'
 
 import RouterComponent from '../Router/RouterComponent'
 
-import Alert from '../components/placeholders/Alert'
+import Alert from '../components/utilits/Alert'
 
 function ThemeComponent() {   
     const {themeLight, themeDark, themeMode } = React.useContext(CategoryContext) 

@@ -12,14 +12,13 @@ import { DeleteOutline } from '@material-ui/icons';
 import StyledComponent from "./StyledComponent"
 import DumbComponent from "./DumbComponent"
  
-import ModeContext from '../../../context/modeContext/ModeContext'
-import ImageContext from '../../../context/imageContext/ImageContext'
-
+import ModeContext from '../../../context/modeContext/ModeContext' 
  
+import {RemoveImage} from '../../functions/RemoveImage' 
+
 function ElementCreator(props) {
 
-    const {modeDev} = React.useContext(ModeContext)   
-    const {removeImage} = React.useContext(ImageContext)   
+    const {modeDev} = React.useContext(ModeContext)    
 
     const [open, setOpen] = React.useState(false)
     
@@ -115,7 +114,7 @@ function ElementCreator(props) {
         if(conf) {
             let images = createArrayImages() 
             images.forEach( imageName => {
-                removeImage(imageName)
+                RemoveImage(imageName)
             })
             props.removeContainer(props.data.id)
         }
