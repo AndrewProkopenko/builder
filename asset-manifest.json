@@ -1,27 +1,27 @@
 {
   "files": {
-    "main.css": "/builder/static/css/main.0bd3b984.chunk.css",
-    "main.js": "/builder/static/js/main.197e19e9.chunk.js",
-    "main.js.map": "/builder/static/js/main.197e19e9.chunk.js.map",
-    "runtime-main.js": "/builder/static/js/runtime-main.84472b6f.js",
-    "runtime-main.js.map": "/builder/static/js/runtime-main.84472b6f.js.map",
+    "main.css": "/builder/static/css/main.fc6eb349.chunk.css",
+    "main.js": "/builder/static/js/main.508e8714.chunk.js",
+    "main.js.map": "/builder/static/js/main.508e8714.chunk.js.map",
+    "runtime-main.js": "/builder/static/js/runtime-main.f9225ca6.js",
+    "runtime-main.js.map": "/builder/static/js/runtime-main.f9225ca6.js.map",
     "static/css/2.75abc98d.chunk.css": "/builder/static/css/2.75abc98d.chunk.css",
-    "static/js/2.dd99e6be.chunk.js": "/builder/static/js/2.dd99e6be.chunk.js",
-    "static/js/2.dd99e6be.chunk.js.map": "/builder/static/js/2.dd99e6be.chunk.js.map",
-    "static/js/3.e3ec130a.chunk.js": "/builder/static/js/3.e3ec130a.chunk.js",
-    "static/js/3.e3ec130a.chunk.js.map": "/builder/static/js/3.e3ec130a.chunk.js.map",
+    "static/js/2.7d39e01d.chunk.js": "/builder/static/js/2.7d39e01d.chunk.js",
+    "static/js/2.7d39e01d.chunk.js.map": "/builder/static/js/2.7d39e01d.chunk.js.map",
+    "static/js/3.038e397c.chunk.js": "/builder/static/js/3.038e397c.chunk.js",
+    "static/js/3.038e397c.chunk.js.map": "/builder/static/js/3.038e397c.chunk.js.map",
     "index.html": "/builder/index.html",
     "static/css/2.75abc98d.chunk.css.map": "/builder/static/css/2.75abc98d.chunk.css.map",
-    "static/css/main.0bd3b984.chunk.css.map": "/builder/static/css/main.0bd3b984.chunk.css.map",
-    "static/js/2.dd99e6be.chunk.js.LICENSE.txt": "/builder/static/js/2.dd99e6be.chunk.js.LICENSE.txt",
+    "static/css/main.fc6eb349.chunk.css.map": "/builder/static/css/main.fc6eb349.chunk.css.map",
+    "static/js/2.7d39e01d.chunk.js.LICENSE.txt": "/builder/static/js/2.7d39e01d.chunk.js.LICENSE.txt",
     "static/media/half-moon.4946e6c2.svg": "/builder/static/media/half-moon.4946e6c2.svg",
     "static/media/sun.b7c92f87.svg": "/builder/static/media/sun.b7c92f87.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.84472b6f.js",
+    "static/js/runtime-main.f9225ca6.js",
     "static/css/2.75abc98d.chunk.css",
-    "static/js/2.dd99e6be.chunk.js",
-    "static/css/main.0bd3b984.chunk.css",
-    "static/js/main.197e19e9.chunk.js"
+    "static/js/2.7d39e01d.chunk.js",
+    "static/css/main.fc6eb349.chunk.css",
+    "static/js/main.508e8714.chunk.js"
   ]
 }
