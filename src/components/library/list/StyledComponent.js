@@ -272,7 +272,7 @@ const StyledComponent = (props) => {
                                     <PhoneIphoneIcon/>
                                     <Box>
                                         <p>
-                                            MarginTop: <b>{mobileMarginTopComputed}</b>; 
+                                            MarginTop: <b>{mobileMarginTopComputed}</b>; &nbsp;
                                             MarginBottom: <b>{mobileMarginBottomComputed}</b> 
                                         </p> 
                                         <p>PaddingLeft:  <b>{paddingLeft === 0 ? 0 : (paddingLeft > 30 ? paddingLeft*0.6 : 15)}</b></p>

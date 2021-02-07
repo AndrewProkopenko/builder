@@ -74,8 +74,7 @@ function RouterComponent() {
                                                 (props) => {
                                                     if(category.slug === '/') { 
                                                         return <SinglePage {...props} slugForUpdate={'home'} metaTitle={category.title} breadcrumbs={null} />
-                                                    }
-                                                    //if === concacts => return contacts .... 
+                                                    } 
                                                     return <SinglePage {...props} slugForUpdate={category.slug} metaTitle={category.title} breadcrumbs={breadcrumbs} />
                                                 }
                                             }

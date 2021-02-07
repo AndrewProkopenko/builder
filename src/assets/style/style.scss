@@ -60,7 +60,25 @@ textarea:focus {
     box-sizing: border-box;
 }
  
-
+h1.heading {  
+    font-size: 5.35rem;
+}
+h2.heading {  
+    font-size: 3.3rem;
+}
+h3.heading { 
+    font-size: 32px; 
+}
+h4.heading {  
+    font-size: 2rem;
+} 
+h5.heading {  
+    font-size: 1.5rem;
+} 
+h6.heading {  
+    font-size: 1.25rem;
+} 
+ 
 .heading { 
     h3 { 
         font-size: 32px; 
@@ -72,7 +90,25 @@ textarea:focus {
         padding-bottom: 30px;
     }
 }
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 960px) {
+    h1.heading {  
+        font-size: 4.79rem;
+    }
+    h2.heading {  
+        font-size: 2.9rem;
+    }  
+    h3.heading { 
+        font-size: 25px; 
+    }
+    h4.heading {  
+        font-size: 1.8rem;
+    } 
+    h5.heading {  
+        font-size: 1.32rem;
+    } 
+    h6.heading {  
+        font-size: 1.25rem;
+    }
     .heading { 
         h3 { 
             font-size: 25px;
@@ -80,6 +116,26 @@ textarea:focus {
             padding-bottom: 20px;
         } 
     }
+}
+@media screen and (max-width: 600px) {
+    h1.heading {  
+        font-size: 3.5rem;
+    }
+    h2.heading {  
+        font-size: 2.375rem;
+    }  
+    h3.heading { 
+        font-size: 25px; 
+    }
+    h4.heading {  
+        font-size: 1.5625rem;
+    } 
+    h5.heading {  
+        font-size: 1.25rem;
+    } 
+    h6.heading {  
+        font-size: 1.125rem;
+    } 
 }
 
 @media screen and (min-width: 960px) {

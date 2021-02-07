@@ -151,6 +151,10 @@ function StyledComponent(props) {
                     }
                 } 
             }, 
+            infoBlock: {
+                padding: 8, 
+                border: `1px solid ${theme.palette.info.main}`
+            }
         })
     })
 
@@ -202,7 +206,16 @@ function StyledComponent(props) {
         }
            
     }
-    
+    const handleRemoveImage = () => {
+        const conf = window.confirm('Remove image?')
+        if(conf) {
+            RemoveImage(imageName)
+
+            setImageUrl('')
+            setImageName('')
+            setIsDisableBtn(false)
+        }
+    }
 
     return (
         <div className={classes.containerWrapper}>
@@ -374,6 +387,9 @@ function StyledComponent(props) {
                                                 </Box>
                                             </Box>
                                         </Tooltip>
+                                        <Box className={classes.infoBlock}>  
+                                            <span>You can use block without image. Block will be full width</span>       
+                                        </Box>
                                     </Box>
 
                                     <Box mt={2}>
@@ -480,6 +496,17 @@ function StyledComponent(props) {
                                             { imageUrl && <img src={imageUrl} alt='main' width={'100%'}/>}
                                         </Box>
                                     </Box>
+                                    {
+                                        imageUrl.length > 0 &&
+                                        <Button
+                                            color='secondary' 
+                                            variant='contained' 
+                                            onClick={handleRemoveImage}
+                                        > 
+                                        Remove image
+                                        </Button>
+                                    }
+
 
                                     <Box mt={5} /> 
 

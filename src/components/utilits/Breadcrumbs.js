@@ -52,47 +52,42 @@ const SimpleBreadcrumbs = (props) =>  {
 
     const classes = useStyles();
       
-    return (  
-        <React.Fragment>
-            {
-                props.breadcrumbs &&
-                <Container
-                    disableGutters={settings.disableGutters}
-                    fixed={settings.fixed} 
-                    maxWidth={settings.maxWidth} 
+    return (   
+        <Container
+            disableGutters={settings.disableGutters}
+            fixed={settings.fixed} 
+            maxWidth={settings.maxWidth} 
+        >
+            <Paper className={classes.breadcrumbsContainer} >
+            
+                <Breadcrumbs  
+                    separator={<NavigateNextIcon fontSize="small" />} 
+                    aria-label="breadcrumb"
                 >
-                    <Paper className={classes.breadcrumbsContainer} >
                     
-                        <Breadcrumbs  
-                            separator={<NavigateNextIcon fontSize="small" />} 
-                            aria-label="breadcrumb"
-                        >
-                            
-                            <Link className={classes.breadcrumbLink} to="/"  >
-                                <HomeIcon fontSize="small" />
-                            </Link>
-                            {    
-                                props.breadcrumbs.map((crumb, index) => {
-                                    if(props.breadcrumbs.length - 1 !== props.breadcrumbs.indexOf(crumb))
-                                    return(
-                                        <Link key={index} className={classes.breadcrumbLink} to={`/${crumb.slug}`} >
-                                            {crumb.title}
-                                        </Link>
-                                    )
-                                    else return (
-                                    <Typography key={index} >
-                                        {crumb.title}
-                                    </Typography> 
-                                    )  
-                                })
-                            }
-                            
-                        </Breadcrumbs>
+                    <Link className={classes.breadcrumbLink} to="/"  >
+                        <HomeIcon fontSize="small" />
+                    </Link>
+                    {    
+                        props.breadcrumbs.map((crumb, index) => {
+                            if(props.breadcrumbs.length - 1 !== props.breadcrumbs.indexOf(crumb))
+                            return(
+                                <Link key={index} className={classes.breadcrumbLink} to={`/${crumb.slug}`} >
+                                    {crumb.title}
+                                </Link>
+                            )
+                            else return (
+                            <Typography key={index} >
+                                {crumb.title}
+                            </Typography> 
+                            )  
+                        })
+                    }
                     
-                    </Paper>
-                </Container>  
-            } 
-        </React.Fragment>
+                </Breadcrumbs>
+            
+            </Paper>
+        </Container>   
     );
 }
 

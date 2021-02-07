@@ -1,9 +1,10 @@
-import React from 'react' 
+import React, { useContext, useState, useEffect } from 'react' 
 import StylesChangers from '../../styles/changers'   
+import MetaTags from 'react-meta-tags';
 import Draggable from 'react-draggable';  
 import { useLocation } from 'react-router-dom';
 import uuid from 'react-uuid' 
-
+ 
 import { Typography, Button, Box, Tooltip,  Modal, DialogContent, Divider } from "@material-ui/core"; 
  
 import { makeStyles } from '@material-ui/core/styles';
@@ -32,15 +33,26 @@ import ModeContext from '../../context/modeContext/ModeContext'
 import LoadingContext from '../../context/loadingContext/LoadingContext'
 import LibraryContext from '../../context/libraryContext/LibraryContext' 
 
+import InputChange from '../functions/InputChange'
+
 function SinglePage(props) {
 
   const location = useLocation() 
 
   const pageSlug = props.slugForUpdate
 
-  const { modeDev } = React.useContext(ModeContext)
-  const { setIsLoading } = React.useContext(LoadingContext)
-  const { layouts } = React.useContext(LibraryContext)
+  const { modeDev } = useContext(ModeContext)
+  const { setIsLoading } = useContext(LoadingContext)
+  const { layouts } = useContext(LibraryContext)
+
+  const [data, setData] = useState({})
+  const [items, setItems] = useState([]) 
+  const [metaTitle, setMetaTitle] = useState('initial')
+  const [metaDescription, setMetaDescription] = useState('')
+  const [isDisableBtn, setIsDisableBtn] = useState(true) 
+
+  const [open, setOpen] = useState(false)
+  
 
   const pageLayout = layouts.page
   const ContainerLayout = layouts.container 
@@ -56,17 +68,24 @@ function SinglePage(props) {
   const BlocksPagesLayout = layouts.blocksPages 
   const BlocksAdvLayout = layouts.blocksAdv 
 
-  const [data, setData] = React.useState({})
-  const [items, setItems] = React.useState([]) 
-
-  const [open, setOpen] = React.useState(false)
   
   const handleOpen = () => {  
     setOpen(true);
   }
-  const handleClose = () => {
+  const handleClose = () => { 
+    if(!isDisableBtn) handleSave()
     setOpen(false);
   };
+
+  const handleSave = async () => {
+    setIsLoading(true)
+    await firebase.db.collection("site1").doc(pageSlug).update({ 
+      title: metaTitle, 
+      description: metaDescription
+    }).then(() => { 
+      setIsLoading(false)
+    });
+  }
   
   const useStyles = makeStyles((theme) => { 
 
@@ -116,19 +135,19 @@ function SinglePage(props) {
         paddingRight: theme.spacing(1),
         paddingBottom: theme.spacing(1),
       }
-
-  
+ 
     })
   })
   
   const classes = useStyles();
 
-  React.useEffect( () => { 
-    setIsLoading(true)
+  useEffect( () => { 
+    setIsLoading(true) 
     fetchData()
-    document.title = props.metaTitle
+    if(metaTitle === 'initial') setMetaTitle(props.metaTitle) 
     // eslint-disable-next-line
   }, [location])
+   
   
   const fetchData = async () => {  
       
@@ -152,7 +171,12 @@ function SinglePage(props) {
     } else { 
       setData(doc.data())  
       setItems(doc.data().items)  
-        
+      setMetaTitle(doc.data().title)
+      setMetaDescription(doc.data().description || '')
+      
+      
+      console.log(doc.data().title)
+
       setIsLoading(false)
     }
   
@@ -245,7 +269,7 @@ function SinglePage(props) {
     })
 
     await firebase.db.collection("site1").doc(pageSlug).update({
-      items: newItems
+      items: newItems,  
     }).then(() => { 
       setIsLoading(false)
     });  
@@ -514,10 +538,17 @@ function SinglePage(props) {
   return (
     <Box className={classes.btnContainer}> 
 
-        <Breadcrumbs 
-          breadcrumbs={props.breadcrumbs}
-          history={props.history}
-        />
+        <MetaTags>
+          <title>{ metaTitle }</title>
+          <meta name="description" content={metaDescription} /> 
+        </MetaTags>
+
+        { 
+          props.breadcrumbs &&
+          <Breadcrumbs 
+            breadcrumbs={props.breadcrumbs} 
+          />
+        } 
 
         { 
           modeDev &&  
@@ -548,10 +579,42 @@ function SinglePage(props) {
                                 className={classes.menuTitle}
                                 id="draggable-dialog-title"
                             >
-                                Add Block for Page <OpenWithIcon/>
+                              { !isDisableBtn && "Close to save - " } Page Settings <OpenWithIcon/>
                             </Typography> 
                             
-                            
+                            <Box mb={2}>
+                              <InputChange
+                                  id={null}
+                                  fullWidth={true} 
+                                  type='text'
+                                  size="small" 
+                                  label="Meta Title for page"
+                                  variant='standard'
+                                  value={metaTitle}
+                                  setValue={setMetaTitle}
+                                  setIsDisableBtn={setIsDisableBtn} 
+                              />  
+                            </Box>
+                            <Box mb={2}> 
+                              <InputChange
+                                  id={null}
+                                  fullWidth={true} 
+                                  type='text'
+                                  size="small" 
+                                  label="Meta Description for page"
+                                  variant='standard'
+                                  value={metaDescription}
+                                  setValue={setMetaDescription}
+                                  setIsDisableBtn={setIsDisableBtn} 
+                              /> 
+                            </Box> 
+                             
+                            <Box mb={2}> 
+                              <Typography variant='caption' >
+                                  Add Block to Page  
+                              </Typography>
+                            </Box>
+
                             <Box className={classes.boxMenuItem}>
                               <Tooltip classes={{tooltip: classes.tooltip}} title='Container for heading, paragraph, image-paragraph, list' placement='top'>
                                 <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('container') }}>
@@ -668,7 +731,7 @@ function SinglePage(props) {
             </Modal>  
           </React.Fragment>
         }
-  
+
         { 
           renderContainers()  
         } 

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Box } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 // import { Typography } from '@material-ui/core';
 
 import {getColorByPalette} from '../../functions/colorChanger/ColorCalculation'
@@ -44,9 +44,11 @@ function DumbComponent(props) {
     
     const classeForResp = props.data.responseFont ? classes.resposiveFontSize : '' 
 
+    const defaultSizeClass = props.data.defaultSize ? 'heading' : ''
+
     const renderText = () => {
         if(props.textChildren.length > 0) { 
-            return  <span dangerouslySetInnerHTML={{__html: props.textChildren}}></span>
+            return props.textChildren
         }
         else {
             return `(No text - ${props.data.variant})`
@@ -55,19 +57,20 @@ function DumbComponent(props) {
     
     return (
         <React.Fragment>
-             <Box 
+             {/* <Box 
                 component={props.data.variant} 
-                className={`${classes.myClassName} ${classeForResp}`} 
+                className={`${classes.myClassName} ${classeForResp} ${defaultSizeClass}`} 
             >
                 { renderText() } 
-            </Box>
+
+            </Box> */}
 
 
-            {/* <Typography variant={props.data.variant} className={[classes.myClassName, classeForResp]} >
+            <Typography variant={props.data.variant} className={`${classes.myClassName} ${classeForResp} ${defaultSizeClass}`}  >
                 { 
-                    props.textChildren
+                    renderText()
                 }
-            </Typography> */} 
+            </Typography> 
             
 
             {/* {  

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { makeStyles, Container, Grid, Box, Button, darken, fade } from '@material-ui/core'  
+import { makeStyles, Container, Grid, Box, Button, darken  } from '@material-ui/core'  
 import ModalContext from '../../../context/modalContext/ModalContext'
 import {getColorByPalette} from '../../functions/colorChanger/ColorCalculation'
 
@@ -17,6 +17,7 @@ function DumbComponent(props) {
     const isButton = props.data.isButton
     const textButton = props.data.textButton
     const targetButton = props.data.targetButton   
+    let colorBackground = props.data.background || 'paper'
     let colorButton = props.data.colorButton || '#f00'
     let colorText = props.data.colorText || 'inherit'
 
@@ -26,13 +27,22 @@ function DumbComponent(props) {
     const maxWidthContainer = props.data.maxWidthContainer 
  
     const useStyles = makeStyles((theme) => {   
+
+        
+
         colorButton = getColorByPalette(theme, colorButton) 
         colorText = getColorByPalette(theme, colorText) 
+        colorBackground = getColorByPalette(theme, colorBackground) 
 
+        function computedContrastColor() {
+            if(colorText !== 'contrast') return colorText
+            if(colorBackground !== 'inherit') return theme.palette.getContrastText(colorBackground)
+            return colorText
+        }
              
         return ({ 
             bannerBackground: {
-                backgroundColor: fade(theme.palette.primary.main, 0.3), 
+                backgroundColor: colorBackground, 
                 backgroundImage: `url(${imageUrl})`, 
                 backgroundPosition: 'center', 
                 backgroundRepeat: 'no-repeat', 
@@ -60,16 +70,16 @@ function DumbComponent(props) {
             heading: {  
                 marginBottom: theme.spacing(3), 
                 textAlign: 'center',  
-                color: colorText
+                color: computedContrastColor()
             },
             paragraph: {  
-                marginTop: -10, 
+                marginTop: heading.length ? 0 : 10, 
                 marginBottom: 20,  
                 lineHeight: 1.5, 
                 fontWeight: 400, 
                 textAlign: 'center',  
                 fontSize: 15 , 
-                color: colorText,
+                color: computedContrastColor(),
                 [theme.breakpoints.down('sm')]: { 
                     marginTop: 0, 
                     lineHeight: 1.1

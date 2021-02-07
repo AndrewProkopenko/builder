@@ -80,14 +80,20 @@ function DumbComponent(props) {
             <Container maxWidth={maxWidthContainer} >
                 <div className={`${classes.styleClass} bulder-about heading`}>
                     <Grid container> 
-                        <Grid item xs={12} md={6} >
+                        <Grid item xs={12} md={imageUrl.length > 0 ? 6 : 12} >
                             <div className="bulder-about_item">
-                                <h3>
-                                    { heading }
-                                </h3>
-                                <p> 
-                                    { paragraph }
-                                </p> 
+                                {
+                                   heading.length > 0 && 
+                                   <h3>
+                                       { heading }
+                                   </h3>
+                                }
+                                {
+                                   paragraph.length > 0 && 
+                                   <p>
+                                       { paragraph }
+                                   </p>
+                                } 
                                 {
                                     isButton && 
                                     <Button 
@@ -102,11 +108,15 @@ function DumbComponent(props) {
                                 
                             </div>
                         </Grid>
-                        <Grid item xs={12} md={6} >
-                            <Box clone={true}>
-                                <div className="bulder-about_image" style={{backgroundImage: `url(${imageUrl})`}} />
-                            </Box> 
-                        </Grid>
+                        {
+                            imageUrl.length > 0 && 
+                            <Grid item xs={12} md={6} >
+                                <Box clone={true}>
+                                    <div className="bulder-about_image" style={{backgroundImage: `url(${imageUrl})`}} />
+                                </Box> 
+                            </Grid>
+                        }
+                        
                     </Grid>
                 </div>
             </Container>

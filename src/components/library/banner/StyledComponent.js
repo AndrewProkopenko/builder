@@ -57,6 +57,9 @@ function StyledComponent(props) {
     const [colorSelect,  setColorSelect] = React.useState(props.data.colorButton || '')
     const [colorCustom, setColorCustom] = React.useState(props.data.colorButton || '')
 
+    const [backgroundSelect,  setBackgroundSelect] = React.useState(props.data.background || 'paper')
+    const [backgroundCustom, setBackgroundCustom] = React.useState(props.data.background || 'paper')
+
     const [colorTextSelect,  setColorTextSelect] = React.useState(props.data.colorText || 'inherit')
     const [colorTextCustom, setColorTextCustom] = React.useState(props.data.colorText || 'inherit') 
 
@@ -174,6 +177,11 @@ function StyledComponent(props) {
                 [theme.breakpoints.down('sm')]: {   
                     height: `${paddingVerticalComputed}px`,
                 }
+            },
+            
+            infoBlock: {
+                padding: 8, 
+                border: `1px solid ${theme.palette.info.main}`
             }
                   
         })
@@ -222,6 +230,12 @@ function StyledComponent(props) {
         } else {
             newData.colorText = colorTextSelect
         }
+
+        if (backgroundSelect === 'custom') {
+            newData.background = backgroundCustom
+        } else {
+            newData.background = backgroundSelect
+        }
         
         props.reSaveItem(props.data.id, newData)
         // handleClose()
@@ -232,6 +246,16 @@ function StyledComponent(props) {
         if (conf) { 
             RemoveImage(imageName)
             props.removeContainer(props.data.id)
+        }
+    }
+    const handleRemoveImage = () => {
+        const conf = window.confirm('Remove image?')
+        if(conf) {
+            RemoveImage(imageName)
+
+            setImageUrl('')
+            setImageName('')
+            setIsDisableBtn(false)
         }
     }
     
@@ -437,6 +461,9 @@ function StyledComponent(props) {
                                                 </Box>
                                             </Box>
                                         </Tooltip>
+                                        <Box className={classes.infoBlock}> 
+                                            <span>You can use block without image. In this state you can set background color for block and contrast text</span>    
+                                        </Box>
                                     </Box>
                                     <Box mt={2}>
                                         <Typography variant='h6' gutterBottom>
@@ -478,8 +505,24 @@ function StyledComponent(props) {
                                             setIsDisableBtn={setIsDisableBtn} 
                                             position = {'top'}
                                             noInherit={false}
+                                            isContrastSelect={imageUrl.length === 0} 
                                         /> 
                                     </Box>
+                                    {
+                                        imageUrl.length === 0 &&
+                                        <Box mt={2} display="flex" >
+                                            <ColorSelecter
+                                                label={'Background color '}
+                                                colorSelect={backgroundSelect} 
+                                                setColorSelect={setBackgroundSelect}
+                                                colorCustom={backgroundCustom}
+                                                setColorCustom={setBackgroundCustom}
+                                                setIsDisableBtn={setIsDisableBtn} 
+                                                position = {'top'}
+                                                noInherit={false}
+                                            /> 
+                                        </Box>
+                                    }
                                    
                                     <Box display='flex' mt={3} mb={3}>
                                         <FormControlLabel
@@ -553,6 +596,17 @@ function StyledComponent(props) {
                                             { imageUrl && <img src={imageUrl} alt='main' width={'100%'}/>}
                                         </Box>
                                     </Box>
+
+                                    {
+                                        imageUrl.length > 0 &&
+                                        <Button
+                                            color='secondary' 
+                                            variant='contained' 
+                                            onClick={handleRemoveImage}
+                                        > 
+                                        Remove image
+                                        </Button>
+                                    }
  
                                    
                                     <Box mt={5} />

@@ -110,7 +110,8 @@
         }, 
         "text": "Heading variant " , 
         "prop": {}, 
-        "responseFont": false
+        "responseFont": false,
+        "defaultSize": false
     }, 
     "list": {
         "id": 1,
@@ -427,6 +428,7 @@
         "isButton": false, 
         "textButton": "",
         "targetButton": "", 
+        "background": "paper",
         "colorButton": "primary",
         "colorText": "inherit",
         "minHeight": 350, 

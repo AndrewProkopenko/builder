@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import { Box, makeStyles, CircularProgress, Typography } from '@material-ui/core'
    
 function PreloaderThumbnail({status}) {
-
  
-
     const useStyles = makeStyles((theme) => {
         return({
             preloaderContainer: {

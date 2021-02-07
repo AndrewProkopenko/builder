@@ -23,7 +23,12 @@ import {
     Tooltip,
     DialogContent,
     ButtonGroup,
-    FormGroup
+    FormGroup, 
+    Table, 
+    TableHead, 
+    TableBody, 
+    TableRow, 
+    TableCell
 
 } from '@material-ui/core'
 
@@ -58,7 +63,7 @@ const StyledComponent = (props) => {
         bottom: props.data.classes.marginBottom , 
         right: props.data.classes.marginRight 
     })
-    
+    console.log(props.data)
     const [borderColorSelect, setBorderColorSelect] = React.useState(props.data.classes.borderColor ||  'transperent')
     const [borderColorCustom, setBorderColorCustom] = React.useState(props.data.classes.borderColor ||  'transperent')
     const [borderStyle, setBorderStyle] = React.useState(props.data.classes.borderStyle ||  'solid')
@@ -71,6 +76,9 @@ const StyledComponent = (props) => {
     const [colorCustom, setColorCustom] = React.useState(props.data.classes.color || 'inherit')
  
     const [textAlign, setTextAlign] = React.useState(props.data.classes.textAlign ||  'left')
+
+    const [defaultSize, setDefaultSize] = React.useState(props.data.defaultSize || false)
+    const [variant, setVariant] = React.useState(props.data.variant ||  'h3')
     const [display, setDisplay] = React.useState(props.data.classes.display ||  'block')
     const [fontSize, setFontSize] = React.useState(props.data.classes.fontSize ||  16)
     const [fontWeight, setFontWeight] = React.useState(props.data.classes.fontWeight ||  400)
@@ -182,14 +190,34 @@ const StyledComponent = (props) => {
             responseMobile: responseMobile,
             mobileTooltip: mobileTooltip,
             tabletTooltip: tabletTooltip, 
-            tooltip: {
+            tooltipResponse: {
                 fontSize: 14, 
-                backgroundColor: theme.palette.primary.main
+                backgroundColor: theme.palette.success.main
+            }, 
+            tooltipDefault: {
+                fontSize: 14, 
+                backgroundColor: theme.palette.info.main
+            }, 
+            defaultSizeInfo: {
+                padding: 8, 
+                border: `1px solid ${theme.palette.info.main}`
+            }, 
+            defaultSizeCheck: {
+                color: theme.palette.info.main, 
+            },
+            defaultSizeTrack: {
+                background: theme.palette.info.light, 
+            },
+            responseCheck: { 
+                color: theme.palette.success.main
+            }, 
+            responseTrack: {
+                background: theme.palette.success.light, 
             }
           })
     });
     
-    const myClassName = { 
+    const myClassName = {  
         display: display,
         paddingTop: padding.top,
         paddingBottom: padding.bottom,
@@ -239,9 +267,11 @@ const StyledComponent = (props) => {
 
         sentData.text = textInDumb
         sentData.responseFont = isResponsiveFont
+        sentData.variant = variant
+        sentData.defaultSize = defaultSize
+
         props.reSaveChildren(props.data.id, sentData)
-        setIsDisableBtn(true); 
-        // handleClose()
+        setIsDisableBtn(true);  
     }
     const removeItem = () => {  
         let conf = window.confirm("Delete ?");
@@ -306,17 +336,102 @@ const StyledComponent = (props) => {
                                                     checked={isResponsiveFont}
                                                     onChange={() => {  setIsDisableBtn(false); setIsResponsiveFont(!isResponsiveFont) }}
                                                     name="checkedB"
-                                                    color="primary"
+                                                    color="default"
+                                                    classes={{checked: classes.responseCheck, track: classes.responseTrack }}
                                                 />
                                             }
                                             label="Set Responsive Font Size"
                                         />
-                                        <Tooltip classes={{tooltip: classes.tooltip}}  title="If enabled, the type will be smaller on mobile devices and the alignment will be centered"  >
+                                        <Tooltip classes={{tooltip: classes.tooltipResponse}}  title="If enabled, the type will be smaller on mobile devices and the alignment will be centered"  >
                                             <IconButton>
                                                 <InfoOutlined/>
                                             </IconButton>
                                         </Tooltip>
                                 </Box>
+                                <Box mb={2}>
+                                        <FormControlLabel
+                                            control={
+                                                <Switch
+                                                    checked={defaultSize}
+                                                    onChange={() => {  setIsDisableBtn(false); setDefaultSize(!defaultSize) }}
+                                                    name="checkedD"
+                                                    color="default"
+                                                    classes={{checked: classes.defaultSizeCheck, track: classes.defaultSizeTrack }}
+                                                />
+                                            }
+                                            label="Set Default Font Size"
+                                        />
+                                        <Tooltip classes={{tooltip: classes.tooltipDefault}}  title="If enabled, font size will be default"  >
+                                            <IconButton>
+                                                <InfoOutlined/>
+                                            </IconButton>
+                                        </Tooltip>
+                                </Box>
+                                {
+                                    defaultSize && 
+                                    <Box className={classes.defaultSizeInfo}> 
+                                        <Box mb={1}>  
+                                            <Typography variant='caption'>
+                                                Defaul values is important then font size settings on down. 
+                                            </Typography> 
+                                        </Box>
+                                        <Box mb={1}>  
+                                            <Typography variant='caption'>
+                                                *  - h3 has font size like another blocks (ext. table, accordion, about, banner, slider, blocks )
+                                            </Typography> 
+                                        </Box>
+                                        <Box mb={1}>  
+                                        <Table className={classes.table} size={'small'} >
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell>Variant</TableCell>
+                                                    <TableCell align="right">Mobile</TableCell>
+                                                    <TableCell align="right">Tablets</TableCell>
+                                                    <TableCell align="right">Desktop</TableCell> 
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody> 
+                                                <TableRow>
+                                                    <TableCell component="th" scope="row">h1</TableCell>
+                                                    <TableCell align="right">3.5rem</TableCell>
+                                                    <TableCell align="right">4.7rem</TableCell>
+                                                    <TableCell align="right">5.35rem</TableCell> 
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell component="th" scope="row">h2</TableCell>
+                                                    <TableCell align="right">2.375rem</TableCell>
+                                                    <TableCell align="right">2.9rem</TableCell>
+                                                    <TableCell align="right">3.3rem</TableCell> 
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell component="th" scope="row">h3*</TableCell>
+                                                    <TableCell align="right">25px</TableCell>
+                                                    <TableCell align="right">32px</TableCell>
+                                                    <TableCell align="right">32px</TableCell> 
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell component="th" scope="row">h4</TableCell>
+                                                    <TableCell align="right">1.5625rem</TableCell>
+                                                    <TableCell align="right">1.8rem</TableCell>
+                                                    <TableCell align="right">2rem</TableCell> 
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell component="th" scope="row">h5</TableCell>
+                                                    <TableCell align="right">1.25rem</TableCell>
+                                                    <TableCell align="right">1.32rem</TableCell>
+                                                    <TableCell align="right">1.5rem</TableCell> 
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell component="th" scope="row">h6</TableCell>
+                                                    <TableCell align="right">1.125rem</TableCell>
+                                                    <TableCell align="right">1.25rem</TableCell>
+                                                    <TableCell align="right">1.25rem</TableCell> 
+                                                </TableRow> 
+                                            </TableBody>
+                                        </Table> 
+                                        </Box>
+                                    </Box>
+                                }
                                 <Tooltip classes={{tooltip: classes.tabletTooltip}} title='Calculated styles for Tablets (<960px)' placement={'top'}>
                                     <Box className={`${classes.responseValues} ${classes.responseTablets}`}>
                                         <TabletMacIcon/>
@@ -324,8 +439,9 @@ const StyledComponent = (props) => {
                                             {
                                                 isResponsiveFont ?
                                                 <React.Fragment> 
-                                                    <p>MarginTop: <b>{margin.top * 0.8 }</b>; MarginBottom: <b>{margin.bottom * 0.8 }</b> </p>   
-                                                    <p>FontSize: <b>{ fontSize > 40 ? fontSize*0.8 : 20 }</b> </p>   
+                                                    <p>MarginTop: <b>{margin.top * 0.8 }</b>; &nbsp; MarginBottom: <b>{margin.bottom * 0.8 }</b> </p>   
+                                                    <p>FontSize:  { defaultSize ? 'Look default table ' : <b>{ fontSize > 40 ? fontSize*0.8 : 20 }</b> } </p>   
+                                                    <p>TextAlign:  <b>center</b></p>
                                                 </React.Fragment>
                                                 :
                                                 <Typography variant='caption'>
@@ -335,6 +451,7 @@ const StyledComponent = (props) => {
                                         </Box>
                                     </Box>
                                 </Tooltip>
+                                
                                 <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (<600px)' placement={'top'}>
                                     <Box className={`${classes.responseValues} ${classes.responseMobile}`}>
                                         <PhoneIphoneIcon/>
@@ -342,9 +459,9 @@ const StyledComponent = (props) => {
                                             {
                                                 isResponsiveFont ?
                                                 <React.Fragment> 
-                                                    <p>MarginTop: <b>{margin.top * 0.5 }</b>; MarginBottom: <b>{margin.bottom * 0.5 }</b> </p>  
-                                                    <p>FontSize: <b>{ fontSize > 40 ? fontSize*0.6 : 20 }</b>  LineHeight: <b>{1.2} </b> </p>   
-                                                    <p>TextAlign:  <b>center</b> </p>
+                                                    <p>MarginTop: <b>{margin.top * 0.5 }</b>; &nbsp; MarginBottom: <b>{margin.bottom * 0.5 }</b> </p>  
+                                                    <p>  FontSize: { defaultSize ? 'Look default table ' : <b>{ fontSize > 40 ? fontSize*0.6 : 20 }</b> }  </p>   
+                                                    <p>TextAlign:  <b>center</b> ; &nbsp; LineHeight: <b>{1.2} </b>  </p>
   
                                                 </React.Fragment>
                                                 :
@@ -374,6 +491,27 @@ const StyledComponent = (props) => {
                                             <MenuItem value={'inline-block'}>Inline-block</MenuItem> 
                                             <MenuItem value={'flex'}>Flex</MenuItem> 
                                             <MenuItem value={'inline-flex'}>Inline-flex</MenuItem> 
+                                            </Select>
+                                        </FormControl>
+                                        <FormControl 
+                                            variant='filled' 
+                                            size='small'   
+                                            className={classes.inputNumber}
+                                            fullWidth
+                                        >
+                                            <InputLabel id="variant-style-label">Variant</InputLabel>
+                                            <Select
+                                                labelId="variant-style-label"
+                                                id="variant-style"
+                                                value={variant}
+                                                onChange={(e) => {setIsDisableBtn(false); setVariant(e.target.value) }}
+                                            >
+                                            <MenuItem value={'h1'}>H1</MenuItem> 
+                                            <MenuItem value={'h2'}>H2</MenuItem> 
+                                            <MenuItem value={'h3'}>H3</MenuItem> 
+                                            <MenuItem value={'h4'}>H4</MenuItem> 
+                                            <MenuItem value={'h5'}>H5</MenuItem> 
+                                            <MenuItem value={'h6'}>H6</MenuItem> 
                                             </Select>
                                         </FormControl>
                                     </FormGroup>
@@ -546,6 +684,7 @@ const StyledComponent = (props) => {
                                             <InputChange
                                                 id={'right'}
                                                 fullWidth={false}
+                                                disabled={defaultSize}
                                                 type='number'
                                                 size="small" 
                                                 label="Font Size" 
