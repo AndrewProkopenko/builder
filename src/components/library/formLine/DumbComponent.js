@@ -2,11 +2,11 @@ import React, { useState, useContext} from 'react'
 
 import SendFormContext from '../../../context/sendFormContext/SendFormContext'
 
-import { Container, makeStyles, Button, Box, Grid, fade, darken, lighten } from '@material-ui/core'
+import { Container, makeStyles, Button, Box, Grid, fade, darken, lighten, Typography } from '@material-ui/core'
 
 import {getColorByPalette, getColorByPaletteReverse} from '../../functions/colorChanger/ColorCalculation'
 
-import '../../../assets/style/lineForm.scss' 
+import '../../../assets/style/lineForm.scss'  
 
 import ValidationChip from '../../utilits/ValidationChip'
 import {NameValidation, PhoneValidation} from '../../functions/formValidation'
@@ -21,6 +21,8 @@ function DumbComponent(props) {
     const [isValidPhone, setIsValidPhone] = useState({isValid: true})
     const [isValidName, setIsValidName] = useState({isValid: true})
    
+    const variant = props.data.variantHeading
+
     const heading = props.data.heading
     const paragraph = props.data.paragraph
     const inputName = props.data.inputName
@@ -219,10 +221,11 @@ function DumbComponent(props) {
                     <Box className={classes.lineDecor} ></Box>
                     {
                         heading.length > 0 &&
-                        <h5>
-                            {heading}
-                        </h5>
+                        <Typography variant={variant} className={`heading`}>
+                            { heading }
+                        </Typography> 
                     }
+                      
                     {
                         paragraph.length > 0 &&
                         <p>

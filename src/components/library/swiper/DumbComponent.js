@@ -9,6 +9,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
  
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';  
+import '../../../assets/style/headingCenter.scss'
 
 import {getColorByPalette} from '../../functions/colorChanger/ColorCalculation'
 
@@ -22,6 +23,7 @@ function DumbComponent(props) {
 
     const [isSwiper, setIsSwiper] = useState(true) 
     
+    const variant = props.data.variantHeading
     const heading = props.data.heading  
     let color = props.data.color
 
@@ -250,10 +252,13 @@ function DumbComponent(props) {
     )
  
     return ( 
-        <Container className={`${classes.swiper} ${classes.styleClass} heading`} maxWidth={maxWidthContainer} >
-            <Typography variant={'h3'} className={classes.heading}>
-                { heading }
-            </Typography> 
+        <Container className={`${classes.swiper} ${classes.styleClass}`} maxWidth={maxWidthContainer} >
+            {
+                heading.length > 0 &&
+                <Typography variant={variant} className={`heading heading-center`}>
+                    { heading }
+                </Typography> 
+            }
             
             {
                 isSwiper ?     

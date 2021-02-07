@@ -211,6 +211,7 @@
         "id": 1, 
         "color": "primary", 
         "heading": "Beware of bugs in the above code", 
+        "variantHeading": "h2",
         "headingIcon": {
             "title": "I have only proved it correct, not tried it.",
             "icon": "",
@@ -232,6 +233,7 @@
         "type": "accordion",
         "id": 1,  
         "heading": "Stages",  
+        "variantHeading": "h3",
         "color": "primary", 
         "marginTop": 50, 
         "marginBottom": 50, 
@@ -272,6 +274,7 @@
         "type": "formLine",
         "id": 1,   
         "heading": "Have any quections?", 
+        "variantHeading": "h4", 
         "paragraph": "Contact us and we call you in next 10 minutes", 
         "inputName": "Your Name",
         "inputPhone": "Your Phone", 
@@ -285,6 +288,7 @@
     "about": {
         "type": "about", 
         "id": 1,  
+        "variantHeading": "h3",
         "heading": "To iterate is human, to recurse divine",  
         "paragraph": "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.", 
         "image": "", 
@@ -301,7 +305,8 @@
         "type": "actionLine", 
         "id": 1,  
         "heading": "Action Colored Line with Button",  
-        "headingSize": 40,  
+        "headingSize": 40, 
+        "variantHeading": "h3", 
         "isButton": true, 
         "textButton": "Buy",
         "targetButton": "", 
@@ -313,7 +318,8 @@
     "table": {
         "type": "table",
         "id": 1,   
-        "heading": "Price",  
+        "heading": "Price", 
+        "variantHeading": "h3", 
         "color": "primary", 
         "rows": [
             {
@@ -340,6 +346,7 @@
         "type": "swiper", 
         "id": 1,  
         "heading": "Slider square", 
+        "variantHeading": "h3",
         "slidesPerView": 4, 
         "slidesPerViewTablet": 3, 
         "slidesPerViewMobile": 1, 
@@ -371,6 +378,7 @@
         "type": "blocksPages", 
         "id": 1,  
         "heading": "Our blocks", 
+        "variantHeading": "h3",
         "slidesPerView": 4, 
         "slidesPerViewTablet": 3, 
         "slidesPerViewMobile": 1, 
@@ -398,6 +406,7 @@
         "type": "blocksAdv", 
         "id": 1,  
         "heading": "Our advantages", 
+        "variantHeading": "h3",
         "slidesPerView": 4, 
         "slidesPerViewTablet": 3, 
         "slidesPerViewMobile": 1, 
@@ -421,6 +430,7 @@
     "banner": {
         "type": "banner", 
         "id": 1,  
+        "variantHeading": "h3",
         "heading": "Work Process",
         "paragraph": "Aenean nec tempor metus. Maecenas ligula dolor, commodo in imperdiet interdum, vehicula ut ex. Donec ante diam.", 
         "imageUrl": "", 

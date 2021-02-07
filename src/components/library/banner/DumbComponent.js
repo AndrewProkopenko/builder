@@ -1,13 +1,14 @@
 import React from 'react'
 
-import { makeStyles, Container, Grid, Box, Button, darken  } from '@material-ui/core'  
+import { makeStyles, Container, Grid, Box, Button, darken , Typography } from '@material-ui/core'  
 import ModalContext from '../../../context/modalContext/ModalContext'
 import {getColorByPalette} from '../../functions/colorChanger/ColorCalculation'
 
 function DumbComponent(props) { 
 
     const { handleOpen } = React.useContext(ModalContext) 
-
+  
+    const variant = props.data.variantHeading
     const heading = props.data.heading  
     const paragraph = props.data.paragraph   
      
@@ -68,9 +69,14 @@ function DumbComponent(props) {
                 }
             },
             heading: {  
+                marginTop: 0, 
                 marginBottom: theme.spacing(3), 
                 textAlign: 'center',  
-                color: computedContrastColor()
+                fontWeight: 500, 
+                color: computedContrastColor(),
+                [theme.breakpoints.down('sm')]: { 
+                    marginBottom: theme.spacing(1.5),  
+                }
             },
             paragraph: {  
                 marginTop: heading.length ? 0 : 10, 
@@ -128,8 +134,13 @@ function DumbComponent(props) {
         <div className={classes.bannerBackground}>
             <Container maxWidth={maxWidthContainer}>
                 <Box className={classes.bannerContent} > 
-                    <Grid item xs={12} sm={6} className="info heading">
-                        { heading.length > 0 && <h3 className={classes.heading}>{heading}</h3> }
+                    <Grid item xs={12} sm={6} className="info">
+                        { 
+                            heading.length > 0 && 
+                            <Typography variant={variant} className={`${classes.heading} heading` }>
+                                { heading }
+                            </Typography> 
+                        }
                         { paragraph.length > 0 && <p className={classes.paragraph} > {paragraph} </p> } 
                         {
                                 isButton && 

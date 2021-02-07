@@ -7,8 +7,46 @@
 страница с максимальным количеством примеров блоков
 common styles (heading block, response coefficient)
 single page 
+menu title как у контейнера - 125 строчка 
+variant heading
 
 wish list: 
 1. firebase hosting ---
 
 
+menuTitle: {...menuTitle, ...{ 
+    borderColor: isDisableBtn ? '#0000' : theme.palette.secondary.main
+}},
+tableSizeContainer: tableSizeContainer,
+tableSizeBtn: tableSizeBtn, 
+tableSizeAbsolute: tableSizeAbsolute,
+
+
+import TableFontSizeInfo from '../../utilits/TableFontSizeInfo'
+import SelectHeadingVariant from '../../functions/SelectHeadingVariant';
+
+import {InfoOutlined} from '@material-ui/icons'; 
+
+const [variant, setVariant] = React.useState(props.data.variantHeading || 'h3')
+const [isTableSizeVisible, setIsTableSizeVisible] = React.useState(false)
+
+<SelectHeadingVariant
+    variant={'filled'} 
+    size="small"  
+    fullWidth={true}
+    className={classes.inputNumber} 
+    label="Variant" 
+    value={variant} 
+    setValue={setVariant} 
+    setIsDisableBtn={setIsDisableBtn}
+/>
+
+dumb: typography variant className heading 
+
+scss : remove styles h1-6, rewrite styles margin - padding
+
+library
+
+handleSave
+
+styled: new state 

@@ -198,7 +198,9 @@ const StyledComponent = (props) => {
                 left: "calc(50% - 250px)",
                 width: 500, 
             } },
-            menuTitle: menuTitle,
+            menuTitle: {...menuTitle, ...{ 
+                borderColor: isDisableBtn ? '#0000' : theme.palette.secondary.main
+            }},
             imageAccordion: { 
                 marginBottom: 10,  
             },

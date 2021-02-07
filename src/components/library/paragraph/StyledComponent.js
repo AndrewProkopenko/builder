@@ -155,7 +155,9 @@ const StyledComponent = (props) => {
                 width: 500, 
             } },
              
-            menuTitle: menuTitle,
+            menuTitle: {...menuTitle, ...{ 
+                borderColor: isDisableBtn ? '#0000' : theme.palette.secondary.main
+            }},
 
             responseValues: responseValues,  
             responseMobile: responseMobile

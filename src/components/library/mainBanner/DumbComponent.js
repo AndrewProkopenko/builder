@@ -2,7 +2,7 @@ import React, { useState, useContext} from 'react'
 
 import SendFormContext from '../../../context/sendFormContext/SendFormContext'
 
-import { Container, Grid, makeStyles, Button, darken, fade, lighten } from '@material-ui/core'
+import { Container, Grid, makeStyles, Button, darken, fade, lighten, Typography } from '@material-ui/core'
 
 import '../../../assets/style/main-banner.scss'
 
@@ -21,6 +21,7 @@ function DumbComponent(props) {
     const [isDisableBtn, setIsDisableBtn] = useState(false)
     const [isValidPhone, setIsValidPhone] = useState({isValid: true})
 
+    const variant = props.data.variantHeading
     const titleMain = props.data.heading
     const titleSubText = props.data.headingIcon.title
     const titleSubIcon = props.data.headingIcon.icon
@@ -160,19 +161,20 @@ function DumbComponent(props) {
     }
     const handleCloseValidationChip = (place) => { 
         if(place === 'phone') setIsValidPhone({isValid: true})
-      }
+      } 
     return (
-        <div className={`bulder-main-banner ${classes.styleClass}`}>
+        <div className={`bulder-main-banner ${classes.styleClass} `}>
             <Container maxWidth={maxWidthContainer}>
                 <Grid container spacing={2}>
-                    <Grid item xs={12} md={7} >
-                        <div className="bulder-main-banner_content">
-                            <h1>
-                                {
-                                    titleMain
-                                }
-                            </h1>
-                            <h5 className={classes.subHeading}>  
+                    <Grid item xs={12} md={imageUrl.length > 0 ? 7 : 12} >
+                        <div className={`bulder-main-banner_content`}>
+                            {
+                                titleMain.length > 0 &&
+                                <Typography variant={variant} className={`heading`}>
+                                    { titleMain }
+                                </Typography> 
+                            } 
+                            <h5 className={`${classes.subHeading} subheading`}>  
                                 {
                                     titleSubIcon &&
                                     <svg style={{fill: '#fff'}}>       
@@ -184,7 +186,7 @@ function DumbComponent(props) {
                                 <span>
                                     { titleSubText }
                                 </span>
-                            </h5>
+                            </h5> 
                             <p>
                                 { paragraph }
                             </p>
@@ -227,11 +229,14 @@ function DumbComponent(props) {
                             </div>
                         </div>
                     </Grid>
-                    <Grid item md={5} > 
-                        <div className="bulder-main-banner-image d-none d-lg-block">
-                        <div className="image" style={{ backgroundImage: `url(${imageUrl})` }} />
-                        </div>
-                    </Grid>
+                    {
+                        imageUrl.length > 0 &&
+                        <Grid item md={5} > 
+                            <div className="bulder-main-banner-image d-none d-lg-block">
+                            <div className="image" style={{ backgroundImage: `url(${imageUrl})` }} />
+                            </div>
+                        </Grid>
+                    }
                 </Grid> 
             </Container>
         </div>

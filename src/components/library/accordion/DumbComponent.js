@@ -1,15 +1,17 @@
 import React from 'react'
 
-import { Container, Accordion, AccordionSummary, makeStyles } from '@material-ui/core'
+import { Container, Accordion, AccordionSummary, makeStyles , Typography} from '@material-ui/core'
 
 import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
 
 import '../../../assets/style/accordion.scss'
+import '../../../assets/style/headingCenter.scss'
 
 import {getColorByPalette} from '../../functions/colorChanger/ColorCalculation'
 
 function DumbComponent(props) { 
     let color = props.data.color
+    const variant = props.data.variantHeading
     const heading = props.data.heading
     const items = props.data.items 
     const marginTop = props.data.marginTop  
@@ -56,12 +58,14 @@ function DumbComponent(props) {
     const classes  = useStyles();
     
     return ( 
-        <div className={`${classes.styleClass} bulder-accordion heading`}>
+        <div className={`${classes.styleClass} bulder-accordion`}>
             <Container maxWidth={maxWidthContainer} className={classes.disableMobileGutters}>
 
                 {
                     heading.length > 0 &&
-                    <h3> { heading } </h3> 
+                    <Typography variant={variant} className={'heading heading-center'}>
+                        { heading }
+                    </Typography>
                 }
                 
 

@@ -162,10 +162,14 @@ function DumbComponent() {
                     color: theme.palette.getContrastText(modalBtnColor), 
                     cursor: 'pointer'
                 }
+            },
+            loginBtn: {
+                color: colorHeader,
+                borderColor: colorHeader
             }
         })
     });
-    const { header, logoImage ,logoMain , logoSub, fixedPadding, buttonModal, linkModal, topHeader} = useStyles();
+    const { header, logoImage ,logoMain , logoSub, fixedPadding, buttonModal, linkModal, topHeader, loginBtn} = useStyles();
   
     useEffect(() => {  
         const setResponsiveness = () => {  
@@ -287,6 +291,7 @@ function DumbComponent() {
                                                     color='default' 
                                                     variant="outlined"
                                                     size='small'
+                                                    className={loginBtn}
                                                 >
                                                     Login
                                                 </Button>

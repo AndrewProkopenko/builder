@@ -10,12 +10,15 @@ import {
     Paper, 
     Button, 
     Container,
-    Box    
+    Box,    
+    Typography
 } from '@material-ui/core'; 
 
 import ModalContext from '../../../context/modalContext/ModalContext'
 
 import {getColorByPalette} from '../../functions/colorChanger/ColorCalculation'
+
+import '../../../assets/style/headingCenter.scss'
  
 export default function CustomizedTables(props) {
     let mainColor = props.data.color
@@ -23,6 +26,7 @@ export default function CustomizedTables(props) {
     const isButton = props.data.isButton
     const buttonText = props.data.buttonText
     const heading = props.data.heading
+    const variant = props.data.variantHeading
     const rows = props.data.rows
     const tableRow = props.data.tableRow
     const visibleRows = props.data.visibleRows
@@ -161,10 +165,12 @@ export default function CustomizedTables(props) {
         )
     }
     return (
-        <Container maxWidth={maxWidthContainer} className={`${classes.tableContainer} heading`} >
+        <Container maxWidth={maxWidthContainer} className={`${classes.tableContainer}`} >
             {
                 heading.length > 0 &&
-                <h3> { heading } </h3> 
+                <Typography variant={variant} className={`heading heading-center`}>
+                    { heading }
+                </Typography> 
             }
             <TableContainer component={Paper}>
                 

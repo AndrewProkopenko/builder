@@ -73,7 +73,9 @@ function ThemeChanger() {
                 left: "calc(50% - 450px)",
                 maxWidth: 900,   
             }},
-            menuTitle: menuTitle,
+            menuTitle: {...menuTitle, ...{ 
+                borderColor: isDisableBtn ? '#0000' : theme.palette.secondary.main
+            }},
             btnSetting: btnSetting, 
             btnSave: btnSave,   
             colorPreview: { 

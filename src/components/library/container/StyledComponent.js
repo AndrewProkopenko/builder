@@ -121,13 +121,20 @@ function ContainerElement(props) {
                 left: "calc(50% - 300px)",
                 width: 600, 
             } },
-            menuTitle: menuTitle,
+            menuTitle: {...menuTitle, ...{ 
+                borderColor: isDisableBtn ? '#0000' : theme.palette.secondary.main
+            }},
 
             responseValues: responseValues, 
             responseTablets: responseTablets,
             responseMobile: responseMobile,
             mobileTooltip: mobileTooltip,
             tabletTooltip: tabletTooltip,
+            addItemBtn: {
+                marginBottom: theme.spacing(1), 
+                marginRight: theme.spacing(2), 
+                display: 'inline-block'
+            }
         })
     })
     
@@ -247,161 +254,161 @@ function ContainerElement(props) {
                                     className={classes.menuTitle}
                                     id="draggable-dialog-title"
                                 >
-                                    Container Settings<OpenWithIcon/>
+                                     { !isDisableBtn && "Close to save - " } Container Settings<OpenWithIcon/>
                                 </Typography>
-                    <FormGroup > 
-                        <Typography  variant={'h6'} gutterBottom  >
-                            Add item from libs
-                        </Typography>
-                        <Box>
-                                <Box mr={2} mb={1} clone={true} >
-                                    <Button 
-                                        aria-controls="heading-menu" 
-                                        aria-haspopup="true" 
-                                        onClick={handleHeadingMenuClick}
-                                        variant='contained'
-                                        color="primary"
+                                <FormGroup > 
+                                    <Typography  variant={'h6'} gutterBottom  >
+                                        Add item to Container
+                                    </Typography>
+                                    <Box>
+                                            <Box className={classes.addItemBtn}  >
+                                                <Button 
+                                                    aria-controls="heading-menu" 
+                                                    aria-haspopup="true" 
+                                                    onClick={handleHeadingMenuClick}
+                                                    variant='contained'
+                                                    color="primary"
+                                                >
+                                                    Heading
+                                                </Button>
+                                            </Box>
+                                            
+                                            <Menu
+                                                id="heading-menu"
+                                                anchorEl={anchorEl}
+                                                keepMounted
+                                                open={Boolean(anchorEl)}
+                                                onClose={handleHeadingMenuClose}
+                                            >
+                                                <MenuItem value={0} onClick={(e) => {handleHeadingMenuClose(e.target.value, "heading")}} >Heading h1</MenuItem>
+                                                <MenuItem value={1} onClick={(e) => {handleHeadingMenuClose(e.target.value, "heading")}} >Heading h2</MenuItem>
+                                                <MenuItem value={2} onClick={(e) => {handleHeadingMenuClose(e.target.value, "heading")}} >Heading h3</MenuItem>
+                                                <MenuItem value={3} onClick={(e) => {handleHeadingMenuClose(e.target.value, "heading")}} >Heading h4</MenuItem>
+                                                <MenuItem value={4} onClick={(e) => {handleHeadingMenuClose(e.target.value, "heading")}} >Heading h5</MenuItem>
+                                                <MenuItem value={5} onClick={(e) => {handleHeadingMenuClose(e.target.value, "heading")}} >Heading h6</MenuItem> 
+                                            </Menu>
+
+                                            <Box className={classes.addItemBtn} >
+                                                <Button
+                                                    onClick={() => {addHeading('p', 'paragraph');}}
+                                                    variant='contained'
+                                                    color="primary"
+                                                >
+                                                    Paragraph
+                                                </Button>
+                                            </Box>
+                                            <Box className={classes.addItemBtn} >
+                                                <Button
+                                                    onClick={() => {addHeading('p', 'paragraphImage');  }}
+                                                    variant='contained'
+                                                    color="primary" 
+                                                >
+                                                    Paragraph-Image
+                                                </Button>
+                                            </Box> 
+                                            <Box className={classes.addItemBtn} >
+                                                <Button
+                                                    onClick={() => {addHeading('list', 'list');  }}
+                                                    variant='contained'
+                                                    color="primary" 
+                                                >
+                                                    List
+                                                </Button>
+                                            </Box> 
+                                    </Box>
+
+                                </FormGroup>
+
+                                <Typography  variant={'h6'} gutterBottom  >
+                                    Settings 
+                                </Typography>
+                                <FormGroup row>
+                                    <FormControl 
+                                        variant='filled' 
+                                        size='small'   
+                                        className={classes.settingsItem}
                                     >
-                                        Heading
-                                    </Button>
-                                </Box>
+                                        <InputLabel id="dis-gutters-style-label">Disable Gutters</InputLabel>
+                                        <Select
+                                            labelId="dis-gutters-label"
+                                            id="dis-gutters-style"
+                                            value={settingGutter}
+                                            onChange={(e) => {setIsDisableBtn(false); setSettingGutter(e.target.value) }}
+                                        >
+                                            <MenuItem value={false}>False</MenuItem>
+                                            <MenuItem value={true}>True</MenuItem> 
+                                        </Select>
+                                    </FormControl>
+
+                                    
+
+                                    <FormControl 
+                                        variant='filled' 
+                                        size='small'   
+                                        className={classes.settingsItem}
+                                    >
+                                        <InputLabel id="fixed-style-label">Fixed</InputLabel>
+                                        <Select
+                                            labelId="fixed-label"
+                                            id="fixed-style"
+                                            value={settingFixed}
+                                            onChange={(e) => {setIsDisableBtn(false); setSettingFixed(e.target.value) }}
+                                        >
+                                            <MenuItem value={false}>False</MenuItem>
+                                            <MenuItem value={true}>True</MenuItem> 
+                                        </Select>
+                                    </FormControl>  
+                                </FormGroup>
                                 
-                                <Menu
-                                    id="heading-menu"
-                                    anchorEl={anchorEl}
-                                    keepMounted
-                                    open={Boolean(anchorEl)}
-                                    onClose={handleHeadingMenuClose}
-                                >
-                                    <MenuItem value={0} onClick={(e) => {handleHeadingMenuClose(e.target.value, "heading")}} >Heading h1</MenuItem>
-                                    <MenuItem value={1} onClick={(e) => {handleHeadingMenuClose(e.target.value, "heading")}} >Heading h2</MenuItem>
-                                    <MenuItem value={2} onClick={(e) => {handleHeadingMenuClose(e.target.value, "heading")}} >Heading h3</MenuItem>
-                                    <MenuItem value={3} onClick={(e) => {handleHeadingMenuClose(e.target.value, "heading")}} >Heading h4</MenuItem>
-                                    <MenuItem value={4} onClick={(e) => {handleHeadingMenuClose(e.target.value, "heading")}} >Heading h5</MenuItem>
-                                    <MenuItem value={5} onClick={(e) => {handleHeadingMenuClose(e.target.value, "heading")}} >Heading h6</MenuItem> 
-                                </Menu>
-
-                                <Box mr={2} mb={1} clone={true} >
-                                    <Button
-                                        onClick={() => {addHeading('p', 'paragraph');}}
-                                        variant='contained'
-                                        color="primary"
+                                <FormGroup row> 
+                                    <FormControl 
+                                        variant='filled' 
+                                        size='small'   
+                                        className={classes.settingsItem}
                                     >
-                                        Paragraph
-                                    </Button>
-                                </Box>
-                                <Box mr={2} mb={1} clone={true} >
-                                    <Button
-                                        onClick={() => {addHeading('p', 'paragraphImage');  }}
-                                        variant='contained'
-                                        color="primary" 
+                                        <InputLabel id="maxWidth-style-label">Max-Width</InputLabel>
+                                        <Select
+                                            labelId="maxWidth-label"
+                                            id="maxWidth-style"
+                                            value={settingMaxWidth}
+                                            onChange={(e) => {setIsDisableBtn(false); setSettingMaxWidth(e.target.value) }}
+                                        >
+                                            <MenuItem value={false}>False</MenuItem>
+                                            <MenuItem value={'xl'}>xl - 1920 </MenuItem> 
+                                            <MenuItem value={'lg'}>lg - 1280 </MenuItem> 
+                                            <MenuItem value={'md'}>md - 960 </MenuItem> 
+                                            <MenuItem value={'sm'}>sm - 600 </MenuItem> 
+                                            <MenuItem value={'xs'}>xs - 0 </MenuItem> 
+                                        </Select>
+                                    </FormControl>
+
+                                    <FormControl 
+                                        variant='filled' 
+                                        size='small'   
+                                        className={classes.settingsItem}
                                     >
-                                        Paragraph-Image
-                                    </Button>
-                                </Box> 
-                                <Box mr={2} mb={1} clone={true} >
-                                    <Button
-                                        onClick={() => {addHeading('list', 'list');  }}
-                                        variant='contained'
-                                        color="primary" 
-                                    >
-                                        List
-                                    </Button>
-                                </Box> 
-                        </Box>
-
-                    </FormGroup>
-
-                    <Typography  variant={'h6'} gutterBottom  >
-                        Settings 
-                    </Typography>
-                    <FormGroup row>
-                        <FormControl 
-                            variant='filled' 
-                            size='small'   
-                            className={classes.settingsItem}
-                        >
-                            <InputLabel id="dis-gutters-style-label">Disable Gutters</InputLabel>
-                            <Select
-                                labelId="dis-gutters-label"
-                                id="dis-gutters-style"
-                                value={settingGutter}
-                                onChange={(e) => {setIsDisableBtn(false); setSettingGutter(e.target.value) }}
-                            >
-                                <MenuItem value={false}>False</MenuItem>
-                                <MenuItem value={true}>True</MenuItem> 
-                            </Select>
-                        </FormControl>
-
-                        
-
-                        <FormControl 
-                            variant='filled' 
-                            size='small'   
-                            className={classes.settingsItem}
-                        >
-                            <InputLabel id="fixed-style-label">Fixed</InputLabel>
-                            <Select
-                                labelId="fixed-label"
-                                id="fixed-style"
-                                value={settingFixed}
-                                onChange={(e) => {setIsDisableBtn(false); setSettingFixed(e.target.value) }}
-                            >
-                                <MenuItem value={false}>False</MenuItem>
-                                <MenuItem value={true}>True</MenuItem> 
-                            </Select>
-                        </FormControl>  
-                    </FormGroup>
-                    
-                    <FormGroup row> 
-                        <FormControl 
-                            variant='filled' 
-                            size='small'   
-                            className={classes.settingsItem}
-                        >
-                            <InputLabel id="maxWidth-style-label">Max-Width</InputLabel>
-                            <Select
-                                labelId="maxWidth-label"
-                                id="maxWidth-style"
-                                value={settingMaxWidth}
-                                onChange={(e) => {setIsDisableBtn(false); setSettingMaxWidth(e.target.value) }}
-                            >
-                                <MenuItem value={false}>False</MenuItem>
-                                <MenuItem value={'xl'}>xl - 1920 </MenuItem> 
-                                <MenuItem value={'lg'}>lg - 1280 </MenuItem> 
-                                <MenuItem value={'md'}>md - 960 </MenuItem> 
-                                <MenuItem value={'sm'}>sm - 600 </MenuItem> 
-                                <MenuItem value={'xs'}>xs - 0 </MenuItem> 
-                            </Select>
-                        </FormControl>
-
-                        <FormControl 
-                            variant='filled' 
-                            size='small'   
-                            className={classes.settingsItem}
-                        >
-                            <InputLabel id="inner-container-style-label">Inner Container</InputLabel>
-                            <Select
-                                labelId="inner-container-label"
-                                id="inner-container-style"
-                                value={settingInnerContainer}
-                                onChange={(e) => {setIsDisableBtn(false); setSettingInnerContainer(e.target.value) }}
-                            >
-                                <MenuItem value={false}>False</MenuItem>
-                                <MenuItem value={'xl'}>xl - 1920 </MenuItem> 
-                                <MenuItem value={'lg'}>lg - 1280 </MenuItem> 
-                                <MenuItem value={'md'}>md - 960 </MenuItem> 
-                                <MenuItem value={'sm'}>sm - 600 </MenuItem> 
-                                <MenuItem value={'xs'}>xs - 0 </MenuItem>
-                            </Select>
-                        </FormControl>
-                    </FormGroup>
-                    
-                    
-                    <Typography  variant={'h6'} gutterBottom  >
-                        Styles 
-                    </Typography>
-                    <React.Fragment>
+                                        <InputLabel id="inner-container-style-label">Inner Container</InputLabel>
+                                        <Select
+                                            labelId="inner-container-label"
+                                            id="inner-container-style"
+                                            value={settingInnerContainer}
+                                            onChange={(e) => {setIsDisableBtn(false); setSettingInnerContainer(e.target.value) }}
+                                        >
+                                            <MenuItem value={false}>False</MenuItem>
+                                            <MenuItem value={'xl'}>xl - 1920 </MenuItem> 
+                                            <MenuItem value={'lg'}>lg - 1280 </MenuItem> 
+                                            <MenuItem value={'md'}>md - 960 </MenuItem> 
+                                            <MenuItem value={'sm'}>sm - 600 </MenuItem> 
+                                            <MenuItem value={'xs'}>xs - 0 </MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </FormGroup>
+                                
+                                
+                                <Typography  variant={'h6'} gutterBottom  >
+                                    Styles 
+                                </Typography>
+                                <React.Fragment>
                         <Tooltip classes={{tooltip: classes.tabletTooltip}} title='Calculated styles for Tablets (<960px)' placement={'top'}>
                             <Box className={`${classes.responseValues} ${classes.responseTablets}`}>
                                 <TabletMacIcon/>

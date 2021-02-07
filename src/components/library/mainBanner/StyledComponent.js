@@ -19,7 +19,7 @@ import OpenWithIcon from '@material-ui/icons/OpenWith';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExpandLessOutlinedIcon from '@material-ui/icons/ExpandLessOutlined';
 import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined'; 
-import { DeleteOutline } from '@material-ui/icons';
+import { DeleteOutline , InfoOutlined } from '@material-ui/icons';
 import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 import TabletMacIcon from '@material-ui/icons/TabletMac';
 
@@ -29,10 +29,16 @@ import InputChange from '../../functions/InputChange';
 
 import {RemoveImage} from '../../functions/RemoveImage' 
 
+import TableFontSizeInfo from '../../utilits/TableFontSizeInfo'
+import SelectHeadingVariant from '../../functions/SelectHeadingVariant';
+
 function StyledComponent(props) { 
         
     const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
     const [open, setOpen] = React.useState(false)
+
+    const [variant, setVariant] = React.useState(props.data.variantHeading || 'h2')
+    const [isTableSizeVisible, setIsTableSizeVisible] = React.useState(false)
 
     const [heading, setHeading] = React.useState(props.data.heading)
     const [subHeading, setSubHeading] = React.useState(props.data.headingIcon.title)
@@ -82,11 +88,14 @@ function StyledComponent(props) {
         const commonClasses = classesRef(theme)
 
         const { menu, menuTitle, btnSetting, btnDrawerStyle, btnDrawerItem, containerWrapper, btnWithLabel, dialogContentUnstyle, 
-            responseValues ,responseMobile , mobileTooltip, responseTablets, tabletTooltip } = commonClasses 
+            responseValues ,responseMobile , mobileTooltip, responseTablets, tabletTooltip, tableSizeContainer, tableSizeBtn, tableSizeAbsolute } = commonClasses 
             
         const { mtView, mbView } = commonStyle 
 
         return ({
+            tableSizeContainer: tableSizeContainer,
+            tableSizeBtn: tableSizeBtn, 
+            tableSizeAbsolute: tableSizeAbsolute,
             dialogContentUnstyle: dialogContentUnstyle, 
             btnDrawerStyle: btnDrawerStyle,
             btnDrawerItem: btnDrawerItem,
@@ -110,8 +119,10 @@ function StyledComponent(props) {
                 left: 'calc( 50% - 400px )',
                 maxWidth: 800,
                 width: '100%',
-            }}, 
-            menuTitle: menuTitle,
+            }},   
+            menuTitle: {...menuTitle, ...{ 
+                borderColor: isDisableBtn ? '#0000' : theme.palette.secondary.main
+            }},
             btnSetting: btnSetting,   
             btnWithLabel: btnWithLabel,
 
@@ -146,6 +157,10 @@ function StyledComponent(props) {
                         height: `${mobileMarginBottomComputed}px `,
                     }
                 } 
+            }, 
+            infoBlock: {
+                padding: 8, 
+                border: `1px solid ${theme.palette.info.main}`
             }
         })
     })
@@ -181,6 +196,7 @@ function StyledComponent(props) {
     }
     const handleSave = () => {
         const newData = Object.assign({}, props.data) 
+        newData.variantHeading = variant 
         newData.heading = heading
         newData.paragraph = paragraph
         newData.headingIcon = {
@@ -216,6 +232,16 @@ function StyledComponent(props) {
             RemoveImage(imageName) 
             RemoveImage(iconName) 
             props.removeContainer(props.data.id)
+        }
+    }
+    const handleRemoveImage = () => {
+        const conf = window.confirm('Remove image?')
+        if(conf) {
+            RemoveImage(imageName)
+
+            setImageUrl('')
+            setImageName('')
+            setIsDisableBtn(false)
         }
     }
 
@@ -385,6 +411,10 @@ function StyledComponent(props) {
                                             </Box>
                                         </Tooltip>
                                     </Box>
+                                    
+                                    <Box className={classes.infoBlock}> 
+                                        <span>You can use block without image. In this state you can set background color for block and contrast text</span>    
+                                    </Box>
 
                                     <Box mt={2}>  
                                         <Typography variant='h6' gutterBottom>
@@ -403,6 +433,33 @@ function StyledComponent(props) {
                                             direction='row'
                                         /> 
                                     </Box> 
+                                    
+                                    <Box mt={3} mb={1} className={classes.tableSizeContainer}>   
+                                        <SelectHeadingVariant
+                                            variant={'filled'} 
+                                            size="small"  
+                                            fullWidth={false} 
+                                            label="Main Heading Variant" 
+                                            value={variant} 
+                                            setValue={setVariant} 
+                                            setIsDisableBtn={setIsDisableBtn}
+                                        />
+                                        <Button 
+                                            className={classes.tableSizeBtn}
+                                            size={'medium'}
+                                            startIcon={<InfoOutlined/>}
+                                            onClick={() => {setIsTableSizeVisible(!isTableSizeVisible)}}
+                                        >
+                                            {isTableSizeVisible ? 'Hide' : 'Show' } variants info
+                                        </Button> 
+                                    </Box>
+                                    {
+                                        isTableSizeVisible && 
+                                        <Box className={classes.tableSizeAbsolute}>
+                                            <TableFontSizeInfo activeRow={variant} /> 
+                                        </Box>
+                                    }
+
                                     <Box display="flex" mt={3}>   
                                         <Box display="flex" mr={2} minWidth={150} >
                                             <Button color='primary' variant={'contained'} className={classes.btnWithLabel} > 
@@ -535,6 +592,17 @@ function StyledComponent(props) {
                                         }
                                         
                                     </Box>
+
+                                    {
+                                        imageUrl.length > 0 &&
+                                        <Button
+                                            color='secondary' 
+                                            variant='contained' 
+                                            onClick={handleRemoveImage}
+                                        > 
+                                        Remove image
+                                        </Button>
+                                    }
 
                                     <Box mt={5} />
 

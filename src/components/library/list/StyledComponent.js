@@ -125,9 +125,10 @@ const StyledComponent = (props) => {
             menu: {...menu, ...{
                 left: "calc(50% - 250px)",
                 width: 500, 
-            } },
-             
-            menuTitle: menuTitle,
+            }}, 
+            menuTitle: {...menuTitle, ...{ 
+                borderColor: isDisableBtn ? '#0000' : theme.palette.secondary.main
+            }},
             movingPageBtn: {  
                 '&>button' : {
                     paddingLeft: 3,

@@ -23,12 +23,7 @@ import {
     Tooltip,
     DialogContent,
     ButtonGroup,
-    FormGroup, 
-    Table, 
-    TableHead, 
-    TableBody, 
-    TableRow, 
-    TableCell
+    FormGroup,  
 
 } from '@material-ui/core'
 
@@ -47,6 +42,9 @@ import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
 import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 import TabletMacIcon from '@material-ui/icons/TabletMac';
 
+import TableFontSizeInfo from '../../utilits/TableFontSizeInfo'
+import SelectHeadingVariant from '../../functions/SelectHeadingVariant';
+
 const StyledComponent = (props) => {  
 
     console.log('styled heading work')
@@ -62,8 +60,8 @@ const StyledComponent = (props) => {
         left:  props.data.classes.marginLeft ,
         bottom: props.data.classes.marginBottom , 
         right: props.data.classes.marginRight 
-    })
-    console.log(props.data)
+    }) 
+
     const [borderColorSelect, setBorderColorSelect] = React.useState(props.data.classes.borderColor ||  'transperent')
     const [borderColorCustom, setBorderColorCustom] = React.useState(props.data.classes.borderColor ||  'transperent')
     const [borderStyle, setBorderStyle] = React.useState(props.data.classes.borderStyle ||  'solid')
@@ -183,7 +181,9 @@ const StyledComponent = (props) => {
                 left: "calc(50% - 250px)",
                 width: 500, 
             } },    
-            menuTitle: menuTitle,  
+            menuTitle: {...menuTitle, ...{ 
+                borderColor: isDisableBtn ? '#0000' : theme.palette.secondary.main
+            }},
 
             responseValues: responseValues, 
             responseTablets: responseTablets,
@@ -198,10 +198,7 @@ const StyledComponent = (props) => {
                 fontSize: 14, 
                 backgroundColor: theme.palette.info.main
             }, 
-            defaultSizeInfo: {
-                padding: 8, 
-                border: `1px solid ${theme.palette.info.main}`
-            }, 
+            
             defaultSizeCheck: {
                 color: theme.palette.info.main, 
             },
@@ -369,68 +366,7 @@ const StyledComponent = (props) => {
                                 </Box>
                                 {
                                     defaultSize && 
-                                    <Box className={classes.defaultSizeInfo}> 
-                                        <Box mb={1}>  
-                                            <Typography variant='caption'>
-                                                Defaul values is important then font size settings on down. 
-                                            </Typography> 
-                                        </Box>
-                                        <Box mb={1}>  
-                                            <Typography variant='caption'>
-                                                *  - h3 has font size like another blocks (ext. table, accordion, about, banner, slider, blocks )
-                                            </Typography> 
-                                        </Box>
-                                        <Box mb={1}>  
-                                        <Table className={classes.table} size={'small'} >
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell>Variant</TableCell>
-                                                    <TableCell align="right">Mobile</TableCell>
-                                                    <TableCell align="right">Tablets</TableCell>
-                                                    <TableCell align="right">Desktop</TableCell> 
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody> 
-                                                <TableRow>
-                                                    <TableCell component="th" scope="row">h1</TableCell>
-                                                    <TableCell align="right">3.5rem</TableCell>
-                                                    <TableCell align="right">4.7rem</TableCell>
-                                                    <TableCell align="right">5.35rem</TableCell> 
-                                                </TableRow>
-                                                <TableRow>
-                                                    <TableCell component="th" scope="row">h2</TableCell>
-                                                    <TableCell align="right">2.375rem</TableCell>
-                                                    <TableCell align="right">2.9rem</TableCell>
-                                                    <TableCell align="right">3.3rem</TableCell> 
-                                                </TableRow>
-                                                <TableRow>
-                                                    <TableCell component="th" scope="row">h3*</TableCell>
-                                                    <TableCell align="right">25px</TableCell>
-                                                    <TableCell align="right">32px</TableCell>
-                                                    <TableCell align="right">32px</TableCell> 
-                                                </TableRow>
-                                                <TableRow>
-                                                    <TableCell component="th" scope="row">h4</TableCell>
-                                                    <TableCell align="right">1.5625rem</TableCell>
-                                                    <TableCell align="right">1.8rem</TableCell>
-                                                    <TableCell align="right">2rem</TableCell> 
-                                                </TableRow>
-                                                <TableRow>
-                                                    <TableCell component="th" scope="row">h5</TableCell>
-                                                    <TableCell align="right">1.25rem</TableCell>
-                                                    <TableCell align="right">1.32rem</TableCell>
-                                                    <TableCell align="right">1.5rem</TableCell> 
-                                                </TableRow>
-                                                <TableRow>
-                                                    <TableCell component="th" scope="row">h6</TableCell>
-                                                    <TableCell align="right">1.125rem</TableCell>
-                                                    <TableCell align="right">1.25rem</TableCell>
-                                                    <TableCell align="right">1.25rem</TableCell> 
-                                                </TableRow> 
-                                            </TableBody>
-                                        </Table> 
-                                        </Box>
-                                    </Box>
+                                    <TableFontSizeInfo activeRow={variant} />
                                 }
                                 <Tooltip classes={{tooltip: classes.tabletTooltip}} title='Calculated styles for Tablets (<960px)' placement={'top'}>
                                     <Box className={`${classes.responseValues} ${classes.responseTablets}`}>
@@ -493,27 +429,16 @@ const StyledComponent = (props) => {
                                             <MenuItem value={'inline-flex'}>Inline-flex</MenuItem> 
                                             </Select>
                                         </FormControl>
-                                        <FormControl 
-                                            variant='filled' 
-                                            size='small'   
-                                            className={classes.inputNumber}
-                                            fullWidth
-                                        >
-                                            <InputLabel id="variant-style-label">Variant</InputLabel>
-                                            <Select
-                                                labelId="variant-style-label"
-                                                id="variant-style"
-                                                value={variant}
-                                                onChange={(e) => {setIsDisableBtn(false); setVariant(e.target.value) }}
-                                            >
-                                            <MenuItem value={'h1'}>H1</MenuItem> 
-                                            <MenuItem value={'h2'}>H2</MenuItem> 
-                                            <MenuItem value={'h3'}>H3</MenuItem> 
-                                            <MenuItem value={'h4'}>H4</MenuItem> 
-                                            <MenuItem value={'h5'}>H5</MenuItem> 
-                                            <MenuItem value={'h6'}>H6</MenuItem> 
-                                            </Select>
-                                        </FormControl>
+                                        <SelectHeadingVariant
+                                            variant={'filled'} 
+                                            size="small"  
+                                            fullWidth={true}
+                                            className={classes.inputNumber} 
+                                            label="Variant" 
+                                            value={variant} 
+                                            setValue={setVariant} 
+                                            setIsDisableBtn={setIsDisableBtn}
+                                        />
                                     </FormGroup>
                                 </Box>  
 

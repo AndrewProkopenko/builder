@@ -74,7 +74,9 @@ function RequestsChanger() {
                 left: "calc(50% - 300px)",
                 maxWidth: 600,   
             }},
-            menuTitle: menuTitle,
+            menuTitle: {...menuTitle, ...{ 
+                borderColor: isDisableBtn ? '#0000' : theme.palette.secondary.main
+            }},
             btnSetting: {...btnSetting, ...{
                 backgroundColor: amber[500], 
                 '&>span' :{

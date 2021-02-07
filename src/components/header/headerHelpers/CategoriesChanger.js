@@ -72,7 +72,9 @@ function CategoriesChanger() {
                 left: "calc(50% - 400px)",
                 maxWidth: 800,   
             }}, 
-            menuTitle: menuTitle,
+            menuTitle: {...menuTitle, ...{ 
+                borderColor: isDisableBtn ? '#0000' : theme.palette.secondary.main
+            }},
             btnSetting: btnSetting,  
 
             listPages : {

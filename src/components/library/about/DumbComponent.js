@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Container, Grid, makeStyles, Box, Button, darken, fade } from '@material-ui/core'
+import { Container, Grid, makeStyles, Box, Button, darken, fade, Typography } from '@material-ui/core'
 
 import {getColorByPalette} from '../../functions/colorChanger/ColorCalculation'
 
@@ -14,6 +14,7 @@ function DumbComponent(props) {
       
     const imageUrl = props.data.image
 
+    const variant = props.data.variantHeading
     const heading = props.data.heading
     const paragraph = props.data.paragraph
     // let imageName = props.data.imageName
@@ -78,15 +79,15 @@ function DumbComponent(props) {
     return (
         <div className="container-fluid position-relative"> 
             <Container maxWidth={maxWidthContainer} >
-                <div className={`${classes.styleClass} bulder-about heading`}>
+                <div className={`${classes.styleClass} bulder-about`}>
                     <Grid container> 
                         <Grid item xs={12} md={imageUrl.length > 0 ? 6 : 12} >
                             <div className="bulder-about_item">
                                 {
                                    heading.length > 0 && 
-                                   <h3>
+                                   <Typography variant={variant} className={'heading'}>
                                        { heading }
-                                   </h3>
+                                   </Typography>
                                 }
                                 {
                                    paragraph.length > 0 && 

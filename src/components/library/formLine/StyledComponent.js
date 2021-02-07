@@ -17,17 +17,23 @@ import OpenWithIcon from '@material-ui/icons/OpenWith';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExpandLessOutlinedIcon from '@material-ui/icons/ExpandLessOutlined';
 import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined'; 
-import { DeleteOutline } from '@material-ui/icons';
+import { DeleteOutline, InfoOutlined } from '@material-ui/icons';
 import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 
 import DumbComponent from "./DumbComponent"
 
 import InputChange from '../../functions/InputChange';
 
+import TableFontSizeInfo from '../../utilits/TableFontSizeInfo'
+import SelectHeadingVariant from '../../functions/SelectHeadingVariant';
+
 function StyledComponent(props) {
  
     const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
     const [open, setOpen] = React.useState(false)
+    
+    const [variant, setVariant] = React.useState(props.data.variantHeading || 'h4')
+    const [isTableSizeVisible, setIsTableSizeVisible] = React.useState(false)
  
     const [heading, setHeading] = React.useState(props.data.heading || '')
     const [paragraph, setParagraph] = React.useState(props.data.paragraph || '')
@@ -70,9 +76,12 @@ function StyledComponent(props) {
         const commonClasses = classesRef(theme)
          
         const { menu, menuTitle, btnSetting, btnDrawerStyle, btnDrawerItem, containerWrapper, dialogContentUnstyle, 
-            responseValues ,responseMobile , mobileTooltip } = commonClasses 
+            responseValues ,responseMobile , mobileTooltip, tableSizeContainer, tableSizeBtn, tableSizeAbsolute } = commonClasses 
         const { mtView, mbView } = commonStyle 
         return ({
+            tableSizeContainer: tableSizeContainer,
+            tableSizeBtn: tableSizeBtn, 
+            tableSizeAbsolute: tableSizeAbsolute,
             dialogContentUnstyle: dialogContentUnstyle, 
             btnDrawerStyle: btnDrawerStyle,
             btnDrawerItem: btnDrawerItem,
@@ -97,7 +106,9 @@ function StyledComponent(props) {
                 maxWidth: 600,
                 width: '100%',
             }}, 
-            menuTitle: menuTitle,
+            menuTitle: {...menuTitle, ...{ 
+                borderColor: isDisableBtn ? '#0000' : theme.palette.secondary.main
+            }},
             btnSetting: btnSetting,  
             // btnSave: btnSave,
             responseValues: responseValues,  
@@ -129,6 +140,8 @@ function StyledComponent(props) {
  
     const handleSave = () => {
         const newData = Object.assign({}, props.data)  
+        
+        newData.variantHeading = variant   
         newData.heading = heading 
         newData.paragraph = paragraph 
         newData.inputName = inputName 
@@ -308,6 +321,32 @@ function StyledComponent(props) {
                                         </Tooltip>
                                     </Box>
 
+                                    <Box mt={3} mb={1} className={classes.tableSizeContainer}>   
+                                        <SelectHeadingVariant
+                                            variant={'filled'} 
+                                            size="small"  
+                                            fullWidth={false} 
+                                            label="Main Heading Variant" 
+                                            value={variant} 
+                                            setValue={setVariant} 
+                                            setIsDisableBtn={setIsDisableBtn}
+                                        />
+                                        <Button 
+                                            className={classes.tableSizeBtn}
+                                            size={'medium'}
+                                            startIcon={<InfoOutlined/>}
+                                            onClick={() => {setIsTableSizeVisible(!isTableSizeVisible)}}
+                                        >
+                                            {isTableSizeVisible ? 'Hide' : 'Show' } variants info
+                                        </Button> 
+                                    </Box>
+                                    {
+                                        isTableSizeVisible && 
+                                        <Box className={classes.tableSizeAbsolute}>
+                                            <TableFontSizeInfo activeRow={variant} /> 
+                                        </Box>
+                                    }
+
                                       
                                     <Box mt={2} >   
                                         <Typography variant='h6' gutterBottom>
@@ -404,19 +443,7 @@ function StyledComponent(props) {
                                         
                                     </Box>
                                     <Box mt={5} />
-
-                                    {/* <Box className={classes.btnSave}>
-                                        <Button
-                                            disabled={isDisableBtn}
-                                        
-                                            variant="contained"
-                                            color="primary"
-                                            size={'medium'} 
-                                            onClick={handleSave}
-                                        >
-                                            Save
-                                        </Button> 
-                                    </Box> */}
+ 
                                 </div>
                             </Draggable>
                         </DialogContent> 

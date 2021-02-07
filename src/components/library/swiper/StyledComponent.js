@@ -45,12 +45,18 @@ import InputChange from '../../functions/InputChange';
 import SelectPage from '../../functions/SelectPage';
 
 import {RemoveImage} from '../../functions/RemoveImage' 
+ 
+import TableFontSizeInfo from '../../utilits/TableFontSizeInfo'
+import SelectHeadingVariant from '../../functions/SelectHeadingVariant';
 
 function StyledComponent(props) {
     
     const [isDisableBtn, setIsDisableBtn] = React.useState(true)
     const [open, setOpen] = React.useState(false)
   
+    const [variant, setVariant] = React.useState(props.data.variantHeading || 'h3')
+    const [isTableSizeVisible, setIsTableSizeVisible] = React.useState(false)
+
     const [heading, setHeading] = React.useState(props.data.heading)  
     const [slidesPerView, setSlidesPerView] = React.useState(props.data.slidesPerView || 4)
     const [slidesPerViewTablet, setSlidesPerViewTablet] = React.useState(props.data.slidesPerViewTablet || 3)
@@ -96,11 +102,14 @@ function StyledComponent(props) {
         const commonClasses = classesRef(theme)
 
         const { menu, menuTitle, btnSetting, btnDrawerStyle, btnDrawerItem, containerWrapper, btnWithLabel, responseValues 
-            ,responseMobile , mobileTooltip, dialogContentUnstyle, infoBtn, infoBlock } = commonClasses 
+            ,responseMobile , mobileTooltip, dialogContentUnstyle, infoBtn, infoBlock ,  tableSizeContainer, tableSizeBtn, tableSizeAbsolute } = commonClasses 
  
         const { mtView, mbView } = commonStyle 
 
         return ({
+            tableSizeContainer: tableSizeContainer,
+            tableSizeBtn: tableSizeBtn, 
+            tableSizeAbsolute: tableSizeAbsolute,
             dialogContentUnstyle: dialogContentUnstyle,
             btnWithLabel: btnWithLabel, 
             btnDrawerStyle: btnDrawerStyle,
@@ -125,8 +134,10 @@ function StyledComponent(props) {
                 left: 'calc( 50% - 450px )',
                 maxWidth: 900,
                 width: '100%',
-            }}, 
-            menuTitle: menuTitle,
+            }},  
+            menuTitle: {...menuTitle, ...{ 
+                borderColor: isDisableBtn ? '#0000' : theme.palette.secondary.main
+            }},
             btnSetting: btnSetting,   
             responseValues: responseValues,  
             responseMobile: responseMobile,
@@ -210,6 +221,7 @@ function StyledComponent(props) {
   
     const handleSave = () => {
         const newData = Object.assign({}, props.data)
+        newData.variantHeading = variant 
         newData.heading = heading   
         newData.slidesPerView = slidesPerView   
         newData.slidesPerViewMobile = slidesPerViewMobile   
@@ -618,6 +630,34 @@ function StyledComponent(props) {
                                             direction='row'
                                         />
                                     </Box>
+
+                                    <Box mt={3} mb={1} className={classes.tableSizeContainer}>   
+                                        <SelectHeadingVariant
+                                            variant={'filled'} 
+                                            size="small"  
+                                            fullWidth={false} 
+                                            label="Main Heading Variant" 
+                                            value={variant} 
+                                            setValue={setVariant} 
+                                            setIsDisableBtn={setIsDisableBtn}
+                                        />
+                                        <Button 
+                                            className={classes.tableSizeBtn}
+                                            size={'medium'}
+                                            startIcon={<InfoOutlined/>}
+                                            onClick={() => {setIsTableSizeVisible(!isTableSizeVisible)}}
+                                        >
+                                            {isTableSizeVisible ? 'Hide' : 'Show' } variants info
+                                        </Button> 
+                                    </Box>
+                                    {
+                                        isTableSizeVisible && 
+                                        <Box className={classes.tableSizeAbsolute}>
+                                            <TableFontSizeInfo activeRow={variant} /> 
+                                        </Box>
+                                    }
+
+
                                     <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (<600px)' placement={'top'}>
                                         <Box className={`${classes.responseValues} ${classes.responseMobile}`}>
                                             <PhoneIphoneIcon/>

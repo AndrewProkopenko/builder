@@ -112,7 +112,9 @@ function StyledComponent(props) {
                 maxWidth: 700,
                 width: '100%',
             }}, 
-            menuTitle: menuTitle,
+            menuTitle: {...menuTitle, ...{ 
+                borderColor: isDisableBtn ? '#0000' : theme.palette.secondary.main
+            }},
             btnSetting: btnSetting,  
             // btnSave: btnSave,
             responseValues: responseValues,  

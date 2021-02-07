@@ -16,18 +16,25 @@ const StylesChangers = () => {
             maxHeight: 'calc(100vh - 100px)', 
             minHeight: 500,
             overflowY: 'scroll',  
+            overflowX: 'hidden',  
         },
         menuTitle: {
             position: 'sticky', 
             zIndex: 100, 
-            top: 0,  
+            top: 0,   
+
+            transform: 'translateX(-10px)', 
+            width: 'calc(100% + 20px) ',  
 
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'space-between', 
             fontSize: 14, 
             fontWeight: 700, 
-            borderBottom: `1px solid ${theme.palette.divider}`,
+            borderColor: '#0000',
+            borderStyle: `solid`,
+            borderWidth: 2,
+            borderRadius: '0 0 4px 4px', 
             backgroundColor: theme.palette.background.default, 
             padding: 10,
             marginBottom: 10, 
@@ -155,6 +162,30 @@ const StylesChangers = () => {
                 backgroundColor: theme.palette.warning.light,
             }
         },
+        tableSizeContainer: {
+            position: 'relative', 
+            display: 'flex', 
+            alignItems: 'center'
+        },
+        tableSizeBtn: {
+            margin: theme.spacing(0, 2), 
+            paddingLeft: theme.spacing(1), 
+            paddingRight: theme.spacing(1), 
+            backgroundColor: theme.palette.info.main, 
+            color: theme.palette.getContrastText(theme.palette.info.main), 
+            textTransform: 'inherit', 
+            '&:hover': {
+                backgroundColor: theme.palette.info.dark
+            }
+        }, 
+        tableSizeAbsolute: {
+            // position: 'absolute', 
+            // zIndex: 10, 
+            // top: 60, 
+            // left: 0, 
+            // right: 0, 
+            backgroundColor: theme.palette.background.paper,  
+        }
     })
  
     return changers 

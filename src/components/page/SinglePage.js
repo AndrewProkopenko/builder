@@ -126,7 +126,9 @@ function SinglePage(props) {
         width: 600, 
         left: "calc(50% - 300px)",
       }},     
-      menuTitle: menuTitle,
+      menuTitle: {...menuTitle, ...{ 
+          borderColor: isDisableBtn ? '#0000' : theme.palette.secondary.main
+      }},
       tooltip: {
         fontSize: 14
       }, 

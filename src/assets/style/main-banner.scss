@@ -1,14 +1,13 @@
 .bulder-main-banner {  
     &_content { 
-        h1 { 
-            font-size: 36px;
-            line-height: 36px;
+        h1,h2,h3,h4,h5,h6 {  
+            line-height: 1.2em;
             font-weight: 700; 
             margin-bottom: 10px; 
             margin-top: 0;
             // white-space: nowrap;
         }
-        h5 { 
+        .subheading { 
             display: flex;
             align-items: center;
             font-size: 24px;
@@ -85,6 +84,7 @@
         }
     }
 }
+ 
 
 .btn-form { 
     button {   
@@ -151,12 +151,10 @@
         
         &_content { 
             text-align: center;
-            h1 { 
-                font-size: 30px;
-                line-height: 30px;
+            h1,h2,h3,h4,h5,h6 {   
                 margin-bottom: 20px;
             }
-            h5 { 
+            .subheading { 
                 font-size: 20px;
                 justify-content: center;
                 margin-bottom: 20px;
@@ -199,13 +197,12 @@
     
     .bulder-main-banner {   
         &_content {  
-            h1 { 
-                font-size: 28px;
-                line-height: 28px;
+            h1,h2,h3,h4,h5,h6 {  
+                line-height: 1.1em;
                 margin-bottom: 20px;
             }
-            h5 { 
-                font-size: 16px; 
+            .subheading { 
+                font-size: 16px;  
                 line-height: 17px;
                 justify-content: center; 
                 margin-bottom: 20px;
