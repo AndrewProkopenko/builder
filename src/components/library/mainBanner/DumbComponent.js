@@ -177,8 +177,8 @@ function DumbComponent(props) {
                             <h5 className={`${classes.subHeading} subheading`}>  
                                 {
                                     titleSubIcon &&
-                                    <svg style={{fill: '#fff'}}>       
-                                        <image style={{fill: '#fff'}} xlinkHref={titleSubIcon} src={titleSubIcon} width={'100%'} height={'100%'}   />    
+                                    <svg>       
+                                        <image xlinkHref={titleSubIcon} src={titleSubIcon} width={'100%'} height={'100%'}   />    
                                     </svg>
                                 }
                                 

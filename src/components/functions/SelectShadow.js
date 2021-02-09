@@ -32,7 +32,7 @@ const SelectShadow =  ({variant, size, className, label, value, setValue, setIsD
                 {
                     theme.shadows.map( (item, index) => {
                         const title = item === 'none' ? 'None' : `Shadow - ${index}`
-                        return <MenuItem value={item}>{title}</MenuItem>
+                        return <MenuItem key={index} value={item}>{title}</MenuItem>
                     })
                 } 
             </Select>

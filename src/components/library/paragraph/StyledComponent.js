@@ -1,4 +1,4 @@
-import React from 'react'  
+import React, { useEffect } from 'react'  
 
 import StylesChangers from '../../../styles/changers'   
 import StyledInputs from '../../../styles/inputs'   
@@ -27,6 +27,7 @@ import {
 import DumbComponent from "./DumbComponent"  
 
 import InputChange from '../../functions/InputChange';
+import Confirm from '../../utilits/Confirm' 
  
 import ColorSelecter from '../../functions/colorChanger/ColorSelecter'
 import {isNoThemeColor} from '../../functions/colorChanger/ColorCalculation' 
@@ -53,7 +54,8 @@ const StyledComponent = (props) => {
         bottom: props.data.classes.marginBottom , 
         right: props.data.classes.marginRight 
     })
-      
+
+    const [isVisibleConfirm, setIsVisibleConfirm] = React.useState(false)       
     
     const [backgroundSelect,  setBackgroundSelect] = React.useState(props.data.classes.backgroundColor || 'transperent')
     const [backgroundCustom, setBackgroundCustom] = React.useState(props.data.classes.backgroundColor || 'transperent')
@@ -82,7 +84,8 @@ const StyledComponent = (props) => {
     const bgTheme = isNoThemeColor(props.data.classes.backgroundColor)
     const colorTheme = isNoThemeColor(props.data.classes.color)
     const borderTheme = isNoThemeColor(props.data.classes.borderColor)
-    React.useEffect(() => {
+    
+    useEffect(() => {
         if(bgTheme) {  
             setBackgroundSelect('custom')
         }  
@@ -216,12 +219,7 @@ const StyledComponent = (props) => {
         props.reSaveChildren(props.data.id, sentData)
         setIsDisableBtn(true);  
     }
-    const removeItem = () => {  
-        let conf = window.confirm("Delete ?");
-        if(conf) {  
-            props.removeItem(props.data.id)
-        } 
-    };
+    
     const swapParagraph = (direction, id) => {
         props.swapChildrens(direction, id)
     }
@@ -232,12 +230,29 @@ const StyledComponent = (props) => {
     const handleClose = () => {
         if(!isDisableBtn) handleSave()
         setOpen(false);
-      };
+    };
     
+    const handleConfirmClick = () => {
+        props.removeItem(props.data.id)
+    } 
+
+    const removeItem = () => {  
+        setIsVisibleConfirm(true)  
+    };
+     
     
 
     return ( 
             <Grid container style={{position: 'relative'}}> 
+                <Confirm
+                    isVariable={false}
+                    show={isVisibleConfirm}
+                    setShow={setIsVisibleConfirm} 
+                    title={'Remove paragraph?'}
+                    text={"You can't cancel this action."}
+                    removeText={"remove"}
+                    handleRemoveClick={handleConfirmClick}
+                />
                 <Modal 
                     open={open}  
                     aria-labelledby="draggable-dialog-title"
@@ -693,8 +708,7 @@ const StyledComponent = (props) => {
                          
                 </Grid>
             </Grid>
-           
- 
+            
     )
 }
 

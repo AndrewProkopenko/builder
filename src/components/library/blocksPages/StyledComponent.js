@@ -41,6 +41,7 @@ import InputChange from '../../functions/InputChange';
   
 import SelectPage from '../../functions/SelectPage';
 
+import Confirm from '../../utilits/Confirm' 
 import TableFontSizeInfo from '../../utilits/TableFontSizeInfo'
 import SelectHeadingVariant from '../../functions/SelectHeadingVariant';
 
@@ -48,6 +49,9 @@ function StyledComponent(props) {
     
     const [isDisableBtn, setIsDisableBtn] = React.useState(true)
     const [open, setOpen] = React.useState(false)
+
+    const [isVisibleConfirmBlock, setIsVisibleConfirmBlock] = React.useState(false) 
+    const [isVisibleConfirmItem, setIsVisibleConfirmItem] = React.useState({show: false, index : null}) 
 
     const [variant, setVariant] = React.useState(props.data.variantHeading || 'h3')
     const [isTableSizeVisible, setIsTableSizeVisible] = React.useState(false)
@@ -240,14 +244,7 @@ function StyledComponent(props) {
         props.reSaveItem(props.data.id, newData) 
         setIsDisableBtn(true) 
     }
-    const removeItem = () => {
-        const conf = window.confirm('Delete? ') 
-
-        if (conf)  {  
-            props.removeContainer(props.data.id)
-        }
-            
-    }
+   
 
     const handleSlideSvg = (svg, index) => {
         let newSlides = slides.slice()
@@ -294,17 +291,7 @@ function StyledComponent(props) {
 
         setSlides(newSlides) 
         setIsDisableBtn(false)
-    }
-    const removeSlide = (index) => { 
-        const conf = window.confirm('Delete? ') 
-        if(conf) {
-            const newSlides = slides.slice() 
-    
-            newSlides.splice(index, 1)
-            setSlides(newSlides) 
-            setIsDisableBtn(false) 
-        } 
-    }
+    } 
     const addSlide = ( svg, activePage ) => {
          
         const newSlides = slides.slice()
@@ -414,10 +401,44 @@ function StyledComponent(props) {
             )
         })
     )
+    const removeBlock = () => { 
+        setIsVisibleConfirmBlock(true)  
+    }
+    const removeSlide = (index) => {  
+        setIsVisibleConfirmItem({show: true, index: index}) 
+    }
+    const handleConfirmClickBlock = () => {
+        props.removeContainer(props.data.id)
+    }
+    const handleConfirmClickItem = (index) => { 
+        const newSlides = slides.slice() 
 
+        newSlides.splice(index, 1)
+        setSlides(newSlides) 
+        setIsDisableBtn(false) 
+    }
      
     return (
         <div className={classes.containerWrapper}>
+            
+            <Confirm
+                isVariable={false}
+                show={isVisibleConfirmBlock}
+                setShow={setIsVisibleConfirmBlock} 
+                title={'Remove block pages?'}
+                text={"You can't cancel this action."}
+                removeText={"remove"}
+                handleRemoveClick={handleConfirmClickBlock}
+            />
+            <Confirm
+                isVariable={true}
+                show={isVisibleConfirmItem}
+                setShow={setIsVisibleConfirmItem} 
+                title={'Delete item?'}
+                text={"You can't cancel this action."}
+                removeText={"delete"}
+                handleRemoveClick={handleConfirmClickItem}
+            />
             <Tooltip  title={`Block Pages margin top`}  placement={'top'}>
                 <div className={classes.mtView}></div>
             </Tooltip>
@@ -493,7 +514,7 @@ function StyledComponent(props) {
                         <Box mt={1}>
                             <Tooltip title='Remove' placement='right'>
                                 <Button
-                                    onClick={removeItem}
+                                    onClick={removeBlock}
                                     size='medium'
                                     variant='contained'
                                     className={classes.btnDrawerItem}>

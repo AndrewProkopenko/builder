@@ -42,12 +42,15 @@ import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
 import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 import TabletMacIcon from '@material-ui/icons/TabletMac';
 
+import Confirm from '../../utilits/Confirm' 
 import TableFontSizeInfo from '../../utilits/TableFontSizeInfo'
 import SelectHeadingVariant from '../../functions/SelectHeadingVariant';
 
 const StyledComponent = (props) => {  
 
     console.log('styled heading work')
+
+    const [isVisibleConfirm, setIsVisibleConfirm] = React.useState(false) 
 
     const [padding, setPadding] = React.useState({ 
         top:  props.data.classes.paddingTop , 
@@ -270,12 +273,7 @@ const StyledComponent = (props) => {
         props.reSaveChildren(props.data.id, sentData)
         setIsDisableBtn(true);  
     }
-    const removeItem = () => {  
-        let conf = window.confirm("Delete ?");
-        if(conf) {  
-            props.removeItem(props.data.id)
-        }
-    };
+    
     const swapHeading = (direction, id) => {
         props.swapChildrens(direction, id)
     }
@@ -290,8 +288,25 @@ const StyledComponent = (props) => {
     
     const viewCorrect = props.data.classes.display !== 'block' ? `(uncorrect view for ${props.data.classes.display} display)` : ''
 
+    const removeItem = () => {  
+        setIsVisibleConfirm(true) 
+    };
+    
+    const handleConfirmClick = () => {
+        props.removeItem(props.data.id)
+    }
+
     return ( 
             <Grid container style={{position: 'relative'}}> 
+                <Confirm
+                    isVariable={false}
+                    show={isVisibleConfirm}
+                    setShow={setIsVisibleConfirm} 
+                    title={'Remove heading?'}
+                    text={"You can't cancel this action."}
+                    removeText={"remove"}
+                    handleRemoveClick={handleConfirmClick}
+                />
                 <Modal 
                     open={open} 
                     // PaperComponent={PaperComponent}

@@ -14,7 +14,7 @@ import InputChange from '../../functions/InputChange';
 import ColorSelecter from '../../functions/colorChanger/ColorSelecter'
 import {isNoThemeColor} from '../../functions/colorChanger/ColorCalculation'
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'; 
 
 import { 
     FormGroup, 
@@ -48,6 +48,7 @@ import ExpandLessOutlinedIcon from '@material-ui/icons/ExpandLessOutlined';
 import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
 
 import {RemoveImage} from '../../functions/RemoveImage' 
+import Confirm from '../../utilits/Confirm' 
 
 const StyledComponent = (props) => {  
     console.log("styled paragraph image")
@@ -66,6 +67,8 @@ const StyledComponent = (props) => {
         right: props.data.classes.marginRight  || 0
     })
     
+    const [isVisibleConfirmBlock, setIsVisibleConfirmBlock] = React.useState(false) 
+    const [isVisibleConfirmImage, setIsVisibleConfirmImage] = React.useState(false) 
 
     const [backgroundSelect,  setBackgroundSelect] = React.useState(props.data.classes.backgroundColor || 'transperent')
     const [backgroundCustom, setBackgroundCustom] = React.useState(props.data.classes.backgroundColor || 'transperent')
@@ -94,7 +97,7 @@ const StyledComponent = (props) => {
     const [lineHeight, setLineHeight] = React.useState(props.data.classes.lineHeight ||  1.38)
  
     const [imageWidth, setImageWidth] = React.useState(props.data.image.classes.width || 100)
-    const [imageHeight, setImageHeight] = React.useState(props.data.image.classes.height || 100)
+    const [imageHeight, setImageHeight] = React.useState(props.data.image.classes.height )
     const [imageBorderStyle, setImageBorderStyle] = React.useState(props.data.image.classes.borderStyle ||  'solid')
     const [imageBorderWidth, setImageBorderWidth] = React.useState(props.data.image.classes.borderWidth ||  '0px')
     const [imageBorderRadius, setImageBorderRadius] = React.useState(props.data.image.classes.borderRadius ||  0)
@@ -145,6 +148,7 @@ const StyledComponent = (props) => {
             inputNumber: inputNumber, 
             inputGroup: inputGroup, 
             dumbItemContainer: {  ...dumbItemContainer, ...{
+                zIndex: 11, 
                 '&:hover' : {     
                     boxShadow: theme.shadows[10], 
                     cursor: 'pointer',
@@ -193,7 +197,9 @@ const StyledComponent = (props) => {
                 } 
             },     
             dumbItem: dumbItem, 
-            dumbItemDelete : dumbItemDelete,  
+            dumbItemDelete : {...dumbItemDelete, ...{
+                zIndex: 12
+            }},  
             menu: {...menu, ...{
                 left: "calc(50% - 250px)",
                 width: 500, 
@@ -344,13 +350,6 @@ const StyledComponent = (props) => {
         props.reSaveChildren(props.data.id, sentData)
         setIsDisableBtn(true);  
     }
-    const removeItem = () => {  
-        let conf = window.confirm("Delete ?");
-        if(conf) { 
-            RemoveImage(imageName)
-            props.removeItem(props.data.id)
-        }
-    };
     
     const handleOpen = () => {  
         setOpen(true);
@@ -382,9 +381,46 @@ const StyledComponent = (props) => {
         props.swapChildrens(direction, id)
     }
     
+     
+    const removeItem = () => {
+        setIsVisibleConfirmBlock(true)           
+    }
+    const handleRemoveImage = () => {
+        setIsVisibleConfirmImage(true)
+    }
+
+    const handleConfirmClickBlock = () => {
+        RemoveImage(imageName)
+        props.removeItem(props.data.id)
+    }
+    const handleConfirmClickImage = () => {
+        RemoveImage(imageName)
+
+        setImageUrl('')
+        setImageName('')
+        setIsDisableBtn(false)
+    }
 
     return ( 
             <Grid container style={{position: 'relative'}}> 
+                <Confirm
+                    isVariable={false}
+                    show={isVisibleConfirmBlock}
+                    setShow={setIsVisibleConfirmBlock} 
+                    title={'Remove paragraph-image?'}
+                    text={"You can't cancel this action."}
+                    removeText={"remove"}
+                    handleRemoveClick={handleConfirmClickBlock}
+                />
+                <Confirm
+                    isVariable={false}
+                    show={isVisibleConfirmImage}
+                    setShow={setIsVisibleConfirmImage} 
+                    title={'Delete image?'}
+                    text={"You can't cancel this action."}
+                    removeText={"delete"}
+                    handleRemoveClick={handleConfirmClickImage}
+                />
                 <Modal 
                     open={open}  
                     aria-labelledby="draggable-dialog-title"
@@ -499,7 +535,19 @@ const StyledComponent = (props) => {
                                                     
                                             </Box> 
                                         </Grid>
-                                    </Grid>  
+                                    </Grid> 
+                                    {
+                                        imageUrl.length > 0 &&
+                                        <Box mt={1}>
+                                            <Button
+                                                color='secondary' 
+                                                variant='contained' 
+                                                onClick={handleRemoveImage}
+                                            > 
+                                            Remove image
+                                            </Button>
+                                        </Box>
+                                    } 
                                 </Box>
                                 
                                  {/* float */}
@@ -589,8 +637,11 @@ const StyledComponent = (props) => {
 
                                 {/* width height*/}
                                 <Box className={classes.inputGroup}>
-                                    <Typography variant={'caption'} display='block' align={"center"} color={'error'}>
-                                        !! set only width, height will set auto
+                                    <Typography variant={'caption'} display='block' align={"center"} color={'error'} gutterBottom>
+                                        { imageHeight === 'auto' &&  <span> set only width, height will set auto</span> } 
+                                    </Typography>
+                                    <Typography variant={'caption'} display='block' align={"center"} color={'error'}> 
+                                        if height = 0, height will be auto 
                                     </Typography>
                                     <Box display="flex" flexDirection="row"  > 
                                         <Box className={classes.inputNumber}>

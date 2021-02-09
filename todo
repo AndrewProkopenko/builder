@@ -2,51 +2,41 @@
 ---selectPage 
 ---imageRemover
 ---BOX-SHADOW
+---menu title как у контейнера - 125 строчка 
+---variant heading
 
 наполнить 3 категории по 5 страниц (с иконками) 
 страница с максимальным количеством примеров блоков
-common styles (heading block, response coefficient)
-single page 
-menu title как у контейнера - 125 строчка 
-variant heading
 
-wish list: 
-1. firebase hosting ---
+??? common styles (heading block, response coefficient)
 
+---single page 
+swap
+confirm ( модалка у которой кнопки возвращающие true/false)
 
-menuTitle: {...menuTitle, ...{ 
-    borderColor: isDisableBtn ? '#0000' : theme.palette.secondary.main
-}},
-tableSizeContainer: tableSizeContainer,
-tableSizeBtn: tableSizeBtn, 
-tableSizeAbsolute: tableSizeAbsolute,
+переструктурировать firestore. Возможность копирования приложения и запуска с нуля
+глупое приложение 
 
 
-import TableFontSizeInfo from '../../utilits/TableFontSizeInfo'
-import SelectHeadingVariant from '../../functions/SelectHeadingVariant';
 
-import {InfoOutlined} from '@material-ui/icons'; 
+useEffect(() => {
+    if(confirmAnswer) { 
+        props.removeItem(props.data.id)
+    }
+}, [confirmAnswer])
 
-const [variant, setVariant] = React.useState(props.data.variantHeading || 'h3')
-const [isTableSizeVisible, setIsTableSizeVisible] = React.useState(false)
+const removeItem = () => {  
+    setIsVisibleConfirm(true) 
+};
+ 
+ 
+const [isVisibleConfirm, setIsVisibleConfirm] = React.useState(false)       
 
-<SelectHeadingVariant
-    variant={'filled'} 
-    size="small"  
-    fullWidth={true}
-    className={classes.inputNumber} 
-    label="Variant" 
-    value={variant} 
-    setValue={setVariant} 
-    setIsDisableBtn={setIsDisableBtn}
+<Confirm
+    show={isVisibleConfirm}
+    setShow={setIsVisibleConfirm}
+    setAnswer={setConfirmAnswer}
+    title={'Remove paragraph?'}
+    text={"You can't cancel this action."}
+    removeText={"remove"}
 />
-
-dumb: typography variant className heading 
-
-scss : remove styles h1-6, rewrite styles margin - padding
-
-library
-
-handleSave
-
-styled: new state 

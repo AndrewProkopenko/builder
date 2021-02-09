@@ -78,14 +78,23 @@ function Footer() {
     const createLogo = () => (
         <NavLink to={'/'} style={{textDecoration: 'none', display: 'inline-block'}} >
             <Box display="flex" alignItems="center">
-                <img className={classes.logoImage} src={logo.image} alt={'logo'}/>
+                {
+                    logo.imageUrl.length > 0 && 
+                    <img className={classes.logoImage} src={logo.imageUrl} alt={'logo'}/>
+                }
                 <Box display="flex" flexDirection="column">
-                    <Typography component="h1" className={classes.logoMain}>
-                        {logo.mainText}
-                    </Typography>
-                    <Typography  component="p" className={classes.logoSub}>
-                        {logo.subText}
-                    </Typography>
+                    {
+                        logo.mainText.length > 0 &&
+                        <Typography component="h1" className={classes.logoMain}>
+                            {logo.mainText}
+                        </Typography>
+                    }
+                    {
+                        logo.subText.length > 0 && 
+                        <Typography  component="p" className={classes.logoSub}>
+                            {logo.subText}
+                        </Typography>
+                    }
                 </Box>
             </Box>
             

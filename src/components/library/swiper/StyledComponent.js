@@ -46,6 +46,7 @@ import SelectPage from '../../functions/SelectPage';
 
 import {RemoveImage} from '../../functions/RemoveImage' 
  
+import Confirm from '../../utilits/Confirm' 
 import TableFontSizeInfo from '../../utilits/TableFontSizeInfo'
 import SelectHeadingVariant from '../../functions/SelectHeadingVariant';
 
@@ -54,6 +55,9 @@ function StyledComponent(props) {
     const [isDisableBtn, setIsDisableBtn] = React.useState(true)
     const [open, setOpen] = React.useState(false)
   
+    const [isVisibleConfirmBlock, setIsVisibleConfirmBlock] = React.useState(false) 
+    const [isVisibleConfirmItem, setIsVisibleConfirmItem] = React.useState({show: false, index : null}) 
+
     const [variant, setVariant] = React.useState(props.data.variantHeading || 'h3')
     const [isTableSizeVisible, setIsTableSizeVisible] = React.useState(false)
 
@@ -252,24 +256,6 @@ function StyledComponent(props) {
         setIsDisableBtn(true)
         setImageForDelete([])
     }
-    const removeItem = () => {
-        const conf = window.confirm('Delete? ') 
-
-        if (conf)  { 
-            let imgArray = []
-            slides.forEach( slide => {
-                if(slide.imageName !== 'ImageExample') imgArray.push(slide.imageName)
-            })
-            if(imgArray.length > 0) {
-                imgArray.forEach( name => {
-                    RemoveImage(name)
-                })
-            }
-
-            props.removeContainer(props.data.id)
-        }
-            
-    }
 
     const handleSlideTitle = (title, index) => {
         let newSlides = slides.slice()
@@ -341,21 +327,6 @@ function StyledComponent(props) {
 
         setSlides(newSlides) 
         setIsDisableBtn(false)
-    }
-    const removeSlide = (index) => {
-        const conf = window.confirm('Delete? ') 
-        if(conf) {
-            const newImageForDelete = imageForDelete.slice()
-            const newSlides = slides.slice()
-            const deletedImageName = newSlides[index].imageName
-    
-            if(deletedImageName !== 'imageExample') newImageForDelete.push(deletedImageName)
-    
-            newSlides.splice(index, 1)
-            setSlides(newSlides)
-            setImageForDelete(newImageForDelete)
-            setIsDisableBtn(false) 
-        }
     }
     const addSlide = ( url, name, title ) => {
         const newSlides = slides.slice()
@@ -507,9 +478,60 @@ function StyledComponent(props) {
             )
         })
     )
+    
+    const removeBlock = () => {
+         setIsVisibleConfirmBlock(true) 
+    }
+    
+    const removeSlide = (index) => {
+        setIsVisibleConfirmItem({show: true, index: index})  
+    }
+    const handleConfirmClickBlock = () => {
+        let imgArray = []
+        slides.forEach( slide => {
+            if(slide.imageName !== 'ImageExample') imgArray.push(slide.imageName)
+        })
+        if(imgArray.length > 0) {
+            imgArray.forEach( name => {
+                RemoveImage(name)
+            })
+        }
+
+        props.removeContainer(props.data.id)
+    }
+    const handleConfirmClickItem = (index) => { 
+        const newImageForDelete = imageForDelete.slice()
+        const newSlides = slides.slice()
+        const deletedImageName = newSlides[index].imageName
+
+        if(deletedImageName !== 'imageExample') newImageForDelete.push(deletedImageName)
+
+        newSlides.splice(index, 1)
+        setSlides(newSlides)
+        setImageForDelete(newImageForDelete)
+        setIsDisableBtn(false)  
+    }
  
     return (
         <div className={classes.containerWrapper}>
+            <Confirm
+                isVariable={false}
+                show={isVisibleConfirmBlock}
+                setShow={setIsVisibleConfirmBlock} 
+                title={'Remove swiper?'}
+                text={"You can't cancel this action."}
+                removeText={"remove"}
+                handleRemoveClick={handleConfirmClickBlock}
+            />
+            <Confirm
+                isVariable={true}
+                show={isVisibleConfirmItem}
+                setShow={setIsVisibleConfirmItem} 
+                title={'Delete item?'}
+                text={"You can't cancel this action."}
+                removeText={"delete"}
+                handleRemoveClick={handleConfirmClickItem}
+            />
             <Tooltip  title={`Swiper margin top`}  placement={'top'}>
                 <div className={classes.mtView}></div>
             </Tooltip>
@@ -585,7 +607,7 @@ function StyledComponent(props) {
                         <Box mt={1}>
                             <Tooltip title='Remove' placement='right'>
                                 <Button
-                                    onClick={removeItem}
+                                    onClick={removeBlock}
                                     size='medium'
                                     variant='contained'
                                     className={classes.btnDrawerItem}>

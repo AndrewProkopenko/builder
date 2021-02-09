@@ -1,4 +1,4 @@
-import React from 'react' 
+import React, { useEffect, useContext, useState} from 'react' 
 
 import StylesChangers from '../../../styles/changers'  
  
@@ -26,19 +26,22 @@ import OpenWithIcon from '@material-ui/icons/OpenWith';
  
 import Draggable from 'react-draggable';  
 
+import Confirm from '../../utilits/Confirm'
+
 function RequestsChanger() {
     
-    const { setIsLoading } = React.useContext(LoadingContext)     
-    const { requests, updateRequests } = React.useContext(SendFormContext)     
+    const { setIsLoading } = useContext(LoadingContext)     
+    const { requests, updateRequests } = useContext(SendFormContext)     
  
+    const [isVisibleConfirm, setIsVisibleConfirm] = useState({show: false, index: null}) 
   
-    const [localRequests, setLocalRequests] = React.useState(requests)
+    const [localRequests, setLocalRequests] = useState(requests)
 
-    const [open, setOpen] = React.useState(false)
-    const [isOnlyUncheked, setIsOnlyUncheked] = React.useState(false)
-    const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
+    const [open, setOpen] = useState(false)
+    const [isOnlyUncheked, setIsOnlyUncheked] = useState(false)
+    const [isDisableBtn, setIsDisableBtn] = useState(true) 
 
-    React.useEffect( () => {
+    useEffect( () => {
         setLocalRequests(requests)
     }, [requests])
      
@@ -117,15 +120,8 @@ function RequestsChanger() {
         setIsDisableBtn(false)
  
     }  
-    const handleRemove = (id) => {   
-        const conf = window.confirm('Delete request?') 
-        if(conf) {
-            const newReq = localRequests.slice()
-            const filtered = newReq.filter(item => ( item.time !== id ))
-    
-            setLocalRequests(filtered)
-            setIsDisableBtn(false) 
-        }
+    const handleRemove = (id) => {    
+        setIsVisibleConfirm({show: true, index: id})  
     }  
 
      
@@ -176,10 +172,26 @@ function RequestsChanger() {
             </CardActions>
         </Card>
     )
-     
+ 
+    const handleConfirmClick = (id) => { 
+        const filtered = localRequests.filter(item => ( item.time !== id ))
+    
+        setLocalRequests(filtered)
+        setIsDisableBtn(false) 
+    } 
      
     return (
         <div className={classes.dumbWrapper}>
+            
+            <Confirm
+                isVariable={true}
+                show={isVisibleConfirm}
+                setShow={setIsVisibleConfirm} 
+                title={'Remove request?'}
+                text={"You can't cancel this action."}
+                removeText={"remove"}
+                handleRemoveClick={handleConfirmClick}
+            />
             <Tooltip title='Requests List' placement='bottom'>
                 <Button  
                     onClick={handleOpen} 
@@ -206,7 +218,7 @@ function RequestsChanger() {
                                 className={classes.menuTitle}
                                 id="draggable-dialog-title"
                             >
-                                Requests from form  <OpenWithIcon/>
+                                { !isDisableBtn && " Don't forget to save - " } Requests from form  <OpenWithIcon/>
                             </Typography>
                              
                             {

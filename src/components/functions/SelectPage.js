@@ -11,8 +11,7 @@ import {
 import CategoryContext from '../../context/headerContext/CategoryContext'
 
 const SelectPage = memo( ({value, setValue, index}) => {
-   
-    console.log(value)
+    
     const { categories } = useContext(CategoryContext)
 
     const [pages, SetPages] = useState([]) 

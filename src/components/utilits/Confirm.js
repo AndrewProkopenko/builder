@@ -1,39 +1,57 @@
-import React, { useState } from 'react'
 
-function Confirm({title}) {
+import React from 'react'
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 
-    const [open, setOpen] = useState(false)
+const  Confirm = ({isVariable, show, setShow, title, text, removeText, handleRemoveClick}) => {
+ 
+    console.log(show)
 
-    const handleClickOpen = () => {
-        setOpen(true);
-      };
-    
     const handleClose = () => {
-    setOpen(false);
+        if(isVariable) setShow({show: false, index: null }) 
+        else setShow(false)
+         
     };
-
-    return (
-        <div>
-            <Dialog 
-                maxWidth={'sm'}
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="max-width-dialog-title"
-            >
-                <DialogTitle id="max-width-dialog-title">Optional sizes</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        You can set my maximum width and whether to adapt or not.
-                    </DialogContentText>
-                    
-                    </DialogContent>
-                <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                    Close
+    const handleRemove = () => {
+        if(isVariable) {
+            handleRemoveClick(show.index)
+            setShow({show: false, index: null })
+        } 
+        else { 
+            handleRemoveClick()
+            setShow(false)
+        } 
+    }
+  
+    return ( 
+        <Dialog 
+            maxWidth={'sm'}
+            open={isVariable ? show.show : show }
+            onClose={handleClose}
+            aria-labelledby="max-width-dialog-title" 
+        >
+            <DialogTitle style={{minWidth: 350}} id="max-width-dialog-title">{title}</DialogTitle>
+            <DialogContent>
+                <DialogContentText>
+                    {text}
+                </DialogContentText>
+                
+            </DialogContent>
+            <DialogActions>
+                <Button 
+                    variant='outlined'
+                    onClick={handleClose} 
+                    color="primary"
+                >
+                    Cancel
                 </Button>
-                </DialogActions>
-            </Dialog>
-        </div>
+                <Button 
+                    variant={'contained'}
+                    onClick={handleRemove} 
+                    color="secondary">
+                    {removeText}
+                </Button>
+            </DialogActions>
+        </Dialog>
     )
 }
 

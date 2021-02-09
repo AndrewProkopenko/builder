@@ -49,7 +49,7 @@ export default class SendFormProvider extends React.Component {
         }, time);
     }
 
-    async sendRequests(req) { 
+    async sendRequests(req) {  
         
 
         const newList = this.state.requests.slice()
@@ -83,6 +83,9 @@ export default class SendFormProvider extends React.Component {
     }
  
     async updateRequests(req) {
+        this.setState({ 
+            requests: req,  
+        })
         await firebase.db.collection("site1category").doc('requests').update({
             list: req, 
         }) 

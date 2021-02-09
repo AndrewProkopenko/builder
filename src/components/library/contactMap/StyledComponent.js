@@ -23,12 +23,15 @@ import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 
 import DumbComponent from "./DumbComponent"
 
+import Confirm from '../../utilits/Confirm' 
 import InputChange from '../../functions/InputChange';
 
 function StyledComponent(props) { 
  
     const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
     const [open, setOpen] = React.useState(false)
+
+    const [isVisibleConfirm, setIsVisibleConfirm] = React.useState(false)       
 
     const [location, setLocation] = React.useState(props.data.location)
     const [phone, setPhone] = React.useState(props.data.phone)
@@ -165,13 +168,27 @@ function StyledComponent(props) {
         props.reSaveItem(props.data.id, newData)  
         setIsDisableBtn(true)
     }
-    const removeItem = () => {
-        const conf = window.confirm('Delete? ')
-        if(conf) props.removeContainer(props.data.id)
+    
+    const removeItem = () => {  
+        setIsVisibleConfirm(true) 
+    };
+    
+    const handleConfirmClick = () => {
+        props.removeContainer(props.data.id)
     }
 
     return (
         <div className={classes.containerWrapper}>
+            
+            <Confirm
+                isVariable={false}
+                show={isVisibleConfirm}
+                setShow={setIsVisibleConfirm} 
+                title={'Remove contacts map?'}
+                text={"You can't cancel this action."}
+                removeText={"remove"}
+                handleRemoveClick={handleConfirmClick}
+            />
             <Tooltip  title={`Contact Map margin top`}  placement={'top'}>
                 <div className={classes.mtView}></div>
             </Tooltip>

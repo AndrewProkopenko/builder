@@ -216,14 +216,23 @@ function DumbComponent() {
     const createLogo = (
         <NavLink to={'/'} style={{textDecoration: 'none'}} >
             <Box display="flex" alignItems="center">
-                <img className={logoImage} src={logo.image} alt={'logo'}/>
+                {
+                    logo.imageUrl.length > 0 && 
+                    <img className={logoImage} src={logo.imageUrl} alt={'logo'}/> 
+                }
                 <Box display="flex" flexDirection="column">
-                    <Typography component="h1" className={logoMain}>
-                        {logo.mainText}
-                    </Typography>
-                    <Typography  component="p" className={logoSub}>
-                        {logo.subText}
-                    </Typography>
+                    {
+                        logo.mainText.length > 0 &&
+                        <Typography component="h1" className={logoMain}>
+                            {logo.mainText}
+                        </Typography>
+                    }
+                    {
+                        logo.subText.length > 0 &&
+                        <Typography  component="p" className={logoSub}>
+                            {logo.subText}
+                        </Typography>
+                    }
                 </Box>
             </Box>
             

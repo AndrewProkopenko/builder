@@ -34,6 +34,7 @@ import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
 import InfoOutlined from '@material-ui/icons/InfoOutlined';
 
 import InputChange from '../../functions/InputChange';
+import Confirm from '../../utilits/Confirm' 
 
 import Draggable from 'react-draggable';  
 
@@ -50,6 +51,8 @@ function CategoriesChanger() {
     const [isDisableBtn, setIsDisableBtn] = React.useState(true)
 
     
+    const [isVisibleConfirmCategory, setIsVisibleConfirmCategory] = React.useState({show: false, index: null})   
+    const [isVisibleConfirmPage, setIsVisibleConfirmPage] = React.useState({show: false, index: null})   
  
     const handleOpen = () => {  
         if(!isDisableBtn) handleSave()
@@ -308,42 +311,60 @@ function CategoriesChanger() {
         setCategories(newCategories)
     }
     const deleteCategory = (id) => { 
-        const conf = window.confirm('Delete category?')
-        if(conf) {
-            let filtered = categories.filter((item) => (item.id !== id))  
-            const deleted = categories.filter( (item) => (item.id === id))
-            let arrayOfPagesForDelete = [] 
-
-            arrayOfPagesForDelete.push(deleted[0].slug)
-            if(deleted[0].pages.length > 0) {
-                deleted[0].pages.map((item) => {
-                    arrayOfPagesForDelete.push(item.slug)
-                    return 0
-                })
-            }
-
-            setCategories(filtered)  
-            deleteCategoryFromFirebase(arrayOfPagesForDelete)
-        }  
+        setIsVisibleConfirmCategory({show: true, index: id})  
     } 
     const deletePage = ( categoryId, pageId, slug) => {
-        const conf = window.confirm('Delete page?')
-            if(conf) {
-            categories.map( category => {
-                if(category.id === categoryId) {  
-                    let filtered = category.pages.filter((item) => (item.id !== pageId))  
-                    category.pages = filtered
-                }
-                return 0 
-            }) 
-            setCategories(categories)  
+        setIsVisibleConfirmPage({show: true, index: {categoryId, pageId, slug}})  
+    }
+    const handleConfirmClickCategory = (id) => {
+        let filtered = categories.filter((item) => (item.id !== id))  
+        const deleted = categories.filter( (item) => (item.id === id))
+        let arrayOfPagesForDelete = [] 
 
-            deletePageFromFirebase(slug)
+        arrayOfPagesForDelete.push(deleted[0].slug)
+        if(deleted[0].pages.length > 0) {
+            deleted[0].pages.map((item) => {
+                arrayOfPagesForDelete.push(item.slug)
+                return 0
+            })
         }
+
+        setCategories(filtered)  
+        deleteCategoryFromFirebase(arrayOfPagesForDelete)
+    } 
+    const handleConfirmClickPage = (data) => {
+        categories.map( category => {
+            if(category.id === data.categoryId) {  
+                let filtered = category.pages.filter((item) => (item.id !== data.pageId))  
+                category.pages = filtered
+            }
+            return 0 
+        }) 
+        setCategories(categories)  
+
+        deletePageFromFirebase(data.slug)
     }
 
     return (
         <div className={classes.dumbWrapper}>
+            <Confirm
+                isVariable={true}
+                show={isVisibleConfirmCategory}
+                setShow={setIsVisibleConfirmCategory} 
+                title={'Delete category?'}
+                text={"You can't cancel this action."}
+                removeText={"delete"}
+                handleRemoveClick={handleConfirmClickCategory}
+            />
+            <Confirm
+                isVariable={true}
+                show={isVisibleConfirmPage}
+                setShow={setIsVisibleConfirmPage} 
+                title={'Delete page?'}
+                text={"You can't cancel this action."}
+                removeText={"delete"}
+                handleRemoveClick={handleConfirmClickPage}
+            />
             <Tooltip title='Categories Settings' placement='bottom'>
                 <Button  
                     onClick={handleOpen} 
@@ -370,7 +391,7 @@ function CategoriesChanger() {
                                 className={classes.menuTitle}
                                 id="draggable-dialog-title"
                             >
-                                Category list changer <OpenWithIcon/>
+                               { !isDisableBtn && "Close to save - " } Category list changer <OpenWithIcon/>
                             </Typography>
                             <Grid container direction="row" spacing={1}>
                                 <Grid item xs={4} >

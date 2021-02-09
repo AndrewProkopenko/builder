@@ -39,6 +39,7 @@ import InputChange from '../../functions/InputChange';
 
 import {RemoveImage} from '../../functions/RemoveImage' 
 
+import Confirm from '../../utilits/Confirm' 
 import TableFontSizeInfo from '../../utilits/TableFontSizeInfo'
 import SelectHeadingVariant from '../../functions/SelectHeadingVariant';
 
@@ -46,6 +47,10 @@ function StyledComponent(props) {
       
     const [isDisableBtn, setIsDisableBtn] = React.useState(true)
     const [open, setOpen] = React.useState(false)
+
+    
+    const [isVisibleConfirmBlock, setIsVisibleConfirmBlock] = React.useState(false) 
+    const [isVisibleConfirmImage, setIsVisibleConfirmImage] = React.useState(false) 
 
     const [variant, setVariant] = React.useState(props.data.variantHeading || 'h3')
     const [isTableSizeVisible, setIsTableSizeVisible] = React.useState(false)
@@ -212,35 +217,52 @@ function StyledComponent(props) {
         setIsDisableBtn(true)
     }
     const removeItem = () => {
-        const conf = window.confirm('Delete about? ')
-        if (conf)  {
-            RemoveImage(imageName)
-            props.removeContainer(props.data.id)
-        }
-           
+        setIsVisibleConfirmBlock(true)           
     }
     const handleRemoveImage = () => {
-        const conf = window.confirm('Remove image?')
-        if(conf) {
-            RemoveImage(imageName)
+        setIsVisibleConfirmImage(true)
+    }
 
-            setImageUrl('')
-            setImageName('')
-            setIsDisableBtn(false)
-        }
+    const handleConfirmClickBlock = () => {
+        RemoveImage(imageName)
+        props.removeContainer(props.data.id)
+    }
+    const handleConfirmClickImage = () => {
+        RemoveImage(imageName)
+
+        setImageUrl('')
+        setImageName('')
+        setIsDisableBtn(false)
     }
 
     return (
         <div className={classes.containerWrapper}>
+            
+            <Confirm
+                isVariable={false}
+                show={isVisibleConfirmBlock}
+                setShow={setIsVisibleConfirmBlock} 
+                title={'Remove about?'}
+                text={"You can't cancel this action."}
+                removeText={"remove"}
+                handleRemoveClick={handleConfirmClickBlock}
+            />
+            <Confirm
+                isVariable={false}
+                show={isVisibleConfirmImage}
+                setShow={setIsVisibleConfirmImage} 
+                title={'Delete image?'}
+                text={"You can't cancel this action."}
+                removeText={"delete"}
+                handleRemoveClick={handleConfirmClickImage}
+            />
             <Tooltip  title={`about margin top`}  placement={'top'}>
                 <div className={classes.mtView}></div>
             </Tooltip>
             <Tooltip  title={`about margin bottom`}  placement={'top'}>
                 <div className={classes.mbView}></div>
             </Tooltip>
-            <Box style={{
-                position: 'relative'
-            }}>
+            <Box style={{ position: 'relative' }}>
                 <Box className={classes.btnDrawerStyle}>
                     <Box display="flex" flexDirection="column">
                         <Box mb={1}>

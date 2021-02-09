@@ -189,7 +189,7 @@ function ThemeChanger() {
                                 className={classes.menuTitle}
                                 id="draggable-dialog-title"
                             >
-                                Theme Changer  <OpenWithIcon/>
+                               { !isDisableBtn && " Don't forget to save  - " }Theme Changer  <OpenWithIcon/>
                             </Typography>
 
                             <Typography 

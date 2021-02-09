@@ -24,6 +24,7 @@ import DumbComponent from "./DumbComponent"
 import AddItem from "./AddItem" 
 import InputChange from '../../functions/InputChange';
 
+import Confirm from '../../utilits/Confirm' 
 import TableFontSizeInfo from '../../utilits/TableFontSizeInfo'
 import SelectHeadingVariant from '../../functions/SelectHeadingVariant';
 
@@ -33,6 +34,8 @@ function StyledComponent(props) {
     const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
     const [open, setOpen] = React.useState(false)
 
+    const [isVisibleConfirmBlock, setIsVisibleConfirmBlock] = React.useState(false) 
+    const [isVisibleConfirmItem, setIsVisibleConfirmItem] = React.useState({show: false, index : null}) 
     
     const [variant, setVariant] = React.useState(props.data.variantHeading || 'h3')
     const [isTableSizeVisible, setIsTableSizeVisible] = React.useState(false)
@@ -159,8 +162,7 @@ function StyledComponent(props) {
         setIsDisableBtn(true)
     }
     const removeAccordion = () => {
-        const conf = window.confirm('Delete? ')
-        if(conf) props.removeContainer(props.data.id)
+        setIsVisibleConfirmBlock(true) 
     }
 
     const handleUpdateItemHead = (head, index) => { 
@@ -222,18 +224,39 @@ function StyledComponent(props) {
         setIsDisableBtn(false); 
     }
     const removeItem = (index) => { 
-        const conf = window.confirm('Delete item?')
-        if(conf) {
-            const newItems = items.slice()
-            newItems.splice(index, 1) 
-    
-            setItems(newItems)
-            setIsDisableBtn(false); 
-        }
+        setIsVisibleConfirmItem({show: true, index: index})
+    }
+    const handleConfirmClickItem = (index) => { 
+        const newItems = items.slice()
+        newItems.splice(index, 1) 
+
+        setItems(newItems)
+        setIsDisableBtn(false); 
+    }
+    const handleConfirmClickBlock = () => {
+        props.removeContainer(props.data.id)
     }
 
     return (
         <div className={classes.containerWrapper}> 
+            <Confirm
+                isVariable={false}
+                show={isVisibleConfirmBlock}
+                setShow={setIsVisibleConfirmBlock} 
+                title={'Remove accordion?'}
+                text={"You can't cancel this action."}
+                removeText={"remove"}
+                handleRemoveClick={handleConfirmClickBlock}
+            />
+            <Confirm
+                isVariable={true}
+                show={isVisibleConfirmItem}
+                setShow={setIsVisibleConfirmItem} 
+                title={'Delete item?'}
+                text={"You can't cancel this action."}
+                removeText={"delete"}
+                handleRemoveClick={handleConfirmClickItem}
+            />
             <Tooltip  title={`accordion margin top`}  placement={'top'}>
                 <div className={classes.mtView}></div>
             </Tooltip>
@@ -474,7 +497,7 @@ function StyledComponent(props) {
                                                                         </Button>
                                                                     </Tooltip>  
                                                                 }
-                                                                <Tooltip title='Delete Page' placement='top'>
+                                                                <Tooltip title='Delete Item' placement='top'>
                                                                     <Button
                                                                         variant='contained'
                                                                         color="secondary"

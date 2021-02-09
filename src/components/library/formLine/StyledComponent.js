@@ -24,6 +24,7 @@ import DumbComponent from "./DumbComponent"
 
 import InputChange from '../../functions/InputChange';
 
+import Confirm from '../../utilits/Confirm' 
 import TableFontSizeInfo from '../../utilits/TableFontSizeInfo'
 import SelectHeadingVariant from '../../functions/SelectHeadingVariant';
 
@@ -32,6 +33,8 @@ function StyledComponent(props) {
     const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
     const [open, setOpen] = React.useState(false)
     
+    const [isVisibleConfirm, setIsVisibleConfirm] = React.useState(false) 
+
     const [variant, setVariant] = React.useState(props.data.variantHeading || 'h4')
     const [isTableSizeVisible, setIsTableSizeVisible] = React.useState(false)
  
@@ -162,13 +165,27 @@ function StyledComponent(props) {
         // handleClose()
         setIsDisableBtn(true)
     }
-    const removeItem = () => {
-        const conf = window.confirm('Delete? ')
-        if(conf) props.removeContainer(props.data.id)
+    const removeItem = () => {  
+        setIsVisibleConfirm(true) 
+    };
+    
+    const handleConfirmClick = () => {
+        props.removeContainer(props.data.id)
     }
 
     return (
         <div className={classes.containerWrapper}>
+            
+            <Confirm
+                isVariable={false}
+                show={isVisibleConfirm}
+                setShow={setIsVisibleConfirm} 
+                title={'Remove form line?'}
+                text={"You can't cancel this action."}
+                removeText={"remove"}
+                handleRemoveClick={handleConfirmClick}
+            />
+
             <Tooltip  title={`Form line margin top`}  placement={'top'}>
                 <div className={classes.mtView}></div>
             </Tooltip>

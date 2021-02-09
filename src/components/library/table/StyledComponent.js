@@ -37,7 +37,9 @@ import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 import DumbComponent from "./DumbComponent"
 import AddItem from "./AddItem" 
 
-import InputChange from '../../functions/InputChange';
+import InputChange from '../../functions/InputChange'; 
+
+import Confirm from '../../utilits/Confirm' 
 import TableFontSizeInfo from '../../utilits/TableFontSizeInfo'
 import SelectHeadingVariant from '../../functions/SelectHeadingVariant';
 
@@ -45,6 +47,9 @@ function StyledComponent(props) {
 
     const [isDisableBtn, setIsDisableBtn] = React.useState(true)
     const [open, setOpen] = React.useState(false)
+
+    const [isVisibleConfirmBlock, setIsVisibleConfirmBlock] = React.useState(false) 
+    const [isVisibleConfirmItem, setIsVisibleConfirmItem] = React.useState({show: false, index : null}) 
 
     const [variant, setVariant] = React.useState(props.data.variantHeading || 'h3')
     const [isTableSizeVisible, setIsTableSizeVisible] = React.useState(false)
@@ -190,11 +195,6 @@ function StyledComponent(props) {
         props.reSaveItem(props.data.id, newData) 
         setIsDisableBtn(true)
     }
-    const removeTable = () => {
-        const conf = window.confirm('Delete? ')
-        if (conf) 
-            props.removeContainer(props.data.id)
-    }
     const handleTableHeadChange = (value, index) => {
         const newRow = tableRow.slice()
         newRow[index] = value
@@ -258,16 +258,44 @@ function StyledComponent(props) {
         setIsDisableBtn(false); 
     }
     const removeItem = (index) => { 
+        setIsVisibleConfirmItem({show: true, index: index}) 
+    }
+    const removeTable = () => {
+        setIsVisibleConfirmBlock(true)  
+    }
+      
+    const handleConfirmClickBlock = () => {
+        props.removeContainer(props.data.id)
+    }
+    const handleConfirmClickItem = (index) => { 
         const newRows = rows.slice()
         newRows.splice(index, 1) 
  
         setRows(newRows)
-        setIsDisableBtn(false); 
+        setIsDisableBtn(false);
     }
-    
 
     return (
         <div className={classes.containerWrapper}>
+            <Confirm
+                isVariable={false}
+                show={isVisibleConfirmBlock}
+                setShow={setIsVisibleConfirmBlock} 
+                title={'Remove table?'}
+                text={"You can't cancel this action."}
+                removeText={"remove"}
+                handleRemoveClick={handleConfirmClickBlock}
+            />
+            <Confirm
+                isVariable={true}
+                show={isVisibleConfirmItem}
+                setShow={setIsVisibleConfirmItem} 
+                title={'Delete row?'}
+                text={"You can't cancel this action."}
+                removeText={"delete"}
+                handleRemoveClick={handleConfirmClickItem}
+            />
+
             <Tooltip  title={`Table margin top`}  placement={'top'}>
                 <div className={classes.mtView}></div>
             </Tooltip>

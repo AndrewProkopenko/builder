@@ -37,6 +37,7 @@ import DumbComponent from "./DumbComponent"
 
 import InputChange from '../../functions/InputChange'; 
 
+import Confirm from '../../utilits/Confirm' 
 import TableFontSizeInfo from '../../utilits/TableFontSizeInfo'
 import SelectHeadingVariant from '../../functions/SelectHeadingVariant';
 
@@ -47,6 +48,8 @@ function StyledComponent(props) {
     const [isDisableBtn, setIsDisableBtn] = React.useState(true)
     const [open, setOpen] = React.useState(false)
     
+    const [isVisibleConfirmBlock, setIsVisibleConfirmBlock] = React.useState(false) 
+    const [isVisibleConfirmImage, setIsVisibleConfirmImage] = React.useState(false) 
 
     const [variant, setVariant] = React.useState(props.data.variantHeading || 'h3')
     const [isTableSizeVisible, setIsTableSizeVisible] = React.useState(false)
@@ -205,6 +208,11 @@ function StyledComponent(props) {
     const handleImageUpload = async (e) => {
   
         RemoveImage(imageName)
+        
+        if(colorTextSelect === 'contrast') {
+            setColorTextSelect('custom')
+            setColorTextCustom('inherit')
+        }
 
         const imageData = e.target.files[0]
         const generateImageName = `${imageData.name}-${props.data.id}`
@@ -214,6 +222,7 @@ function StyledComponent(props) {
  
         setImageName(generateImageName)
         setImageUrl(downloadURL)  
+        
          
         setIsDisableBtn(false)
     }
@@ -257,26 +266,44 @@ function StyledComponent(props) {
         setIsDisableBtn(true)
     }
     const removeItem = () => {
-        const conf = window.confirm('Delete banner? ')
-        if (conf) { 
-            RemoveImage(imageName)
-            props.removeContainer(props.data.id)
-        }
+        setIsVisibleConfirmBlock(true)           
     }
     const handleRemoveImage = () => {
-        const conf = window.confirm('Remove image?')
-        if(conf) {
-            RemoveImage(imageName)
-
-            setImageUrl('')
-            setImageName('')
-            setIsDisableBtn(false)
-        }
+        setIsVisibleConfirmImage(true)
     }
     
+    const handleConfirmClickBlock = () => {
+        RemoveImage(imageName)
+        props.removeContainer(props.data.id)
+    }
+    const handleConfirmClickImage = () => {
+        RemoveImage(imageName)
+
+        setImageUrl('')
+        setImageName('')
+        setIsDisableBtn(false)
+    }
 
     return (
         <div className={classes.containerWrapper}>
+            <Confirm
+                isVariable={false}
+                show={isVisibleConfirmBlock}
+                setShow={setIsVisibleConfirmBlock} 
+                title={'Remove banner?'}
+                text={"You can't cancel this action."}
+                removeText={"remove"}
+                handleRemoveClick={handleConfirmClickBlock}
+            />
+            <Confirm
+                isVariable={false}
+                show={isVisibleConfirmImage}
+                setShow={setIsVisibleConfirmImage} 
+                title={'Delete image?'}
+                text={"You can't cancel this action."}
+                removeText={"delete"}
+                handleRemoveClick={handleConfirmClickImage}
+            />
             <Tooltip  title={`banner margin top`}  placement={'top'}>
                 <div className={classes.mtView}></div>
             </Tooltip>

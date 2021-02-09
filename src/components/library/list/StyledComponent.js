@@ -36,9 +36,14 @@ import ExpandLessOutlinedIcon from '@material-ui/icons/ExpandLessOutlined';
 import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
 import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 
+import Confirm from '../../utilits/Confirm' 
+
 const StyledComponent = (props) => {  
 
     console.log('styled list work')
+
+    const [isVisibleConfirmBlock, setIsVisibleConfirmBlock] = React.useState(false) 
+    const [isVisibleConfirmItem, setIsVisibleConfirmItem] = React.useState({show: false, index : null}) 
 
     const [paddingLeft, setPaddingLeft] = React.useState( props.data.classes.paddingLeft || 15 )
     const [margin, setMargin] = React.useState({
@@ -181,10 +186,7 @@ const StyledComponent = (props) => {
         setIsDisableBtn(true);  
     }
     const removeItem = () => {  
-        let conf = window.confirm("Delete ?");
-        if(conf) {  
-            props.removeItem(props.data.id)
-        } 
+        setIsVisibleConfirmBlock(true)  
     };
     
     const handleOpen = () => {  
@@ -227,14 +229,7 @@ const StyledComponent = (props) => {
         setIsDisableBtn(false)
     }
     const deleteItemList = (index) => { 
-        let conf = window.confirm("Delete item?");
-        if(conf) {
-            let newItems = items.slice()
-            newItems.splice(index, 1)
-             
-            setItems(newItems) 
-            setIsDisableBtn(false)
-        } 
+        setIsVisibleConfirmItem({show: true, index: index}) 
     } 
     const handleAddItem = () => {
         let newItems = items.slice()
@@ -249,10 +244,37 @@ const StyledComponent = (props) => {
     const swapList = (direction, id) => {
         props.swapChildrens(direction, id)
     }
-    
+    const handleConfirmClickBlock = () => {
+        props.removeItem(props.data.id)
+    }
+    const handleConfirmClickItem = (index) => { 
+        let newItems = items.slice()
+        newItems.splice(index, 1)
+            
+        setItems(newItems) 
+        setIsDisableBtn(false)
+    }
 
     return ( 
             <Grid container style={{position: 'relative'}}> 
+                <Confirm
+                    isVariable={false}
+                    show={isVisibleConfirmBlock}
+                    setShow={setIsVisibleConfirmBlock} 
+                    title={'Remove block advantages?'}
+                    text={"You can't cancel this action."}
+                    removeText={"remove"}
+                    handleRemoveClick={handleConfirmClickBlock}
+                />
+                <Confirm
+                    isVariable={true}
+                    show={isVisibleConfirmItem}
+                    setShow={setIsVisibleConfirmItem} 
+                    title={'Delete item?'}
+                    text={"You can't cancel this action."}
+                    removeText={"delete"}
+                    handleRemoveClick={handleConfirmClickItem}
+                />
                 <Modal 
                     open={open}  
                     aria-labelledby="draggable-dialog-title"

@@ -29,6 +29,7 @@ import InputChange from '../../functions/InputChange';
 
 import {RemoveImage} from '../../functions/RemoveImage' 
 
+import Confirm from '../../utilits/Confirm' 
 import TableFontSizeInfo from '../../utilits/TableFontSizeInfo'
 import SelectHeadingVariant from '../../functions/SelectHeadingVariant';
 
@@ -36,6 +37,10 @@ function StyledComponent(props) {
         
     const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
     const [open, setOpen] = React.useState(false)
+
+    const [isVisibleConfirmBlock, setIsVisibleConfirmBlock] = React.useState(false) 
+    const [isVisibleConfirmImage, setIsVisibleConfirmImage] = React.useState(false) 
+    const [isVisibleConfirmIcon, setIsVisibleConfirmIcon] = React.useState(false) 
 
     const [variant, setVariant] = React.useState(props.data.variantHeading || 'h2')
     const [isTableSizeVisible, setIsTableSizeVisible] = React.useState(false)
@@ -226,27 +231,70 @@ function StyledComponent(props) {
         // handleClose()
         setIsDisableBtn(true)
     }
-    const removeItem = () => {
-        const conf = window.confirm('Delete? ')
-        if(conf) { 
-            RemoveImage(imageName) 
-            RemoveImage(iconName) 
-            props.removeContainer(props.data.id)
-        }
+    const removeItem = () => { 
+        setIsVisibleConfirmBlock(true)  
     }
     const handleRemoveImage = () => {
-        const conf = window.confirm('Remove image?')
-        if(conf) {
-            RemoveImage(imageName)
+        setIsVisibleConfirmImage(true) 
+    }
+    const handleRemoveIcon = () => {
+        setIsVisibleConfirmIcon(true)  
+    }
+ 
+    // const handleRemoveImage = () => {
+    //     setIsVisibleConfirmImage(true)
+    // }
 
-            setImageUrl('')
-            setImageName('')
-            setIsDisableBtn(false)
-        }
+    const handleConfirmClickBlock = () => {
+        RemoveImage(imageName) 
+        RemoveImage(iconName) 
+        props.removeContainer(props.data.id)
+    }
+    const handleConfirmClickImage = () => {
+        RemoveImage(imageName)
+
+        setImageUrl('')
+        setImageName('')
+        setIsDisableBtn(false)
+    }
+    const handleConfirmClickIcon = () => {
+        RemoveImage(iconName)
+
+        setIconUrl('')
+        setIconName('')
+        setIsDisableBtn(false)
     }
 
     return (
         <div className={classes.containerWrapper}>
+            <Confirm
+                isVariable={false}
+                show={isVisibleConfirmBlock}
+                setShow={setIsVisibleConfirmBlock} 
+                title={'Remove main block?'}
+                text={"You can't cancel this action."}
+                removeText={"remove"}
+                handleRemoveClick={handleConfirmClickBlock}
+            />
+            <Confirm
+                isVariable={false}
+                show={isVisibleConfirmImage}
+                setShow={setIsVisibleConfirmImage} 
+                title={'Delete image?'}
+                text={"You can't cancel this action."}
+                removeText={"delete"}
+                handleRemoveClick={handleConfirmClickImage}
+            />
+            <Confirm
+                isVariable={false}
+                show={isVisibleConfirmIcon}
+                setShow={setIsVisibleConfirmIcon} 
+                title={'Delete image?'}
+                text={"You can't cancel this action."}
+                removeText={"delete"}
+                handleRemoveClick={handleConfirmClickIcon}
+            />
+
             <Tooltip  title={`Main Banner margin top`}  placement={'top'}>
                 <div className={classes.mtView}></div>
             </Tooltip>
@@ -462,15 +510,32 @@ function StyledComponent(props) {
 
                                     <Box display="flex" mt={3}>   
                                         <Box display="flex" mr={2} minWidth={150} >
-                                            <Button color='primary' variant={'contained'} className={classes.btnWithLabel} > 
-                                                <label htmlFor='imageIcon-input-label'> Set Icon </label>
-                                                <input 
-                                                    id="imageIcon-input-label"
-                                                    type="file" 
-                                                    onChange={(e) => { handleImageUpload(e, 'icon')}} 
-                                                    style={{ display: "none" }}
-                                                />
-                                            </Button>
+                                            <Box display='flex' flexDirection='column' >
+                                                <Button color='primary' variant={'contained'} className={classes.btnWithLabel} > 
+                                                    <label htmlFor='imageIcon-input-label'> Set Icon </label>
+                                                    <input 
+                                                        id="imageIcon-input-label"
+                                                        type="file" 
+                                                        onChange={(e) => { handleImageUpload(e, 'icon')}} 
+                                                        style={{ display: "none" }}
+                                                    />
+                                                </Button>
+                                                {
+                                                    iconUrl.length > 0 &&
+                                                    <Box mt={1}>
+                                                        <Button
+                                                            size='small'
+                                                            color='secondary' 
+                                                            variant='contained' 
+                                                            onClick={handleRemoveIcon}
+                                                            style={{whiteSpace: 'nowrap'}}
+                                                        > 
+                                                            Remove icon
+                                                        </Button>
+                                                    </Box>
+                                                }
+                                            </Box>
+                                            
                                             {
                                                 iconUrl &&
                                                 <Box ml={1}>

@@ -34,11 +34,13 @@ import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 import DumbComponent from "./DumbComponent"
 
 import InputChange from '../../functions/InputChange';
+import Confirm from '../../utilits/Confirm' 
 
 function StyledComponent(props) {
 
     const [isDisableBtn, setIsDisableBtn] = React.useState(true)
     const [open, setOpen] = React.useState(false)
+    const [isVisibleConfirm, setIsVisibleConfirm] = React.useState(false) 
 
     const [heading, setHeading] = React.useState(props.data.heading) 
     const [headingSize, setHeadingSize] = React.useState(props.data.headingSize) 
@@ -166,15 +168,26 @@ function StyledComponent(props) {
         // handleClose()
         setIsDisableBtn(true)
     }
-    const removeItem = () => {
-        const conf = window.confirm('Delete? ')
-        if (conf) 
-            props.removeContainer(props.data.id)
-    }
+     
+    const removeItem = () => {  
+        setIsVisibleConfirm(true) 
+    };
+    
+    const handleConfirmClick = () => {
+        props.removeContainer(props.data.id)
+    } 
     
 
     return (
         <div className={classes.containerWrapper}>
+            <Confirm
+                show={isVisibleConfirm}
+                setShow={setIsVisibleConfirm} 
+                title={'Remove action line?'}
+                text={"You can't cancel this action."}
+                removeText={"remove"}
+                handleRemoveClick={handleConfirmClick}
+            />
             <Tooltip  title={`Action Line margin top`}  placement={'top'}>
                 <div className={classes.mtView}></div>
             </Tooltip>

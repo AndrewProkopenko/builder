@@ -27,7 +27,8 @@ function RouterComponent() {
 
     useEffect(() => {
         if(categories.length > 0) {
-            setPreloaderStatus('ready')
+            setPreloaderStatus('ready') 
+            document.body.style.overflow = 'hidden'
             setTimeout(() => {
                 setPreloaderStatus('delete') 
                 document.body.style.overflow = 'visible'

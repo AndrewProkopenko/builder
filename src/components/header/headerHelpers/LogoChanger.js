@@ -27,10 +27,13 @@ import {
 import SettingsIcon from '@material-ui/icons/Settings';
 import OpenWithIcon from '@material-ui/icons/OpenWith';
 import ImageIcon from '@material-ui/icons/Image'; 
+import {DeleteOutline} from '@material-ui/icons'; 
  
 import Draggable from 'react-draggable';  
 
 import {RemoveImage} from '../../functions/RemoveImage' 
+
+import Confirm from '../../utilits/Confirm'
 
 function LogoChanger() { 
     
@@ -38,12 +41,14 @@ function LogoChanger() {
     const { setIsLoading } = React.useContext(LoadingContext)
     const { logo, modal, updateLogo } = React.useContext(CategoryContext)     
     
+    const [isVisibleConfirm, setIsVisibleConfirm] = React.useState(false)    
+
     const [open, setOpen] = React.useState(false)
     const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
 
     const [mainText, setMainText] = React.useState(logo.mainText)
     const [subText, setSubText] = React.useState(logo.subText)
-    const [image, setImage] = React.useState(logo.image)
+    const [imageUrl, setImageUrl] = React.useState(logo.imageUrl || '')
     const [imageName, setImageName] = React.useState(logo.imageName || '')
 
     
@@ -103,7 +108,7 @@ function LogoChanger() {
  
     const handleSave = () => {  
         const newLogo = { 
-            image: image, 
+            imageUrl: imageUrl, 
             imageName: imageName, 
             mainText: mainText,
             subText: subText
@@ -141,7 +146,7 @@ function LogoChanger() {
             setIsLoading(false)
             storageRef.snapshot.ref.getDownloadURL()
               .then( url => {
-                setImage(url) 
+                setImageUrl(url) 
                 setImageName(imageData.name)
                 
                 setIsDisableBtn(false)
@@ -153,10 +158,29 @@ function LogoChanger() {
         setIsModal(!isModal)
         setIsDisableBtn(false)
     }
+    const handleRemoveImage = () => {
+        setIsVisibleConfirm(true)  
+    }
+    const handleConfirmClick = () => {
+        RemoveImage(imageName)
+
+        setImageUrl('')
+        setImageName('')
+        setIsDisableBtn(false)
+    } 
     
      
     return (
         <div className={classes.dumbWrapper}>
+            <Confirm
+                isVariable={false}
+                show={isVisibleConfirm}
+                setShow={setIsVisibleConfirm} 
+                title={'Remove icon?'}
+                text={"You can't cancel this action."}
+                removeText={"remove"}
+                handleRemoveClick={handleConfirmClick}
+            />
             <Tooltip title='Logo/Modal Settings' placement='bottom'>
                 <Button  
                     onClick={handleOpen} 
@@ -191,27 +215,48 @@ function LogoChanger() {
                             </Typography>
                             <Grid container>
                                 <Grid item xs={5}>
-                                    <Button 
-                                        color='primary'
-                                        variant='contained' 
-                                        className={classes.btnWithLabel}
-                                    >  
-                                        <label htmlFor='image-input-label'> <ImageIcon color="action" /> Set Logo </label>
-                                        <input 
-                                            id="image-input-label"
-                                            type="file" 
-                                            onChange={handleImageSetting} 
-                                            style={{ display: "none" }}
-                                        />
-                                    </Button>
-
-                                    <Box mt={1}>
-                                        <img
-                                            width={60}
-                                            src={image}
-                                            alt='logo'
-                                        /> 
+                                    <Box display='flex'>
+                                        <Button 
+                                            color='primary'
+                                            variant='contained' 
+                                            className={classes.btnWithLabel}
+                                        >  
+                                            <label htmlFor='image-input-label' style={{whiteSpace: 'nowrap'}}> <ImageIcon color="action" /> Set Logo </label>
+                                            <input 
+                                                id="image-input-label"
+                                                type="file" 
+                                                onChange={handleImageSetting} 
+                                                style={{ display: "none" }}
+                                            />
+                                        </Button>
+                                        {
+                                            imageUrl.length > 0 && 
+                                            <Box mx={1}>
+                                                <Tooltip title='Remove logo' placement='top' >
+                                                    <Button
+                                                        size='small'
+                                                        color='secondary'
+                                                        variant='contained'
+                                                        onClick={handleRemoveImage}
+                                                    >
+                                                        <DeleteOutline/>
+                                                    </Button>
+                                                </Tooltip>
+                                            </Box>
+                                        }
                                     </Box>
+                                   
+
+                                    {
+                                        imageUrl.length > 0 &&
+                                        <Box mt={1}>
+                                            <img
+                                                width={60}
+                                                src={imageUrl}
+                                                alt='logo'
+                                            /> 
+                                        </Box>
+                                    }
                                 </Grid>
                                 <Grid item xs={7}> 
                                     <TextField

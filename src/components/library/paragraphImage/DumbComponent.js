@@ -23,7 +23,8 @@ function DumbComponent(props) {
                 borderColor: borderColor
             }} , 
             imageStyle: props.imageClassName ? {...props.imageClassName, ...{ 
-                borderColor: imageBorderColor
+                borderColor: imageBorderColor,
+                height: props.imageClassName.height === 0 ? 'auto' : props.imageClassName.height
             }} : {} ,  
             imageStabilization: {
                 maxWidth: '100%', 

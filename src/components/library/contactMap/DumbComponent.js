@@ -268,9 +268,10 @@ function DumbComponent(props) {
                                                     />
                                                 </Box>
                                             } 
+                                            { !isValidName.isValid && !isValidPhone.isValid && <Box mr={1} /> }
                                             {
                                                 !isValidPhone.isValid &&
-                                                <Box flexGrow={1} ml={2}>
+                                                <Box flexGrow={1} >
                                                     <ValidationChip  
                                                         isValid={isValidPhone.isValid}  
                                                         handleClose={handleCloseValidationChip}
