@@ -3,9 +3,7 @@ import React from 'react'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 
 const  Confirm = ({isVariable, show, setShow, title, text, removeText, handleRemoveClick}) => {
- 
-    console.log(show)
-
+   
     const handleClose = () => {
         if(isVariable) setShow({show: false, index: null }) 
         else setShow(false)

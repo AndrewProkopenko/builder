@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react'
 
-import { Container, Grid, makeStyles, Button, Box, darken, fade, lighten } from '@material-ui/core'
+import { Container, Grid, makeStyles, Button, Box, darken, fade, lighten  } from '@material-ui/core' 
 
 import {getColorByPalette, getColorByPaletteReverse} from '../../functions/colorChanger/ColorCalculation' 
 import { NameValidation, PhoneValidation} from '../../functions/formValidation'
@@ -230,8 +230,9 @@ function DumbComponent(props) {
             <Container maxWidth={maxWidthContainer}>
                 <div className={`bulder-contact ${classes.styleClass}`}> 
                     <Grid container>  
-                        <Grid item xs={12} md={ mapHtml !== null ? 6 : 12 } className={classes.itemBackground} >  
-                            <div className={`bulder-contact_item ${classes.heightRegular}`} >
+                        <Grid item xs={12} md={ mapHtml !== null ? 6 : 12 } className={classes.itemBackground } >  
+                             
+                            <div className={`bulder-contact_item ${classes.heightRegular}`} > 
                                 <Box className={classes.boxForFlex}>
                                     <Box className={classes.linksContainer}>
                                         <div className="loc">

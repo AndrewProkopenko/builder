@@ -192,7 +192,7 @@ const Mobile = (props) => {
                     }
 
                     <Box px={2}>
-                        <Box my={3} width={'100%'} clone={true} onClick={handleModal}>
+                        <Box my={3} width={'100%'}  onClick={handleModal}>
                             {props.modalBtn}
                         </Box>
                     </Box>
