@@ -282,7 +282,7 @@ function DumbComponent() {
                                     {  modal.isModal ? topHeaderModalBtn() : ( <span></span> ) }
                                     <Box display='flex' alignItems='center' >
                                         
-                                        <ThemeSwitcher/>
+                                        <ThemeSwitcher backgroundHeader={backgroundHeader} />
                                         
                                         {
                                             user ?

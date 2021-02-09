@@ -576,6 +576,26 @@ function CategoriesChanger() {
                                                                                 </ButtonGroup>
                                                                             </Box>
                                                                             
+                                                                            {/* <InputChange
+                                                                                id={item.id}
+                                                                                fullWidth={true}
+                                                                                required={true}
+                                                                                type='text'
+                                                                                size="small" 
+                                                                                label="Page title"
+                                                                                variant='filled'
+                                                                                value={item.title}
+                                                                                setValue={handleUpdateCategory}
+                                                                                setIsDisableBtn={setIsDisableBtn} 
+                                                                            /> 
+                                                                            <TextField
+                                                                                type='text' 
+                                                                                label="Category slug (read only)"
+                                                                                fullWidth
+                                                                                variant='filled'
+                                                                                value={item.slug} 
+                                                                                disabled={true} 
+                                                                            />  */}
                                                                             <ChangePage handleUpdatePage={handleUpdatePage} item={item} itemPages={itemPages} /> 
                                                                         </li>
                                                                     ))

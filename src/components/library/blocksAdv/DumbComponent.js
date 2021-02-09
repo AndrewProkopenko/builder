@@ -269,19 +269,8 @@ function DumbComponent(props) {
             let actualWidth = window.innerWidth
 
             console.log('blocks resize', actualWidth)  
-
-            if(actualWidth <= 600) {
-                if(items.length > slidesForViewMobile) setIsSwiper(true)
-                else setIsSwiper(false)
-            }
-            if(actualWidth > 600 && actualWidth <= 960) {
-                if(items.length > slidesForViewTablet) setIsSwiper(true)
-                else setIsSwiper(false)
-            }
-            if(actualWidth > 960) {
-                if(items.length > slidesForViewDesktop) setIsSwiper(true)
-                else setIsSwiper(false)
-            }
+ 
+            
 
             try {
                 setTimeout(() => {
@@ -291,6 +280,27 @@ function DumbComponent(props) {
             }
             catch (error) {
                 console.log(error)
+            }
+            if(actualWidth <= 600) {
+                if(items.length > slidesForViewMobile) {
+                    setIsSwiper(true)
+                    return
+                }
+                else setIsSwiper(false)
+            }
+            if(actualWidth > 600 && actualWidth <= 960) {
+                if(items.length > slidesForViewTablet) {
+                    setIsSwiper(true)
+                    return
+                }
+                else setIsSwiper(false)
+            }
+            if(actualWidth > 960) {
+                if(items.length > slidesForViewDesktop) {
+                    setIsSwiper(true)
+                    return
+                }
+                else setIsSwiper(false)
             }
         }; 
         getWidthViewport(); 

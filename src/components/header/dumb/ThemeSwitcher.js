@@ -1,7 +1,9 @@
 import React from 'react'
 
 import {  
+  darken,
     FormControlLabel, 
+    lighten, 
     Switch,
     withStyles
 } from "@material-ui/core"; 
@@ -11,7 +13,7 @@ import CategoryContext from '../../../context/headerContext/CategoryContext'
 import darkThemeIcon from '../../../assets/icons/half-moon.svg'
 import lightThemeIcon from '../../../assets/icons/sun.svg' 
 
-function ThemeSwitcher() {
+function ThemeSwitcher({backgroundHeader}) {
 
     const { setThemeMode, themeMode} = React.useContext(CategoryContext)    
   
@@ -35,14 +37,17 @@ function ThemeSwitcher() {
             transform: 'translateX(32px)',
             color: '#27536b',
             '& + $track': {
-              backgroundColor: '#27536b',
+              backgroundColor: darken(backgroundHeader, 0.3), //dark
               opacity: 1,
               border: 'none',
             },
             '&  $thumb': { 
               opacity: 1,
               border: 'none',
-              backgroundImage: `url(${darkThemeIcon})`
+              backgroundImage: `url(${darkThemeIcon})`,
+              '& svg circle': {
+                fill: darken(backgroundHeader, 0.8)
+              }
             },
           },
           '&$focusVisible $thumb': {
@@ -57,9 +62,8 @@ function ThemeSwitcher() {
           backgroundPosition: 'center',  
         },
         track: {
-          borderRadius: 28 / 2,
-          border: `1px solid #a3d4ff`,
-          backgroundColor: '#a3d4ff',
+          borderRadius: 28 / 2, 
+          backgroundColor: lighten(backgroundHeader, 0.3), // white '#a3d4ff'
           opacity: 1,
           transition: theme.transitions.create(['background-color', 'border']),
         },

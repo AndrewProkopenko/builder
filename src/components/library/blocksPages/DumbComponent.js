@@ -92,10 +92,12 @@ function DumbComponent(props) {
                 height: slideHeight > 300 ? 300 : (slideHeight - 30) ,   
                 cursor: 'pointer',   
                 backgroundColor: theme.palette.background.paper,
+                 
                 '& a': {
                     color: 'inherit'
                 },
                 [theme.breakpoints.down('xs')]: {  
+                    marginTop: 25, 
                     height: 'auto'
                 }
             },
@@ -112,6 +114,7 @@ function DumbComponent(props) {
                 boxShadow: theme.shadows['10'], 
                 borderRadius: theme.shape.borderRadius, 
                 transition: `${theme.transitions.duration.standard}ms ${theme.transitions.easing.easeInOut}`,
+
                 
                 [theme.breakpoints.up('sm')]: {
                     overflow: 'hidden', 
@@ -252,19 +255,7 @@ function DumbComponent(props) {
 
             console.log('blocks resize', actualWidth)  
 
-            if(actualWidth <= 600) {
-                if(items.length > slidesForViewMobile) setIsSwiper(true)
-                else setIsSwiper(false)
-            }
-            if(actualWidth > 600 && actualWidth <= 960) {
-                if(items.length > slidesForViewTablet) setIsSwiper(true)
-                else setIsSwiper(false)
-            }
-            if(actualWidth > 960) {
-                if(items.length > slidesForViewDesktop) setIsSwiper(true)
-                else setIsSwiper(false)
-            }
-
+             
             try {
                 setTimeout(() => {
                     let slideHeightCalc = slideRef.current ? slideRef.current.clientWidth : 0
@@ -273,6 +264,27 @@ function DumbComponent(props) {
             }
             catch (error) {
                 console.log(error)
+            }
+            if(actualWidth <= 600) {
+                if(items.length > slidesForViewMobile) {
+                    setIsSwiper(true)
+                    return
+                }
+                else setIsSwiper(false)
+            }
+            if(actualWidth > 600 && actualWidth <= 960) {
+                if(items.length > slidesForViewTablet) {
+                    setIsSwiper(true)
+                    return
+                }
+                else setIsSwiper(false)
+            }
+            if(actualWidth > 960) {
+                if(items.length > slidesForViewDesktop) {
+                    setIsSwiper(true)
+                    return
+                }
+                else setIsSwiper(false)
             }
         }; 
         getWidthViewport(); 

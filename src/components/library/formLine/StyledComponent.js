@@ -30,7 +30,7 @@ import SelectHeadingVariant from '../../functions/SelectHeadingVariant';
 
 function StyledComponent(props) {
  
-    const [isDisableBtn, setIsDisableBtn] = useState(true) 
+    const [isDisableBtn, setIsDisableBtn] = useState(true)  
     const [open, setOpen] = useState(false)
     
     const [isVisibleConfirm, setIsVisibleConfirm] = useState(false) 
@@ -48,6 +48,9 @@ function StyledComponent(props) {
     const [colorSelect,  setColorSelect] = useState(props.data.color || '')
     const [colorCustom, setColorCustom] = useState(props.data.color || '')
     
+    const [backgroundSelect,  setBackgroundSelect] = useState(props.data.background || 'paper')
+    const [backgroundCustom, setBackgroundCustom] = useState(props.data.background || 'paper')
+    
     const [marginTop, setMarginTop] = useState(props.data.marginTop || 51)
     const [marginBottom, setMarginBottom] = useState(props.data.marginBottom )
     const [maxWidthContainer, setMaxWidthContainer] = useState(props.data.maxWidthContainer || 'lg') 
@@ -56,12 +59,16 @@ function StyledComponent(props) {
     const mobileMarginBottomComputed = marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30)
      
     const colorTheme = isNoThemeColor(props.data.color)
+    const backgroundTheme = isNoThemeColor(props.data.background)
     useEffect(() => {
         if (colorTheme) {  
             setColorSelect('custom')
         }  
+        if(backgroundTheme) {  
+            setBackgroundSelect('custom')
+        }
         // eslint-disable-next-line
-    }, [props.data.color])
+    }, [props.data.color, props.data.background])
 
     const handleOpen = () => {  
         setOpen(true);
@@ -159,6 +166,11 @@ function StyledComponent(props) {
             newData.color = colorCustom
         } else {
             newData.color = colorSelect 
+        }
+        if (backgroundSelect === 'custom') {
+            newData.background = backgroundCustom
+        } else {
+            newData.background = backgroundSelect
         }
   
         props.reSaveItem(props.data.id, newData) 
@@ -456,8 +468,21 @@ function StyledComponent(props) {
                                             setIsDisableBtn={setIsDisableBtn} 
                                             position="right"
                                             noInherit={true}
+                                            isContrastSelect={false} 
                                         />
                                         
+                                    </Box>
+                                    <Box mt={2} display="flex" > 
+                                        <ColorSelecter
+                                            label={'Background color '}
+                                            colorSelect={backgroundSelect} 
+                                            setColorSelect={setBackgroundSelect}
+                                            colorCustom={backgroundCustom}
+                                            setColorCustom={setBackgroundCustom}
+                                            setIsDisableBtn={setIsDisableBtn} 
+                                            position = {'right'}
+                                            noInherit={false}
+                                        />  
                                     </Box>
                                     <Box mt={5} />
  

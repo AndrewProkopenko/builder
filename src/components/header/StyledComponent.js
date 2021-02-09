@@ -11,7 +11,7 @@ import ValidationChanger from './headerHelpers/ValidationChanger'
 
 import DumbComponent from './dumb/DumbComponent'
 
-import { Box, Button, makeStyles } from '@material-ui/core'
+import { Box, Button, makeStyles, darken } from '@material-ui/core'
 import SettingsIcon from '@material-ui/icons/Settings';
  
 
@@ -49,7 +49,7 @@ function StyledComponent() {
                 fontSize: 10
             },
             '&:hover': {
-                backgroundColor: theme.palette.secondary.dark, 
+                backgroundColor: darken(theme.palette.error.dark, 0.2), 
             },
         },
         btnSettingsItem: {

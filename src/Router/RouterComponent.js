@@ -20,13 +20,13 @@ import LoadingContext from '../context/loadingContext/LoadingContext'
 
 function RouterComponent() {
  
-    const {categories} = useContext(CategoryContext) 
+    const {categories, isPreloader} = useContext(CategoryContext) 
     const {isLoading} = useContext(LoadingContext)  
 
     const [preloaderStatus, setPreloaderStatus] = useState('loading')
 
     useEffect(() => {
-        if(categories.length > 0) {
+        if(isPreloader) {
             setPreloaderStatus('ready') 
             document.body.style.overflow = 'hidden'
             setTimeout(() => {
@@ -37,7 +37,7 @@ function RouterComponent() {
                 setPreloaderStatus('hide') 
             }, 2500);
         } 
-    }, [categories])
+    }, [isPreloader])
 
     return (   
         <Router basename="builder"> 

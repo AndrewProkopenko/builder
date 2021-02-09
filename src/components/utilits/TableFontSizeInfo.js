@@ -1,10 +1,11 @@
 import React from 'react'
 
 import {makeStyles } from '@material-ui/core/styles'
-import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@material-ui/core'
+import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography , Paper, TableContainer} from '@material-ui/core'
 import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 import TabletMacIcon from '@material-ui/icons/TabletMac';
 import DesktopMacRoundedIcon from '@material-ui/icons/DesktopMacRounded';
+import ScoreIcon from '@material-ui/icons/Score';
 
 function TableFontSizeInfo({activeRow}) {
   
@@ -47,7 +48,8 @@ function TableFontSizeInfo({activeRow}) {
                 </Typography> 
             </Box>
             <Box mb={1}>  
-            <Table size={'small'} >
+            <TableContainer component={Paper}>
+            <Table size={'small'} style={{minWidth: 300}}  >
                 <TableHead>
                     <TableRow>
                         <TableCell>Variant</TableCell>
@@ -58,12 +60,17 @@ function TableFontSizeInfo({activeRow}) {
                         </TableCell>
                         <TableCell align="right" >
                             <Box className={iconCell}>
-                                {'<960px'} <TabletMacIcon/>
+                                {'600-1279px'} <TabletMacIcon/>
                             </Box>
                         </TableCell>
                         <TableCell align="right" >
                             <Box className={iconCell}>
-                                {'>960px'} <DesktopMacRoundedIcon/> 
+                                {'1280-1919px'} <DesktopMacRoundedIcon/> 
+                            </Box>
+                        </TableCell> 
+                        <TableCell align="right" >
+                            <Box className={iconCell}>
+                                {'>1920px'} <ScoreIcon/> 
                             </Box>
                         </TableCell> 
                     </TableRow>
@@ -74,23 +81,27 @@ function TableFontSizeInfo({activeRow}) {
                         <TableCell align="right">3.5rem</TableCell>
                         <TableCell align="right">4.7rem</TableCell>
                         <TableCell align="right">5.35rem</TableCell> 
+                        <TableCell align="right">6rem</TableCell> 
                     </TableRow>
                     <TableRow className={activeRow === 'h2' ? activeRowColor : ''}>
                         <TableCell component="th" scope="row">h2</TableCell>
                         <TableCell align="right">2.375rem</TableCell>
                         <TableCell align="right">2.9rem</TableCell>
                         <TableCell align="right">3.3rem</TableCell> 
+                        <TableCell align="right">3.75rem</TableCell> 
                     </TableRow>
                     <TableRow className={activeRow === 'h3' ? activeRowColor : ''}>
                         <TableCell component="th" scope="row">h3*</TableCell>
                         <TableCell align="right">2rem</TableCell>
                         <TableCell align="right">2.57rem</TableCell>
                         <TableCell align="right">2.8rem</TableCell> 
+                        <TableCell align="right">3rem</TableCell> 
                     </TableRow>
                     <TableRow className={activeRow === 'h4' ? activeRowColor : ''}>
                         <TableCell component="th" scope="row">h4</TableCell>
                         <TableCell align="right">1.5625rem</TableCell>
                         <TableCell align="right">1.8rem</TableCell>
+                        <TableCell align="right">2rem</TableCell> 
                         <TableCell align="right">2rem</TableCell> 
                     </TableRow>
                     <TableRow className={activeRow === 'h5' ? activeRowColor : ''}>
@@ -98,15 +109,18 @@ function TableFontSizeInfo({activeRow}) {
                         <TableCell align="right">1.25rem</TableCell>
                         <TableCell align="right">1.32rem</TableCell>
                         <TableCell align="right">1.5rem</TableCell> 
+                        <TableCell align="right">1.5rem</TableCell> 
                     </TableRow>
                     <TableRow className={activeRow === 'h6' ? activeRowColor : ''}>
                         <TableCell component="th" scope="row">h6</TableCell>
                         <TableCell align="right">1.125rem</TableCell>
                         <TableCell align="right">1.25rem</TableCell>
                         <TableCell align="right">1.25rem</TableCell> 
+                        <TableCell align="right">1.25rem</TableCell> 
                     </TableRow> 
                 </TableBody>
             </Table> 
+            </TableContainer>
             </Box>
         </Box>
     )

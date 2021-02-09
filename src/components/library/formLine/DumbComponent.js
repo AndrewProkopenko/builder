@@ -36,18 +36,30 @@ function DumbComponent(props) {
 
     let color = props.data.color
     let colorFocusInput, inValidColor
+    let colorBackground = props.data.background || 'paper'
   
     const useStyles = makeStyles((theme) => {    
 
         color = getColorByPalette(theme, color)
         colorFocusInput = getColorByPaletteReverse(theme, props.data.color) 
         inValidColor = getColorByPalette(theme, validationSettings.color) 
-
+        colorBackground = getColorByPalette(theme, colorBackground)
+        function computedContrastColor() {
+            if (color !== 'contrast') 
+                return color
+            if (colorBackground !== 'inherit') 
+                return theme.palette.getContrastText(colorBackground)
+            return color
+        }
         return ({ 
+            heading: {
+                color: `${theme.palette.getContrastText(colorBackground)}`
+            },
             itemBackground: {  
-                backgroundColor: theme.palette.background.paper,  
+                backgroundColor: colorBackground,
                 marginTop: marginTop, 
                 marginBottom: marginBottom, 
+                color: computedContrastColor(), 
                 [theme.breakpoints.down('sm')]: { 
                     marginTop: marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30), 
                     marginBottom: marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30),
@@ -56,8 +68,8 @@ function DumbComponent(props) {
             lineDecor: {
                 position: "absolute",
                 top: 8,
-                left: 8,
-                right: 8,
+                left: 0,
+                right: 0,
                 bottom: 8,
                 border: `1px solid ${fade(color, 0.25)}`,
                 borderRadius: 4,
@@ -67,23 +79,23 @@ function DumbComponent(props) {
                 fontFamily: 'inherit', 
                 border: `1px solid ${color}`, 
                 backgroundColor: 'inherit',
-                color: theme.palette.text.primary,
+                color: theme.palette.getContrastText(colorBackground),
                 boxShadow: 'none', 
                 height: 50,
                 paddingLeft: 45,
                 paddingRight: 25, 
                 transition: `${theme.transitions.easing.easeInOut} ${theme.transitions.duration.shorter}ms`, 
                 '&::-webkit-input-placeholder':  {  
-                    color: theme.palette.text.primary,
+                    color: theme.palette.getContrastText(colorBackground),
                 },
                 '&::-moz-placeholder' : { 
-                    color: theme.palette.text.primary,
+                    color: theme.palette.getContrastText(colorBackground),
                 },
                 '&:-ms-input-placeholder': {  
-                    color: theme.palette.text.primary,
+                    color: theme.palette.getContrastText(colorBackground),
                 },
                 '&:-moz-placeholder': { 
-                    color: theme.palette.text.primary,
+                    color: theme.palette.getContrastText(colorBackground),
                 }, 
                 '&:focus': {
                     borderColor: colorFocusInput,
@@ -163,6 +175,7 @@ function DumbComponent(props) {
                 fontSize: 12,
                 lineHeight: 1.2,
                 fontWeight: 300, 
+                color: theme.palette.getContrastText(colorBackground), 
                 [theme.breakpoints.down('md')]: {
                     marginTop: 10, 
                     textAlign: 'center', 
@@ -221,7 +234,7 @@ function DumbComponent(props) {
                     <Box className={classes.lineDecor} ></Box>
                     {
                         heading.length > 0 &&
-                        <Typography variant={variant} className={`heading`}>
+                        <Typography variant={variant} className={`heading ${classes.heading}`}>
                             { heading }
                         </Typography> 
                     }

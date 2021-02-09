@@ -3,6 +3,8 @@ import React from 'react'
 import { Box, makeStyles, CircularProgress, Typography } from '@material-ui/core'
    
 function PreloaderThumbnail({status}) {
+
+    console.log(status)
  
     const useStyles = makeStyles((theme) => {
         return({

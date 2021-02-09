@@ -67,6 +67,8 @@ function StyledComponent(props) {
     const [colorSelect,  setColorSelect] = useState(props.data.colorButton || '')
     const [colorCustom, setColorCustom] = useState(props.data.colorButton || '')
 
+    const [backgroundPosition,  setBackgroundPosition] = useState(props.data.backgroundPosition || 'center')
+
     const [backgroundSelect,  setBackgroundSelect] = useState(props.data.background || 'paper')
     const [backgroundCustom, setBackgroundCustom] = useState(props.data.background || 'paper')
 
@@ -96,6 +98,7 @@ function StyledComponent(props) {
     
     const colorButtonTheme = isNoThemeColor(props.data.colorButton)
     const colorTextTheme = isNoThemeColor(props.data.colorText)
+    const backgroundTheme = isNoThemeColor(props.data.background)
 
     useEffect(() => {
         if(colorButtonTheme) {  
@@ -104,8 +107,11 @@ function StyledComponent(props) {
         if(colorTextTheme) {  
             setColorTextSelect('custom')
         }
+        if(backgroundTheme) {  
+            setBackgroundSelect('custom')
+        }
         // eslint-disable-next-line
-    }, [props.data.colorButton, props.data.colorText])  
+    }, [props.data.colorButton, props.data.colorText, props.data.background])  
    
 
     const useStyles = makeStyles((theme) => {
@@ -242,6 +248,7 @@ function StyledComponent(props) {
         newData.marginTop = marginTop
         newData.marginBottom = marginBottom
         newData.maxWidthContainer = maxWidthContainer
+        newData.backgroundPosition = backgroundPosition
         
         if (colorSelect === 'custom') {
             newData.colorButton = colorCustom
@@ -574,12 +581,12 @@ function StyledComponent(props) {
                                             setIsDisableBtn={setIsDisableBtn} 
                                             position = {'top'}
                                             noInherit={false}
-                                            isContrastSelect={imageUrl.length === 0} 
+                                            isContrastSelect={true} 
                                         /> 
                                     </Box>
                                     {
-                                        imageUrl.length === 0 &&
-                                        <Box mt={2} display="flex" >
+                                        // imageUrl.length === 0 &&
+                                        <Box my={2} display="flex" >
                                             <ColorSelecter
                                                 label={'Background color '}
                                                 colorSelect={backgroundSelect} 
@@ -592,6 +599,28 @@ function StyledComponent(props) {
                                             /> 
                                         </Box>
                                     }
+
+                                    <FormControl 
+                                        variant='filled' 
+                                        size='small'    
+                                    >
+                                        <InputLabel id="maxWidth-style-label">Background Position</InputLabel>
+                                        <Select
+                                            labelId="maxWidth-label"
+                                            id="maxWidth-style"
+                                            value={backgroundPosition}
+                                            style={{minWidth: 180}}
+                                            onChange={(e) => {setIsDisableBtn(false); setBackgroundPosition(e.target.value) }}
+                                        >
+                                            <MenuItem value={'center'}>Center</MenuItem>
+                                            <MenuItem value={'top left'}>Top Left </MenuItem> 
+                                            <MenuItem value={'top right'}>Top Right </MenuItem> 
+                                            <MenuItem value={'top center'}>Top Center </MenuItem>  
+                                            <MenuItem value={'bottom left'}>Bottom Left </MenuItem> 
+                                            <MenuItem value={'bottom right'}>Bottom Right </MenuItem> 
+                                            <MenuItem value={'bottom center'}>Bottom Center </MenuItem>  
+                                        </Select>
+                                        </FormControl>
                                    
                                     <Box display='flex' mt={3} mb={3}>
                                         <FormControlLabel

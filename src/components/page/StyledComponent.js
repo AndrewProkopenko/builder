@@ -5,7 +5,7 @@ import Draggable from 'react-draggable';
 import { useLocation } from 'react-router-dom';
 import uuid from 'react-uuid' 
  
-import { Typography, Button, Box, Tooltip,  Modal, DialogContent, Divider } from "@material-ui/core"; 
+import { Typography, Button, Box, Tooltip,  Modal, DialogContent, Divider, darken } from "@material-ui/core"; 
  
 import { makeStyles } from '@material-ui/core/styles';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -88,6 +88,12 @@ function StyledSinlePage(props) {
       setIsLoading(false)
     });
   }
+
+  const firstMetaSave = (title) => {
+    firebase.db.collection("site1").doc(pageSlug).update({ 
+      title: title,  
+    })
+  }
   
   const useStyles = makeStyles((theme) => { 
 
@@ -116,7 +122,7 @@ function StyledSinlePage(props) {
           opacity: 0, 
           transition: `${theme.transitions.easing.easeInOut} ${theme.transitions.duration.shorter}ms `, 
           '&:hover': { 
-            backgroundColor: theme.palette.secondary.dark,   
+            backgroundColor: darken(theme.palette.error.dark, 0.2),   
           }, 
           '&>span': {
               display: 'flex', 
@@ -148,7 +154,10 @@ function StyledSinlePage(props) {
   useEffect( () => { 
     setIsLoading(true) 
     fetchData()
-    if(metaTitle === 'initial') setMetaTitle(props.metaTitle) 
+    if(metaTitle === 'initial') {
+      setMetaTitle(props.metaTitle)
+      firstMetaSave(props.metaTitle)
+    } 
     // eslint-disable-next-line
   }, [location])
    
@@ -636,7 +645,7 @@ function StyledSinlePage(props) {
                             <Box className={classes.boxMenuItem}> 
                               <Tooltip classes={{tooltip: classes.tooltip}} title='Paper cart with svg icon. Has be slider' placement='top'>
                                 <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('blocksAdv') }}>
-                                    Blocks without Links
+                                    Blocks Advantages
                                 </Button> 
                               </Tooltip>
                             </Box> 
@@ -665,7 +674,7 @@ function StyledSinlePage(props) {
                             <Box className={classes.boxMenuItem}>
                               <Tooltip classes={{tooltip: classes.tooltip}} title='Small contact form with optional heading and paragrapher' placement='top'>
                                 <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('formLine') }}>
-                                    Add Form Line 
+                                    Form Line 
                                 </Button> 
                               </Tooltip>
                             </Box>
@@ -690,7 +699,7 @@ function StyledSinlePage(props) {
                             <Box className={classes.boxMenuItem}>
                               <Tooltip classes={{tooltip: classes.tooltip}} title='Table with heading on top. Has ability to add "Show More Botton " on bottom' placement='top'>
                                 <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('table') }}>
-                                    Add Table 
+                                    Table 
                                 </Button> 
                               </Tooltip>
                             </Box>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { Box , TextField, Tooltip, IconButton  } from '@material-ui/core'
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
@@ -7,25 +7,20 @@ const ChangeCategory = (props) => {
 
     const [value, setValue] = useState(props.itemPages.title)
  
+    useEffect(() => {
+        if(props.itemPages.title !== value) {
+            setValue(props.itemPages.title) 
+        }
+        // eslint-disable-next-line
+    }, [props.itemPages.title])
+
     const handleSave = () => {
         props.handleUpdatePage(value, props.item.id, props.itemPages.id)
     }
 
     return ( 
         <Box display='flex' alignItems="center">
-            {
-                value === props.itemPages.title ?
-                <IconButton disabled={true} color={'primary'} >
-                    <CheckCircleOutlineIcon />
-                </IconButton> 
-                :
-                <Tooltip title={`Save Page ${value}`} placement='top'>
-                    <IconButton onClick={handleSave} disabled={value === props.itemPages.title} color={'primary'} >
-                        <CheckCircleOutlineIcon />
-                    </IconButton> 
-                </Tooltip>
-            }
-            
+             
             <Box ml={1}>
                 <TextField 
                     required
@@ -35,6 +30,7 @@ const ChangeCategory = (props) => {
                     variant='filled'
                     value={value} 
                     onChange={(e) => {setValue( e.target.value )}}
+                    onBlur={handleSave}
                 />     
                 <TextField  
                     type='text' 

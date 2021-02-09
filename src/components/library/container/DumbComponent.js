@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Container } from '@material-ui/core';
+import { Box, Container } from '@material-ui/core';
 
 import ModeContext from '../../../context/modeContext/ModeContext'
   
@@ -35,6 +35,8 @@ function DumbComponent(props) {
                 borderColor: borderColor 
             }} ,   
             styleClass: { 
+                // marginLeft: props.settings.innerContainer === props.settings.maxWidth ? '20px' : '0',
+                // marginRight: props.settings.innerContainer === props.settings.maxWidth ? '20px' : '0',
                 [`@media (max-width: 960px)`]: { 
                     marginTop: props.classes.marginTop*0.8,
                     marginBottom: props.classes.marginBottom*0.8, 
@@ -151,31 +153,35 @@ function DumbComponent(props) {
             }) 
         )
     }
-    return ( 
-        <Container  
-            maxWidth={props.settings.maxWidth} 
-            fixed={props.settings.fixed} 
-            disableGutters={props.settings.disableGutters} 
-            className={`${classes.myClassName} ${classes.styleClass}  `}
-        > 
-            {  
-                props.settings.innerContainer && 
+    return (  
+            props.settings.innerContainer ? 
+            <Container  
+                maxWidth={props.settings.maxWidth} 
+                fixed={props.settings.fixed} 
+                disableGutters={props.settings.disableGutters} 
+                className={`${classes.myClassName} ${classes.styleClass}  `} 
+            >  
                 <Container
                     maxWidth={props.settings.innerContainer}
                     fixed={props.settings.fixed} 
-                    disableGutters={props.settings.disableGutters} 
+                    disableGutters={props.settings.disableGutters}  
+                    // className={`${classes.myClassName} ${classes.styleClass}  `} 
                 >
                         { renderItems() }
                 </Container>
-            }
-            {  
-                !props.settings.innerContainer && 
-                <React.Fragment>
+             
+            </Container> 
+            :
+            <Container  
+                maxWidth={props.settings.maxWidth} 
+                fixed={props.settings.fixed} 
+                disableGutters={props.settings.disableGutters}  
+            >  
+                <Box className={`${classes.myClassName} ${classes.styleClass}`} style={{paddingLeft: 20, paddingRight: 20}} >
                         { renderItems() }
-                </React.Fragment>
-            }
-            
-        </Container>  
+                </Box> 
+            </Container> 
+          
     )
 }
 

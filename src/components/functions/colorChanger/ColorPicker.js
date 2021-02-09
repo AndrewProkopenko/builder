@@ -1,9 +1,10 @@
-import React, { memo, useState, useEffect } from "react";
+import React, { memo, useState, useEffect, useRef } from "react";
 import Draggable from 'react-draggable'; 
 import { ChromePicker } from "react-color";
 import { IconButton, Box, makeStyles, Button, Tooltip, Typography } from "@material-ui/core"
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import OpenWithIcon from '@material-ui/icons/OpenWith';
+import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
 
 
 export const ColorPicker = memo(({ initialColor, changeColor, setIsDisableBtn, position, noInherit }) => { 
@@ -11,6 +12,9 @@ export const ColorPicker = memo(({ initialColor, changeColor, setIsDisableBtn, p
     const [isOpen, setIsOpen] = useState(false); 
     const [isDisableSaveIcon, setIsDisableSaveIcon] = useState(true); 
  
+    const [copyText, setCopyText] = useState('')
+
+    const textAreaRef = useRef(null);
 
     const togglePicker = () => {
         setIsOpen(prevOpen => !prevOpen)
@@ -31,9 +35,18 @@ export const ColorPicker = memo(({ initialColor, changeColor, setIsDisableBtn, p
         setColor('inherit') 
         setIsDisableSaveIcon(false)
     }
+    const handleCopy = (e) => { 
+        textAreaRef.current.select();
+        document.execCommand('copy'); 
+        e.target.focus();
+        setCopyText("Copied")
+        setTimeout(() => {
+            setCopyText("")
+        }, 2500);
+    }
 
     useEffect( () => {
-        if(initialColor === 'inherit' ) setColor('#0000')
+        if(initialColor === 'inherit' || initialColor === 'transparent'  ) setColor('#0000')
     }, [initialColor])
 
     const useStyles = makeStyles( theme => { 
@@ -74,7 +87,7 @@ export const ColorPicker = memo(({ initialColor, changeColor, setIsDisableBtn, p
             boxPicker: { 
                 position: 'absolute',
                 zIndex: 1510, 
-                top: position === 'top' ? 100 : -290, 
+                top: position === 'top' ? 60 : -290, 
                 left: position === 'left' ? 0 : 'auto',
                 right: position === 'right' ? 0 : 'auto',
             }, 
@@ -91,6 +104,17 @@ export const ColorPicker = memo(({ initialColor, changeColor, setIsDisableBtn, p
                 padding: theme.spacing(1, 2), 
                 backgroundColor: theme.palette.background.default, 
                 cursor: 'move'
+            }, 
+            btnCopy: {
+                cursor: 'pointer', 
+                borderColor: color, 
+                textTransform: 'inherit', 
+                backgroundColor: copyText === 'Copied' ? 'inherit' : color ,
+                color: copyText === 'Copied' ? theme.palette.getContrastText(color) : 'inherit', 
+                '&:hover': {
+                    backgroundColor: copyText === 'Copied' ? 'inherit' : color ,
+                    color: copyText === 'Copied' ? theme.palette.getContrastText(color) : 'inherit',  
+                }
             }
         })
     })
@@ -147,7 +171,38 @@ export const ColorPicker = memo(({ initialColor, changeColor, setIsDisableBtn, p
                     Set Inherit
                 </Button>
             }
-            
+
+            {
+                    color !== 'inherit' &&
+                    color !== 'transparent' && 
+                    color !== 'primary' && 
+                    color !== 'secondary' && 
+                    color !== 'error' && 
+                    color !== 'success' && 
+                    color !== 'warning' && 
+                    color !== 'info' && 
+                    color !== 'default' && 
+                    color !== 'paper' && 
+                    color !== 'contrast' && 
+                    <Box mt={1}>
+                        <Button 
+                            onClick={handleCopy} 
+                            size='small'
+                            variant='outlined'
+                            endIcon={<FileCopyOutlinedIcon/>}
+                            className={classes.btnCopy}
+                        >
+                            <form style={{opacity: 0, width: 1, height: 1, position: 'absolute'}}>
+                                <textarea
+                                    ref={textAreaRef}
+                                    value={color} 
+                                    readOnly
+                                />
+                            </form>
+                            {copyText} {color}
+                        </Button>   
+                    </Box>
+                }
         </Box>
     );
 });

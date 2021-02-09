@@ -399,7 +399,7 @@ function ThemeChanger() {
                                 </Box>
                                 <Box className={classes.colorItem}> 
                                     <Typography variant='caption' >
-                                        Dark Succwss - { darkSuccess }
+                                        Dark Success - { darkSuccess }
                                     </Typography>
                                     <ColorPicker
                                         initialColor = {darkSuccess}
