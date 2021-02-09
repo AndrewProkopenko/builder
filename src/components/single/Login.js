@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import {Redirect} from 'react-router-dom'
 import firebase from '../../firebase/firebase' 
 
@@ -16,21 +16,21 @@ import { Alert, AlertTitle } from '@material-ui/lab';
 function Login() {
 
     
-    const { setCustomAlert } = React.useContext(SendFormContext)
-    const { setIsLoading } = React.useContext(LoadingContext) 
-    const { user } = React.useContext(ModeContext) 
+    const { setCustomAlert } = useContext(SendFormContext)
+    const { setIsLoading } = useContext(LoadingContext) 
+    const { user } = useContext(ModeContext) 
  
-    const [name, setName] = React.useState('')
-    const [password, setPassword] = React.useState('')
+    const [name, setName] = useState('')
+    const [password, setPassword] = useState('')
 
-    const [error, setError] = React.useState(null)
-    const [isRedirect, setIsRedirect] = React.useState(false)
+    const [error, setError] = useState(null)
+    const [isRedirect, setIsRedirect] = useState(false)
     
-    const [isSubmit, setIsSubmit] = React.useState(false)
+    const [isSubmit, setIsSubmit] = useState(false)
 
-    const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
+    const [isDisableBtn, setIsDisableBtn] = useState(true) 
     
-    React.useEffect( () => {
+    useEffect( () => {
         setIsLoading(false) 
         if(user) setIsRedirect(true)
         // eslint-disable-next-line

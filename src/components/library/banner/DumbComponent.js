@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 
 import { makeStyles, Container, Grid, Box, Button, darken , Typography } from '@material-ui/core'  
 import ModalContext from '../../../context/modalContext/ModalContext'
@@ -6,7 +6,7 @@ import {getColorByPalette} from '../../functions/colorChanger/ColorCalculation'
 
 function DumbComponent(props) { 
 
-    const { handleOpen } = React.useContext(ModalContext) 
+    const { handleOpen } = useContext(ModalContext) 
   
     const variant = props.data.variantHeading
     const heading = props.data.heading  

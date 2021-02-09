@@ -1,4 +1,4 @@
-import React from 'react' 
+import React, {useState} from 'react' 
 
 import StylesChangers from '../../../styles/changers'   
 import StyledInputs from '../../../styles/inputs'   
@@ -19,9 +19,9 @@ import {RemoveImage} from '../../functions/RemoveImage'
 function StyledComponent(props) {
  
 
-    const [open, setOpen] = React.useState(false)
+    const [open, setOpen] = useState(false)
 
-    const [isVisibleConfirm, setIsVisibleConfirm] = React.useState(false)  
+    const [isVisibleConfirm, setIsVisibleConfirm] = useState(false)  
     
     const propsSettings = {
         maxWidth: props.data.maxWidth,

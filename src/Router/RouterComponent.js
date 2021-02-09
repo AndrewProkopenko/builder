@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react' 
+import React, { useState, useEffect, useContext } from 'react' 
 
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
@@ -20,8 +20,8 @@ import LoadingContext from '../context/loadingContext/LoadingContext'
 
 function RouterComponent() {
  
-    const {categories} = React.useContext(CategoryContext) 
-    const {isLoading} = React.useContext(LoadingContext)  
+    const {categories} = useContext(CategoryContext) 
+    const {isLoading} = useContext(LoadingContext)  
 
     const [preloaderStatus, setPreloaderStatus] = useState('loading')
 

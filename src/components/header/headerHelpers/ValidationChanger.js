@@ -1,4 +1,4 @@
-import React from 'react'  
+import React, { useEffect, useState, useContext } from 'react'  
 
 import StylesChangers from '../../../styles/changers'   
 
@@ -35,21 +35,21 @@ import ValidationChip from '../../utilits/ValidationChip'
 
 function RequestsChanger() {
     
-    const { setIsLoading } = React.useContext(LoadingContext)     
-    const { validationSettings, updateValidationSettings } = React.useContext(SendFormContext)       
+    const { setIsLoading } = useContext(LoadingContext)     
+    const { validationSettings, updateValidationSettings } = useContext(SendFormContext)       
 
-    const [open, setOpen] = React.useState(false) 
-    const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
+    const [open, setOpen] = useState(false) 
+    const [isDisableBtn, setIsDisableBtn] = useState(true) 
 
-    const [mask, setMask] = React.useState(validationSettings.mask || '')  
-    const [name, setName] = React.useState(validationSettings.name || '')
-    const [phone, setPhone] = React.useState(validationSettings.phone || '')
-    const [variant, setVariant] = React.useState(validationSettings.variant || 'filled')
-    const [colorSelect,  setColorSelect] = React.useState(validationSettings.color || 'error')
-    const [colorCustom, setColorCustom] = React.useState(validationSettings.color || 'error')
+    const [mask, setMask] = useState(validationSettings.mask || '')  
+    const [name, setName] = useState(validationSettings.name || '')
+    const [phone, setPhone] = useState(validationSettings.phone || '')
+    const [variant, setVariant] = useState(validationSettings.variant || 'filled')
+    const [colorSelect,  setColorSelect] = useState(validationSettings.color || 'error')
+    const [colorCustom, setColorCustom] = useState(validationSettings.color || 'error')
 
     const colorTheme = isNoThemeColor(validationSettings.color) 
-    React.useEffect(() => {
+    useEffect(() => {
         if(colorTheme) {  
             setColorSelect('custom')
         }  

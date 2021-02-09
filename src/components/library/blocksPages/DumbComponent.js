@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect, useRef } from 'react'
   
 import { NavLink } from "react-router-dom";
 
@@ -38,9 +38,9 @@ function DumbComponent(props) {
     const marginBottom = props.data.marginBottom  
     const maxWidthContainer = props.data.maxWidthContainer  
  
-    const [slideHeight, setSlideHeight] = React.useState(0)  
+    const [slideHeight, setSlideHeight] = useState(0)  
 
-    const slideRef = React.useRef(null);
+    const slideRef = useRef(null);
     
 
     const useStyles = makeStyles((theme) => {   
@@ -244,7 +244,7 @@ function DumbComponent(props) {
     const classes  = useStyles(); 
     
      
-    React.useEffect(() => {  
+    useEffect(() => {  
 
         const getWidthViewport = () => {  
             

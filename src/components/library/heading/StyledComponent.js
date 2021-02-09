@@ -1,4 +1,4 @@
-import React from 'react'  
+import React, { useEffect, useState } from 'react'  
  
 import StylesChangers from '../../../styles/changers'   
 import StyledInputs from '../../../styles/inputs'   
@@ -50,53 +50,53 @@ const StyledComponent = (props) => {
 
     console.log('styled heading work')
 
-    const [isVisibleConfirm, setIsVisibleConfirm] = React.useState(false) 
+    const [isVisibleConfirm, setIsVisibleConfirm] = useState(false) 
 
-    const [padding, setPadding] = React.useState({ 
+    const [padding, setPadding] = useState({ 
         top:  props.data.classes.paddingTop , 
         left:  props.data.classes.paddingLeft ,
         bottom: props.data.classes.paddingBottom , 
         right: props.data.classes.paddingRight 
     })
-    const [margin, setMargin] = React.useState({
+    const [margin, setMargin] = useState({
         top:  props.data.classes.marginTop , 
         left:  props.data.classes.marginLeft ,
         bottom: props.data.classes.marginBottom , 
         right: props.data.classes.marginRight 
     }) 
 
-    const [borderColorSelect, setBorderColorSelect] = React.useState(props.data.classes.borderColor ||  'transperent')
-    const [borderColorCustom, setBorderColorCustom] = React.useState(props.data.classes.borderColor ||  'transperent')
-    const [borderStyle, setBorderStyle] = React.useState(props.data.classes.borderStyle ||  'solid')
-    const [borderWidth, setBorderWidth] = React.useState(props.data.classes.borderWidth ||  0 )
-    const [borderRadius, setBorderRadius] = React.useState(props.data.classes.borderRadius || 0)
+    const [borderColorSelect, setBorderColorSelect] = useState(props.data.classes.borderColor ||  'transperent')
+    const [borderColorCustom, setBorderColorCustom] = useState(props.data.classes.borderColor ||  'transperent')
+    const [borderStyle, setBorderStyle] = useState(props.data.classes.borderStyle ||  'solid')
+    const [borderWidth, setBorderWidth] = useState(props.data.classes.borderWidth ||  0 )
+    const [borderRadius, setBorderRadius] = useState(props.data.classes.borderRadius || 0)
     
-    const [backgroundSelect,  setBackgroundSelect] = React.useState(props.data.classes.backgroundColor || 'transperent')
-    const [backgroundCustom, setBackgroundCustom] = React.useState(props.data.classes.backgroundColor || 'transperent')
-    const [colorSelect,  setColorSelect] = React.useState(props.data.classes.color || 'inherit')
-    const [colorCustom, setColorCustom] = React.useState(props.data.classes.color || 'inherit')
+    const [backgroundSelect,  setBackgroundSelect] = useState(props.data.classes.backgroundColor || 'transperent')
+    const [backgroundCustom, setBackgroundCustom] = useState(props.data.classes.backgroundColor || 'transperent')
+    const [colorSelect,  setColorSelect] = useState(props.data.classes.color || 'inherit')
+    const [colorCustom, setColorCustom] = useState(props.data.classes.color || 'inherit')
  
-    const [textAlign, setTextAlign] = React.useState(props.data.classes.textAlign ||  'left')
+    const [textAlign, setTextAlign] = useState(props.data.classes.textAlign ||  'left')
 
-    const [defaultSize, setDefaultSize] = React.useState(props.data.defaultSize || false)
-    const [variant, setVariant] = React.useState(props.data.variant ||  'h3')
-    const [display, setDisplay] = React.useState(props.data.classes.display ||  'block')
-    const [fontSize, setFontSize] = React.useState(props.data.classes.fontSize ||  16)
-    const [fontWeight, setFontWeight] = React.useState(props.data.classes.fontWeight ||  400)
-    const [lineHeight, setLineHeight] = React.useState(props.data.classes.lineHeight ||  1.38)
+    const [defaultSize, setDefaultSize] = useState(props.data.defaultSize || false)
+    const [variant, setVariant] = useState(props.data.variant ||  'h3')
+    const [display, setDisplay] = useState(props.data.classes.display ||  'block')
+    const [fontSize, setFontSize] = useState(props.data.classes.fontSize ||  16)
+    const [fontWeight, setFontWeight] = useState(props.data.classes.fontWeight ||  400)
+    const [lineHeight, setLineHeight] = useState(props.data.classes.lineHeight ||  1.38)
 
-    const [isResponsiveFont, setIsResponsiveFont] = React.useState(props.data.responseFont || false)
+    const [isResponsiveFont, setIsResponsiveFont] = useState(props.data.responseFont || false)
 
-    const [textInDumb, setTextInDumb] = React.useState(props.data.text)
-    const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
+    const [textInDumb, setTextInDumb] = useState(props.data.text)
+    const [isDisableBtn, setIsDisableBtn] = useState(true) 
  
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
     const bgTheme = isNoThemeColor(props.data.classes.backgroundColor)
     const colorTheme = isNoThemeColor(props.data.classes.color)
     const borderTheme = isNoThemeColor(props.data.classes.borderColor)
 
-    React.useEffect(() => {
+    useEffect(() => {
         if(bgTheme) {  
             setBackgroundSelect('custom')
         }  

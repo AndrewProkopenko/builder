@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 
 import ModeContext from '../../context/modeContext/ModeContext'
 
@@ -9,7 +9,7 @@ import DumbComponent from "./DumbComponent"
 
 const  SinglePageCreator = (props) => {
 
-    const {modeDev} = React.useContext(ModeContext)  
+    const {modeDev} = useContext(ModeContext)  
     
     return (    
         <React.Fragment>  

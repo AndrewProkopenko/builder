@@ -1,4 +1,4 @@
-import React , {useState} from 'react';
+import React , {useState, useContext} from 'react';
 import { withStyles, makeStyles, darken } from '@material-ui/core/styles';
 import {
     Table,
@@ -101,7 +101,7 @@ export default function CustomizedTables(props) {
 
     const classes = useStyles();
 
-    const { handleOpen  } = React.useContext(ModalContext)
+    const { handleOpen  } = useContext(ModalContext)
   
     const handleOpenModal = (target) => {
         handleOpen(target)

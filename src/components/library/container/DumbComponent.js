@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
@@ -14,7 +14,7 @@ import {getColorByPalette} from '../../functions/colorChanger/ColorCalculation'
 
 function DumbComponent(props) { 
 
-    const {modeDev} = React.useContext(ModeContext)
+    const {modeDev} = useContext(ModeContext)
  
     console.log('dumb container work') 
   

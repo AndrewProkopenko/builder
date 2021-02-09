@@ -1,4 +1,4 @@
-import React from 'react' 
+import React, { useContext } from 'react' 
 
 import StyledComponent from "./StyledComponent"
 import DumbComponent from "./DumbComponent"
@@ -7,7 +7,7 @@ import ModeContext from '../../../context/modeContext/ModeContext'
  
 function ElementCreator(props) {
 
-    const {modeDev} = React.useContext(ModeContext)  
+    const {modeDev} = useContext(ModeContext)  
    
     return (    
         <React.Fragment>  

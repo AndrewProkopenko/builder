@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import firebase from "../../../firebase/firebase"
 
 import {  
@@ -12,9 +12,9 @@ import {
 
 const AddItem = (props) => {
      
-    const [newImageName, setNewImageName] = React.useState('')
-    const [newImageUrl, setNewImageUrl] = React.useState('')
-    const [newImageTitle, setNewImageTitle] = React.useState('')
+    const [newImageName, setNewImageName] = useState('')
+    const [newImageUrl, setNewImageUrl] = useState('')
+    const [newImageTitle, setNewImageTitle] = useState('')
 
     const handleImageUpload = async (e) => { 
         const imageData = e.target.files[0]

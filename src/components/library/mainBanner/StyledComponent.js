@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import firebase from "../../../firebase/firebase"
 
 import StylesChangers from '../../../styles/changers'    
@@ -35,35 +35,35 @@ import SelectHeadingVariant from '../../functions/SelectHeadingVariant';
 
 function StyledComponent(props) { 
         
-    const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
-    const [open, setOpen] = React.useState(false)
+    const [isDisableBtn, setIsDisableBtn] = useState(true) 
+    const [open, setOpen] = useState(false)
 
-    const [isVisibleConfirmBlock, setIsVisibleConfirmBlock] = React.useState(false) 
-    const [isVisibleConfirmImage, setIsVisibleConfirmImage] = React.useState(false) 
-    const [isVisibleConfirmIcon, setIsVisibleConfirmIcon] = React.useState(false) 
+    const [isVisibleConfirmBlock, setIsVisibleConfirmBlock] = useState(false) 
+    const [isVisibleConfirmImage, setIsVisibleConfirmImage] = useState(false) 
+    const [isVisibleConfirmIcon, setIsVisibleConfirmIcon] = useState(false) 
 
-    const [variant, setVariant] = React.useState(props.data.variantHeading || 'h2')
-    const [isTableSizeVisible, setIsTableSizeVisible] = React.useState(false)
+    const [variant, setVariant] = useState(props.data.variantHeading || 'h2')
+    const [isTableSizeVisible, setIsTableSizeVisible] = useState(false)
 
-    const [heading, setHeading] = React.useState(props.data.heading)
-    const [subHeading, setSubHeading] = React.useState(props.data.headingIcon.title)
-    const [paragraph, setParagraph] = React.useState(props.data.paragraph)
-    const [inputLabel, setInputLabel] = React.useState(props.data.form.inputLabel)
-    const [buttonLabel, setButtonLabel] = React.useState(props.data.form.buttonLabel)
-    const [policy, setPolicy] = React.useState(props.data.form.policy)
+    const [heading, setHeading] = useState(props.data.heading)
+    const [subHeading, setSubHeading] = useState(props.data.headingIcon.title)
+    const [paragraph, setParagraph] = useState(props.data.paragraph)
+    const [inputLabel, setInputLabel] = useState(props.data.form.inputLabel)
+    const [buttonLabel, setButtonLabel] = useState(props.data.form.buttonLabel)
+    const [policy, setPolicy] = useState(props.data.form.policy)
 
-    const [colorSelect, setColorSelect] = React.useState(props.data.color)
-    const [colorCustom, setColorCustom] = React.useState(props.data.color)
+    const [colorSelect, setColorSelect] = useState(props.data.color)
+    const [colorCustom, setColorCustom] = useState(props.data.color)
 
-    const [imageUrl, setImageUrl] = React.useState(props.data.image)
-    const [imageName, setImageName] = React.useState(props.data.imageName || '')
+    const [imageUrl, setImageUrl] = useState(props.data.image)
+    const [imageName, setImageName] = useState(props.data.imageName || '')
 
-    const [iconUrl, setIconUrl] = React.useState(props.data.headingIcon.icon)
-    const [iconName, setIconName] = React.useState(props.data.headingIcon.iconName || '')
+    const [iconUrl, setIconUrl] = useState(props.data.headingIcon.icon)
+    const [iconName, setIconName] = useState(props.data.headingIcon.iconName || '')
  
-    const [marginTop, setMarginTop] = React.useState(props.data.marginTop || 51)
-    const [marginBottom, setMarginBottom] = React.useState(props.data.marginBottom || 51)
-    const [maxWidthContainer, setMaxWidthContainer] = React.useState(props.data.maxWidthContainer || 'lg') 
+    const [marginTop, setMarginTop] = useState(props.data.marginTop || 51)
+    const [marginBottom, setMarginBottom] = useState(props.data.marginBottom || 51)
+    const [maxWidthContainer, setMaxWidthContainer] = useState(props.data.maxWidthContainer || 'lg') 
     
     const mobileMarginTopComputed = marginTop === 0 ? 0 : (marginTop > 120 ? marginTop*0.25 : 40)
     const mobileMarginBottomComputed = marginBottom === 0 ? 0 : (marginBottom > 120 ? marginBottom*0.25 : 40)
@@ -79,7 +79,7 @@ function StyledComponent(props) {
     };
 
     const colorTheme = isNoThemeColor(props.data.color)
-    React.useEffect(() => {
+    useEffect(() => {
         if(colorTheme) {  
             setColorSelect('custom')
         } 

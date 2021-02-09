@@ -1,4 +1,4 @@
-import React from 'react' 
+import React, { useEffect, useState, useContext } from 'react' 
 import Draggable from 'react-draggable'; 
 
 import StylesChangers from '../../../styles/changers'   
@@ -30,49 +30,49 @@ import SelectShadow from '../../functions/SelectShadow';
 
 function ContainerElement(props) { 
     console.log('styled Container work')
-    const { layouts } = React.useContext(LibraryContext)
+    const { layouts } = useContext(LibraryContext)
     const libraryHeading = layouts.heading
     const libraryParagraph = layouts.paragraph
     const libraryParagraphImage = layouts.paragraphImage
     const libraryList = layouts.list
 
   
-    const [padding, setPadding] = React.useState({ 
+    const [padding, setPadding] = useState({ 
         top:  props.data.classes.paddingTop ,  
         bottom: props.data.classes.paddingBottom ,  
     })
-    const [margin, setMargin] = React.useState({
+    const [margin, setMargin] = useState({
         top:  props.data.classes.marginTop ,  
         bottom: props.data.classes.marginBottom ,  
     })
     
-    const [display, setDisplay] = React.useState(props.data.classes.display || 'flex')
-    const [flexDirection, setFlexDirection] = React.useState(props.data.classes.flexDirection || 'column')
+    const [display, setDisplay] = useState(props.data.classes.display || 'flex')
+    const [flexDirection, setFlexDirection] = useState(props.data.classes.flexDirection || 'column')
 
-    const [colorSelect,  setColorSelect] = React.useState(props.data.classes.color || 'inherit')
-    const [colorCustom, setColorCustom] = React.useState(props.data.classes.color || 'inherit')
+    const [colorSelect,  setColorSelect] = useState(props.data.classes.color || 'inherit')
+    const [colorCustom, setColorCustom] = useState(props.data.classes.color || 'inherit')
 
-    const [backgroundSelect,  setBackgroundSelect] = React.useState(props.data.classes.backgroundColor || 'inherit')
-    const [backgroundCustom, setBackgroundCustom] = React.useState(props.data.classes.backgroundColor || 'inherit')
+    const [backgroundSelect,  setBackgroundSelect] = useState(props.data.classes.backgroundColor || 'inherit')
+    const [backgroundCustom, setBackgroundCustom] = useState(props.data.classes.backgroundColor || 'inherit')
 
-    const [borderColorSelect,  setBorderColorSelect] = React.useState(props.data.classes.borderColor || 'inherit')
-    const [borderColorCustom, setBorderColorCustom] = React.useState(props.data.classes.borderColor || 'inherit')
+    const [borderColorSelect,  setBorderColorSelect] = useState(props.data.classes.borderColor || 'inherit')
+    const [borderColorCustom, setBorderColorCustom] = useState(props.data.classes.borderColor || 'inherit')
  
-    const [shadow, setShadow] = React.useState(props.data.classes.boxShadow || 'none')
+    const [shadow, setShadow] = useState(props.data.classes.boxShadow || 'none')
  
-    const [borderStyle, setBorderStyle] = React.useState(props.data.classes.borderStyle ||  'solid')
-    const [borderWidth, setBorderWidth] = React.useState(props.data.classes.borderWidth ||  0)
-    const [borderRadius, setBorderRadius] = React.useState(props.data.classes.borderRadius ||  0)
+    const [borderStyle, setBorderStyle] = useState(props.data.classes.borderStyle ||  'solid')
+    const [borderWidth, setBorderWidth] = useState(props.data.classes.borderWidth ||  0)
+    const [borderRadius, setBorderRadius] = useState(props.data.classes.borderRadius ||  0)
 
-    const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
+    const [isDisableBtn, setIsDisableBtn] = useState(true) 
   
 
-    const [settingGutter, setSettingGutter] = React.useState(props.data.disableGutters)
-    const [settingFixed, setSettingFixed] = React.useState(props.data.fixed)
-    const [settingMaxWidth, setSettingMaxWidth] = React.useState(props.data.maxWidth)
-    const [settingInnerContainer, setSettingInnerContainer] = React.useState(props.data.innerContainer || false ) 
+    const [settingGutter, setSettingGutter] = useState(props.data.disableGutters)
+    const [settingFixed, setSettingFixed] = useState(props.data.fixed)
+    const [settingMaxWidth, setSettingMaxWidth] = useState(props.data.maxWidth)
+    const [settingInnerContainer, setSettingInnerContainer] = useState(props.data.innerContainer || false ) 
 
-    const [anchorEl, setAnchorEl] = React.useState(null); 
+    const [anchorEl, setAnchorEl] = useState(null); 
      
 
     const propsSettings = {
@@ -86,7 +86,7 @@ function ContainerElement(props) {
     const colorTheme = isNoThemeColor(props.data.classes.color)
     const borderTheme = isNoThemeColor(props.data.classes.borderColor)
 
-    React.useEffect(() => {
+    useEffect(() => {
         if(bgTheme) {  
             setBackgroundSelect('custom')
         }  
@@ -408,7 +408,7 @@ function ContainerElement(props) {
                                 <Typography  variant={'h6'} gutterBottom  >
                                     Styles 
                                 </Typography>
-                                <React.Fragment>
+                                <Fragment>
                         <Tooltip classes={{tooltip: classes.tabletTooltip}} title='Calculated styles for Tablets (<960px)' placement={'top'}>
                             <Box className={`${classes.responseValues} ${classes.responseTablets}`}>
                                 <TabletMacIcon/>
@@ -682,7 +682,7 @@ function ContainerElement(props) {
                             </Button> 
                         </Box> */}
                         
-                    </React.Fragment> 
+                    </Fragment> 
                             </div>
                         </Draggable>
                     </DialogContent>

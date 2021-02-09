@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 import {  
     Button,  
@@ -11,8 +11,8 @@ import {
 
 const AddItem = (props) => {
      
-    const [newItemTitle, setNewItemTitle] = React.useState('')
-    const [newItemPrice, setNewItemPrice] = React.useState('')
+    const [newItemTitle, setNewItemTitle] = useState('')
+    const [newItemPrice, setNewItemPrice] = useState('')
 
     const handleSubmit = (e) => { 
         e.preventDefault()

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import StylesChangers from '../../../styles/changers'  
 import StyledInputs from '../../../styles/inputs'    
@@ -45,34 +45,34 @@ import SelectHeadingVariant from '../../functions/SelectHeadingVariant';
 
 function StyledComponent(props) {
 
-    const [isDisableBtn, setIsDisableBtn] = React.useState(true)
-    const [open, setOpen] = React.useState(false)
+    const [isDisableBtn, setIsDisableBtn] = useState(true)
+    const [open, setOpen] = useState(false)
 
-    const [isVisibleConfirmBlock, setIsVisibleConfirmBlock] = React.useState(false) 
-    const [isVisibleConfirmItem, setIsVisibleConfirmItem] = React.useState({show: false, index : null}) 
+    const [isVisibleConfirmBlock, setIsVisibleConfirmBlock] = useState(false) 
+    const [isVisibleConfirmItem, setIsVisibleConfirmItem] = useState({show: false, index : null}) 
 
-    const [variant, setVariant] = React.useState(props.data.variantHeading || 'h3')
-    const [isTableSizeVisible, setIsTableSizeVisible] = React.useState(false)
+    const [variant, setVariant] = useState(props.data.variantHeading || 'h3')
+    const [isTableSizeVisible, setIsTableSizeVisible] = useState(false)
 
-    const [heading, setHeading] = React.useState(props.data.heading)  
+    const [heading, setHeading] = useState(props.data.heading)  
  
-    const [isButton, setIsButton] = React.useState(props.data.isButton || false)
-    const [textButton,  setTextButton] = React.useState(props.data.buttonText || '') 
+    const [isButton, setIsButton] = useState(props.data.isButton || false)
+    const [textButton,  setTextButton] = useState(props.data.buttonText || '') 
 
-    const [colorSelect,  setColorSelect] = React.useState(props.data.color || '')
-    const [colorCustom, setColorCustom] = React.useState(props.data.color || '')
-    const [rows, setRows] = React.useState(props.data.rows)
-    const [tableRow, setTableRow] = React.useState(props.data.tableRow)
+    const [colorSelect,  setColorSelect] = useState(props.data.color || '')
+    const [colorCustom, setColorCustom] = useState(props.data.color || '')
+    const [rows, setRows] = useState(props.data.rows)
+    const [tableRow, setTableRow] = useState(props.data.tableRow)
 
-    const [tableMinWidth, setTableMinWidth] = React.useState(props.data.tableMinWidth || 200 )
+    const [tableMinWidth, setTableMinWidth] = useState(props.data.tableMinWidth || 200 )
 
-    const [visibleRows, setVisibleRows] = React.useState(props.data.visibleRows || 5)
-    const [visibleBottonText, setVisibleBottonText] = React.useState(props.data.visibleBottonText || 'Show all')
-    const [visibleBottonTextClick, setVisibleBottonTextClick] = React.useState(props.data.visibleBottonTextClick || 'Show less') 
+    const [visibleRows, setVisibleRows] = useState(props.data.visibleRows || 5)
+    const [visibleBottonText, setVisibleBottonText] = useState(props.data.visibleBottonText || 'Show all')
+    const [visibleBottonTextClick, setVisibleBottonTextClick] = useState(props.data.visibleBottonTextClick || 'Show less') 
     
-    const [marginTop, setMarginTop] = React.useState(props.data.marginTop || 51)
-    const [marginBottom, setMarginBottom] = React.useState(props.data.marginBottom || 51)
-    const [maxWidthContainer, setMaxWidthContainer] = React.useState(props.data.maxWidthContainer || 'lg') 
+    const [marginTop, setMarginTop] = useState(props.data.marginTop || 51)
+    const [marginBottom, setMarginBottom] = useState(props.data.marginBottom || 51)
+    const [maxWidthContainer, setMaxWidthContainer] = useState(props.data.maxWidthContainer || 'lg') 
     
     const mobileMarginTopComputed = marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30)
     const mobileMarginBottomComputed = marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30)
@@ -90,7 +90,7 @@ function StyledComponent(props) {
     }
      
     const colorTheme = isNoThemeColor(props.data.color)
-    React.useEffect(() => {
+    useEffect(() => {
         if(colorTheme) {  
             setColorSelect('custom')
         }

@@ -1,4 +1,4 @@
-import React from 'react' 
+import React, {useContext} from 'react' 
 
 import { ThemeProvider } from "@material-ui/core";
 import CssBaseline from '@material-ui/core/CssBaseline'; 
@@ -12,8 +12,8 @@ import RouterComponent from '../Router/RouterComponent'
 import Alert from '../components/utilits/Alert'
 
 function ThemeComponent() {   
-    const {themeLight, themeDark, themeMode } = React.useContext(CategoryContext) 
-    const { isShowAlert } = React.useContext(SendFormContext)  
+    const {themeLight, themeDark, themeMode } = useContext(CategoryContext) 
+    const { isShowAlert } = useContext(SendFormContext)  
     
     let themeCreate 
     if(themeMode === 'dark') { 

@@ -1,4 +1,4 @@
-import React from 'react'  
+import React, { useEffect, useState } from 'react'  
 
 import StylesChangers from '../../../styles/changers'   
 import StyledInputs from '../../../styles/inputs'   
@@ -42,37 +42,37 @@ const StyledComponent = (props) => {
 
     console.log('styled list work')
 
-    const [isVisibleConfirmBlock, setIsVisibleConfirmBlock] = React.useState(false) 
-    const [isVisibleConfirmItem, setIsVisibleConfirmItem] = React.useState({show: false, index : null}) 
+    const [isVisibleConfirmBlock, setIsVisibleConfirmBlock] = useState(false) 
+    const [isVisibleConfirmItem, setIsVisibleConfirmItem] = useState({show: false, index : null}) 
 
-    const [paddingLeft, setPaddingLeft] = React.useState( props.data.classes.paddingLeft || 15 )
-    const [margin, setMargin] = React.useState({
+    const [paddingLeft, setPaddingLeft] = useState( props.data.classes.paddingLeft || 15 )
+    const [margin, setMargin] = useState({
         top:  props.data.classes.marginTop ,  
         bottom: props.data.classes.marginBottom ,  
     }) 
      
-    const [colorSelect, setColorSelect] = React.useState(props.data.classes.color || 'inherit') 
-    const [colorCustom, setColorCustom] = React.useState(props.data.classes.color || 'inherit') 
+    const [colorSelect, setColorSelect] = useState(props.data.classes.color || 'inherit') 
+    const [colorCustom, setColorCustom] = useState(props.data.classes.color || 'inherit') 
 
-    const [fontSize, setFontSize] = React.useState(props.data.classes.fontSize ||  16)
-    const [fontWeight, setFontWeight] = React.useState(props.data.classes.fontWeight ||  400)
-    const [lineHeight, setLineHeight] = React.useState(props.data.classes.lineHeight ||  1.38)
+    const [fontSize, setFontSize] = useState(props.data.classes.fontSize ||  16)
+    const [fontWeight, setFontWeight] = useState(props.data.classes.fontWeight ||  400)
+    const [lineHeight, setLineHeight] = useState(props.data.classes.lineHeight ||  1.38)
 
-    const [items, setItems] = React.useState(props.data.items || [])
-    const [itemsPadding, setItemsPadding] = React.useState(props.data.itemsStyle.paddingBottom || [])
-    const [itemsListStyle, setItemsListStyle] = React.useState(props.data.itemsStyle.listStyle || 'decimal')
-    const [newItem, setNewItem] = React.useState('') 
+    const [items, setItems] = useState(props.data.items || [])
+    const [itemsPadding, setItemsPadding] = useState(props.data.itemsStyle.paddingBottom || [])
+    const [itemsListStyle, setItemsListStyle] = useState(props.data.itemsStyle.listStyle || 'decimal')
+    const [newItem, setNewItem] = useState('') 
 
     const mobileMarginTopComputed = margin.top === 0 ? 0 : (margin.top > 30 ? margin.top*0.6 : 15)
     const mobileMarginBottomComputed = margin.bottom === 0 ? 0 : (margin.bottom > 30 ? margin.bottom*0.6 : 15)
 
-    const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
+    const [isDisableBtn, setIsDisableBtn] = useState(true) 
  
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
          
     
     const colorTheme = isNoThemeColor(props.data.classes.color)
-    React.useEffect(() => {
+    useEffect(() => {
         if(colorTheme) {  
             setColorSelect('custom')
         } 

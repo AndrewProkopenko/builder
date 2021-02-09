@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import { Container, Grid, makeStyles, Box, Button, Typography } from '@material-ui/core' 
 import { darken, fade } from '@material-ui/core/styles/colorManipulator';
@@ -9,7 +9,7 @@ import {getColorByPalette} from '../../functions/colorChanger/ColorCalculation'
 
 function DumbComponent(props) {
 
-    const { handleOpen } = React.useContext(ModalContext) 
+    const { handleOpen } = useContext(ModalContext) 
 
     const heading = props.data.heading 
     const headingSize = props.data.headingSize 

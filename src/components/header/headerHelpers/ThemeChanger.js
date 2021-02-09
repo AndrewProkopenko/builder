@@ -1,4 +1,4 @@
-import React from 'react'   
+import React, { useState, useContext } from 'react'   
 
 import StylesChangers from '../../../styles/changers'  
 
@@ -24,33 +24,33 @@ import CategoryContext from '../../../context/headerContext/CategoryContext'
 
 function ThemeChanger() {
      
-    const { themeDark,  themeLight, updateTheme } = React.useContext(CategoryContext)     
+    const { themeDark,  themeLight, updateTheme } = useContext(CategoryContext)     
   
-    const [open, setOpen] = React.useState(false)
-    const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
+    const [open, setOpen] = useState(false)
+    const [isDisableBtn, setIsDisableBtn] = useState(true) 
   
-    const [lightBackgroundDefault, setLightBackgroundDefault] = React.useState(themeLight.palette.background.default)
-    const [lightBackgroundPaper, setLightBackgroundPaper] = React.useState(themeLight.palette.background.paper)
-    const [darkBackgroundDefault, setDarkBackgroundDefault] = React.useState(themeDark.palette.background.default)
-    const [darkBackgroundPaper, setDarkBackgroundPaper] = React.useState(themeDark.palette.background.paper)
+    const [lightBackgroundDefault, setLightBackgroundDefault] = useState(themeLight.palette.background.default)
+    const [lightBackgroundPaper, setLightBackgroundPaper] = useState(themeLight.palette.background.paper)
+    const [darkBackgroundDefault, setDarkBackgroundDefault] = useState(themeDark.palette.background.default)
+    const [darkBackgroundPaper, setDarkBackgroundPaper] = useState(themeDark.palette.background.paper)
 
-    const [lightPrimary, setLightPrimary] = React.useState(themeLight.palette.primary.main) 
-    const [darkPrimary, setDarkPrimary] = React.useState(themeDark.palette.primary.main) 
+    const [lightPrimary, setLightPrimary] = useState(themeLight.palette.primary.main) 
+    const [darkPrimary, setDarkPrimary] = useState(themeDark.palette.primary.main) 
 
-    const [lightSecondary, setLightSecondary] = React.useState(themeLight.palette.secondary.main) 
-    const [darkSecondary, setDarkSecondary] = React.useState(themeDark.palette.secondary.main) 
+    const [lightSecondary, setLightSecondary] = useState(themeLight.palette.secondary.main) 
+    const [darkSecondary, setDarkSecondary] = useState(themeDark.palette.secondary.main) 
 
-    const [lightError, setLightError] = React.useState(themeLight.palette.error.main) 
-    const [darkError, setDarkError] = React.useState(themeDark.palette.error.main) 
+    const [lightError, setLightError] = useState(themeLight.palette.error.main) 
+    const [darkError, setDarkError] = useState(themeDark.palette.error.main) 
 
-    const [lightWarning, setLightWarning] = React.useState(themeLight.palette.warning.main) 
-    const [darkWarning, setDarkWarning] = React.useState(themeDark.palette.warning.main) 
+    const [lightWarning, setLightWarning] = useState(themeLight.palette.warning.main) 
+    const [darkWarning, setDarkWarning] = useState(themeDark.palette.warning.main) 
 
-    const [lightInfo, setLightInfo] = React.useState(themeLight.palette.info.main) 
-    const [darkInfo, setDarkInfo] = React.useState(themeDark.palette.info.main) 
+    const [lightInfo, setLightInfo] = useState(themeLight.palette.info.main) 
+    const [darkInfo, setDarkInfo] = useState(themeDark.palette.info.main) 
 
-    const [lightSuccess, setLightSuccess] = React.useState(themeLight.palette.success.main) 
-    const [darkSuccess, setDarkSuccess] = React.useState(themeDark.palette.success.main) 
+    const [lightSuccess, setLightSuccess] = useState(themeLight.palette.success.main) 
+    const [darkSuccess, setDarkSuccess] = useState(themeDark.palette.success.main) 
  
     // text.primary
     // text.secondary

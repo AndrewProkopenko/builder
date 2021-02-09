@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useEffect, useContext } from 'react'
 import { NavLink } from 'react-router-dom'
 import { Box, Typography} from '@material-ui/core'
 
@@ -7,9 +7,9 @@ import LoadingContext from '../../context/loadingContext/LoadingContext'
 
 function Error() {
 
-    const { setIsLoading } = React.useContext(LoadingContext)
+    const { setIsLoading } = useContext(LoadingContext)
 
-    React.useEffect( () => {
+    useEffect( () => {
         setIsLoading(false)
     }, [setIsLoading])
     

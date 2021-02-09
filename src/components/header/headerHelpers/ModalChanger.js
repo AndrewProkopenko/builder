@@ -1,4 +1,4 @@
-import React from 'react'  
+import React, { useEffect, useState, useContext } from 'react'  
 
 import StylesChangers from '../../../styles/changers'  
   
@@ -27,23 +27,23 @@ import InputChange from '../../functions/InputChange'
 
 function RequestsChanger() {
     
-    const { setIsLoading } = React.useContext(LoadingContext)     
-    const { modalSettings, updateModalSettings } = React.useContext(SendFormContext)       
+    const { setIsLoading } = useContext(LoadingContext)     
+    const { modalSettings, updateModalSettings } = useContext(SendFormContext)       
 
-    const [open, setOpen] = React.useState(false) 
-    const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
+    const [open, setOpen] = useState(false) 
+    const [isDisableBtn, setIsDisableBtn] = useState(true) 
 
-    const [heading, setHeading] = React.useState(modalSettings.heading)
-    const [subHeading, setSubHeading] = React.useState(modalSettings.subHeading)
-    const [targetText, setTargetText] = React.useState(modalSettings.targetText)
-    const [buttonText, setButtonText] = React.useState(modalSettings.buttonText)
-    const [policy, setPolicy] = React.useState(modalSettings.policy)
+    const [heading, setHeading] = useState(modalSettings.heading)
+    const [subHeading, setSubHeading] = useState(modalSettings.subHeading)
+    const [targetText, setTargetText] = useState(modalSettings.targetText)
+    const [buttonText, setButtonText] = useState(modalSettings.buttonText)
+    const [policy, setPolicy] = useState(modalSettings.policy)
     
-    const [colorSelect,  setColorSelect] = React.useState(modalSettings.colorButton)
-    const [colorCustom, setColorCustom] = React.useState(modalSettings.colorButton)
+    const [colorSelect,  setColorSelect] = useState(modalSettings.colorButton)
+    const [colorCustom, setColorCustom] = useState(modalSettings.colorButton)
 
-    const [inputName, setInputName] = React.useState(modalSettings.inputName || '')
-    const [inputPhone, setInputPhone] = React.useState(modalSettings.inputPhone || '')
+    const [inputName, setInputName] = useState(modalSettings.inputName || '')
+    const [inputPhone, setInputPhone] = useState(modalSettings.inputPhone || '')
 
     
     const handleOpen = () => {  
@@ -55,7 +55,7 @@ function RequestsChanger() {
     }; 
      
     const colorTheme = isNoThemeColor(modalSettings.colorButton)
-    React.useEffect(() => {
+    useEffect(() => {
         if(colorTheme) {  
             setColorSelect('custom')
         }  

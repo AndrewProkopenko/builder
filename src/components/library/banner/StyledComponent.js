@@ -1,4 +1,4 @@
-import React from 'react' 
+import React, { useEffect, useState } from 'react' 
 import firebase from "../../../firebase/firebase"
 
 import StylesChangers from '../../../styles/changers'  
@@ -45,38 +45,38 @@ import {RemoveImage} from '../../functions/RemoveImage'
 
 function StyledComponent(props) { 
      
-    const [isDisableBtn, setIsDisableBtn] = React.useState(true)
-    const [open, setOpen] = React.useState(false)
+    const [isDisableBtn, setIsDisableBtn] = useState(true)
+    const [open, setOpen] = useState(false)
     
-    const [isVisibleConfirmBlock, setIsVisibleConfirmBlock] = React.useState(false) 
-    const [isVisibleConfirmImage, setIsVisibleConfirmImage] = React.useState(false) 
+    const [isVisibleConfirmBlock, setIsVisibleConfirmBlock] = useState(false) 
+    const [isVisibleConfirmImage, setIsVisibleConfirmImage] = useState(false) 
 
-    const [variant, setVariant] = React.useState(props.data.variantHeading || 'h3')
-    const [isTableSizeVisible, setIsTableSizeVisible] = React.useState(false)
+    const [variant, setVariant] = useState(props.data.variantHeading || 'h3')
+    const [isTableSizeVisible, setIsTableSizeVisible] = useState(false)
 
-    const [heading, setHeading] = React.useState(props.data.heading)  
-    const [paragraph, setParagraph] = React.useState(props.data.paragraph)  
-    const [minHeight, setMinHeight] = React.useState(props.data.minHeight)  
+    const [heading, setHeading] = useState(props.data.heading)  
+    const [paragraph, setParagraph] = useState(props.data.paragraph)  
+    const [minHeight, setMinHeight] = useState(props.data.minHeight)  
  
-    const [isButton, setIsButton] = React.useState(props.data.isButton || false)
-    const [textButton,  setTextButton] = React.useState(props.data.textButton || '')
-    const [targetButton, setTargetButton] = React.useState(props.data.targetButton || '')
-    const [imageUrl, setImageUrl] = React.useState(props.data.imageUrl)
-    const [imageName, setImageName] = React.useState(props.data.imageName || '')
+    const [isButton, setIsButton] = useState(props.data.isButton || false)
+    const [textButton,  setTextButton] = useState(props.data.textButton || '')
+    const [targetButton, setTargetButton] = useState(props.data.targetButton || '')
+    const [imageUrl, setImageUrl] = useState(props.data.imageUrl)
+    const [imageName, setImageName] = useState(props.data.imageName || '')
 
-    const [colorSelect,  setColorSelect] = React.useState(props.data.colorButton || '')
-    const [colorCustom, setColorCustom] = React.useState(props.data.colorButton || '')
+    const [colorSelect,  setColorSelect] = useState(props.data.colorButton || '')
+    const [colorCustom, setColorCustom] = useState(props.data.colorButton || '')
 
-    const [backgroundSelect,  setBackgroundSelect] = React.useState(props.data.background || 'paper')
-    const [backgroundCustom, setBackgroundCustom] = React.useState(props.data.background || 'paper')
+    const [backgroundSelect,  setBackgroundSelect] = useState(props.data.background || 'paper')
+    const [backgroundCustom, setBackgroundCustom] = useState(props.data.background || 'paper')
 
-    const [colorTextSelect,  setColorTextSelect] = React.useState(props.data.colorText || 'inherit')
-    const [colorTextCustom, setColorTextCustom] = React.useState(props.data.colorText || 'inherit') 
+    const [colorTextSelect,  setColorTextSelect] = useState(props.data.colorText || 'inherit')
+    const [colorTextCustom, setColorTextCustom] = useState(props.data.colorText || 'inherit') 
 
-    const [paddingVertical, setPaddingVertical] = React.useState(props.data.paddingVertical || 80)
-    const [marginTop, setMarginTop] = React.useState(props.data.marginTop || 0)
-    const [marginBottom, setMarginBottom] = React.useState(props.data.marginBottom || 0)
-    const [maxWidthContainer, setMaxWidthContainer] = React.useState(props.data.maxWidthContainer || 'lg') 
+    const [paddingVertical, setPaddingVertical] = useState(props.data.paddingVertical || 80)
+    const [marginTop, setMarginTop] = useState(props.data.marginTop || 0)
+    const [marginBottom, setMarginBottom] = useState(props.data.marginBottom || 0)
+    const [maxWidthContainer, setMaxWidthContainer] = useState(props.data.maxWidthContainer || 'lg') 
 
     const mobileMarginTopComputed = marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30)
     const mobileMarginBottomComputed = marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30)
@@ -97,7 +97,7 @@ function StyledComponent(props) {
     const colorButtonTheme = isNoThemeColor(props.data.colorButton)
     const colorTextTheme = isNoThemeColor(props.data.colorText)
 
-    React.useEffect(() => {
+    useEffect(() => {
         if(colorButtonTheme) {  
             setColorSelect('custom')
         }

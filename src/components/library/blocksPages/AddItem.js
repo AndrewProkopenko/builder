@@ -1,4 +1,4 @@
-import React from 'react' 
+import React, { useState } from 'react' 
 
 import {  
     Button,  
@@ -12,9 +12,9 @@ import SelectPage from '../../functions/SelectPage'
 
 const AddItem = (props) => {
      
-    const [newSvg, setNewSvg] = React.useState('') 
-    const [idActive, setIdActive] = React.useState('none') 
-    const [activePage, setActivePage] = React.useState({}) 
+    const [newSvg, setNewSvg] = useState('') 
+    const [idActive, setIdActive] = useState('none') 
+    const [activePage, setActivePage] = useState({}) 
  
     const handleSubmit = (e) => { 
         e.preventDefault()

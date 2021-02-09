@@ -1,4 +1,4 @@
-import React from 'react' 
+import React, { useEffect, useState, useContext } from 'react' 
 import firebase from '../../../firebase/firebase'
 
 import CategoryContext from '../../../context/headerContext/CategoryContext' 
@@ -38,31 +38,31 @@ import Confirm from '../../utilits/Confirm'
 function LogoChanger() { 
     
     
-    const { setIsLoading } = React.useContext(LoadingContext)
-    const { logo, modal, updateLogo } = React.useContext(CategoryContext)     
+    const { setIsLoading } = useContext(LoadingContext)
+    const { logo, modal, updateLogo } = useContext(CategoryContext)     
     
-    const [isVisibleConfirm, setIsVisibleConfirm] = React.useState(false)    
+    const [isVisibleConfirm, setIsVisibleConfirm] = useState(false)    
 
-    const [open, setOpen] = React.useState(false)
-    const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
+    const [open, setOpen] = useState(false)
+    const [isDisableBtn, setIsDisableBtn] = useState(true) 
 
-    const [mainText, setMainText] = React.useState(logo.mainText)
-    const [subText, setSubText] = React.useState(logo.subText)
-    const [imageUrl, setImageUrl] = React.useState(logo.imageUrl || '')
-    const [imageName, setImageName] = React.useState(logo.imageName || '')
+    const [mainText, setMainText] = useState(logo.mainText)
+    const [subText, setSubText] = useState(logo.subText)
+    const [imageUrl, setImageUrl] = useState(logo.imageUrl || '')
+    const [imageName, setImageName] = useState(logo.imageName || '')
 
     
-    const [isModal, setIsModal] = React.useState(modal.isModal)  
-    const [modalText, setModalText] = React.useState(modal.text) 
-    const [modalTarget, setModalTarget] = React.useState(modal.target || 'buy') 
+    const [isModal, setIsModal] = useState(modal.isModal)  
+    const [modalText, setModalText] = useState(modal.text) 
+    const [modalTarget, setModalTarget] = useState(modal.target || 'buy') 
 
-    const [colorSelect,  setColorSelect] = React.useState(modal.color)
-    const [colorCustom, setColorCustom] = React.useState(modal.color)
+    const [colorSelect,  setColorSelect] = useState(modal.color)
+    const [colorCustom, setColorCustom] = useState(modal.color)
 
     
     const colorTheme = isNoThemeColor(modal.color) 
 
-    React.useEffect(() => {
+    useEffect(() => {
         if(colorTheme) {  
             setColorSelect('custom')
         }

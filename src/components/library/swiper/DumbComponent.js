@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useEffect, useState, useContext, useRef } from 'react'
   
 import { NavLink } from "react-router-dom";
 
@@ -19,7 +19,7 @@ SwiperCore.use([Navigation]);
   
 function DumbComponent(props) { 
     
-    const { handleOpen } = React.useContext(ModalContext) 
+    const { handleOpen } = useContext(ModalContext) 
 
     const [isSwiper, setIsSwiper] = useState(true) 
     
@@ -39,9 +39,9 @@ function DumbComponent(props) {
     const marginBottom = props.data.marginBottom  
     const maxWidthContainer = props.data.maxWidthContainer  
  
-    const [slideHeight, setSlideHeight] = React.useState(0)  
+    const [slideHeight, setSlideHeight] = useState(0)  
 
-    const slideRef = React.useRef(null);
+    const slideRef = useRef(null);
     
 
     const useStyles = makeStyles((theme) => {   
@@ -155,7 +155,7 @@ function DumbComponent(props) {
     const classes  = useStyles(); 
      
   
-    React.useEffect(() => {   
+    useEffect(() => {   
 
         const getWidthViewport = () => {  
             

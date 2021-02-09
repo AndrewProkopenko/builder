@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { 
     Tooltip,
     Button,  
@@ -14,8 +14,8 @@ import InfoOutlined from '@material-ui/icons/InfoOutlined';
 const AddItem = (props) => {
 
     
-    const [newItemTitle, setNewItemTitle] = React.useState('')
-    const [newItemSlug, setNewItemSlug] = React.useState('')
+    const [newItemTitle, setNewItemTitle] = useState('')
+    const [newItemSlug, setNewItemSlug] = useState('')
 
     const handleSubmit = (e) => {
         e.preventDefault()

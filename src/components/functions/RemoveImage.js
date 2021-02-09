@@ -1,8 +1,7 @@
   
 import firebase from '../../firebase/firebase'
  
-const RemoveImage = async (name) => { 
-    console.log(name)
+const RemoveImage = async (name) => {  
     if(name !== '') {
         const storageRef = firebase.storage.ref();
 

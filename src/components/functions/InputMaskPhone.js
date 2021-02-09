@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react'
+import React, {useState, useContext, useEffect } from 'react'
 
 import InputMask from "react-input-mask";
 
@@ -11,7 +11,7 @@ const InputMaskPhone = ({value, setValue, className, placeholder}) => {
     const { validationSettings } = useContext(SendFormContext)  
     const mask = validationSettings.mask
  
-    React.useEffect(() => {
+    useEffect(() => {
         if(valueLocal !== value) {
             setValueLocal(value) 
         }

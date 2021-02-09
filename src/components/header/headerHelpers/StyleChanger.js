@@ -1,5 +1,5 @@
 
-import React from 'react'  
+import React, { useEffect, useState, useContext } from 'react'  
 
 import StylesChangers from '../../../styles/changers'  
  
@@ -34,25 +34,25 @@ import Draggable from 'react-draggable';
 
 function StyleChanger() {
      
-    const { settings, updateSettings } = React.useContext(CategoryContext)     
+    const { settings, updateSettings } = useContext(CategoryContext)     
   
-    const [open, setOpen] = React.useState(false)
-    const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
+    const [open, setOpen] = useState(false)
+    const [isDisableBtn, setIsDisableBtn] = useState(true) 
 
-    const [settingGutter, setSettingGutter] = React.useState(settings.disableGutters)
-    const [settingFixed, setSettingFixed] = React.useState(settings.fixed)
-    const [settingMaxWidth, setSettingMaxWidth] = React.useState(settings.maxWidth)
-    const [settingBreakpoint, setSettingBreakpoint] = React.useState(settings.breakpoint || 'md')
+    const [settingGutter, setSettingGutter] = useState(settings.disableGutters)
+    const [settingFixed, setSettingFixed] = useState(settings.fixed)
+    const [settingMaxWidth, setSettingMaxWidth] = useState(settings.maxWidth)
+    const [settingBreakpoint, setSettingBreakpoint] = useState(settings.breakpoint || 'md')
 
-    const [settingBoxShadow, setSettingBoxShadow] = React.useState(settings.classes.boxShadow)
-    const [settingPadding, setSettingPadding] = React.useState(settings.classes.paddingY)
-    const [settingPosition, setSettingPosition] = React.useState(settings.classes.position)
-    const [settingBackgroundSelect, setSettingBackgroundSelect] = React.useState(settings.classes.backgroundColor ||  'transparent')
-    const [settingBackgroundCustom, setSettingBackgroundCustom] = React.useState(settings.classes.backgroundColor ||  'transparent')
+    const [settingBoxShadow, setSettingBoxShadow] = useState(settings.classes.boxShadow)
+    const [settingPadding, setSettingPadding] = useState(settings.classes.paddingY)
+    const [settingPosition, setSettingPosition] = useState(settings.classes.position)
+    const [settingBackgroundSelect, setSettingBackgroundSelect] = useState(settings.classes.backgroundColor ||  'transparent')
+    const [settingBackgroundCustom, setSettingBackgroundCustom] = useState(settings.classes.backgroundColor ||  'transparent')
 
     
     const colorTheme = isNoThemeColor(settings.classes.backgroundColor) 
-    React.useEffect(() => {
+    useEffect(() => {
         if(colorTheme) {  
             setSettingBackgroundSelect('custom')
         }

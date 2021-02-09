@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import StylesChangers from '../../../styles/changers'   
 import StyledInputs from '../../../styles/inputs'    
  
@@ -28,36 +28,36 @@ import InputChange from '../../functions/InputChange';
 
 function StyledComponent(props) { 
  
-    const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
-    const [open, setOpen] = React.useState(false)
+    const [isDisableBtn, setIsDisableBtn] = useState(true) 
+    const [open, setOpen] = useState(false)
 
-    const [isVisibleConfirm, setIsVisibleConfirm] = React.useState(false)       
+    const [isVisibleConfirm, setIsVisibleConfirm] = useState(false)       
 
-    const [location, setLocation] = React.useState(props.data.location)
-    const [phone, setPhone] = React.useState(props.data.phone)
-    const [paragraph, setParagraph] = React.useState(props.data.paragraph || '')
-    const [inputName, setInputName] = React.useState(props.data.inputName || '')
-    const [inputPhone, setInputPhone] = React.useState(props.data.inputPhone || '')
-    const [inputComment, setInputComment] = React.useState(props.data.inputComment || '')
-    const [buttonText, setButtonText] = React.useState(props.data.buttonText || '')
-    const [policy, setPolicy] = React.useState(props.data.policy || '')
+    const [location, setLocation] = useState(props.data.location)
+    const [phone, setPhone] = useState(props.data.phone)
+    const [paragraph, setParagraph] = useState(props.data.paragraph || '')
+    const [inputName, setInputName] = useState(props.data.inputName || '')
+    const [inputPhone, setInputPhone] = useState(props.data.inputPhone || '')
+    const [inputComment, setInputComment] = useState(props.data.inputComment || '')
+    const [buttonText, setButtonText] = useState(props.data.buttonText || '')
+    const [policy, setPolicy] = useState(props.data.policy || '')
 
-    const [mapFrame, setMapFrame] = React.useState(props.data.mapFrame) 
+    const [mapFrame, setMapFrame] = useState(props.data.mapFrame) 
     
-    const [isButton, setIsButton] = React.useState(props.data.mapFrame === null ? false : true)
+    const [isButton, setIsButton] = useState(props.data.mapFrame === null ? false : true)
     
-    const [colorSelect,  setColorSelect] = React.useState(props.data.color || 'primary')
-    const [colorCustom, setColorCustom] = React.useState(props.data.color || 'primary')
+    const [colorSelect,  setColorSelect] = useState(props.data.color || 'primary')
+    const [colorCustom, setColorCustom] = useState(props.data.color || 'primary')
 
-    const [marginTop, setMarginTop] = React.useState(props.data.marginTop || 50)
-    const [marginBottom, setMarginBottom] = React.useState(props.data.marginBottom || 0)
-    const [maxWidthContainer, setMaxWidthContainer] = React.useState(props.data.maxWidthContainer || 'lg') 
+    const [marginTop, setMarginTop] = useState(props.data.marginTop || 50)
+    const [marginBottom, setMarginBottom] = useState(props.data.marginBottom || 0)
+    const [maxWidthContainer, setMaxWidthContainer] = useState(props.data.maxWidthContainer || 'lg') 
  
     const mobileMarginTopComputed = marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30)
     const mobileMarginBottomComputed = marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30)
     
     const colorTheme = isNoThemeColor(props.data.color)
-    React.useEffect(() => {
+    useEffect(() => {
         if(colorTheme) {  
             setColorSelect('custom')
         }  

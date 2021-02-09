@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import { Container, Grid, makeStyles, Box, Button, darken, fade, Typography } from '@material-ui/core'
 
@@ -10,7 +10,7 @@ import ModalContext from '../../../context/modalContext/ModalContext'
 
 function DumbComponent(props) {
 
-    const { handleOpen  } = React.useContext(ModalContext) 
+    const { handleOpen  } = useContext(ModalContext) 
       
     const imageUrl = props.data.image
 

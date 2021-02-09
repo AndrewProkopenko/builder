@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 
 import { makeStyles } from '@material-ui/core'
 import { Alert } from '@material-ui/lab'
@@ -7,7 +7,7 @@ import SendFormContext from '../../context/sendFormContext/SendFormContext'
 
 const  AlertComponent = () => { 
     
-    const { isShowAlert, closeAlert, alertText  } = React.useContext(SendFormContext)  
+    const { isShowAlert, closeAlert, alertText  } = useContext(SendFormContext)  
 
     const useStyles = makeStyles( (theme) => { 
         return {

@@ -1,4 +1,4 @@
-import React from 'react'  
+import React, { useEffect, useState, useContext } from 'react'  
 
 import StylesChangers from '../../../styles/changers'   
 import StyledInputs from '../../../styles/inputs'   
@@ -52,73 +52,73 @@ import Confirm from '../../utilits/Confirm'
 
 const StyledComponent = (props) => {  
     console.log("styled paragraph image")
-    const { setIsLoading } = React.useContext(LoadingContext) 
+    const { setIsLoading } = useContext(LoadingContext) 
  
-    const [padding, setPadding] = React.useState({ 
+    const [padding, setPadding] = useState({ 
         top:  props.data.classes.paddingTop || 0, 
         left:  props.data.classes.paddingLeft || 0,
         bottom: props.data.classes.paddingBottom || 0,
         right: props.data.classes.paddingRight || 0
     })
-    const [margin, setMargin] = React.useState({
+    const [margin, setMargin] = useState({
         top:  props.data.classes.marginTop || 0,
         left:  props.data.classes.marginLeft || 0,
         bottom: props.data.classes.marginBottom || 0, 
         right: props.data.classes.marginRight  || 0
     })
     
-    const [isVisibleConfirmBlock, setIsVisibleConfirmBlock] = React.useState(false) 
-    const [isVisibleConfirmImage, setIsVisibleConfirmImage] = React.useState(false) 
+    const [isVisibleConfirmBlock, setIsVisibleConfirmBlock] = useState(false) 
+    const [isVisibleConfirmImage, setIsVisibleConfirmImage] = useState(false) 
 
-    const [backgroundSelect,  setBackgroundSelect] = React.useState(props.data.classes.backgroundColor || 'transperent')
-    const [backgroundCustom, setBackgroundCustom] = React.useState(props.data.classes.backgroundColor || 'transperent')
-    const [colorSelect,  setColorSelect] = React.useState(props.data.classes.color || 'inherit')
-    const [colorCustom, setColorCustom] = React.useState(props.data.classes.color || 'inherit') 
-    const [borderColorSelect, setBorderColorSelect] = React.useState(props.data.classes.borderColor ||  'transperent')
-    const [borderColorCustom, setBorderColorCustom] = React.useState(props.data.classes.borderColor ||  'transperent') 
-    const [imageBorderColorSelect, setImageBorderColorSelect] = React.useState(props.data.image.classes.borderColor ||  'transperent')
-    const [imageBorderColorCustom, setImageBorderColorCustom] = React.useState(props.data.image.classes.borderColor ||  'transperent')
+    const [backgroundSelect,  setBackgroundSelect] = useState(props.data.classes.backgroundColor || 'transperent')
+    const [backgroundCustom, setBackgroundCustom] = useState(props.data.classes.backgroundColor || 'transperent')
+    const [colorSelect,  setColorSelect] = useState(props.data.classes.color || 'inherit')
+    const [colorCustom, setColorCustom] = useState(props.data.classes.color || 'inherit') 
+    const [borderColorSelect, setBorderColorSelect] = useState(props.data.classes.borderColor ||  'transperent')
+    const [borderColorCustom, setBorderColorCustom] = useState(props.data.classes.borderColor ||  'transperent') 
+    const [imageBorderColorSelect, setImageBorderColorSelect] = useState(props.data.image.classes.borderColor ||  'transperent')
+    const [imageBorderColorCustom, setImageBorderColorCustom] = useState(props.data.image.classes.borderColor ||  'transperent')
   
     // eslint-disable-next-line
-    const [image, setImage] = React.useState(props.data.image || {})
-    const [imageUrl, setImageUrl] = React.useState(props.data.image.url || '')
-    const [imageName, setImageName] = React.useState(props.data.image.imageName || '')
-    const [imageTitle, setImageTitle] = React.useState(props.data.image.title || '')
-    const [imagePlacement, setImagePlacement] = React.useState(props.data.image.imagePlacement || 'top')
+    const [image, setImage] = useState(props.data.image || {})
+    const [imageUrl, setImageUrl] = useState(props.data.image.url || '')
+    const [imageName, setImageName] = useState(props.data.image.imageName || '')
+    const [imageTitle, setImageTitle] = useState(props.data.image.title || '')
+    const [imagePlacement, setImagePlacement] = useState(props.data.image.imagePlacement || 'top')
      
-    const [borderStyle, setBorderStyle] = React.useState(props.data.classes.borderStyle ||  'solid')
-    const [borderWidth, setBorderWidth] = React.useState(props.data.classes.borderWidth ||  '0px')
-    const [borderRadius, setBorderRadius] = React.useState(props.data.classes.borderRadius ||  '0px')
+    const [borderStyle, setBorderStyle] = useState(props.data.classes.borderStyle ||  'solid')
+    const [borderWidth, setBorderWidth] = useState(props.data.classes.borderWidth ||  '0px')
+    const [borderRadius, setBorderRadius] = useState(props.data.classes.borderRadius ||  '0px')
 
-    const [textAlign, setTextAlign] = React.useState(props.data.classes.textAlign ||  'left')
-    const [display, setDisplay] = React.useState(props.data.classes.display ||  'block')
-    const [fontSize, setFontSize] = React.useState(props.data.classes.fontSize ||  16)
-    const [fontWeight, setFontWeight] = React.useState(props.data.classes.fontWeight ||  400)
-    const [lineHeight, setLineHeight] = React.useState(props.data.classes.lineHeight ||  1.38)
+    const [textAlign, setTextAlign] = useState(props.data.classes.textAlign ||  'left')
+    const [display, setDisplay] = useState(props.data.classes.display ||  'block')
+    const [fontSize, setFontSize] = useState(props.data.classes.fontSize ||  16)
+    const [fontWeight, setFontWeight] = useState(props.data.classes.fontWeight ||  400)
+    const [lineHeight, setLineHeight] = useState(props.data.classes.lineHeight ||  1.38)
  
-    const [imageWidth, setImageWidth] = React.useState(props.data.image.classes.width || 100)
-    const [imageHeight, setImageHeight] = React.useState(props.data.image.classes.height )
-    const [imageBorderStyle, setImageBorderStyle] = React.useState(props.data.image.classes.borderStyle ||  'solid')
-    const [imageBorderWidth, setImageBorderWidth] = React.useState(props.data.image.classes.borderWidth ||  '0px')
-    const [imageBorderRadius, setImageBorderRadius] = React.useState(props.data.image.classes.borderRadius ||  0)
-    const [imageFloat, setImageFloat] = React.useState(props.data.image.classes.float || 'none')
-    const [imageMargin, setImageMargin] = React.useState({
+    const [imageWidth, setImageWidth] = useState(props.data.image.classes.width || 100)
+    const [imageHeight, setImageHeight] = useState(props.data.image.classes.height )
+    const [imageBorderStyle, setImageBorderStyle] = useState(props.data.image.classes.borderStyle ||  'solid')
+    const [imageBorderWidth, setImageBorderWidth] = useState(props.data.image.classes.borderWidth ||  '0px')
+    const [imageBorderRadius, setImageBorderRadius] = useState(props.data.image.classes.borderRadius ||  0)
+    const [imageFloat, setImageFloat] = useState(props.data.image.classes.float || 'none')
+    const [imageMargin, setImageMargin] = useState({
         top:  props.data.image.classes.marginTop || 0, 
         left:  props.data.image.classes.marginLeft || 0,
         bottom: props.data.image.classes.marginBottom || 0, 
         right: props.data.image.classes.marginRight  || 0
     })
-    const [textInDumb, setTextInDumb] = React.useState(props.data.text)
-    const [isDisableBtn, setIsDisableBtn] = React.useState(true) 
+    const [textInDumb, setTextInDumb] = useState(props.data.text)
+    const [isDisableBtn, setIsDisableBtn] = useState(true) 
 
  
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
          
     const bgTheme = isNoThemeColor(props.data.classes.backgroundColor)
     const colorTheme = isNoThemeColor(props.data.classes.color)
     const borderTheme = isNoThemeColor(props.data.classes.borderColor)
     const imageBorderTheme = isNoThemeColor(props.data.image.classes.borderColor)
-    React.useEffect(() => {
+    useEffect(() => {
         if(bgTheme) {  
             setBackgroundSelect('custom')
         }  

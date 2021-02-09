@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useState } from 'react'
 
 import CategoriesChanger from './headerHelpers/CategoriesChanger'
 import LogoChanger from './headerHelpers/LogoChanger'
@@ -17,7 +17,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 
 function StyledComponent() {
 
-    const [open, setOpen] = React.useState(false)
+    const [open, setOpen] = useState(false)
     
     const useStyles = makeStyles((theme) => ({ 
         headerContainer: {

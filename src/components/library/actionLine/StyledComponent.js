@@ -1,4 +1,4 @@
-import React from 'react' 
+import React, { useEffect, useState } from 'react' 
 import StylesChangers from '../../../styles/changers'  
 import StyledInputs from '../../../styles/inputs'    
 
@@ -38,22 +38,22 @@ import Confirm from '../../utilits/Confirm'
 
 function StyledComponent(props) {
 
-    const [isDisableBtn, setIsDisableBtn] = React.useState(true)
-    const [open, setOpen] = React.useState(false)
-    const [isVisibleConfirm, setIsVisibleConfirm] = React.useState(false) 
+    const [isDisableBtn, setIsDisableBtn] = useState(true)
+    const [open, setOpen] = useState(false)
+    const [isVisibleConfirm, setIsVisibleConfirm] = useState(false) 
 
-    const [heading, setHeading] = React.useState(props.data.heading) 
-    const [headingSize, setHeadingSize] = React.useState(props.data.headingSize) 
+    const [heading, setHeading] = useState(props.data.heading) 
+    const [headingSize, setHeadingSize] = useState(props.data.headingSize) 
  
-    const [isButton, setIsButton] = React.useState(props.data.isButton || false)
-    const [textButton,  setTextButton] = React.useState(props.data.textButton || '')
-    const [targetButton, setTargetButton] = React.useState(props.data.targetButton || '')
+    const [isButton, setIsButton] = useState(props.data.isButton || false)
+    const [textButton,  setTextButton] = useState(props.data.textButton || '')
+    const [targetButton, setTargetButton] = useState(props.data.targetButton || '')
 
-    const [colorSelect,  setColorSelect] = React.useState(props.data.colorMain || '')
-    const [colorCustom, setColorCustom] = React.useState(props.data.colorMain || '')
-    const [marginTop, setMarginTop] = React.useState(props.data.marginTop || 51)
-    const [marginBottom, setMarginBottom] = React.useState(props.data.marginBottom || 51)
-    const [maxWidthContainer, setMaxWidthContainer] = React.useState(props.data.maxWidthContainer || 'lg') 
+    const [colorSelect,  setColorSelect] = useState(props.data.colorMain || '')
+    const [colorCustom, setColorCustom] = useState(props.data.colorMain || '')
+    const [marginTop, setMarginTop] = useState(props.data.marginTop || 51)
+    const [marginBottom, setMarginBottom] = useState(props.data.marginBottom || 51)
+    const [maxWidthContainer, setMaxWidthContainer] = useState(props.data.maxWidthContainer || 'lg') 
 
     const mobileMarginTopComputed = marginTop === 0 ? 0 : (marginTop > 50 ? marginTop*0.6 : 30)
     const mobileMarginBottomComputed = marginBottom === 0 ? 0 : (marginBottom > 50 ? marginBottom*0.6 : 30)
@@ -72,7 +72,7 @@ function StyledComponent(props) {
     
     const colorTheme = isNoThemeColor(props.data.colorMain)
 
-    React.useEffect(() => {
+    useEffect(() => {
         if(colorTheme) {  
             setColorSelect('custom')
         }

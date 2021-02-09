@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import uuid from 'react-uuid'
 
 import CategoryContext from '../../../context/headerContext/CategoryContext'
@@ -42,17 +42,17 @@ function CategoriesChanger() {
 
     console.log('Categories Changer')
      
-    const {categories, setCategories, deletePageFromFirebase, deleteCategoryFromFirebase} = React.useContext(CategoryContext)    
-    const {layouts} = React.useContext(LibraryContext)
+    const {categories, setCategories, deletePageFromFirebase, deleteCategoryFromFirebase} = useContext(CategoryContext)    
+    const {layouts} = useContext(LibraryContext)
     const pageLayout = layouts.page
     const categoryLayout = layouts.category
   
-    const [open, setOpen] = React.useState(false)
-    const [isDisableBtn, setIsDisableBtn] = React.useState(true)
+    const [open, setOpen] = useState(false)
+    const [isDisableBtn, setIsDisableBtn] = useState(true)
 
     
-    const [isVisibleConfirmCategory, setIsVisibleConfirmCategory] = React.useState({show: false, index: null})   
-    const [isVisibleConfirmPage, setIsVisibleConfirmPage] = React.useState({show: false, index: null})   
+    const [isVisibleConfirmCategory, setIsVisibleConfirmCategory] = useState({show: false, index: null})   
+    const [isVisibleConfirmPage, setIsVisibleConfirmPage] = useState({show: false, index: null})   
  
     const handleOpen = () => {  
         if(!isDisableBtn) handleSave()

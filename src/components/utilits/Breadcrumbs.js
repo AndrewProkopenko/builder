@@ -1,4 +1,4 @@
-import React from 'react'; 
+import React , { useContext } from 'react'; 
 
 import {Link} from 'react-router-dom'
 
@@ -18,7 +18,7 @@ import CategoryContext from '../../context/headerContext/CategoryContext'
 
 const SimpleBreadcrumbs = (props) =>  {
     
-    const { settings } = React.useContext(CategoryContext)   
+    const { settings } = useContext(CategoryContext)   
      
     const useStyles = makeStyles( theme => ({
         breadcrumbsContainer: {
