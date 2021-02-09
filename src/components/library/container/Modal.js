@@ -408,7 +408,7 @@ function ContainerElement(props) {
                                 <Typography  variant={'h6'} gutterBottom  >
                                     Styles 
                                 </Typography>
-                                <Fragment>
+                                <React.Fragment>
                         <Tooltip classes={{tooltip: classes.tabletTooltip}} title='Calculated styles for Tablets (<960px)' placement={'top'}>
                             <Box className={`${classes.responseValues} ${classes.responseTablets}`}>
                                 <TabletMacIcon/>
@@ -682,7 +682,7 @@ function ContainerElement(props) {
                             </Button> 
                         </Box> */}
                         
-                    </Fragment> 
+                    </React.Fragment> 
                             </div>
                         </Draggable>
                     </DialogContent>

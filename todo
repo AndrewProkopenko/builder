@@ -16,27 +16,4 @@ confirm ( модалка у которой кнопки возвращающие
 
 переструктурировать firestore. Возможность копирования приложения и запуска с нуля
 глупое приложение 
-
-
-
-useEffect(() => {
-    if(confirmAnswer) { 
-        props.removeItem(props.data.id)
-    }
-}, [confirmAnswer])
-
-const removeItem = () => {  
-    setIsVisibleConfirm(true) 
-};
  
- 
-const [isVisibleConfirm, setIsVisibleConfirm] = React.useState(false)       
-
-<Confirm
-    show={isVisibleConfirm}
-    setShow={setIsVisibleConfirm}
-    setAnswer={setConfirmAnswer}
-    title={'Remove paragraph?'}
-    text={"You can't cancel this action."}
-    removeText={"remove"}
-/>
