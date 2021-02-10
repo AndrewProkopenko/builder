@@ -82,6 +82,9 @@ function DumbComponent(props) {
                         paddingLeft: 0,
                         paddingRight: 0,
                         paddingTop: 30
+                    }, 
+                    [theme.breakpoints.down('xs')]: {  
+                        paddingTop: 0
                     }
                 },  
             },

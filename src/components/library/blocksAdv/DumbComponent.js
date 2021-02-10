@@ -83,6 +83,9 @@ function DumbComponent(props) {
                         paddingLeft: 0,
                         paddingRight: 0,
                         paddingTop: 30
+                    },
+                    [theme.breakpoints.down('xs')]: {  
+                        paddingTop: 0
                     }
                 },  
             },
@@ -96,6 +99,7 @@ function DumbComponent(props) {
                     color: 'inherit'
                 },
                 [theme.breakpoints.down('xs')]: {  
+                    marginTop: 25, 
                     height: 'auto'
                 }
             },

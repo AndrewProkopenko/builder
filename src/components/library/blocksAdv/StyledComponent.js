@@ -218,7 +218,8 @@ function StyledComponent(props) {
                 backgroundColor: theme.palette.warning.main
             },
             infoBlock: infoBlock,
-            infoBtn: infoBtn
+            infoBtn: infoBtn, 
+             
         })
     })
     
@@ -667,6 +668,10 @@ function StyledComponent(props) {
                                             direction='row'
                                         />  
                                     </Box>
+                                    
+                                    <Box className={classes.infoBlockText}> 
+                                        <span>If you set </span>    
+                                    </Box>
 
                                     <Box className={classes.infoBlock}> 
                                         <Box mr={1}> 
@@ -677,7 +682,10 @@ function StyledComponent(props) {
                                             </Tooltip>
                                         </Box>
                                         
-                                        <Box>
+                                        <Box pt={1}>
+                                            <Typography variant='h6'>
+                                                If you set Slides per View less then items length - Items will set gallery view
+                                            </Typography>
                                                 
                                             <Box my={2} display='flex'> 
                                                 <Box mr={1}>

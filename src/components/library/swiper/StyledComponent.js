@@ -729,7 +729,11 @@ function StyledComponent(props) {
                                             </Tooltip>
                                         </Box>
                                         
-                                        <Box>
+                                        
+                                        <Box pt={1}>
+                                            <Typography variant='h6'>
+                                                If you set Slides per View less then items length - Items will set gallery view
+                                            </Typography>
                                                 
                                             <Box my={2} display='flex'> 
                                                 <Box mr={1}>

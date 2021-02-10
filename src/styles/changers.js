@@ -152,7 +152,8 @@ const StylesChangers = () => {
             }, 
             '& h6': {
                 fontSize: 14, 
-                lineHeight: 1.2
+                lineHeight: 1.2, 
+                color: theme.palette.warning.main
             }
              
         },

@@ -62,7 +62,7 @@ function StyledSinlePage(props) {
 
   const [data, setData] = useState({})
   const [items, setItems] = useState([]) 
-  const [metaTitle, setMetaTitle] = useState('initial')
+  const [metaTitle, setMetaTitle] = useState('')
   const [metaDescription, setMetaDescription] = useState('')
   const [isDisableBtn, setIsDisableBtn] = useState(true) 
 
@@ -101,12 +101,7 @@ function StyledSinlePage(props) {
       setIsLoading(false)
     });
   }
-
-  const firstMetaSave = (title) => {
-    firebase.db.collection("site1").doc(pageSlug).update({ 
-      title: title,  
-    })
-  }
+ 
   
   const useStyles = makeStyles((theme) => { 
 
@@ -183,10 +178,10 @@ function StyledSinlePage(props) {
   useEffect( () => { 
     setIsLoading(true) 
     fetchData()
-    if(metaTitle === 'initial') {
-      setMetaTitle(props.metaTitle)
-      firstMetaSave(props.metaTitle)
-    } 
+    // if(metaTitle === 'initial') {
+    //   setMetaTitle(props.metaTitle)
+    //   firstMetaSave(props.metaTitle)
+    // } 
     // eslint-disable-next-line
   }, [location])
    
@@ -203,14 +198,17 @@ function StyledSinlePage(props) {
       newPage.id = uuid()
       newPage.slug = pageSlug
       newPage.items = []
+      newPage.title = props.metaTitle
 
       await pageRef.set(newPage)
 
+      setMetaTitle(props.metaTitle)
       setData(newPage)  
       setItems(newPage.items || [])  
       setIsLoading(false)
 
     } else { 
+      console.log('create page')
       setData(doc.data())  
       setItems(doc.data().items)  
       setMetaTitle(doc.data().title)
