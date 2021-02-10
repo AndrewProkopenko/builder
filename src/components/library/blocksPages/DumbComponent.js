@@ -306,8 +306,8 @@ function DumbComponent(props) {
             key={key}  
             ref={slideRef} 
             className={`${classes.slide}`}
-        >
-            <NavLink to={slide.activePage.slug}>
+        > 
+            <NavLink to={slide.activePage.slug ? slide.activePage.slug : "/"}>
                 <Box className={classes.slideBox}> 
                     <Box className={classes.slideImg}>
                         <span dangerouslySetInnerHTML={{__html: slide.svg}}></span>

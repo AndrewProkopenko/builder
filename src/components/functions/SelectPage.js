@@ -51,10 +51,11 @@ const SelectPage = memo( ({value, setValue, index}) => {
             if(page.id === id) {
                 activePage.title = page.title
                 activePage.slug = (page.type === 'page') ? (`/${page.categorySlug}/${page.slug}`) : (`/${page.slug}`)
+                if(activePage.slug === '//') activePage.slug = '/'
             }
         })
         setSelectValue(id) 
-        if(index !== undefined) { 
+        if(index !== undefined ) { 
             setValue(activePage, index)
         }
         else {

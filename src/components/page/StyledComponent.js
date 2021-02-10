@@ -207,8 +207,7 @@ function StyledSinlePage(props) {
       setItems(newPage.items || [])  
       setIsLoading(false)
 
-    } else { 
-      console.log('create page')
+    } else {  
       setData(doc.data())  
       setItems(doc.data().items)  
       setMetaTitle(doc.data().title)

@@ -101,7 +101,7 @@ function DumbComponent(props) {
                 height: "100%",
                 backgroundPosition: 'center', 
                 backgroundRepeat: 'no-repeat', 
-                backgroundSize: 'cover',
+                backgroundSize: '100%',
                 transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeInOut}`
             },
             slideTitle: {
@@ -220,9 +220,10 @@ function DumbComponent(props) {
             className={`${classes.slide} ${(slide.isButton || slide.isUrl) ? classes.activeSlide : '' } `}
             onClick={() => { handleSlideClick(slide) }}
         >
+            {console.log( slide.title , slide, slide.activePage.slug)}
             {
                 slide.isUrl ? 
-                <NavLink to={slide.activePage.slug}>
+                <NavLink to={slide.activePage.slug ? slide.activePage.slug : '/'}>
                     <Box className={classes.slideBox}>
                         <Box 
                             style={{backgroundImage: `url(${slide.imageUrl})`}}
