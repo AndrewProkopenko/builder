@@ -15,6 +15,7 @@ import lightThemeIcon from '../../../assets/icons/sun.svg'
 
 function ThemeSwitcher({backgroundHeader}) {
 
+  console.log(backgroundHeader)
     const { setThemeMode, themeMode} = React.useContext(CategoryContext)    
   
     const checked = themeMode === 'dark' ? true : false
@@ -37,7 +38,7 @@ function ThemeSwitcher({backgroundHeader}) {
             transform: 'translateX(32px)',
             color: '#27536b',
             '& + $track': {
-              backgroundColor: darken(backgroundHeader, 0.3), //dark
+              backgroundColor: darken(backgroundHeader, 0.3), 
               opacity: 1,
               border: 'none',
             },
@@ -63,7 +64,7 @@ function ThemeSwitcher({backgroundHeader}) {
         },
         track: {
           borderRadius: 28 / 2, 
-          backgroundColor: lighten(backgroundHeader, 0.3), // white '#a3d4ff'
+          backgroundColor: lighten(backgroundHeader, 0.3),  
           opacity: 1,
           transition: theme.transitions.create(['background-color', 'border']),
         },

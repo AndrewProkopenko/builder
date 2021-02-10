@@ -337,6 +337,7 @@ function DumbComponent() {
                             categories={categories}  
                             user={user}
                             handleSignOut={handleSignOut}
+                            hoverActiveLinkColor={hoverActiveLinkColor}
                         /> }
                 </Container>
             </AppBar> 

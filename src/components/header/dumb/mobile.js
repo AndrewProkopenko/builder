@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavLink } from "react-router-dom";
+import { useLocation } from 'react-router-dom'
 import {  
     Toolbar, 
     makeStyles, 
@@ -21,6 +22,9 @@ import ThemeSwitcher from './ThemeSwitcher'
 
 const Mobile = (props) => { 
  
+    
+    const location = useLocation()
+    const currentPath = location.pathname 
 
     const useStyles = makeStyles((theme) => { 
         return ({
@@ -40,11 +44,12 @@ const Mobile = (props) => {
                 width: '100%', 
                 padding: '6px 16px', 
                 '&.active' : {
-                    backgroundColor: props.menuColor,
+                    backgroundColor: props.hoverActiveLinkColor,
                     color: props.iconColor
                 }
             },  
             accordionReset: {
+                position: 'relative', 
                 paddingLeft: 0,
                 marginTop: ' 0 !important', 
                 marginBottom: '0 !important',
@@ -72,11 +77,21 @@ const Mobile = (props) => {
                 '& .log-button': {
                     minWidth: 100
                 }
+            },
+            lineActiveCategory: {
+                position: 'absolute',
+                zIndex: 5, 
+                bottom: 0,  
+                right: -48, 
+                width: 48, 
+                height: 4, 
+                backgroundColor: props.hoverActiveLinkColor, 
             }
+            
             
         })
     });
-    const { drawerContainer, mobileLink , accordionReset, drawerHeader } = useStyles();
+    const { drawerContainer, mobileLink , accordionReset, drawerHeader, lineActiveCategory } = useStyles();
    
     const [drawerOpen, setDrawerOpen] = React.useState(false); 
       
@@ -138,11 +153,14 @@ const Mobile = (props) => {
                         props.categories.map( (item, index) => {  
                             if(item.pages.length > 0) {
                                 return (  
-                                    <Accordion key={index} classes={{root: accordionReset}}  >
+                                    <Accordion key={index} classes={{root: accordionReset}}  > 
                                         <AccordionSummary
                                             classes={{root: accordionReset, content: accordionReset  }}
-                                            expandIcon={ <ExpandMoreOutlinedIcon />}
+                                            expandIcon={ <ExpandMoreOutlinedIcon  />}
                                         >
+                                            {
+                                                currentPath.includes(`/${item.slug}/`) && <span className={lineActiveCategory} />
+                                            }
                                             <MenuItem style={{padding: 0, width: '100%'}}> 
                                                 <NavLink 
                                                     exact
@@ -199,7 +217,7 @@ const Mobile = (props) => {
                     
                     <Box px={3} my={2} >
                         <Box  width={'100%'} clone={true} >
-                            <ThemeSwitcher/>
+                            <ThemeSwitcher backgroundHeader={props.menuColor} />
                         </Box>
                     </Box>
                    

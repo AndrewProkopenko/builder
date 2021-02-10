@@ -110,14 +110,14 @@ function DumbComponent(props) {
                 bottom: 20,  
                 right: 0,
                 maxWidth: "75%", 
-                fontSize: '3vw', 
+                fontSize: 22, 
                 lineHeight: 1.1, 
                 backgroundColor: fade(theme.palette.background.default, 0.7), 
                 padding: theme.spacing(1, 2), 
                 borderBottom: `2px solid ${color}`,
                 transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeInOut}`, 
                 [theme.breakpoints.down('sm')]: {
-                    fontSize: 20
+                    fontSize: 14
                 }
             },
             styleClass: {

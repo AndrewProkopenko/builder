@@ -40,7 +40,9 @@ function RouterComponent() {
     }, [isPreloader])
 
     return (   
-        <Router basename="builder"> 
+        <Router 
+        // basename="builder"
+        > 
         
             <ScrollToTop/>
              

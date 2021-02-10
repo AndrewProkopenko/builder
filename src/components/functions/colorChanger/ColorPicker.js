@@ -2,6 +2,7 @@ import React, { memo, useState, useEffect, useRef } from "react";
 import Draggable from 'react-draggable'; 
 import { ChromePicker } from "react-color";
 import { IconButton, Box, makeStyles, Button, Tooltip, Typography } from "@material-ui/core"
+import CloseIcon from '@material-ui/icons/Close'; 
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import OpenWithIcon from '@material-ui/icons/OpenWith';
 import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
@@ -110,10 +111,10 @@ export const ColorPicker = memo(({ initialColor, changeColor, setIsDisableBtn, p
                 borderColor: color, 
                 textTransform: 'inherit', 
                 backgroundColor: copyText === 'Copied' ? 'inherit' : color ,
-                color: copyText === 'Copied' ? theme.palette.getContrastText(color) : 'inherit', 
+                color: contrastColor, 
                 '&:hover': {
                     backgroundColor: copyText === 'Copied' ? 'inherit' : color ,
-                    color: copyText === 'Copied' ? theme.palette.getContrastText(color) : 'inherit',  
+                    color: contrastColor, 
                 }
             }
         })
@@ -136,6 +137,9 @@ export const ColorPicker = memo(({ initialColor, changeColor, setIsDisableBtn, p
                                     className={classes.draggableColorTitle}
                                     id="draggable-color"
                                 >
+                                    <IconButton size="small" onClick={togglePicker}>
+                                        <CloseIcon/>
+                                    </IconButton>
                                     Set color <OpenWithIcon/>
                                 </Typography>
                                 <ChromePicker 

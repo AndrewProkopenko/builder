@@ -50,6 +50,14 @@ function DumbComponent(props) {
                     paddingBottom: props.classes.paddingBottom*0.5,
                 },
             }, 
+            paddingContainer: {
+                paddingLeft: 16,
+                paddingRight: 16,
+                [theme.breakpoints.up('sm')]: {
+                    paddingLeft: 24,
+                    paddingRight: 24,
+                }
+            }
         })
     });
     const classes = useStyles(); 
@@ -177,7 +185,7 @@ function DumbComponent(props) {
                 fixed={props.settings.fixed} 
                 disableGutters={props.settings.disableGutters}  
             >  
-                <Box className={`${classes.myClassName} ${classes.styleClass}`} style={{paddingLeft: 20, paddingRight: 20}} >
+                <Box className={`${classes.myClassName} ${classes.styleClass} ${classes.paddingContainer} `} >
                         { renderItems() }
                 </Box> 
             </Container> 

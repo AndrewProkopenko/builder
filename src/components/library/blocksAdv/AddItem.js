@@ -13,13 +13,15 @@ const AddItem = (props) => {
      
     const [newSvg, setNewSvg] = useState('') 
     const [newTitle, setNewTitle] = useState('') 
+    const [newTarget, setNewTarget] = useState('') 
     
     const handleSubmit = (e) => { 
         e.preventDefault()
 
-        props.addSlide(newSvg, newTitle)
+        props.addSlide(newSvg, newTitle, newTarget)
         setNewSvg('') 
         setNewTitle('') 
+        setNewTarget('')
     } 
 
     const useStyles = makeStyles((theme) => { 
@@ -50,6 +52,17 @@ const AddItem = (props) => {
                         variant="outlined"
                         value={newTitle}
                         onChange={(e) => { setNewTitle(e.target.value) }}
+                    /> 
+                </Box>
+                <Box my={1}>
+                    <TextField 
+                        fullWidth
+                        type='text'
+                        size="small" 
+                        label='Set Target Modal'
+                        variant="outlined"
+                        value={newTarget}
+                        onChange={(e) => { setNewTarget(e.target.value) }}
                     /> 
                 </Box>
                 <Box my={1}>

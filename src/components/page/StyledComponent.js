@@ -35,6 +35,19 @@ import LibraryContext from '../../context/libraryContext/LibraryContext'
 
 import InputChange from '../functions/InputChange'
 
+import AboutImage from "../../assets/imagesPreview/about.jpg"
+import AccordionImage from "../../assets/imagesPreview/accordion.jpg"
+import ActionLineImage from "../../assets/imagesPreview/actionline.jpg"
+import AdvImage from "../../assets/imagesPreview/adv.jpg"
+import BannerImage from "../../assets/imagesPreview/banner.jpg"
+import MapImage from "../../assets/imagesPreview/contactsmap.jpg"
+import ContainerImage from "../../assets/imagesPreview/container.jpg"
+import FormLineImage from "../../assets/imagesPreview/formline.jpg"
+import MainBannerImage from "../../assets/imagesPreview/mainbanner.jpg"
+import PagesImage from "../../assets/imagesPreview/pages.jpg"
+import SwiperImage from "../../assets/imagesPreview/swiper.jpg"
+import TableImage from "../../assets/imagesPreview/table.jpg" 
+
 
 function StyledSinlePage(props) {
 
@@ -141,9 +154,25 @@ function StyledSinlePage(props) {
         fontSize: 14
       }, 
       boxMenuItem : { 
+        position: 'relative', 
         display: 'inline-block',
         paddingRight: theme.spacing(1),
         paddingBottom: theme.spacing(1),
+        '&:hover': {
+          '& > $imagePreview': {
+            display: 'block'
+          }
+        }
+      }, 
+      imagePreview: {
+        display: 'none', 
+        position: 'absolute', 
+        zIndex: 15,
+        bottom: 45, 
+        left: 0,
+        '& img' : { 
+          borderRadius: 5
+        }
       }
  
     })
@@ -629,34 +658,38 @@ function StyledSinlePage(props) {
                             </Box>
 
                             <Box className={classes.boxMenuItem}>
-                              <Tooltip classes={{tooltip: classes.tooltip}} title='Container for heading, paragraph, image-paragraph, list' placement='top'>
+                              <Box className={classes.imagePreview}> <img src={ContainerImage} alt="container" /></Box>
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Container for heading, paragraph, image-paragraph, list' placement='bottom'>
                                 <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('container') }}>
                                     Container
                                 </Button> 
                               </Tooltip> 
                             </Box> 
                             <Box className={classes.boxMenuItem}> 
-                              <Tooltip classes={{tooltip: classes.tooltip}} title='Paper cart with svg icon, contain link to page. Has be slider' placement='top'>
+                              <Box className={classes.imagePreview}> <img src={PagesImage} alt="block pages" /></Box>
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Paper cart with svg icon, contain link to page. Has be slider' placement='bottom'>
                                 <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('blocksPages') }}>
                                     Blocks with Links
                                 </Button> 
                               </Tooltip>
                             </Box> 
                             <Box className={classes.boxMenuItem}> 
-                              <Tooltip classes={{tooltip: classes.tooltip}} title='Paper cart with svg icon. Has be slider' placement='top'>
+                              <Box className={classes.imagePreview}> <img src={AdvImage} alt="block advantages" /></Box>
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Paper cart with svg icon. Has be slider' placement='bottom'>
                                 <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('blocksAdv') }}>
                                     Blocks Advantages
                                 </Button> 
                               </Tooltip>
                             </Box> 
-
+ 
                             <Divider style={{margin: '15px 0'}} />
  
                             <Typography variant='caption' component="h6" gutterBottom>
                               With form
                             </Typography>
                             <Box className={classes.boxMenuItem}>
-                              <Tooltip classes={{tooltip: classes.tooltip}} title='Block to start the page. Contain: text, form, image(desktop only)' placement='top'>
+                              <Box className={classes.imagePreview}> <img src={MainBannerImage} alt="Main Banner" /></Box>
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Block to start the page. Contain: text, form, image(desktop only)' placement='bottom'>
                                 <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('mainBanner') }}>
                                     Main Banner
                                 </Button> 
@@ -664,7 +697,8 @@ function StyledSinlePage(props) {
                             </Box>
                            
                             <Box className={classes.boxMenuItem}>
-                              <Tooltip classes={{tooltip: classes.tooltip}} title='Contain: location and phone view, contact form, map. Has two different displays, with and without a map' placement='top'>
+                              <Box className={classes.imagePreview}> <img src={MapImage} alt="Contacts with Map" /></Box>
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Contain: location and phone view, contact form, map. Has two different displays, with and without a map' placement='bottom'>
                                 <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('contactMap') }}>
                                     Contacts with Map
                                 </Button>  
@@ -672,7 +706,8 @@ function StyledSinlePage(props) {
                             </Box>
 
                             <Box className={classes.boxMenuItem}>
-                              <Tooltip classes={{tooltip: classes.tooltip}} title='Small contact form with optional heading and paragrapher' placement='top'>
+                              <Box className={classes.imagePreview}> <img src={FormLineImage} alt="Form Line" /></Box>
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Small contact form with optional heading and paragrapher' placement='bottom'>
                                 <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('formLine') }}>
                                     Form Line 
                                 </Button> 
@@ -680,9 +715,10 @@ function StyledSinlePage(props) {
                             </Box>
 
                             <Divider style={{margin: '15px 0'}} />
-
+                            
                             <Box className={classes.boxMenuItem}>
-                              <Tooltip classes={{tooltip: classes.tooltip}} title='Accordion with heading on top' placement='top'>
+                              <Box className={classes.imagePreview}> <img src={AccordionImage} alt="Accordion" /></Box>
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Accordion with heading on top' placement='bottom'>
                                 <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('accordion') }}>
                                     Accordion
                                 </Button> 
@@ -690,14 +726,16 @@ function StyledSinlePage(props) {
                             </Box>
                             
                             <Box className={classes.boxMenuItem}> 
-                              <Tooltip classes={{tooltip: classes.tooltip}} title='Line for small text paragrapher with ability to add a button modal' placement='top'>
+                              <Box className={classes.imagePreview}> <img src={ActionLineImage} alt="Colored Action Line" /></Box>
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Line for small text paragrapher with ability to add a button modal' placement='bottom'>
                                 <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('actionLine') }}>
                                     Colored Action Line 
                                 </Button> 
                               </Tooltip>
                             </Box>
                             <Box className={classes.boxMenuItem}>
-                              <Tooltip classes={{tooltip: classes.tooltip}} title='Table with heading on top. Has ability to add "Show More Botton " on bottom' placement='top'>
+                              <Box className={classes.imagePreview}> <img src={TableImage} alt="Table" /></Box>
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Table with heading on top. Has ability to add "Show More Botton " on bottom' placement='bottom'>
                                 <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('table') }}>
                                     Table 
                                 </Button> 
@@ -710,21 +748,24 @@ function StyledSinlePage(props) {
                               With image
                             </Typography>
                             <Box className={classes.boxMenuItem}>
-                              <Tooltip classes={{tooltip: classes.tooltip}} title='Block with heading, paragraph and image. Image on desktop - 50% vieport width. Image on mobile - 50% vieport width . Has the ability to add a button modal' placement='top'>
+                              <Box className={classes.imagePreview}> <img src={AboutImage} alt="About" /></Box>
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Block with heading, paragraph and image. Image on desktop - 50% vieport width. Image on mobile - 50% vieport width . Has the ability to add a button modal' placement='bottom'>
                                 <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('about') }}>
                                     About
                                 </Button> 
                               </Tooltip>
                             </Box>
                             <Box className={classes.boxMenuItem}>
-                              <Tooltip classes={{tooltip: classes.tooltip}} title='Simple slider with square images. Has be blocks' placement='top'>
+                              <Box className={classes.imagePreview}> <img src={SwiperImage} alt="Swiper" /></Box>
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Simple slider with square images. Has be blocks' placement='bottom'>
                                 <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('swiper') }}>
                                     Swiper
                                 </Button> 
                               </Tooltip>
                             </Box>
                             <Box className={classes.boxMenuItem}>
-                              <Tooltip classes={{tooltip: classes.tooltip}} title='Banner with background image, heading, paragraph and modal button (optional)' placement='top'>
+                              <Box className={classes.imagePreview}> <img src={BannerImage} alt="Banner" /></Box>
+                              <Tooltip classes={{tooltip: classes.tooltip}} title='Banner with background image, heading, paragraph and modal button (optional)' placement='bottom'>
                                 <Button color={'primary'} variant={'contained'} onClick={() => {addContainer('banner') }}>
                                     Banner
                                 </Button> 

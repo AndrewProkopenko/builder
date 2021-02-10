@@ -68,6 +68,7 @@ function StyledComponent(props) {
     const [colorCustom, setColorCustom] = useState(props.data.colorButton || '')
 
     const [backgroundPosition,  setBackgroundPosition] = useState(props.data.backgroundPosition || 'center')
+    const [backgroundSize,  setBackgroundSize] = useState(props.data.backgroundSize || 'cover')
 
     const [backgroundSelect,  setBackgroundSelect] = useState(props.data.background || 'paper')
     const [backgroundCustom, setBackgroundCustom] = useState(props.data.background || 'paper')
@@ -249,6 +250,7 @@ function StyledComponent(props) {
         newData.marginBottom = marginBottom
         newData.maxWidthContainer = maxWidthContainer
         newData.backgroundPosition = backgroundPosition
+        newData.backgroundSize = backgroundSize
         
         if (colorSelect === 'custom') {
             newData.colorButton = colorCustom
@@ -620,7 +622,27 @@ function StyledComponent(props) {
                                             <MenuItem value={'bottom right'}>Bottom Right </MenuItem> 
                                             <MenuItem value={'bottom center'}>Bottom Center </MenuItem>  
                                         </Select>
-                                        </FormControl>
+                                    </FormControl>
+                                    <FormControl 
+                                        variant='filled' 
+                                        size='small'    
+                                        style={{marginLeft: 10}}
+                                    >
+                                        <InputLabel id="maxWidth-style-label">Background Size</InputLabel>
+                                        <Select
+                                            labelId="maxWidth-label"
+                                            id="maxWidth-style"
+                                            value={backgroundSize}
+                                            style={{minWidth: 180}}
+                                            onChange={(e) => {setIsDisableBtn(false); setBackgroundSize(e.target.value) }}
+                                        >
+                                            <MenuItem value={'auto'}>Auto</MenuItem>
+                                            <MenuItem value={'auto 100%'}>Auto 100%</MenuItem>
+                                            <MenuItem value={'100% auto'}>100% Auto</MenuItem> 
+                                            <MenuItem value={'cover'}>Cover</MenuItem>
+                                            <MenuItem value={'contain'}>Contain </MenuItem>   
+                                        </Select>
+                                    </FormControl>
                                    
                                     <Box display='flex' mt={3} mb={3}>
                                         <FormControlLabel

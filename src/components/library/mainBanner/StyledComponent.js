@@ -174,7 +174,7 @@ function StyledComponent(props) {
  
     const handleImageUpload = async (e, imageType) => {  
         const imageData = e.target.files[0]
-        const generateImageName = `${imageData.name}-${props.data.id}`
+        const generateImageName = `${imageData.name}-${imageType}-${props.data.id}`
 
         if( imageType === 'mainImage')  { 
             RemoveImage(imageName)   

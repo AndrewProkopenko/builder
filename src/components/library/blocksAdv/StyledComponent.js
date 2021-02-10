@@ -69,8 +69,7 @@ function StyledComponent(props) {
     const [colorSelect,  setColorSelect] = useState(props.data.color || 'primary')
     const [colorCustom, setColorCustom] = useState(props.data.color || 'primary')
     
-    const [isButton, setIsButton] = useState(props.data.isButton || false)
-    const [targetButton, setTargetButton] = useState(props.data.targetButton || '')
+    const [isButton, setIsButton] = useState(props.data.isButton || false) 
 
     const [marginTop, setMarginTop] = useState(props.data.marginTop || 50)
     const [marginBottom, setMarginBottom] = useState(props.data.marginBottom || 50)
@@ -231,8 +230,7 @@ function StyledComponent(props) {
 
         newData.variantHeading = variant   
         newData.heading = heading   
-        newData.isButton = isButton   
-        newData.targetButton = targetButton   
+        newData.isButton = isButton    
         newData.slidesPerView = slidesPerView   
         newData.slidesPerViewMobile = slidesPerViewMobile   
         newData.slidesPerViewTablet = slidesPerViewTablet   
@@ -273,6 +271,14 @@ function StyledComponent(props) {
         setSlides(newSlides) 
         setIsDisableBtn(false)
     }
+    const handleSlideTarget = (targetButton, index) => {
+        let newSlides = slides.slice()
+
+        newSlides[index].targetButton = targetButton 
+        
+        setSlides(newSlides) 
+        setIsDisableBtn(false)
+    }
     
       
     const swipeSlide = (direction, index) => {
@@ -304,12 +310,13 @@ function StyledComponent(props) {
         setIsDisableBtn(false)
     }
     
-    const addSlide = ( svg, title ) => {
+    const addSlide = ( svg, title, target ) => {
          
         const newSlides = slides.slice()
         const slide = {
             svg: svg,  
-            title: title
+            title: title, 
+            targetButton: target
         }
         newSlides.push(slide)
         setSlides(newSlides)
@@ -332,6 +339,19 @@ function StyledComponent(props) {
                             variant='outlined'
                             value={item.title}
                             setValue={handleSlideTitle}
+                            setIsDisableBtn={setIsDisableBtn} 
+                        />  
+                    </Box> 
+                    <Box >
+                        <InputChange
+                            id={index}
+                            fullWidth={true}
+                            type='text'
+                            size="small"  
+                            label="Set target modal"
+                            variant='outlined'
+                            value={item.targetButton}
+                            setValue={handleSlideTarget}
                             setIsDisableBtn={setIsDisableBtn} 
                         />  
                     </Box> 
@@ -580,32 +600,7 @@ function StyledComponent(props) {
                                             direction='row'
                                         />
                                     </Box>
-                                    <Box display='flex' mt={2} mb={2}>
-                                        <FormControlLabel
-                                            control={
-                                                < Switch checked = { isButton }
-                                                        onChange = { handleChange }
-                                                            name = "checkedB" 
-                                                            color = "primary" />
-                                            }
-                                            label="Open Modal by click"/> 
-                                            {
-                                                isButton && 
-                                                <Box flexGrow={1} > 
-                                                    <InputChange
-                                                        id={null} 
-                                                        fullWidth={true}
-                                                        type='text'
-                                                        size="small" 
-                                                        label="Target for Button"
-                                                        variant='outlined'
-                                                        value={targetButton}
-                                                        setValue={setTargetButton}
-                                                        setIsDisableBtn={setIsDisableBtn} 
-                                                    />   
-                                                </Box>
-                                            }
-                                    </Box> 
+                                    
 
                                     <Box mt={3} mb={1} className={classes.tableSizeContainer}>   
                                         <SelectHeadingVariant
@@ -844,6 +839,16 @@ function StyledComponent(props) {
                                     <Typography variant="h6">
                                         Slides
                                     </Typography>
+                                    <Box display='flex' mt={2} mb={2}>
+                                        <FormControlLabel
+                                            control={
+                                                < Switch checked = { isButton }
+                                                        onChange = { handleChange }
+                                                            name = "checkedB" 
+                                                            color = "primary" />
+                                            }
+                                            label="Open Modal by click"/>  
+                                    </Box> 
                                     { !slides.length && <Typography variant='caption'> No Slides there </Typography> }
                                     {
                                         slidesRender()

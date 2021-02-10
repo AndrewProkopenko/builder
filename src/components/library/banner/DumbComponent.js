@@ -23,6 +23,7 @@ function DumbComponent(props) {
     const minHeight = props.data.minHeight
     const imageUrl = props.data.imageUrl
 
+    const backgroundSize = props.data.backgroundSize
     const backgroundPosition = props.data.backgroundPosition
     const isButton = props.data.isButton
     const textButton = props.data.textButton
@@ -56,7 +57,7 @@ function DumbComponent(props) {
                 backgroundImage: `url(${imageUrl})`,
                 backgroundPosition: backgroundPosition,
                 backgroundRepeat: 'no-repeat',
-                backgroundSize: 'auto 100%',
+                backgroundSize: backgroundSize,
                 marginTop: marginTop,
                 marginBottom: marginBottom,
                 [
@@ -103,23 +104,17 @@ function DumbComponent(props) {
             },
             heading: {
                 marginTop: 0,
-                marginBottom: theme.spacing(3),
+                marginBottom: paragraph.length > 0 ? theme.spacing(3) : 0,
                 textAlign: 'center',
                 fontWeight: 500,
                 color: computedContrastColor(),
-                [
-                    theme
-                        .breakpoints
-                        .down('sm')
-                ]: {
-                    marginBottom: theme.spacing(1.5)
+                [theme.breakpoints.down('sm')]: { 
+                    marginBottom: paragraph.length > 0 ? theme.spacing(1.5) : 0,
                 }
             },
             paragraph: {
-                marginTop: heading.length
-                    ? 0
-                    : 10,
-                marginBottom: 20,
+                marginTop: heading.length > 0 ? 0 : 10,
+                marginBottom: 0,
                 lineHeight: 1.5,
                 fontWeight: 400,
                 textAlign: 'center',
@@ -137,36 +132,28 @@ function DumbComponent(props) {
             button: {
                 textTransform: 'inherit',
                 fontSize: 14,
+                marginTop: theme.spacing(3), 
                 paddingLeft: "2.5em",
                 paddingRight: "2.5em",
                 paddingTop: ".8em",
                 paddingBottom: ".8em",
                 backgroundColor: colorButton,
-                color: theme
-                    .palette
-                    .getContrastText(colorButton),
+                color: theme.palette.getContrastText(colorButton),
                 transition: `${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeInOut}`,
                 whiteSpace: 'nowrap',
 
                 '&:active': {
                     backgroundColor: darken(colorButton, 0.4)
                 },
-                [
-                    theme
-                        .breakpoints
-                        .down('sm')
-                ]: {
+                [theme.breakpoints.down('sm')]: {
                     width: "100%",
                     maxWidth: 400,
+                    marginTop: theme.spacing(1.5), 
                     '&:hover': {
                         backgroundColor: colorButton
                     }
                 },
-                [
-                    theme
-                        .breakpoints
-                        .up('sm')
-                ]: {
+                [theme.breakpoints.up('sm')]: {
                     '&:hover': {
                         backgroundColor: darken(colorButton, 0.2)
                     }

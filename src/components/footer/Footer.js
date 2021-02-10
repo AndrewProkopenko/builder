@@ -66,9 +66,15 @@ function Footer() {
                     height: 30, 
                 },
             },  
-            buttonToTop: {
+            buttonToTop: { 
+                '& svg': {
+                    fill: contrastFooter
+                }, 
                 '&:hover': {
-                    backgroundColor: hoverActiveLinkColor
+                    backgroundColor: hoverActiveLinkColor,
+                    '& svg': {
+                        fill: theme.palette.getContrastText(hoverActiveLinkColor)
+                    }
                 }
             }
         })
@@ -106,7 +112,7 @@ function Footer() {
                 className={classes.buttonToTop}  
                 onClick={handleClickToTop}
             >
-                <KeyboardArrowUpIcon style={{fill: contrastFooter}}/>
+                <KeyboardArrowUpIcon style={{}}/>
             </IconButton>
         </Tooltip>
     )

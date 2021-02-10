@@ -313,8 +313,8 @@ function DumbComponent(props) {
         // eslint-disable-next-line
     }, []);
   
-    const handleSlideClick = () => { 
-        if(isButton) handleOpen(targetButton) 
+    const handleSlideClick = (target) => { 
+        if(isButton) handleOpen(target) 
     }
 
     const renderSlide = (slide, key) => (
@@ -322,7 +322,7 @@ function DumbComponent(props) {
             key={key}  
             ref={slideRef} 
             className={`${classes.slide}`} 
-            onClick={handleSlideClick}
+            onClick={() => {handleSlideClick(slide.targetButton)}}
         > 
             <Box className={classes.slideBox}> 
                 <Box className={classes.slideImg}>

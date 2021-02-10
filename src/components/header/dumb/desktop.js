@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavLink } from "react-router-dom";
+import { useLocation } from 'react-router-dom'
 import {  
     Toolbar, 
     Button, 
@@ -17,6 +18,8 @@ import "../../../assets/style/header.scss"
 
 const Desktop = (props) => { 
     
+    const location = useLocation()
+    const currentPath = location.pathname 
 
     const useStyles = makeStyles((theme) => { 
 
@@ -34,7 +37,7 @@ const Desktop = (props) => {
                 textTransform: 'inherit',
                 padding: '5px 16px', 
                 [`@media (max-width: ${theme.breakpoints.values.lg}px)`]: {
-                    padding: '5px 8px', 
+                    padding: '5px 12px', 
                 }, 
 
                 borderRadius: 0, 
@@ -44,6 +47,7 @@ const Desktop = (props) => {
                
             },
             menuLink: {
+                position: 'relative', 
                 display: 'block',
                 height: "100%", 
                 width: '100%',
@@ -95,11 +99,20 @@ const Desktop = (props) => {
                '& li': {}
                 
             },
+            lineActiveCategory: {
+                position: 'absolute',
+                bottom: 0, 
+                left: 0, 
+                right: 0, 
+                width: '100%', 
+                height: 4, 
+                backgroundColor: props.hoverActiveLinkColor, 
+            }
             
             
         })
     });
-    const { toolbar, menuButton , menuButtonInnerLi , menuButtonLink,  menuLink , menuInnerLink,  listUnstyle } = useStyles();
+    const { toolbar, menuButton , menuButtonInnerLi , menuButtonLink,  menuLink , menuInnerLink,  listUnstyle, lineActiveCategory } = useStyles();
  
     return (
       <Toolbar disableGutters={true} className={toolbar}>
@@ -138,10 +151,13 @@ const Desktop = (props) => {
                                     to={`/${item.slug}`}
                                     className={menuLink}
                                 >
+                                    {
+                                        currentPath.includes(`/${item.slug}/`) && <span className={lineActiveCategory} />
+                                    }
                                     <Button className={menuButtonLink}> 
                                         {item.title} 
                                         {
-                                            item.pages.length > 0 && <Box display='flex' alignItems='center' pl={1}><ExpandMoreOutlinedIcon/></Box>
+                                            item.pages.length > 0 && <Box display='flex' alignItems='center' pl={1} mr={'-4px'}><ExpandMoreOutlinedIcon/></Box>
                                         }
                                     </Button>
                                 </NavLink>
