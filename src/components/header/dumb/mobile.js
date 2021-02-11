@@ -45,7 +45,7 @@ const Mobile = (props) => {
                 padding: '6px 16px', 
                 '&.active' : {
                     backgroundColor: props.hoverActiveLinkColor,
-                    color: props.iconColor
+                    color: theme.palette.getContrastText(props.hoverActiveLinkColor)
                 }
             },  
             accordionReset: {
@@ -192,11 +192,12 @@ const Mobile = (props) => {
                                 );
                             }
                             else { 
+                                console.log(item.slug)
                                 return (
                                     <MenuItem key={index}  style={{padding: 0, width: '100%', borderTop: '1px solid rgba(0, 0, 0, 0.12)' }}>  
                                         <NavLink 
                                             exact
-                                            to={`/${item.slug}`}  
+                                            to={ item.slug === '/' ? item.slug : `/${item.slug}`}  
                                             className={mobileLink}
                                             onClick={handleDrawerClose}
                                         >

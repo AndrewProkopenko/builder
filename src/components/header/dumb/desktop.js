@@ -58,13 +58,14 @@ const Desktop = (props) => {
                 '&:hover': {
                     backgroundColor: props.hoverActiveLinkColor,
                     // backgroundColor: theme.palette.primary.light,
-                    color: theme.palette.type === "dark" ? theme.palette.text.default : theme.palette.background.paper ,
+                    // color: theme.palette.type === "dark" ? theme.palette.text.default : theme.palette.background.paper ,
+                    color: theme.palette.getContrastText(props.hoverActiveLinkColor) ,
 
                 },
                 '&.active': {
                     backgroundColor: props.hoverActiveLinkColor,
-                    color: theme.palette.type === "dark" ? theme.palette.text.default : theme.palette.background.paper ,
-                    
+                    // color: theme.palette.type === "dark" ? theme.palette.text.default : theme.palette.background.paper ,
+                    color: theme.palette.getContrastText(props.hoverActiveLinkColor)
                 },
             },
             menuInnerLink: { 

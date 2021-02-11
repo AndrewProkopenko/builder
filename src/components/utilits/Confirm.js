@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 
 const  Confirm = ({isVariable, show, setShow, title, text, removeText, handleRemoveClick}) => {
    
@@ -19,6 +19,10 @@ const  Confirm = ({isVariable, show, setShow, title, text, removeText, handleRem
             setShow(false)
         } 
     }
+
+    const styleTitle = {
+        minWidth: 250,  
+    }
   
     return ( 
         <Dialog 
@@ -27,28 +31,33 @@ const  Confirm = ({isVariable, show, setShow, title, text, removeText, handleRem
             onClose={handleClose}
             aria-labelledby="max-width-dialog-title" 
         >
-            <DialogTitle style={{minWidth: 350}} id="max-width-dialog-title">{title}</DialogTitle>
-            <DialogContent>
-                <DialogContentText>
-                    {text}
-                </DialogContentText>
-                
-            </DialogContent>
-            <DialogActions>
-                <Button 
-                    variant='outlined'
-                    onClick={handleClose} 
-                    color="primary"
-                >
-                    Cancel
-                </Button>
-                <Button 
-                    variant={'contained'}
-                    onClick={handleRemove} 
-                    color="secondary">
-                    {removeText}
-                </Button>
-            </DialogActions>
+            <DialogTitle style={styleTitle} id="max-width-dialog-title">{title}</DialogTitle>
+            {
+                text.length > 0 &&
+                <DialogContent>
+                    <DialogContentText>
+                        {text}
+                    </DialogContentText>
+                    
+                </DialogContent>
+            }
+            <Box px={2} pb={1} >
+                <DialogActions>
+                    <Button 
+                        variant='outlined'
+                        onClick={handleClose} 
+                        color="default"
+                    >
+                        Cancel
+                    </Button>
+                    <Button 
+                        variant={'contained'}
+                        onClick={handleRemove} 
+                        color="secondary">
+                        {removeText}
+                    </Button>
+                </DialogActions>
+            </Box>
         </Dialog>
     )
 }

@@ -12,6 +12,8 @@ import ThemeSwitcher from './ThemeSwitcher'
 
 import Desktop from './desktop'
 import Mobile from './mobile'
+
+import Confirm from '../../utilits/Confirm' 
    
 import { 
     AppBar, 
@@ -37,6 +39,8 @@ function DumbComponent() {
     
     const [mobileView, setMobileView] = useState(true); 
    
+    const [isVisibleConfirmSignOut, setIsVisibleConfirmSignOut] = useState(false)
+    
     let backgroundHeader
     let colorHeader 
     let hoverActiveLinkColor 
@@ -209,6 +213,9 @@ function DumbComponent() {
     }
 
     const handleSignOut = () => { 
+        setIsVisibleConfirmSignOut(true)
+    }
+    const handleConfirmClickBlock = () => {
         firebase.logout()
         setCustomAlert('warning', 'You are logged out successfully', 3000)
     }
@@ -259,11 +266,18 @@ function DumbComponent() {
     ) 
         
     const renderModal = modal.isModal ? createModalBtn : ( <span></span> )
- 
-
+  
     return (
         <React.Fragment>
-            
+            <Confirm
+                isVariable={false}
+                show={isVisibleConfirmSignOut}
+                setShow={setIsVisibleConfirmSignOut} 
+                title={'Sign out?'}
+                text={""}
+                removeText={"Sign out"}
+                handleRemoveClick={handleConfirmClickBlock}
+            />
                  
             {
                 settings.classes.position === 'fixed' &&
