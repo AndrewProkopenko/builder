@@ -219,8 +219,7 @@ function DumbComponent(props) {
             ref={slideRef} 
             className={`${classes.slide} ${(slide.isButton || slide.isUrl) ? classes.activeSlide : '' } `}
             onClick={() => { handleSlideClick(slide) }}
-        >
-            {console.log( slide.title , slide, slide.activePage.slug)}
+        > 
             {
                 slide.isUrl ? 
                 <NavLink to={slide.activePage.slug ? slide.activePage.slug : '/'}>

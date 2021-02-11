@@ -23,8 +23,7 @@ function DumbComponent(props) {
     
     const variant = props.data.variantHeading
     const heading = props.data.heading  
-    const isButton = props.data.isButton  
-    const targetButton = props.data.targetButton 
+    const isButton = props.data.isButton   
     let color = props.data.color
 
     const slidesForViewDesktop = props.data.slidesPerView 
@@ -231,6 +230,7 @@ function DumbComponent(props) {
                     marginLeft: spaceBetween,
                     marginRight: spaceBetween,
                     marginBottom: spaceBetween*2, 
+                    marginTop: 0, 
                     
                 },
                 '& $slideImg': {
@@ -317,7 +317,7 @@ function DumbComponent(props) {
         // eslint-disable-next-line
     }, []);
   
-    const handleSlideClick = (target) => { 
+    const handleSlideClick = (target = '') => {  
         if(isButton) handleOpen(target) 
     }
 

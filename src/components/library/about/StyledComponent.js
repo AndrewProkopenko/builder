@@ -32,6 +32,7 @@ import ExpandLessOutlinedIcon from '@material-ui/icons/ExpandLessOutlined';
 import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
 import {DeleteOutline, InfoOutlined} from '@material-ui/icons'; 
 import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
+import TabletMacIcon from '@material-ui/icons/TabletMac';
 
 import DumbComponent from "./DumbComponent" 
 
@@ -58,6 +59,14 @@ function StyledComponent(props) {
     const [heading, setHeading] = useState(props.data.heading)
     const [paragraph, setParagraph] = useState(props.data.paragraph)
 
+    const [imagePositionDesktop,  setImagePositionDesktop] = useState(props.data.imagePositionDesktop || 'right')
+    const [imagePositionMobile,  setImagePositionMobile] = useState(props.data.imagePositionMobile || 'bottom')
+
+    const [backgroundPosition,  setBackgroundPosition] = useState(props.data.backgroundPosition || 'center')
+    const [backgroundSize,  setBackgroundSize] = useState(props.data.backgroundSize || 'cover')
+    const [imageHeight,  setImageHeight] = useState(props.data.imageHeight || 400)
+    const [isHalfWidth, setIsHalfWidth] = useState(props.data.isHalfWidth || true)
+
     const [imageUrl, setImageUrl] = useState(props.data.image)
     const [imageName, setImageName] = useState(props.data.imageName || '')
 
@@ -82,8 +91,12 @@ function StyledComponent(props) {
         if(!isDisableBtn) handleSave()
         setOpen(false);
     };
-    const handleChange = () => {
+    const handleChangeIsButton = () => {
         setIsButton(!isButton)
+        setIsDisableBtn(false)
+    }
+    const handleChangeIsHalf = () => {
+        setIsHalfWidth(!isHalfWidth)
         setIsDisableBtn(false)
     }
     
@@ -105,7 +118,7 @@ function StyledComponent(props) {
         const commonClasses = classesRef(theme)
 
         const { menu, menuTitle, btnSetting, btnDrawerStyle, btnDrawerItem,  dialogContentUnstyle, 
-            containerWrapper, btnWithLabel, responseValues ,responseMobile , mobileTooltip, 
+            containerWrapper, btnWithLabel, responseValues ,responseMobile , mobileTooltip, tabletTooltip, responseTablets, 
             tableSizeContainer, tableSizeBtn, tableSizeAbsolute
         } = commonClasses 
 
@@ -149,7 +162,9 @@ function StyledComponent(props) {
             btnWithLabel: btnWithLabel,
             responseValues: responseValues,  
             responseMobile: responseMobile,
-            mobileTooltip: mobileTooltip,
+            mobileTooltip: mobileTooltip, 
+            responseTablets: responseTablets,  
+            tabletTooltip: tabletTooltip, 
             mtView: { ...mtView, ...{
                     top: `-${marginTop}px`,  
                     height: `${marginTop}px`,
@@ -205,6 +220,13 @@ function StyledComponent(props) {
         newData.marginTop = marginTop
         newData.marginBottom = marginBottom
         newData.maxWidthContainer = maxWidthContainer
+        newData.backgroundPosition = backgroundPosition
+        newData.backgroundSize = backgroundSize
+        newData.imageHeight = imageHeight
+        newData.isHalfWidth = isHalfWidth
+        newData.imagePositionDesktop = imagePositionDesktop
+        newData.imagePositionMobile = imagePositionMobile
+
 
         if (colorSelect === 'custom') {
             newData.colorButton = colorCustom
@@ -488,7 +510,7 @@ function StyledComponent(props) {
                                         <FormControlLabel
                                             control={
                                                 < Switch checked = { isButton }
-                                                        onChange = { handleChange }
+                                                        onChange = { handleChangeIsButton }
                                                             name = "checkedB" 
                                                             color = "primary" />
                                             }
@@ -537,6 +559,152 @@ function StyledComponent(props) {
                                                 </Box>
                                             }
                                     </Box>
+
+                                    {
+                                        imageUrl.length > 0 && 
+                                        <Box display="flex" > 
+                                            <FormControl 
+                                                variant='filled' 
+                                                size='small'    
+                                            >
+                                                <InputLabel id="maxWidth-style-label">Background Position</InputLabel>
+                                                <Select
+                                                    labelId="maxWidth-label"
+                                                    id="maxWidth-style"
+                                                    value={backgroundPosition}
+                                                    style={{minWidth: 180}}
+                                                    onChange={(e) => {setIsDisableBtn(false); setBackgroundPosition(e.target.value) }}
+                                                >
+                                                    <MenuItem value={'center'}>Center</MenuItem>
+                                                    <MenuItem value={'top left'}>Top Left </MenuItem> 
+                                                    <MenuItem value={'top right'}>Top Right </MenuItem> 
+                                                    <MenuItem value={'top center'}>Top Center </MenuItem>  
+                                                    <MenuItem value={'bottom left'}>Bottom Left </MenuItem> 
+                                                    <MenuItem value={'bottom right'}>Bottom Right </MenuItem> 
+                                                    <MenuItem value={'bottom center'}>Bottom Center </MenuItem>  
+                                                </Select>
+                                            </FormControl>
+                                            
+
+                                            <Box ml={1} display='inline-block'>
+                                                <FormControl 
+                                                    variant='filled' 
+                                                    size='small'     
+                                                >
+                                                    <InputLabel id="maxWidth-style-label">Background Size</InputLabel>
+                                                    <Select
+                                                        labelId="maxWidth-label"
+                                                        id="maxWidth-style"
+                                                        value={backgroundSize}
+                                                        style={{minWidth: 180}}
+                                                        onChange={(e) => {setIsDisableBtn(false); setBackgroundSize(e.target.value) }}
+                                                    >
+                                                        <MenuItem value={'auto'}>Auto</MenuItem>
+                                                        <MenuItem value={'auto 100%'}>Auto 100%</MenuItem>
+                                                        <MenuItem value={'100% auto'}>100% Auto</MenuItem> 
+                                                        <MenuItem value={'cover'}>Cover</MenuItem>
+                                                        <MenuItem value={'contain'}>Contain </MenuItem>   
+                                                    </Select>
+                                                </FormControl>
+                                            </Box>
+
+                                            <Box ml={1} display='flex' >
+                                                <InputChange
+                                                    id={null} 
+                                                    type='number'
+                                                    size="small" 
+                                                    label="Heigth Image for Desktop"
+                                                    variant='outlined'
+                                                    value={imageHeight}
+                                                    setValue={setImageHeight}
+                                                    setIsDisableBtn={setIsDisableBtn} 
+                                                />  
+                                                <Box  display='flex' flexDirection='column' ml={1} mt={-1}>
+                                                    <Tooltip classes={{tooltip: classes.tabletTooltip}} title='Calculated styles for Tablets (<960px)' placement={'top'}>
+                                                        <Box  className={`${classes.responseValues} ${classes.responseTablets}`}>
+                                                            <TabletMacIcon/>
+                                                            <Box>   
+                                                                <p>  
+                                                                    Height: <b>{Math.round(imageHeight*0.9)}</b> 
+                                                                </p>     
+                                                            </Box>
+                                                        </Box>
+                                                    </Tooltip>
+                                                    <Tooltip classes={{tooltip: classes.mobileTooltip}} title='Calculated styles for Mobile (<600px)' placement={'top'}>
+                                                        <Box className={`${classes.responseValues} ${classes.responseMobile}`}>
+                                                            <PhoneIphoneIcon/>
+                                                            <Box>  
+                                                                <p> 
+                                                                    Height: <b>{Math.round(imageHeight*0.7)}</b>;  
+                                                                </p>        
+                                                                <p> 
+                                                                    {'>400px:'} <b>{Math.round(imageHeight*0.5)}</b>;  
+                                                                </p>        
+                                                            </Box>
+                                                        </Box>
+                                                    </Tooltip>
+
+
+                                                </Box>
+                                            </Box>
+                                        
+                                        </Box>
+                                    }
+                                    {
+                                        imageUrl.length > 0 && 
+                                        <FormControlLabel
+                                            control={
+                                                    < Switch checked = { isHalfWidth }
+                                                            onChange = { handleChangeIsHalf }
+                                                                name = "checkedB" 
+                                                                color = "primary" />
+                                                }
+                                            label="If enable image will absolute and have half screen width "
+                                        /> 
+                                    }
+                                    {
+                                        imageUrl.length > 0 && 
+                                        <Box display='flex' >
+                                            <Box mr={1} flexGrow={1}>
+                                                <FormControl 
+                                                    variant='filled'  
+                                                    size='small'    
+                                                    fullWidth
+                                                >
+                                                    <InputLabel id="maxWidth-style-label">Image position on Desktop</InputLabel>
+                                                    <Select
+                                                        labelId="maxWidth-label"
+                                                        id="maxWidth-style"
+                                                        value={imagePositionDesktop}
+                                                        style={{minWidth: 180}}
+                                                        onChange={(e) => {setIsDisableBtn(false); setImagePositionDesktop(e.target.value) }}
+                                                    >
+                                                        <MenuItem value={'left'}>Left</MenuItem>
+                                                        <MenuItem value={'right'}>Right</MenuItem>  
+                                                    </Select>
+                                                </FormControl>
+                                            </Box>
+                                            <Box flexGrow={1}>
+                                                <FormControl 
+                                                    variant='filled' 
+                                                    size='small'    
+                                                    fullWidth
+                                                >
+                                                    <InputLabel id="maxWidth-style-label">Image position on Mobile ({'>960px'})</InputLabel>
+                                                    <Select
+                                                        labelId="maxWidth-label"
+                                                        id="maxWidth-style"
+                                                        value={imagePositionMobile}
+                                                        style={{minWidth: 180}}
+                                                        onChange={(e) => {setIsDisableBtn(false); setImagePositionMobile(e.target.value) }}
+                                                    > 
+                                                        <MenuItem value={'top'}>Top</MenuItem> 
+                                                        <MenuItem value={'bottom'}>Bottom</MenuItem>  
+                                                    </Select>
+                                                </FormControl>
+                                            </Box>
+                                        </Box>
+                                    }
 
                                     <Box mt={3} display="flex" alignItems='flex-start'>
                                         <Button color='primary' variant='contained' className={classes.btnWithLabel}  >
