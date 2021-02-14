@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react'
+import { useHistory, useLocation } from 'react-router-dom'
 import uuid from 'react-uuid'
 
 import CategoryContext from '../../../context/headerContext/CategoryContext'
@@ -41,6 +42,9 @@ import Draggable from 'react-draggable';
 function CategoriesChanger() { 
 
     console.log('Categories Changer')
+
+    const history = useHistory()
+    const location = useLocation() 
      
     const {categories, setCategories, deletePageFromFirebase, deleteCategoryFromFirebase} = useContext(CategoryContext)    
     const {layouts} = useContext(LibraryContext)
@@ -61,7 +65,6 @@ function CategoriesChanger() {
     const handleClose = () => {
       setOpen(false);
     }; 
-
 
     const useStyles = makeStyles((theme) => { 
         const classesRef = StylesChangers()
@@ -170,6 +173,10 @@ function CategoriesChanger() {
     
     const classes = useStyles();
 
+    const redirectOnDelete = ( path) => { 
+        if( location.pathname.includes(path)) history.push('/')
+    }
+ 
     const addCategory = (newTitle, newSlug) => {
         let newList = categories.slice() 
         let newCategory = JSON.parse(JSON.stringify(categoryLayout)); 
@@ -317,6 +324,7 @@ function CategoriesChanger() {
         setIsVisibleConfirmPage({show: true, index: {categoryId, pageId, slug}})  
     }
     const handleConfirmClickCategory = (id) => {
+        const deletedSlug = categories.filter((item) => (item.id === id))  
         let filtered = categories.filter((item) => (item.id !== id))  
         const deleted = categories.filter( (item) => (item.id === id))
         let arrayOfPagesForDelete = [] 
@@ -331,6 +339,7 @@ function CategoriesChanger() {
 
         setCategories(filtered)  
         deleteCategoryFromFirebase(arrayOfPagesForDelete)
+        redirectOnDelete(deletedSlug[0].slug)
     } 
     const handleConfirmClickPage = (data) => {
         categories.map( category => {
@@ -343,6 +352,7 @@ function CategoriesChanger() {
         setCategories(categories)  
 
         deletePageFromFirebase(data.slug)
+        redirectOnDelete(data.slug)
     }
 
     return (

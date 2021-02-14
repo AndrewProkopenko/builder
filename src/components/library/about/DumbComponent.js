@@ -31,7 +31,7 @@ function DumbComponent(props) {
 
     const imageOrderMobile = props.data.imagePositionMobile === 'bottom' ? 2 : 0
     const imageOrderDesktop = props.data.imagePositionDesktop === 'right' ? 2 : 0
- 
+  
 
     let colorButton = props.data.colorButton || '#f00'
    
@@ -80,7 +80,8 @@ function DumbComponent(props) {
                 marginTop: props.data.imagePositionMobile === 'bottom' ? 0 : 20,
                 [theme.breakpoints.up('md')]: {
                     height: imageHeight, 
-                    marginTop: 0
+                    marginTop: 0,
+                    paddingLeft: props.data.imagePositionDesktop === 'left' ? 20 : 0
                 },
             },
             blockImage: {
