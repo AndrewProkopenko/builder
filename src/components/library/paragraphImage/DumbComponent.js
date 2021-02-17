@@ -54,21 +54,22 @@ function DumbComponent(props) {
                         marginTop: theme.spacing(1)
                     }
                 }, 
-            }
+            }, 
           })
     }); 
     const classes = useStyles();
  
     const title = props.data.image.title ? props.data.image.title : ''
- 
+
+    
     return (
         <React.Fragment>
             
             <Typography component={props.data.variant} className={`${classes.myClassName} ${classes.mobileClass}`} >
                 {
                     props.imageUrl &&
-                    <Tooltip title={title} placement={props.data.image.placement}>
-                         <img src={props.imageUrl} className={`${classes.imageStyle} ${classes.imageStabilization}`}  alt={title} /> 
+                    <Tooltip title={title} placement={props.data.image.placement}> 
+                        <img src={props.imageUrl} className={`${classes.imageStyle} ${classes.imageStabilization}`}  alt={title} />  
                     </Tooltip> 
                 } 
                 

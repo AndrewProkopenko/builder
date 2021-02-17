@@ -1096,12 +1096,14 @@ const StyledComponent = (props) => {
                     </DialogContent>
                 </Modal>
                 
-                <Grid item xs={12}  className={classes.dumbItemContainer } onClick={handleOpen}>  
+                <Grid item xs={12}  className={classes.dumbItemContainer } >  
                  
                       
                         <div 
                             className={classes.dumbItem } 
-                            aria-controls="simple-menu" aria-haspopup="true"  
+                            aria-controls="simple-menu" 
+                            aria-haspopup="true"  
+                            onClick={handleOpen}
                         > 
                             <Tooltip  title={` paragraphImg margin top`}  placement={'top'}>
                                 <div className={classes.mtView}></div>
