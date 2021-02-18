@@ -159,12 +159,10 @@ function DumbComponent(props) {
 
         const getWidthViewport = () => {  
             
-            let actualWidth = window.innerWidth
+            // let actualWidth = window.innerWidth
 
-            console.log('swiper resize', actualWidth)  
-
-             
-
+            // console.log('swiper resize', actualWidth)  
+  
             try {
                 setTimeout(() => {
                     let slideHeightCalc = slideRef.current.clientWidth
@@ -174,28 +172,7 @@ function DumbComponent(props) {
             catch (error) {
                 console.log(error)
             }
-
-            if(actualWidth <= 600) {
-                if(items.length > slidesForViewMobile) {
-                    setIsSwiper(true)
-                    return
-                }
-                else setIsSwiper(false)
-            }
-            if(actualWidth > 600 && actualWidth <= 960) {
-                if(items.length > slidesForViewTablet) {
-                    setIsSwiper(true)
-                    return
-                }
-                else setIsSwiper(false)
-            }
-            if(actualWidth > 960) {
-                if(items.length > slidesForViewDesktop) {
-                    setIsSwiper(true)
-                    return
-                }
-                else setIsSwiper(false)
-            }
+ 
         }; 
         getWidthViewport(); 
 
@@ -206,6 +183,35 @@ function DumbComponent(props) {
         }
         // eslint-disable-next-line
     }, []);
+
+    useEffect(() => {
+
+        let actualWidth = window.innerWidth
+
+        if(actualWidth <= 600) {
+            if(items.length > slidesForViewMobile) {
+                setIsSwiper(true)
+                return
+            }
+            else setIsSwiper(false)
+        }
+        if(actualWidth > 600 && actualWidth <= 960) {
+            if(items.length > slidesForViewTablet) {
+                setIsSwiper(true)
+                return
+            }
+            else setIsSwiper(false)
+        }
+        if(actualWidth > 960) {
+            if(items.length > slidesForViewDesktop) {
+                setIsSwiper(true)
+                return
+            }
+            else setIsSwiper(false)
+        }
+
+        // eslint-disable-next-line
+    }, [slidesForViewMobile, slidesForViewTablet, slidesForViewDesktop])
  
     const handleSlideClick = (slide) => {
         if(slide.isButton) {

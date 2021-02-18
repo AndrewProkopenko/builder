@@ -252,13 +252,10 @@ function DumbComponent(props) {
      
     useEffect(() => {  
 
-        const getWidthViewport = () => {  
-            
-            let actualWidth = window.innerWidth
+        const getWidthViewport = () => {   
+            // let actualWidth = window.innerWidth 
+            // console.log('blocks resize', actualWidth)  
 
-            console.log('blocks resize', actualWidth)  
-
-             
             try {
                 setTimeout(() => {
                     let slideHeightCalc = slideRef.current ? slideRef.current.clientWidth : 0
@@ -268,27 +265,7 @@ function DumbComponent(props) {
             catch (error) {
                 console.log(error)
             }
-            if(actualWidth <= 600) {
-                if(items.length > slidesForViewMobile) {
-                    setIsSwiper(true)
-                    return
-                }
-                else setIsSwiper(false)
-            }
-            if(actualWidth > 600 && actualWidth <= 960) {
-                if(items.length > slidesForViewTablet) {
-                    setIsSwiper(true)
-                    return
-                }
-                else setIsSwiper(false)
-            }
-            if(actualWidth > 960) {
-                if(items.length > slidesForViewDesktop) {
-                    setIsSwiper(true)
-                    return
-                }
-                else setIsSwiper(false)
-            }
+             
         }; 
         getWidthViewport(); 
 
@@ -300,6 +277,34 @@ function DumbComponent(props) {
         // eslint-disable-next-line
     }, []);
 
+    useEffect(() => {
+
+        let actualWidth = window.innerWidth
+
+        if(actualWidth <= 600) {
+            if(items.length > slidesForViewMobile) {
+                setIsSwiper(true)
+                return
+            }
+            else setIsSwiper(false)
+        }
+        if(actualWidth > 600 && actualWidth <= 960) {
+            if(items.length > slidesForViewTablet) {
+                setIsSwiper(true)
+                return
+            }
+            else setIsSwiper(false)
+        }
+        if(actualWidth > 960) {
+            if(items.length > slidesForViewDesktop) {
+                setIsSwiper(true)
+                return
+            }
+            else setIsSwiper(false)
+        }
+
+        // eslint-disable-next-line
+    }, [slidesForViewMobile, slidesForViewTablet, slidesForViewDesktop])
   
     const renderSlide = (slide, key) => (
         <SwiperSlide 

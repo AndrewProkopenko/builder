@@ -669,23 +669,39 @@ function StyledComponent(props) {
                                         />  
                                     </Box>
                                     
-                                    <Box className={classes.infoBlockText}> 
-                                        <span>If you set </span>    
+                                    <Box mr={1} my={2} display='inline-block' >
+                                        <FormControl 
+                                            variant='filled' 
+                                            size='small'    
+                                        >
+                                            <InputLabel id="maxWidth-style-label">Max-Width for Container</InputLabel>
+                                            <Select
+                                                labelId="maxWidth-label"
+                                                id="maxWidth-style"
+                                                value={maxWidthContainer}
+                                                style={{minWidth: 180}}
+                                                onChange={(e) => {setIsDisableBtn(false); setMaxWidthContainer(e.target.value) }}
+                                            >
+                                                <MenuItem value={false}>False</MenuItem>
+                                                <MenuItem value={'xl'}>xl - 1920 </MenuItem> 
+                                                <MenuItem value={'lg'}>lg - 1280 </MenuItem> 
+                                                <MenuItem value={'md'}>md - 960 </MenuItem> 
+                                                <MenuItem value={'sm'}>sm - 600 </MenuItem> 
+                                                <MenuItem value={'xs'}>xs - 0 </MenuItem> 
+                                            </Select>
+                                        </FormControl>
                                     </Box>
-
+                                     
                                     <Box className={classes.infoBlock}> 
                                         <Box mr={1}> 
-                                            <Tooltip classes={{tooltip: classes.tooltipReload}} title="After change this settings you need to reloading page" >
+                                            <Tooltip classes={{tooltip: classes.tooltipReload}} title="If you set Slides per View less then items length - Items will set gallery view" >
                                                 <IconButton className={classes.infoBtn} >
                                                     <InfoOutlined/>
                                                 </IconButton>
                                             </Tooltip>
                                         </Box>
                                         
-                                        <Box pt={1}>
-                                            <Typography variant='h6'>
-                                                If you set Slides per View less then items length - Items will set gallery view
-                                            </Typography>
+                                        <Box> 
                                                 
                                             <Box my={2} display='flex'> 
                                                 <Box mr={1}>
@@ -798,28 +814,6 @@ function StyledComponent(props) {
                                                         >
                                                             <MenuItem value={true}>True</MenuItem>
                                                             <MenuItem value={false}>False</MenuItem> 
-                                                        </Select>
-                                                    </FormControl>
-                                                </Box>
-                                                <Box>
-                                                    <FormControl 
-                                                        variant='filled' 
-                                                        size='small'    
-                                                    >
-                                                        <InputLabel id="maxWidth-style-label">Max-Width for Container</InputLabel>
-                                                        <Select
-                                                            labelId="maxWidth-label"
-                                                            id="maxWidth-style"
-                                                            value={maxWidthContainer}
-                                                            style={{minWidth: 180}}
-                                                            onChange={(e) => {setIsDisableBtn(false); setMaxWidthContainer(e.target.value) }}
-                                                        >
-                                                            <MenuItem value={false}>False</MenuItem>
-                                                            <MenuItem value={'xl'}>xl - 1920 </MenuItem> 
-                                                            <MenuItem value={'lg'}>lg - 1280 </MenuItem> 
-                                                            <MenuItem value={'md'}>md - 960 </MenuItem> 
-                                                            <MenuItem value={'sm'}>sm - 600 </MenuItem> 
-                                                            <MenuItem value={'xs'}>xs - 0 </MenuItem> 
                                                         </Select>
                                                     </FormControl>
                                                 </Box>
