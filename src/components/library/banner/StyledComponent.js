@@ -691,7 +691,7 @@ function StyledComponent(props) {
                                                             colorCustom={colorCustom}
                                                             setColorCustom={setColorCustom}
                                                             setIsDisableBtn={setIsDisableBtn} 
-                                                            position = {'top'}
+                                                            position = {'right'}
                                                             noInherit={true}
                                                         /> 
                                                     </Box>
